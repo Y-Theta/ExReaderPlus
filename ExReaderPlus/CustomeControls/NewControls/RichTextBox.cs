@@ -18,6 +18,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Text;
 using Windows.UI;
+using System.Reflection;
+using Windows.UI.Core;
 
 namespace ExReaderPlus.CustomeControls.NewControls {
     /// <summary>
@@ -33,9 +35,18 @@ namespace ExReaderPlus.CustomeControls.NewControls {
         private Timer _refreshdic;
 
         /// <summary>
+        /// 前一次渲染的单词的位置
+        /// </summary>
+        private Range _lastRange;
+
+        /// <summary>
         /// 内容文本，节省每次预渲染时的开销
         /// </summary>
         private string _contentString;
+        public string ContentString {
+            get => _contentString;
+            set { _contentString = value; }
+        }
 
         /// <summary>
         /// 转换完成标志,若不为0表示文本有变动
@@ -83,8 +94,6 @@ namespace ExReaderPlus.CustomeControls.NewControls {
         public static readonly DependencyProperty TextPrerenderProperty =
             DependencyProperty.Register("TextPrerender", typeof(bool),
                 typeof(RichTextBox), new PropertyMetadata(false));
-
-
         #endregion
 
 
@@ -106,10 +115,23 @@ namespace ExReaderPlus.CustomeControls.NewControls {
             base.OnApplyTemplate();
         }
 
+        protected override void OnPointerEntered(PointerRoutedEventArgs e) {
+            Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Hand, 0);
+            base.OnPointerEntered(e);
+        }
+
         protected override void OnPointerPressed(PointerRoutedEventArgs e) {
             base.OnPointerPressed(e);
-            var s = GetPointedWord(e.GetCurrentPoint(this).Position);
-            Debug.WriteLine(s);
+            Range range;
+            string str;
+            GetPointedWord(e.GetCurrentPoint(this).Position, out range, out str);
+            if (range is null)
+                return;
+            Prerender(range,str);
+        }
+
+        protected override void OnPointerMoved(PointerRoutedEventArgs e) {
+            base.OnPointerMoved(e);
         }
 
         private void RichTextBox_Paste(object sender, TextControlPasteEventArgs e) {
@@ -117,7 +139,7 @@ namespace ExReaderPlus.CustomeControls.NewControls {
         }
 
         private void RichTextBox_TextChanged(object sender, RoutedEventArgs e) {
-            TransformComplete = false;
+                TransformComplete = false;
         }
         #endregion
 
@@ -125,7 +147,7 @@ namespace ExReaderPlus.CustomeControls.NewControls {
         #region PrivateMotheds
         /// <summary>
         /// 初始化计时器,为了避免文字变化时同步处理,
-        /// 用计时器降低开销
+        /// 用计时器异步降低开销
         /// </summary>
         private void InitTimer() {
             _refreshdic = new Timer { Interval = 3000 };
@@ -146,21 +168,27 @@ namespace ExReaderPlus.CustomeControls.NewControls {
         }
 
         /// <summary>
-        /// 更新字典
+        /// 更新字典 txt-txt
         /// </summary>
-        private void UpdateDic() {
+        private async void UpdateDic() {
             string s = "";
             ElementsLoc.Clear();
-            this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                Document.GetText(Windows.UI.Text.TextGetOptions.None, out s);
-            }).AsTask().Wait();
-            MatchCollection mc = Regex.Matches(s, @"[a-zA-Z]+");
+                SetContentFormat(new Action(() => {
+                    Document.GetText(TextGetOptions.None, out s);
+                    Document.Selection.StartPosition = 0;
+                    Document.Selection.EndPosition = s.Length;
+                    Document.Selection.CharacterFormat = Document.GetDefaultCharacterFormat();
+                    Document.Selection.StartPosition = s.Length;
+                }));
+            });
+            ContentString = s;
+            MatchCollection mc = Regex.Matches(s, @"[a-zA-Z-]+");
             foreach (Match m in mc)
             {
                 AddtoLocDic(m.Value, new Range(m.Index, m.Index + m.Length));
             }
-
             //foreach (var kv in ElementsLoc)
             //    Debug.WriteLine(String.Format("{0}   {1}", kv.Key, PrintDicItem(kv.Value)));
         }
@@ -184,36 +212,88 @@ namespace ExReaderPlus.CustomeControls.NewControls {
         /// </summary>
         /// <param name="p">鼠标位置p</param>
         /// <returns>当前位置最近的单词</returns>
-        private string GetPointedWord(Point p) {
-            string s = "";
+        private void GetPointedWord(Point p, out Range value, out string str) {
+            if (ContentString is null)
+            {
+                value = null;
+                str = null;
+                return;
+            }
             var tr = Document.GetRangeFromPoint(p, PointOptions.ClientCoordinates);
             int offsf = tr.StartPosition, offsb = tr.StartPosition;
-            Document.GetText(TextGetOptions.None, out s);
-            while (offsf <= s.Length - 1 && ((s[offsf] >= 'a' && s[offsf] <= 'z') || (s[offsf] >= 'A' && s[offsf] <= 'Z') || s[offsf].Equals('-')))
+            while (offsf <= ContentString.Length - 1 && ((ContentString[offsf] >= 'a' && ContentString[offsf] <= 'z') || (ContentString[offsf] >= 'A' && ContentString[offsf] <= 'Z') || ContentString[offsf].Equals('-')))
                 offsf++;
-            while (offsb >= 0 && ((s[offsb] >= 'a' && s[offsb] <= 'z') || (s[offsb] >= 'A' && s[offsb] <= 'Z') || s[offsb].Equals('-')))
+            while (offsb >= 0 && ((ContentString[offsb] >= 'a' && ContentString[offsb] <= 'z') || (ContentString[offsb] >= 'A' && ContentString[offsb] <= 'Z') || ContentString[offsb].Equals('-')))
                 offsb--;
 
-            try { s = s.Substring(offsb + 1, offsf - offsb - 1); }
+            string s = "";
+            try { s = ContentString.Substring(offsb + 1, offsf - offsb - 1); }
             catch (Exception) { s = ""; }
-
-            return s;
+            str = s;
+            value = new Range(offsb + 1, offsf);
         }
 
         /// <summary>
         /// 渲染词库中的单词项
         /// </summary>
         private void RenderWord() {
-
+            this.TextChanged -= RichTextBox_TextChanged;
+            if (Keywords != null && Keywords.Count > 0)
+            {
+                foreach (var kw in Keywords)
+                {
+                    kw.OldFormat = Document.GetDefaultCharacterFormat();
+                    //  List<Range> 
+                }
+            }
         }
 
         /// <summary>
         /// 预渲染选中单词，TextPrerender = true
         /// </summary>
-        private void Prerender() {
-            if (TextPrerender) {
-
+        private void Prerender(Range range,string str) {
+            if (TextPrerender )
+            {
+                if (Keywords != null && Keywords.Count > 0 && Keywords[0].Words.Contains(str))
+                    return;
+                if (_lastRange != null) {
+                    SetDefaultformat(_lastRange);
+                }
+                SetContentFormat(new Action(() =>{
+                    Document.Selection.StartPosition = range.Start;
+                    Document.Selection.EndPosition = range.End;
+                    Document.Selection.CharacterFormat.Weight = 500;
+                    Document.Selection.CharacterFormat.Size = 8;
+                    Document.Selection.CharacterFormat.Spacing = 4;
+                }));
+                _lastRange = new Range(range);
             }
+            //Rect rect;
+            //int hit;
+            //selection.GetRect(PointOptions.None, out rect, out hit);
+            //Debug.WriteLine(string.Format("{0}   {1}        {2}", rect.Width, rect.Height, hit));
+        }
+
+        /// <summary>
+        /// 将块格式还原为默认
+        /// </summary>
+        /// <param name="range"></param>
+        private void SetDefaultformat(Range range) {
+            SetContentFormat(new Action(() =>{
+                Document.Selection.StartPosition = range.Start;
+                Document.Selection.EndPosition = range.End;
+                Document.Selection.CharacterFormat = Document.GetDefaultCharacterFormat();
+            }));
+        }
+
+        /// <summary>
+        /// 将设置格式的操作封装以避免触发textchanged
+        /// </summary>
+        /// <param name="action">设置格式的操作</param>
+        private void SetContentFormat(Action action) {
+            this.TextChanged -= RichTextBox_TextChanged;
+            action?.Invoke();
+            this.TextChanged += RichTextBox_TextChanged;
         }
 
         private string PrintDicItem(List<Range> ranges) {
@@ -235,6 +315,7 @@ namespace ExReaderPlus.CustomeControls.NewControls {
             this.TextChanged += RichTextBox_TextChanged;
             this.Paste += RichTextBox_Paste;
             this.DefaultStyleKey = typeof(RichTextBox);
+
         }
         #endregion
     }
