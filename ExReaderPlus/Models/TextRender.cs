@@ -31,6 +31,11 @@ namespace ExReaderPlus.Models {
             Start = s;
             End = e;
         }
+
+        public Range(Range range) {
+            Start = range.Start;
+            End = range.End;
+        }
         #endregion
     }
 
@@ -39,7 +44,7 @@ namespace ExReaderPlus.Models {
     /// </summary>
     public class Rendergroup {
 
-        public List<String> Words { get; set; }
+        public HashSet<String> Words { get; set; }
 
         public Color TextFg { get; set; }
 

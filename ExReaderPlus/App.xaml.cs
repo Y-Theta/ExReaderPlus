@@ -36,6 +36,7 @@ namespace ExReaderPlus
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+         //   this.RequiresPointerMode = ApplicationRequiresPointerMode.WhenRequested;
         }
 
         /// <summary>
