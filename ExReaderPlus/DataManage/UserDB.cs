@@ -34,4 +34,16 @@ namespace ExReaderPlus.DataManage
             set;
         }
     }
+
+    public struct _UserWord
+    {
+        //test
+    }
+    /// <summary>
+    /// 用户的词汇，应当有状态位，已经掌握，没有掌握
+    /// </summary>
+    public class UserWord
+    {
+
+    }
 }
