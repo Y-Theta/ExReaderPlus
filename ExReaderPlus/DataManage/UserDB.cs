@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.SQLite;
 
 namespace ExReaderPlus.DataManage
 {
@@ -35,15 +36,16 @@ namespace ExReaderPlus.DataManage
         }
     }
 
-    public struct _UserWord
-    {
-        //test
-    }
     /// <summary>
-    /// 用户的词汇，应当有状态位，已经掌握，没有掌握
+    /// 用户生词本管理 使用面向接口编程
     /// </summary>
-    public class UserWord
+    public class UserVocabularyManage
     {
-
+        /// <summary>
+        /// 创建一个用户生词的数据库
+        /// </summary>
+        /// <param name="UserName"></param>
+        /// <returns></returns>
+        
     }
 }
