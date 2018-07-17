@@ -1,12 +1,11 @@
-﻿<Page x:Class="ExReaderPlus.MainPage"
+﻿<Page x:Class="ExReaderPlus.Pages.GlossaryPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:ExReaderPlus"
+      xmlns:local="using:ExReaderPlus.Pages"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:Custome="using:ExReaderPlus.CustomeControls.ComplexControls"
-      Background="{ThemeResource MainThemeColor}"
       mc:Ignorable="d">
+    <Grid>
 
-    <Custome:Richwordview />
+    </Grid>
 </Page>

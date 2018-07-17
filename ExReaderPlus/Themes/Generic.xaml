@@ -1,8 +1,7 @@
-<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Custome="using:ExReaderPlus.CustomeControls.NewControls"
-    xmlns:local="using:ExReaderPlus">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:Custome="using:ExReaderPlus.CustomeControls.NewControls"
+                    xmlns:local="using:ExReaderPlus">
 
     <Style TargetType="Custome:RichTextBox">
         <Setter Property="ScrollViewer.HorizontalScrollMode"
@@ -46,10 +45,10 @@
                                           ContentTemplate="{TemplateBinding HeaderTemplate}"
                                           FontWeight="Normal" />
                         <ContentPresenter x:Name="ContentElement"
-                                      Grid.Row="1"
-                                      Margin="{TemplateBinding BorderThickness}"
-                                      Padding="{TemplateBinding Padding}"
-                                      AutomationProperties.AccessibilityView="Raw" />
+                                          Grid.Row="1"
+                                          Margin="{TemplateBinding BorderThickness}"
+                                          Padding="{TemplateBinding Padding}"
+                                          AutomationProperties.AccessibilityView="Raw" />
                         <!--<ScrollViewer x:Name="ContentElement"
                                       Grid.Row="1"
                                       HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
@@ -81,5 +80,5 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
 </ResourceDictionary>

@@ -15,9 +15,8 @@
         </Grid.RowDefinitions>
         <ScrollViewer Style="{StaticResource DefaultScrollViewer}"
                       Grid.Row="1"
-                      HorizontalScrollBarVisibility="Auto">
-            <Custome:RichTextBox>
-            </Custome:RichTextBox>
+                      HorizontalScrollBarVisibility="Disabled">
+            <Custome:RichTextBox TextWrapping="Wrap" />
         </ScrollViewer>
     </Grid>
 </UserControl>

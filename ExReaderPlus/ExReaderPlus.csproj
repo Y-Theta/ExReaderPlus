@@ -100,7 +100,13 @@
     </Compile>
     <Compile Include="CustomeControls\NewControls\RichTextBox.cs" />
     <Compile Include="Layout\CircleLayout.cs" />
-    <Compile Include="MainPage.xaml.cs">
+    <Compile Include="Pages\DicPage.xaml.cs">
+      <DependentUpon>DicPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\GlossaryPage.xaml.cs">
+      <DependentUpon>GlossaryPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\TextRender.cs" />
@@ -136,7 +142,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainPage.xaml">
+    <Page Include="Pages\DicPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\GlossaryPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -163,7 +177,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MixControls\" />
-    <Folder Include="Pages\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
