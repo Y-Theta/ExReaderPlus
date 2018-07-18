@@ -101,10 +101,10 @@
       <DependentUpon>Richwordview.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\CustomeControls\NewControls\RichTextBox.cs" />
-    <Compile Include="DataManage\SqLiteTool.cs" />
-    <Compile Include="DataManage\UserDataDB.cs" />
-    <Compile Include="DataManage\UserDB.cs" />
-    <Compile Include="DataManage\WordManage.cs" />
+    <Compile Include="Manage\DataManage\SqLiteTool.cs" />
+    <Compile Include="Manage\DataManage\UserDataDB.cs" />
+    <Compile Include="Manage\DataManage\UserDB.cs" />
+    <Compile Include="Manage\DataManage\WordManage.cs" />
     <Compile Include="View\Layout\CircleLayout.cs" />
     <Compile Include="View\Pages\DicPage.xaml.cs">
       <DependentUpon>DicPage.xaml</DependentUpon>
@@ -121,7 +121,7 @@
     <Compile Include="Models\TextRender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
-    <Compile Include="WordManager\WordBook.cs" />
+    <Compile Include="Manage\WordManager\WordBook.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
