@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="ExReaderPlus.CustomeControls.ComplexControls.Richwordview"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:ExReaderPlus.CustomeControls.ComplexControls"
+             xmlns:Root="using:ExReaderPlus"
+             xmlns:Custome="using:ExReaderPlus.CustomeControls.NewControls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:extensions ="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+             mc:Ignorable="d">
+
+    <Grid x:Name="Rootgrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ScrollViewer Style="{StaticResource DefaultScrollViewer}"
+                      Grid.Row="1"
+                      HorizontalScrollBarVisibility="Disabled">
+            <Custome:RichTextBox TextWrapping="Wrap"
+                                 TextPrerender="True"
+                                 extensions:Mouse.Cursor="Arrow" />
+        </ScrollViewer>
+    </Grid>
+</UserControl>
