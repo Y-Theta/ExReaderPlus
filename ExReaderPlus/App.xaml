@@ -10,12 +10,12 @@
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
                     <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary Source="Themes/DefaultTheme.xaml" />
+                        <ResourceDictionary Source="View/Themes/DefaultTheme.xaml" />
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="CustomeControls/ControlStyles/ScrollViewerAndSlider.xaml" />
+                <ResourceDictionary Source="View/CustomeControls/ControlStyles/ScrollViewerAndSlider.xaml" />
             </ResourceDictionary.MergedDictionaries>
             
         </ResourceDictionary>
