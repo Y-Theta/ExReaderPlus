@@ -21,7 +21,7 @@ using Windows.UI;
 using System.Reflection;
 using Windows.UI.Core;
 
-namespace ExReaderPlus.CustomeControls.NewControls {
+namespace ExReaderPlus.View{
     /// <summary>
     /// 自定义富文本框，继承自系统富文本编辑框，在此之中处理文字
     /// 渲染等操作，通过事件将操作暴露

@@ -1,23 +1,21 @@
-﻿<Application
-    x:Class="ExReaderPlus.App"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:viewmodels="using:ExReaderPlus.ViewModels"
-    xmlns:local="using:ExReaderPlus">
-
+﻿<Application x:Class="ExReaderPlus.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:viewmodels="using:ExReaderPlus.ViewModels"
+             xmlns:local="using:ExReaderPlus">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
                     <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary Source="Themes/DefaultTheme.xaml" />
+                        <ResourceDictionary Source="View/Themes/DefaultTheme.xaml" />
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="CustomeControls/ControlStyles/ScrollViewerAndSlider.xaml" />
+                <ResourceDictionary Source="View/CustomeControls/CustomeStaticStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            
+
         </ResourceDictionary>
     </Application.Resources>
 

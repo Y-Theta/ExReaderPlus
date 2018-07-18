@@ -97,6 +97,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Manage\FileManager\FileManage.cs" />
+    <Compile Include="Manage\PassageManager\PassageManage.cs" />
     <Compile Include="View\CustomeControls\ComplexControls\Richwordview.xaml.cs">
       <DependentUpon>Richwordview.xaml</DependentUpon>
     </Compile>
@@ -150,7 +152,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\CustomeControls\ControlStyles\CustomeNavigationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\CustomeControls\ControlStyles\ScrollViewerAndSlider.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CustomeControls\CustomeStaticStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

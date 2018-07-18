@@ -14,7 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 
-namespace ExReaderPlus.CustomeControls.ComplexControls
+namespace ExReaderPlus.View
 {
     public sealed partial class Richwordview : UserControl
     {
