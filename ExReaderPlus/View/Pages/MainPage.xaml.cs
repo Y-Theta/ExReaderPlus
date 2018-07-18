@@ -17,7 +17,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 
-namespace ExReaderPlus {
+namespace ExReaderPlus.View.Pages {
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>

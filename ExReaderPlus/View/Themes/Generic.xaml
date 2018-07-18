@@ -1,17 +1,16 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:Custome="using:ExReaderPlus.CustomeControls.NewControls"
                     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
-                    xmlns:local="using:ExReaderPlus">
+                    xmlns:local="using:ExReaderPlus.View">
 
-    <Style TargetType="Custome:RichTextBox">
+    <Style TargetType="local:RichTextBox">
         <Setter Property="ScrollViewer.HorizontalScrollMode"
                 Value="Enabled" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility"
                 Value="Auto" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="Custome:RichTextBox">
+                <ControlTemplate TargetType="local:RichTextBox">
                     <Grid >
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
