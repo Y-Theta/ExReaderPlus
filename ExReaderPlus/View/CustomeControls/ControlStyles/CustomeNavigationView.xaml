@@ -3,6 +3,9 @@
                     xmlns:local="using:ExReaderPlus.View">
 
 
+    <x:Double x:Key="PaneToggleButtonHeight">32</x:Double>
+    <x:Double x:Key="PaneToggleButtonWidth">48</x:Double>
+    
     <Style x:Key="PaneToggleButtonStyle"
            TargetType="Button">
         <Setter Property="FontSize"
@@ -23,16 +26,6 @@
                 Value="Center" />
         <Setter Property="VerticalContentAlignment"
                 Value="Center" />
-        <Setter Property="Background"
-                Value="{ThemeResource NavigationViewItemBackground}" />
-        <Setter Property="Foreground"
-                Value="{ThemeResource NavigationViewItemForeground}" />
-        <Setter Property="BorderBrush"
-                Value="{ThemeResource NavigationViewItemBorderBrush}" />
-        <Setter Property="BorderThickness"
-                Value="{ThemeResource NavigationViewToggleBorderThickness}" />
-        <Setter Property="Content"
-                Value="&#xE700;" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -272,23 +265,10 @@
                               HorizontalAlignment="Left"
                               VerticalAlignment="Top"
                               Canvas.ZIndex="100">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Grid x:Name="TogglePaneTopPadding" />
-                            <Grid x:Name="ButtonHolderGrid"
-                                  Grid.Row="1">
-                                <Button x:Name="NavigationViewBackButton"
-                                        Style="{StaticResource NavigationBackButtonNormalStyle}"
-                                        VerticalAlignment="Top"
-                                        IsEnabled="{TemplateBinding IsBackEnabled}" />
-
-                                <Button x:Name="TogglePaneButton"
-                                        Style="{TemplateBinding PaneToggleButtonStyle}"
-                                        AutomationProperties.LandmarkType="Navigation"
-                                        VerticalAlignment="Top" />
-                            </Grid>
+                            <Button x:Name="TogglePaneButton"
+                                    Style="{TemplateBinding PaneToggleButtonStyle}"
+                                    AutomationProperties.LandmarkType="Navigation"
+                                    VerticalAlignment="Top" />
                         </Grid>
                         <SplitView x:Name="RootSplitView"
                                    Background="{TemplateBinding Background}"
