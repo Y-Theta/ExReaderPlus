@@ -213,12 +213,6 @@
     <Folder Include="View\Dialogs\" />
     <Folder Include="View\MixControls\" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ExReaderPlus.UnitTest\ExReaderPlus.UnitTest.csproj">
-      <Project>{c1ec4027-8f82-4431-8e89-c96ef26f5a14}</Project>
-      <Name>ExReaderPlus.UnitTest</Name>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
