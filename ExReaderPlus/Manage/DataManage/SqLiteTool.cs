@@ -5,21 +5,21 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-namespace ExReaderPlus.DataManage
+/// <summary>
+/// 2018年7月18日09:43:56更改命名空间
+/// </summary>
+namespace ExReaderPlus.Manage.DataManage
 {
     public class SqLiteTool
     {
         /// <summary>
         /// 协助测试路径
         /// </summary>
-
         public string absolutePath = Path.GetFullPath("DB/user.db");
         /// <summary>
         /// 数据库连接定义
         /// </summary>
         private SQLiteConnection dbConnection;
-
         /// <summary>
         /// SQL命令定义
         /// </summary>
