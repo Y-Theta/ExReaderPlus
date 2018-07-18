@@ -5,15 +5,16 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:Custome="using:ExReaderPlus.CustomeControls.ComplexControls"
+      Loaded="Page_Loaded"
       Background="{ThemeResource MainThemeColor}"
       mc:Ignorable="d">
-
-    <Grid>
+    <Grid x:Name="RootGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Rectangle Fill="AliceBlue" />
+        <Rectangle x:Name="TitleBarTouch" Fill="Transparent" />
+        <SplitView Grid.RowSpan="2" />
         <Custome:Richwordview Grid.Row="1" />
     </Grid>
 </Page>
