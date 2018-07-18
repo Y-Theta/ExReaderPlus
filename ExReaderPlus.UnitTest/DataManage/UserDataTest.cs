@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExReaderPlus.UnitTest.DataManage
+namespace ExReaderPlus.UnitTest
 {
     [TestClass]
     public class UserDataTest
@@ -13,8 +13,7 @@ namespace ExReaderPlus.UnitTest.DataManage
         [TestMethod]
         public void TestUserDB()
         {
-            int i = 1;
-            Assert.AreEqual(1, i);
+            Assert.AreEqual(1, 3);
         }
     }
 }
