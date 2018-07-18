@@ -28,8 +28,15 @@ namespace ExReaderPlus.WordsManager
         private string translation;    //单词释义
         private int classification;    //单词分类
         private int yesorNo;           //单词掌握情况
+
+        private string phonetic;    //音标,新增
         private string stateColor;
 
+        public string Phonetic
+        {
+            get { return phonetic; }
+            set { phonetic = value; }
+        }
         public string Word
         {
             get { return word; }
