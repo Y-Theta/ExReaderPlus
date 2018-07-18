@@ -97,25 +97,25 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CustomeControls\ComplexControls\Richwordview.xaml.cs">
+    <Compile Include="View\CustomeControls\ComplexControls\Richwordview.xaml.cs">
       <DependentUpon>Richwordview.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CustomeControls\NewControls\RichTextBox.cs" />
+    <Compile Include="View\CustomeControls\NewControls\RichTextBox.cs" />
     <Compile Include="DataManage\SqLiteTool.cs" />
     <Compile Include="DataManage\UserDataDB.cs" />
     <Compile Include="DataManage\UserDB.cs" />
     <Compile Include="DataManage\WordManage.cs" />
-    <Compile Include="Layout\CircleLayout.cs" />
-    <Compile Include="Pages\DicPage.xaml.cs">
+    <Compile Include="View\Layout\CircleLayout.cs" />
+    <Compile Include="View\Pages\DicPage.xaml.cs">
       <DependentUpon>DicPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\EssayPage.xaml.cs">
+    <Compile Include="View\Pages\EssayPage.xaml.cs">
       <DependentUpon>EssayPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\GlossaryPage.xaml.cs">
+    <Compile Include="View\Pages\GlossaryPage.xaml.cs">
       <DependentUpon>GlossaryPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\MainPage.xaml.cs">
+    <Compile Include="View\Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\TextRender.cs" />
@@ -146,39 +146,39 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="CustomeControls\ComplexControls\Richwordview.xaml">
+    <Page Include="View\CustomeControls\ComplexControls\Richwordview.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CustomeControls\ControlStyles\ScrollViewerAndSlider.xaml">
+    <Page Include="View\CustomeControls\ControlStyles\ScrollViewerAndSlider.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\DicPage.xaml">
+    <Page Include="View\Pages\DicPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\EssayPage.xaml">
+    <Page Include="View\Pages\EssayPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\GlossaryPage.xaml">
+    <Page Include="View\Pages\GlossaryPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\MainPage.xaml">
+    <Page Include="View\Pages\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\DarkTheme.xaml">
+    <Page Include="View\Themes\DarkTheme.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\DefaultTheme.xaml">
+    <Page Include="View\Themes\DefaultTheme.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Generic.xaml">
+    <Page Include="View\Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -207,8 +207,8 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Dialogs\" />
-    <Folder Include="MixControls\" />
+    <Folder Include="View\Dialogs\" />
+    <Folder Include="View\MixControls\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

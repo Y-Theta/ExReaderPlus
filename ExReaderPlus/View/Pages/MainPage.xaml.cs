@@ -17,17 +17,18 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 
-namespace ExReaderPlus
-{
+namespace ExReaderPlus {
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    public sealed partial class MainPage : Page
-    {
-        public MainPage()
-        {
-            
+    public sealed partial class MainPage : Page {
+        public MainPage() {
             this.InitializeComponent();
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e) {
+            Window.Current.SetTitleBar(TitleBarTouch);
+
         }
     }
 }
