@@ -17,48 +17,13 @@ namespace ExReaderPlus.Manage.FileManager
     public class FileManage
     {
         //序列化
-        public async void SerializeFile(ReaderManage reader)
-        {
-            DataContractSerializer serializer = new DataContractSerializer(typeof(ReaderManage));
-            var savePicker = new FileSavePicker();
-            savePicker.SuggestedStartLocation = PickerLocationId.MusicLibrary;
-            // Dropdown of file types the user can save the file as
-            savePicker.FileTypeChoices.Add(".txt文件", new List<string>() { ".txt" });
-            // Default file name if the user does not type one in or select a file to replace
-            savePicker.SuggestedFileName = "recommend";
-            StorageFile file = await savePicker.PickSaveFileAsync();
-            if (file != null)
-            {
-                // Prevent updates to the remote version of the file until
-                // we finish making changes and call CompleteUpdatesAsync.
-                CachedFileManager.DeferUpdates(file);
-                // write to file
-                var stream = await file.OpenStreamForWriteAsync();
-                Debug.WriteLine("write stream: " + stream.ToString());
-                serializer.WriteObject(stream, reader);
-
-                Windows.Storage.Provider.FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
-                ShowToastNotification("exReader提示", "成功导出工程文件!");
-                if (status == Windows.Storage.Provider.FileUpdateStatus.Complete)
-                {
-                    //.textBlock.Text = "File " + file.Name + " was saved.";
-                }
-                else
-                {
-                    //this.textBlock.Text = "File " + file.Name + " couldn't be saved.";
-                }
-            }
-            else
-            {
-                //this.textBlock.Text = "Operation cancelled.";
-            }
-        }
+       
 
         //反序列化
         public async Task<Passage> DeSerializeFile()
         {
 
-            DataContractSerializer deserializer = new DataContractSerializer(typeof(ReaderManage));
+            DataContractSerializer deserializer = new DataContractSerializer(typeof(Passage));
            
             Passage passage = new Passage();
             var picker = new FileOpenPicker();
