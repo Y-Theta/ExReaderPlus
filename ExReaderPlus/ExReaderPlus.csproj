@@ -97,8 +97,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Manage\FileManager\FileManage.cs" />
-    <Compile Include="Manage\PassageManager\PassageManage.cs" />
+    <Compile Include="View\CustomeControls\NewControls\IconViewItem.cs" />
     <Compile Include="View\CustomeControls\ComplexControls\Richwordview.xaml.cs">
       <DependentUpon>Richwordview.xaml</DependentUpon>
     </Compile>
@@ -124,6 +123,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="Manage\WordManager\WordBook.cs" />
+    <Compile Include="View\StateTriggers\StateTriggers.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -188,7 +188,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Themes\Generic.xaml">
+    <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

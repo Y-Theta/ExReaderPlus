@@ -28,7 +28,7 @@ namespace ExReaderPlus.View.Pages {
 
         private void Page_Loaded(object sender, RoutedEventArgs e) {
             Window.Current.SetTitleBar(TitleBarTouch);
-
+            RootFrame.Navigate(typeof(GlossaryPage));
         }
     }
 }

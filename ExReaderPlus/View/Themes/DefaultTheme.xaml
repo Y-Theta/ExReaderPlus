@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="using:ExReaderPlus.Themes"
+                    xmlns:local="using:ExReaderPlus.View"
                     xmlns:Root="using:ExReaderPlus">
 
     <!--MainTheme-->
@@ -19,7 +19,6 @@
     <SolidColorBrush x:Key="ContrastMask_20"
                      Color="#20000000" />
 
-    
     <!--TitleBarButton-->
     <Color x:Key="TitleBarButtonBG_N">Transparent</Color>
     <Color x:Key="TitleBarButtonBG_R">#50000000</Color>
@@ -27,7 +26,62 @@
     <Color x:Key="TitleBarButtonFG_N">#000000</Color>
     <Color x:Key="TitleBarButtonFG_R">#50000000</Color>
     <Color x:Key="TitleBarButtonFG_P">#A0000000</Color>
-    
+
+    <!--PaneToggleButton-->
+    <SolidColorBrush x:Key="PaneToggleButtonBG_N"
+                     Color="Transparent" />
+    <SolidColorBrush x:Key="PaneToggleButtonBG_R"
+                     Color="#30000000" />
+    <SolidColorBrush x:Key="PaneToggleButtonBG_P"
+                     Color="#60000000" />
+    <SolidColorBrush x:Key="PaneToggleButtonBG_D"
+                     Color="Transparent"/>
+    <SolidColorBrush x:Key="PaneToggleButtonFG_N"
+                     Color="#080808" />
+    <SolidColorBrush x:Key="PaneToggleButtonFG_R"
+                     Color="#080808" />
+    <SolidColorBrush x:Key="PaneToggleButtonFG_P"
+                     Color="#080808" />
+    <SolidColorBrush x:Key="PaneToggleButtonFG_D"
+                     Color="Transparent" />
+    <SolidColorBrush x:Key="NavigationViewBackground"
+                     Color="#EFEFEF" />
+
+    <!--NavigationViewItem-->
+    <SolidColorBrush x:Key="NavigationViewItemBG_N"
+                     Color="Transparent" />
+    <SolidColorBrush x:Key="NavigationViewItemBG_R"
+                     Color="#30000000" />
+    <SolidColorBrush x:Key="NavigationViewItemBG_P"
+                     Color="#60000000" />
+    <SolidColorBrush x:Key="NavigationViewItemBG_D"
+                     Color="Transparent" />
+    <SolidColorBrush x:Key="NavigationViewItemFG_N"
+                     Color="#808080" />
+    <SolidColorBrush x:Key="NavigationViewItemFG_R"
+                     Color="#808080" />
+    <SolidColorBrush x:Key="NavigationViewItemFG_P"
+                     Color="#808080" />
+    <SolidColorBrush x:Key="NavigationViewItemFG_D"
+                     Color="Transparent" />
+    <SolidColorBrush x:Key="NavigationViewItemBG_CN"
+                     Color="Transparent" />
+    <SolidColorBrush x:Key="NavigationViewItemBG_CR"
+                     Color="Transparent" />
+    <SolidColorBrush x:Key="NavigationViewItemBG_CP"
+                     Color="Transparent" />
+    <SolidColorBrush x:Key="NavigationViewItemBG_CD"
+                     Color="Transparent" />
+    <SolidColorBrush x:Key="NavigationViewItemFG_CN"
+                     Color="#808080" />
+    <SolidColorBrush x:Key="NavigationViewItemFG_CR"
+                     Color="#808080" />
+    <SolidColorBrush x:Key="NavigationViewItemFG_CP"
+                     Color="#808080" />
+    <SolidColorBrush x:Key="NavigationViewItemFG_CD"
+                     Color="Transparent" />
+    <SolidColorBrush x:Key="NavigationViewSelectionID"
+                     Color="#080808" />
 
     <!--ScrollViewer-->
     <SolidColorBrush x:Key="ScrollBarThumb_N"

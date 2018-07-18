@@ -17,5 +17,6 @@
         <Rectangle x:Name="TitleBarTouch" Fill="Transparent" />
         <NavigationView Grid.RowSpan="2"
                         Style="{StaticResource DefaultNavigationView}"/>
+       
     </Grid>
 </Page>
