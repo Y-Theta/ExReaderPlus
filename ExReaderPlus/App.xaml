@@ -17,7 +17,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="CustomeControls/ControlStyles/ScrollViewerAndSlider.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <viewmodels:MainPageViewModel x:Key="MainPageViewModel"/>
         </ResourceDictionary>
     </Application.Resources>
 
