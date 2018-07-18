@@ -134,6 +134,12 @@
       <Version>1.2.1</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ExReaderPlus\ExReaderPlus.csproj">
+      <Project>{a0db6afc-d5a3-4e04-88b5-7d260cabcac1}</Project>
+      <Name>ExReaderPlus</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
