@@ -255,32 +255,50 @@
     <x:Double x:Key="PaneToggleButtonWidth">48</x:Double>
     <x:Double x:Key="CustomeNavigationViewCollapseWidth">48</x:Double>
     <x:Double x:Key="CustomeNavigationViewOpenWidth">240</x:Double>
+    <x:String x:Key="TransformSpan">0:0:0.5</x:String>
     <!--CustomeNavigationView-->
     <Style TargetType="local:CustomeNavigationView">
-        <Setter Property="IsTabStop"
-                Value="False" />
         <Setter Property="CollapseWidth"
                 Value="{StaticResource CustomeNavigationViewCollapseWidth}" />
         <Setter Property="OpenWidth"
                 Value="{StaticResource CustomeNavigationViewOpenWidth}" />
-        <Setter Property="Background"
+        <Setter Property="PaneBackground"
                 Value="#0596cc" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:CustomeNavigationView">
-                    <Grid x:Name="RootGrid"
-                          HorizontalAlignment="Left"
-                          VerticalAlignment="Stretch">
+                    <Grid x:Name="RootGrid">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CollapseMode">
                                 <VisualStateGroup.Transitions>
                                     <VisualTransition From="CollapseMode_Collapse"
                                                       To="CollapseMode_Open">
-
+                                        <Storyboard>
+                                            <!--<DoubleAnimationUsingKeyFrames Storyboard.TargetName="PaneClipRectangleTransform"
+                                                                           Storyboard.TargetProperty="TranslateX">
+                                                <SplineDoubleKeyFrame KeySpline="0.0,0.35 0.15,1.0"
+                                                                      KeyTime="{StaticResource TransformSpan}"
+                                                                      Value="0" />
+                                            </DoubleAnimationUsingKeyFrames>-->
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PaneTransform"
+                                                                           Storyboard.TargetProperty="TranslateX">
+                                                <SplineDoubleKeyFrame KeySpline="0.0,0.35 0.15,1.0"
+                                                                      KeyTime="{StaticResource TransformSpan}"
+                                                                      Value="0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentTransform"
+                                                                           Storyboard.TargetProperty="TranslateX">
+                                                <DiscreteDoubleKeyFrame KeyTime="0"
+                                                                        Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=OpenWidth}" />
+                                                <SplineDoubleKeyFrame KeySpline="0.0,0.35 0.15,1.0"
+                                                                      KeyTime="{StaticResource TransformSpan}"
+                                                                      Value="0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
                                     </VisualTransition>
                                     <VisualTransition From="CollapseMode_Open"
                                                       To="CollapseMode_Collapse">
-
+                     
                                     </VisualTransition>
                                 </VisualStateGroup.Transitions>
                                 <VisualState x:Name="CollapseMode_Collapse">
@@ -290,7 +308,19 @@
                                 </VisualState>
                                 <VisualState x:Name="CollapseMode_Open">
                                     <VisualState.Setters>
-
+                                        <Setter Target="PaneRoot.Visibility"
+                                                Value="Visible" />
+                                        <Setter Target="ContentRoot.Grid.ColumnSpan"
+                                                Value="1" />
+                                        <Setter Target="ContentRoot.Grid.Column"
+                                                Value="1" />
+                                        <Setter Target="PaneRoot.Grid.ColumnSpan"
+                                                Value="1" />
+                                        <Setter Target="PaneTransform.TranslateX"
+                                                Value="0" />
+                                        <Setter Target="ContentTransform.TranslateX"
+                                                Value="0" />
+                                
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -299,29 +329,42 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
-                        <Grid x:Name="RootPanel"
-                              Background="{TemplateBinding Background}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition x:Name="CollapsePanel" Width="auto" />
-                                <ColumnDefinition x:Name="OpenPanel" Width="auto" />
-                            </Grid.ColumnDefinitions>
-                            <Grid HorizontalAlignment="Left"
-                                  VerticalAlignment="Stretch"
-                                  Canvas.ZIndex="1"
-                                  Width="{Binding OpenWidth,RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}">
-                                <Grid.Clip>
-                                    <RectangleGeometry Rect="{Binding }">
-                                        <RectangleGeometry.Transform>
-                                            <CompositeTransform TranslateX="100" />
-                                        </RectangleGeometry.Transform>
-                                    </RectangleGeometry>
-                                </Grid.Clip>
-                                <Button x:Name="TogglePaneButton"
-                                        Content="&#xE700;"
-                                        Command="{Binding OpenPaneCommand,RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                        Style="{StaticResource PaneToggleButtonStyle}"
-                                        VerticalAlignment="Top" />
-                            </Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition x:Name="Colum1"
+                                              Width="{Binding OpenWidth,RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay,Converter={StaticResource GRIDLtoDOUBLE},FallbackValue=0}" />
+                            <ColumnDefinition x:Name="Colum2"
+                                              Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid x:Name="PaneRoot"
+                              HorizontalAlignment="Left"
+                              Visibility="Visible"
+                              Background="{TemplateBinding PaneBackground}"
+                              Width="{Binding OpenWidth,RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}"
+                              Canvas.ZIndex="1">
+                            <Grid.Clip>
+                                <RectangleGeometry x:Name="PaneClipRectangle"
+                                                   Rect="{Binding PaneClip,RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}">
+                                    <RectangleGeometry.Transform>
+                                        <CompositeTransform x:Name="PaneClipRectangleTransform" />
+                                    </RectangleGeometry.Transform>
+                                </RectangleGeometry>
+                            </Grid.Clip>
+                            <Grid.RenderTransform>
+                                <CompositeTransform x:Name="PaneTransform" />
+                            </Grid.RenderTransform>
+                            <Button x:Name="TogglePaneButton"
+                                    Content="&#xE700;"
+                                    Command="{Binding OpenPaneCommand,RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                    Style="{StaticResource PaneToggleButtonStyle}"
+                                    VerticalAlignment="Top" />
+                        </Grid>
+
+                        <Grid x:Name="ContentRoot"
+                              Grid.Column="1">
+                            <Grid.RenderTransform>
+                                <CompositeTransform x:Name="ContentTransform" />
+                            </Grid.RenderTransform>
+                            <Border Child="{TemplateBinding Content}" />
                         </Grid>
                     </Grid>
                 </ControlTemplate>

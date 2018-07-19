@@ -5,6 +5,8 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Foundation;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
@@ -21,10 +23,15 @@ namespace ExReaderPlus.View {
 
         #region Properties
 
-        //private GridLength _collapseGridLength;
-        //public GridLength CollapseGridLength {
-           
-        //}
+        #region PaneBg
+        public Brush PaneBackground {
+            get { return (Brush)GetValue(PaneBackgroundProperty); }
+            set { SetValue(PaneBackgroundProperty, value); }
+        }
+        public static readonly DependencyProperty PaneBackgroundProperty =
+            DependencyProperty.Register("PaneBackground", typeof(Brush),
+                typeof(CustomeNavigationView), new PropertyMetadata(new SolidColorBrush(Color.FromArgb(0, 255, 255, 255))));
+        #endregion
 
         #region IsPaneOpen
         /// <summary>
@@ -48,7 +55,7 @@ namespace ExReaderPlus.View {
             set { SetValue(MenuItemsProperty, value); }
         }
         public static readonly DependencyProperty MenuItemsProperty =
-            DependencyProperty.Register("MenuItems", typeof(IList<object>), 
+            DependencyProperty.Register("MenuItems", typeof(IList<object>),
                 typeof(CustomeNavigationView), new PropertyMetadata(0));
         #endregion
 
@@ -63,15 +70,34 @@ namespace ExReaderPlus.View {
         #endregion
 
         #region PanelWidth
-        public double PanelWidth {
-            get { return (double)GetValue(PanelWidthProperty); }
-            set { SetValue(PanelWidthProperty, value); }
-        }
-        public static readonly DependencyProperty PanelWidthProperty =
-            DependencyProperty.Register("PanelWidth", typeof(double),
-                typeof(CustomeNavigationView), new PropertyMetadata(48.0));
+
         #endregion
 
+        #region ClipOffset
+        /// <summary>
+        /// 使用Clip位移制作宽度动画
+        /// </summary>
+        public double ClipOffset {
+            get { return (double)GetValue(ClipOffsetProperty); }
+            set { SetValue(ClipOffsetProperty, value); }
+        }
+        public static readonly DependencyProperty ClipOffsetProperty =
+            DependencyProperty.Register("ClipOffset", typeof(double), 
+                typeof(CustomeNavigationView), new PropertyMetadata(0));
+        #endregion
+
+        #region PanelClip
+        /// <summary>
+        /// 裁剪矩形
+        /// </summary>
+        public Rect PaneClip {
+            get { return (Rect)GetValue(PaneClipProperty); }
+            set { SetValue(PaneClipProperty, value); }
+        }
+        public static readonly DependencyProperty PaneClipProperty =
+            DependencyProperty.Register("PaneClip", typeof(Rect), 
+                typeof(CustomeNavigationView), new PropertyMetadata(null));
+        #endregion
 
         #region OpenWidth
         /// <summary>
@@ -100,6 +126,9 @@ namespace ExReaderPlus.View {
         #endregion
 
         #region OpenPaneCommand
+        /// <summary>
+        /// 打开pane命令
+        /// </summary>
         public CommandBase OpenPaneCommand {
             get { return (CommandBase)GetValue(OpenPaneCommandProperty); }
             set { SetValue(OpenPaneCommandProperty, value); }
@@ -122,7 +151,6 @@ namespace ExReaderPlus.View {
             if (IsPaneOpen)
             {
                 IsPaneOpen = false;
-              
                 VisualStateManager.GoToState(this, "CollapseMode_Collapse", true);
             }
             else
@@ -131,12 +159,22 @@ namespace ExReaderPlus.View {
                 VisualStateManager.GoToState(this, "CollapseMode_Open", true);
             }
         }
+
+        private void CustomeNavigationView_Loaded(object sender, RoutedEventArgs e) {
+            VisualStateManager.GoToState(this, "CollapseMode_Open", true);
+        }
+
+        private void CustomeNavigationView_SizeChanged(object sender, SizeChangedEventArgs e) {
+            PaneClip = new Rect(0, 0, OpenWidth, e.NewSize.Height);
+        }
         #endregion
 
 
         #region Contructors
         public CustomeNavigationView() {
             InitCommands();
+            this.Loaded += CustomeNavigationView_Loaded;
+            this.SizeChanged += CustomeNavigationView_SizeChanged;
             this.DefaultStyleKey = typeof(CustomeNavigationView);
         }
         #endregion
