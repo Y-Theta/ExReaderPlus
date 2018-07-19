@@ -27,7 +27,7 @@ namespace ExReaderPlus.DataManage
             public WordManage()
             {
                 //文件词库数据库
-                string path = Path.GetFullPath("db/dic.db");
+                string path = Path.GetFullPath("DB/dic.db");
                 dbfile = new SQLiteConnection("Data Source=" + path + ";Version=3;");
                 dbfile.Open();
                 //内存词库数据库
