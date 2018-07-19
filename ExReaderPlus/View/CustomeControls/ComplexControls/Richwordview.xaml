@@ -17,8 +17,7 @@
                       Grid.Row="1"
                       HorizontalScrollBarVisibility="Disabled">
             <local:RichTextBox TextWrapping="Wrap"
-                               TextPrerender="True"
-                               extensions:Mouse.Cursor="Arrow" />
+                               TextPrerender="True" />
         </ScrollViewer>
     </Grid>
 </UserControl>
