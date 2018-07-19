@@ -15,20 +15,22 @@
         </Grid.RowDefinitions>
         <Rectangle x:Name="TitleBarTouch"
                    Fill="Transparent" />
-        <Custome:CustomeNavigationView Grid.RowSpan="2" >
-            <Custome:CustomeNavigationView.MenuItems>
-                    <Custome:IconViewItem x:Name="UserLogin"
-                                          Grid.Row="7"
-                                          Icon="Setting"
-                                          IconFormat="Round"
-                                          ImageSource="ms-appx:///Assets/StoreLogo.png" />
-                    <Custome:IconViewItem x:Name="Setting"
-                                          Grid.Row="8"
-                                          IconFormat="Icon"
-                                          Icon="Setting" />
-            </Custome:CustomeNavigationView.MenuItems>
-
-            <Custome:Richwordview />
+        <Custome:CustomeNavigationView Grid.RowSpan="2">
+            
         </Custome:CustomeNavigationView>
+        <!--<NavigationView Grid.RowSpan="2" >
+            <NavigationView.MenuItems>
+                <Custome:IconViewItem x:Name="UserLogin"
+                                      Grid.Row="7"
+                                      Icon="Setting"
+                                      IconFormat="Round"
+                                      ImageSource="ms-appx:///Assets/StoreLogo.png" />
+                <Custome:IconViewItem x:Name="Setting"
+                                      Grid.Row="8"
+                                      IconFormat="Icon"
+                                      Icon="Setting" />
+            </NavigationView.MenuItems>
+            
+        </NavigationView>-->
     </Grid>
 </Page>

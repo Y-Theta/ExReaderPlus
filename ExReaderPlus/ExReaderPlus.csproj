@@ -97,9 +97,11 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Commands\CommandBase.cs" />
     <Compile Include="View\Converter\Converters.cs" />
     <Compile Include="View\Converter\StateTriggers.cs" />
     <Compile Include="View\CustomeControls\NewControls\CustomeNavigationView.cs" />
+    <Compile Include="View\CustomeControls\NewControls\Enums.cs" />
     <Compile Include="View\CustomeControls\NewControls\IconViewItem.cs" />
     <Compile Include="View\CustomeControls\ComplexControls\Richwordview.xaml.cs">
       <DependentUpon>Richwordview.xaml</DependentUpon>
