@@ -10,16 +10,9 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
 namespace ExReaderPlus.View {
+
     public sealed class IconViewItem : NavigationViewItem {
-
-
         #region Properties
-        public enum IconKind {
-            Icon,
-            Rect,
-            Round
-        }
-
         /// <summary>
         /// 图标类型
         /// </summary>
