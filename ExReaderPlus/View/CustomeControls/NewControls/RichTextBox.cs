@@ -315,7 +315,6 @@ namespace ExReaderPlus.View{
             this.TextChanged += RichTextBox_TextChanged;
             this.Paste += RichTextBox_Paste;
             this.DefaultStyleKey = typeof(RichTextBox);
-
         }
         #endregion
     }
