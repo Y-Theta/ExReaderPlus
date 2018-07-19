@@ -116,7 +116,6 @@
     <Compile Include="Manage\DataManage\UserDataDB.cs" />
     <Compile Include="Manage\DataManage\UserDB.cs" />
     <Compile Include="Manage\DataManage\WordManage.cs" />
-    <Compile Include="View\IconViewItem.cs" />
     <Compile Include="View\Layout\CircleLayout.cs" />
     <Compile Include="View\Pages\DicPage.xaml.cs">
       <DependentUpon>DicPage.xaml</DependentUpon>
