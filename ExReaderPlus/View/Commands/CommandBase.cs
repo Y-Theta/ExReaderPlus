@@ -32,6 +32,12 @@ namespace ExReaderPlus.View.Commands {
         #endregion
 
         #region Constructors
+        public CommandBase(CommandAction act) {
+            Commandaction += act;
+        }
+
+        public CommandBase() {
+        }
         #endregion
 
     }

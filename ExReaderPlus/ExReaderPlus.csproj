@@ -102,6 +102,7 @@
     <Compile Include="TestDB\TestDB\Mission.cs" />
     <Compile Include="TestDB\TestDB\Student.cs" />
     <Compile Include="TestDB\TestDB\StudentMission.cs" />
+    <Compile Include="ViewModels\ViewModelBasse.cs" />
     <Compile Include="View\Commands\CommandBase.cs" />
     <Compile Include="View\Converter\Converters.cs" />
     <Compile Include="View\Converter\StateTriggers.cs" />
@@ -235,6 +236,9 @@
     </PackageReference>
     <PackageReference Include="System.Data.SQLite.Core">
       <Version>1.0.108</Version>
+    </PackageReference>
+    <PackageReference Include="Win2D.uwp">
+      <Version>1.23.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

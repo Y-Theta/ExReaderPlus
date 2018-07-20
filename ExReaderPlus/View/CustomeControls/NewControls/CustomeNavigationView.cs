@@ -88,7 +88,7 @@ namespace ExReaderPlus.View {
             set { SetValue(ClipOffsetProperty, value); }
         }
         public static readonly DependencyProperty ClipOffsetProperty =
-            DependencyProperty.Register("ClipOffset", typeof(double), 
+            DependencyProperty.Register("ClipOffset", typeof(double),
                 typeof(CustomeNavigationView), new PropertyMetadata(0));
         #endregion
 
@@ -98,10 +98,10 @@ namespace ExReaderPlus.View {
         /// </summary>
         public Rect PaneClip {
             get { return (Rect)GetValue(PaneClipProperty); }
-            set { SetValue(PaneClipProperty, value); }
+            private set { SetValue(PaneClipProperty, value); }
         }
         private static readonly DependencyProperty PaneClipProperty =
-            DependencyProperty.Register("PaneClip", typeof(Rect), 
+            DependencyProperty.Register("PaneClip", typeof(Rect),
                 typeof(CustomeNavigationView), new PropertyMetadata(null));
         #endregion
 
@@ -144,32 +144,56 @@ namespace ExReaderPlus.View {
                 typeof(CustomeNavigationView), new PropertyMetadata(null));
         #endregion
 
-        #region UserIcon
-        public RadioButton UserIcon {
-            get { return (RadioButton)GetValue(UserIconProperty); }
-            set { SetValue(UserIconProperty, value); }
-        }
-        public static readonly DependencyProperty UserIconProperty =
-            DependencyProperty.Register("UserIcon", typeof(RadioButton), 
-                typeof(CustomeNavigationView), new PropertyMetadata(null, OnUserIconSet));
+        //
 
-        private static void OnUserIconSet(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-            (e.NewValue as RadioButton).GroupName = (d as CustomeNavigationView)._radiogroupname;
+        #region AboutButton
+        public Style AboutButton {
+            get { return (Style)GetValue(AboutButtonProperty); }
+            set { SetValue(AboutButtonProperty, value); }
         }
+        public static readonly DependencyProperty AboutButtonProperty =
+            DependencyProperty.Register("AboutButton", typeof(Style), 
+                typeof(CustomeNavigationView), new PropertyMetadata(null));
         #endregion
 
+        #region UserButton
+        public Style UserButton {
+            get { return (Style)GetValue(UserButtonProperty); }
+            set { SetValue(UserButtonProperty, value); }
+        }
+        public static readonly DependencyProperty UserButtonProperty =
+            DependencyProperty.Register("UserButton", typeof(Style),
+                typeof(CustomeNavigationView), new PropertyMetadata(null));
+        #endregion
 
         #region SettingButton
-        public RadioButton SettingButton {
-            get { return (RadioButton)GetValue(SettingButtonProperty); }
+        public Style SettingButton {
+            get { return (Style)GetValue(SettingButtonProperty); }
             set { SetValue(SettingButtonProperty, value); }
         }
         public static readonly DependencyProperty SettingButtonProperty =
-            DependencyProperty.Register("SettingButton", typeof(RadioButton),
-                typeof(CustomeNavigationView), new PropertyMetadata(null, OnSettingButtonSet));
-        private static void OnSettingButtonSet(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-            (e.NewValue as RadioButton).GroupName = (d as CustomeNavigationView)._radiogroupname;
+            DependencyProperty.Register("SettingButton", typeof(Style),
+                typeof(CustomeNavigationView), new PropertyMetadata(null));
+        #endregion
+
+        #region UserIcon
+        public string UserIcon {
+            get { return (string)GetValue(UserIconProperty); }
+            set { SetValue(UserIconProperty, value); }
         }
+        public static readonly DependencyProperty UserIconProperty =
+            DependencyProperty.Register("UserIcon", typeof(string),
+                typeof(CustomeNavigationView), new PropertyMetadata(null));
+        #endregion
+
+        #region IconStroke
+        public Brush IconStroke {
+            get { return (Brush)GetValue(IconStrokeProperty); }
+            set { SetValue(IconStrokeProperty, value); }
+        }
+        public static readonly DependencyProperty IconStrokeProperty =
+            DependencyProperty.Register("IconStroke", typeof(Brush),
+                typeof(CustomeNavigationView), new PropertyMetadata(new SolidColorBrush(Color.FromArgb(0, 0, 0, 0))));
         #endregion
 
         #endregion
@@ -177,21 +201,27 @@ namespace ExReaderPlus.View {
 
         #region Motheds
         private void InitCommands() {
-            OpenPaneCommand = new CommandBase();
-            OpenPaneCommand.Commandaction += OpenPaneCommand_Commandaction;
+            OpenPaneCommand = new CommandBase(obj => {
+                if (IsPaneOpen)
+                    ClosePane();
+                else
+                    OpenPane();
+            });
         }
 
-        private void OpenPaneCommand_Commandaction(object parameter) {
-            if (IsPaneOpen)
-            {
-                IsPaneOpen = false;
-                VisualStateManager.GoToState(this, "CollapseMode_Collapse", true);
-            }
-            else
-            {
-                IsPaneOpen = true;
-                VisualStateManager.GoToState(this, "CollapseMode_Open", true);
-            }
+        private void OpenPane() {
+            IsPaneOpen = true;
+            VisualStateManager.GoToState(this, "CollapseMode_Open", true);
+        }
+
+        private void ClosePane() {
+            IsPaneOpen = false;
+            VisualStateManager.GoToState(this, "CollapseMode_Collapse", true);
+        }
+
+        protected override void OnLostFocus(RoutedEventArgs e) {
+            base.OnLostFocus(e);
+            ClosePane();
         }
 
         private void CustomeNavigationView_Loaded(object sender, RoutedEventArgs e) {
