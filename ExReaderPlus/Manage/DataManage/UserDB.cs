@@ -8,14 +8,6 @@ using System.Data.SQLite;
 namespace ExReaderPlus.DataManage
 {
     /// <summary>
-    /// 创建用户的词库，可以为空，也可以导入
-    /// </summary>
-    public class UserDB
-    {
-        
-    }
-
-    /// <summary>
     /// 用户信息
     /// </summary>
     public class User
@@ -35,7 +27,21 @@ namespace ExReaderPlus.DataManage
             set;
         }
     }
-
+    /// <summary>
+    /// 用户账户管理
+    /// 登录、注册
+    /// </summary>
+    public class UserManage
+    {
+        public bool login(User user)
+        {
+            return true;
+        }
+        public bool register(User user)
+        {
+            return true;
+        }
+    }
     /// <summary>
     /// 用户生词本管理 使用面向接口编程
     /// </summary>
@@ -47,5 +53,9 @@ namespace ExReaderPlus.DataManage
         /// <param name="UserName"></param>
         /// <returns></returns>
         
+        public bool insert()
+        {
+            return true;
+        }
     }
 }

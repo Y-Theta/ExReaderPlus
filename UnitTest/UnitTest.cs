@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTest
@@ -10,7 +11,8 @@ namespace UnitTest
         [TestMethod]
         public void TestMethod1()
         {
-            Assert.AreEqual(1, 2);
+            Console.WriteLine("TEST　Consle----------------------------");
+            Assert.AreEqual(1, 1);
         }
     }
 }
