@@ -14,7 +14,8 @@ namespace UserDic
         protected override void OnConfiguring(
         DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=db.db");
+            ///数据库可以更改
+            optionsBuilder.UseSqlite("Data Source=userinfo.db");
         }
     }
 

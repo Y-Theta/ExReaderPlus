@@ -97,6 +97,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Manage\CustomDicManage.cs" />
+    <Compile Include="Manage\passageManage.cs" />
+    <Compile Include="Manage\userManage.cs" />
     <Compile Include="TestDB\TestDB\Class1.cs" />
     <Compile Include="TestDB\TestDB\EFCore.cs" />
     <Compile Include="TestDB\TestDB\Mission.cs" />
@@ -247,6 +250,12 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UserDicionary\UserDicionary.csproj">
+      <Project>{183a7d10-af51-4583-a625-a3472509e8cb}</Project>
+      <Name>UserDicionary</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
