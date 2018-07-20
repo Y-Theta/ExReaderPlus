@@ -11,5 +11,14 @@ namespace ExReaderPlus.Manage
     /// </summary>
     public class CustomDicManage
     {
+        /// <summary>
+        /// 将软件安装包中的词库导入C盘程序应用的目录
+        /// </summary>
+        /// <returns></returns>
+        public bool backUpfileDataBase()
+        {
+            
+            return true;
+        }
     }
 }
