@@ -21,49 +21,36 @@ using Windows.UI.Composition;
 using Windows.UI.Xaml.Hosting;
 using Microsoft.Graphics.Canvas.Effects;
 using Windows.UI.Xaml.Media.Imaging;
+using System.Diagnostics;
 
 namespace ExReaderPlus.View.Pages {
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
     public sealed partial class MainPage : Page {
-        RenderTargetBitmap _frameclip;
+       
 
         public MainPage() {
             this.InitializeComponent();
-            _frameclip = new RenderTargetBitmap();
-          //  InitializeFrostedGlass(ArcLayer);
+           
         }
 
-        private async void Page_Loaded(object sender, RoutedEventArgs e) {
+        private void Page_Loaded(object sender, RoutedEventArgs e) {
             Window.Current.SetTitleBar(TitleBarTouch);
             var viewmodel = (MainPageViewModel)DataContext;
-            MainFrame.Navigate(typeof(EssayPage));
+            viewmodel.OnNavigate += Viewmodel_OnNavigate;
+            MainFrame.Navigate(typeof(DicPage));
             MainFrame.Navigating += MainFrame_Navigating;
-            await _frameclip.RenderAsync(MainFrame);
+          //  await _frameclip.RenderAsync(MainFrame);
+        }
+
+        private void Viewmodel_OnNavigate(object sender, EventArgs e) {
+            MainFrame.Navigate(sender.GetType(),null,new DrillInNavigationTransitionInfo());
         }
 
         private void MainFrame_Navigating(object sender, NavigatingCancelEventArgs e) {
             
         }
 
-        private void ArcLayer_CreateResources(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args) {
-            
-        }
-
-        private void ArcLayer_Draw(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs args) {
-            using (var session = args.DrawingSession)
-            {
-                var blur = new GaussianBlurEffect
-                {
-                    BlurAmount = 50.0f, // increase this to make it more blurry or vise versa.
-                                        //Optimization = EffectOptimization.Balanced, // default value
-                                        //BorderMode = EffectBorderMode.Soft // default value
-                  
-                };
-
-               // session.DrawImage(blur, new Rect(0, 0, sender.ActualWidth, sender.ActualHeight), 0.9f);
-            }
-        }
     }
 }

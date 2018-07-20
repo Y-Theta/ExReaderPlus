@@ -64,12 +64,12 @@ namespace ExReaderPlus.View {
         /// <summary>
         /// 项目菜单区
         /// </summary>
-        public UIElement FunctionArea {
-            get { return (UIElement)GetValue(FunctionAreaProperty); }
+        public Grid FunctionArea {
+            get { return (Grid)GetValue(FunctionAreaProperty); }
             set { SetValue(FunctionAreaProperty, value); }
         }
         public static readonly DependencyProperty FunctionAreaProperty =
-            DependencyProperty.Register("FunctionArea", typeof(UIElement),
+            DependencyProperty.Register("FunctionArea", typeof(Grid),
                 typeof(CustomeNavigationView), new PropertyMetadata(null));
         #endregion
 
@@ -152,7 +152,7 @@ namespace ExReaderPlus.View {
             set { SetValue(AboutButtonProperty, value); }
         }
         public static readonly DependencyProperty AboutButtonProperty =
-            DependencyProperty.Register("AboutButton", typeof(Visibility), 
+            DependencyProperty.Register("AboutButton", typeof(Visibility),
                 typeof(CustomeNavigationView), new PropertyMetadata(null));
         #endregion
 
@@ -200,8 +200,22 @@ namespace ExReaderPlus.View {
 
 
         #region Motheds
+        protected override void OnApplyTemplate() {
+            base.OnApplyTemplate();
+            if (FunctionArea.Children != null && FunctionArea.Children.Count > 0)
+                foreach (UIElement uie in FunctionArea.Children)
+                {
+                    if (uie is IconViewItem)
+                        (uie as IconViewItem).GroupName = _radiogroupname;
+                }
+            (GetTemplateChild("User") as IconViewItem).GroupName = _radiogroupname;
+            (GetTemplateChild("About") as IconViewItem).GroupName = _radiogroupname;
+            (GetTemplateChild("Setting") as IconViewItem).GroupName = _radiogroupname;
+        }
+
         private void InitCommands() {
-            OpenPaneCommand = new CommandBase(obj => {
+            OpenPaneCommand = new CommandBase(obj =>
+            {
                 if (IsPaneOpen)
                     ClosePane();
                 else

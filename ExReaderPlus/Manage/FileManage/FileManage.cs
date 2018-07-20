@@ -13,8 +13,7 @@ using Windows.Storage.Pickers;
 using Windows.System;
 using ExReaderPlus.Manage.ReaderManager;
 using Windows.UI.Notifications;
-using ExReaderPlus.Manage.PassageManager;
-using ExReaderPlus.Manage.ReaderManager;
+
 
 namespace ExReaderPlus.FileManage
 {
@@ -24,6 +23,14 @@ namespace ExReaderPlus.FileManage
 
     public class FileManage
     {
+        private static FileManage _instence;
+        public static FileManage Instence {
+           get {
+                if (_instence != null)
+                    _instence = new FileManage();
+                return _instence;
+            }
+        }
 
         //序列化
         public async void SerializeFile(ReaderManage reader)
@@ -74,25 +81,23 @@ namespace ExReaderPlus.FileManage
             picker.ViewMode = PickerViewMode.Thumbnail;
             picker.SuggestedStartLocation = PickerLocationId.MusicLibrary;
             picker.FileTypeFilter.Add(".txt");
-            picker.FileTypeFilter.Add(".pdf");
+            
+            // TODO:
+            //picker.FileTypeFilter.Add(".pdf");
 
             StorageFile storageFile = await picker.PickSingleFileAsync();
             if (storageFile != null)
             {
                 var stream = await storageFile.OpenStreamForReadAsync();
 
-
                 passage.Content = await FileIO.ReadTextAsync(storageFile);
-                passage.HeadName = "xxxxx";
-
-
+                passage.HeadName = storageFile.DisplayName;
 
 
                 return passage;
             }
             else
             {
-
                 return null;
             }
 

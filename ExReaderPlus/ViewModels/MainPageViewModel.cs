@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExReaderPlus.View.Commands;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -12,14 +13,31 @@ namespace ExReaderPlus.ViewModels {
         private string _userIcon = @"ms-appx:///Assets/Cybran_Y_T.jpg";
         public string UserIcon {
             get => _userIcon;
-            set => SetValue<string>(out _userIcon, value, "UserIcon");
+            set => SetValue<string>(out _userIcon, value, nameof(UserIcon));
         }
+
+        public CommandBase Navigate { get; set; }
+        /// <summary>
+        /// 导航命令消息回调
+        /// </summary>
+        public event EventHandler OnNavigate;
         #endregion
 
         #region Methods
+        private void InitCommand() {
+            Navigate = new CommandBase();
+            Navigate.Commandaction += Navigate_Commandaction;
+        }
+
+        private void Navigate_Commandaction(object parameter) {
+            OnNavigate?.Invoke(parameter, EventArgs.Empty);
+        }
         #endregion
 
         #region Constructors
+        public MainPageViewModel() {
+            InitCommand();
+        }
         #endregion
 
     }

@@ -122,7 +122,8 @@
     <Compile Include="Manage\DataManage\UserDataDB.cs" />
     <Compile Include="Manage\DataManage\UserDB.cs" />
     <Compile Include="Manage\DataManage\WordManage.cs" />
-    <Compile Include="View\Layout\CircleLayout.cs" />
+    <Compile Include="View\Layout\FlowLayout.cs" />
+    <Compile Include="View\OverallViewSettings.cs" />
     <Compile Include="View\Pages\DicPage.xaml.cs">
       <DependentUpon>DicPage.xaml</DependentUpon>
     </Compile>
@@ -232,6 +233,9 @@
     </PackageReference>
     <PackageReference Include="MvvmLightLibs">
       <Version>5.4.1</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>11.0.2</Version>
     </PackageReference>
     <PackageReference Include="SQLite.Interop">
       <Version>1.0.0</Version>

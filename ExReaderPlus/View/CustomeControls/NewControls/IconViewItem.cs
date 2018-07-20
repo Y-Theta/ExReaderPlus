@@ -76,10 +76,6 @@ namespace ExReaderPlus.View {
         #region Methods
         protected override void OnPointerPressed(PointerRoutedEventArgs e) {
             base.OnPointerPressed(e);
-            if (Command != null) {
-                if(Command.CanExecute(CommandParameter))
-                    Command.Execute(CommandParameter);
-            }
         }
         #endregion
 
