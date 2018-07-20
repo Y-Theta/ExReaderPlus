@@ -147,32 +147,32 @@ namespace ExReaderPlus.View {
         //
 
         #region AboutButton
-        public Style AboutButton {
-            get { return (Style)GetValue(AboutButtonProperty); }
+        public Visibility AboutButton {
+            get { return (Visibility)GetValue(AboutButtonProperty); }
             set { SetValue(AboutButtonProperty, value); }
         }
         public static readonly DependencyProperty AboutButtonProperty =
-            DependencyProperty.Register("AboutButton", typeof(Style), 
+            DependencyProperty.Register("AboutButton", typeof(Visibility), 
                 typeof(CustomeNavigationView), new PropertyMetadata(null));
         #endregion
 
         #region UserButton
-        public Style UserButton {
-            get { return (Style)GetValue(UserButtonProperty); }
+        public Visibility UserButton {
+            get { return (Visibility)GetValue(UserButtonProperty); }
             set { SetValue(UserButtonProperty, value); }
         }
         public static readonly DependencyProperty UserButtonProperty =
-            DependencyProperty.Register("UserButton", typeof(Style),
+            DependencyProperty.Register("UserButton", typeof(Visibility),
                 typeof(CustomeNavigationView), new PropertyMetadata(null));
         #endregion
 
         #region SettingButton
-        public Style SettingButton {
-            get { return (Style)GetValue(SettingButtonProperty); }
+        public Visibility SettingButton {
+            get { return (Visibility)GetValue(SettingButtonProperty); }
             set { SetValue(SettingButtonProperty, value); }
         }
         public static readonly DependencyProperty SettingButtonProperty =
-            DependencyProperty.Register("SettingButton", typeof(Style),
+            DependencyProperty.Register("SettingButton", typeof(Visibility),
                 typeof(CustomeNavigationView), new PropertyMetadata(null));
         #endregion
 

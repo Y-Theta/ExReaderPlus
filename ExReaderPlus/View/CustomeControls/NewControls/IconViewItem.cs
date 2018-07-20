@@ -70,6 +70,7 @@ namespace ExReaderPlus.View {
             DependencyProperty.Register("IconStroke", typeof(Brush),
                 typeof(IconViewItem), new PropertyMetadata(new SolidColorBrush(Color.FromArgb(0, 0, 0, 0))));
         #endregion
+
         #endregion
 
         #region Methods

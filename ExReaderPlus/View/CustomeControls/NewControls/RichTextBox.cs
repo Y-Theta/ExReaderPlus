@@ -261,9 +261,9 @@ namespace ExReaderPlus.View{
                 SetContentFormat(new Action(() =>{
                     Document.Selection.StartPosition = range.Start;
                     Document.Selection.EndPosition = range.End;
-                    Document.Selection.CharacterFormat.Weight = 500;
+                    Document.Selection.CharacterFormat.Weight = 400;
                     Document.Selection.CharacterFormat.Size = 8;
-                    Document.Selection.CharacterFormat.Spacing = 4;
+                    Document.Selection.CharacterFormat.Spacing = 0;
                 }));
                 _lastRange = new Range(range);
             }

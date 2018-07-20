@@ -17,6 +17,7 @@
         <Rectangle x:Name="TitleBarTouch"
                    Fill="Transparent" />
         <Custome:CustomeNavigationView Grid.RowSpan="2"
+                                       UserButton="Collapsed"
                                        PaneBackground="{ThemeResource DefaultNavigationViewPaneBG}">
             <Custome:CustomeNavigationView.FunctionArea>
                 <Grid>
