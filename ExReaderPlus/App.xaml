@@ -16,7 +16,10 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="View/CustomeControls/CustomeStaticStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
-
+            
+            <!--ViewModels-->
+            <!--<viewmodels:MainPageViewModel x:Key="MainPageViewModel" />-->
+            
         </ResourceDictionary>
     </Application.Resources>
 

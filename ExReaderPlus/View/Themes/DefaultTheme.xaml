@@ -26,6 +26,12 @@
     <Color x:Key="TitleBarButtonFG_N">#000000</Color>
     <Color x:Key="TitleBarButtonFG_R">#50000000</Color>
     <Color x:Key="TitleBarButtonFG_P">#A0000000</Color>
+    
+    <!--NavigationView-->
+    <SolidColorBrush x:Key="DefaultNavigationViewPaneBG"
+                     Color="#808080" />
+    <SolidColorBrush x:Key="DefaultNavigationViewUserIconStroke"
+                     Color="#080808" />
 
     <!--PaneToggleButton-->
     <SolidColorBrush x:Key="PaneToggleButtonBG_N"

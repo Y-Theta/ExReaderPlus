@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ExReaderPlus.Manage;
 using ExReaderPlus.Manage.PassageManager;
 //using exReader.PassageManager;
 using ExReaderPlus.WordsManager;

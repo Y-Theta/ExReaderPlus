@@ -97,14 +97,15 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Manage\FileManage\FileManage.cs" />
-    <Compile Include="Manage\PassageManager\PassageManager.cs" />
-    <Compile Include="Manage\ReaderManager\ReadManage.cs" />
+    <Compile Include="Manage\CustomDicManage.cs" />
+    <Compile Include="Manage\PassageManager.cs" />
+    <Compile Include="Manage\userManage.cs" />
     <Compile Include="TestDB\TestDB\Class1.cs" />
     <Compile Include="TestDB\TestDB\EFCore.cs" />
     <Compile Include="TestDB\TestDB\Mission.cs" />
     <Compile Include="TestDB\TestDB\Student.cs" />
     <Compile Include="TestDB\TestDB\StudentMission.cs" />
+    <Compile Include="ViewModels\ViewModelBasse.cs" />
     <Compile Include="View\Commands\CommandBase.cs" />
     <Compile Include="View\Converter\Converters.cs" />
     <Compile Include="View\Converter\StateTriggers.cs" />
@@ -239,6 +240,9 @@
     <PackageReference Include="System.Data.SQLite.Core">
       <Version>1.0.108</Version>
     </PackageReference>
+    <PackageReference Include="Win2D.uwp">
+      <Version>1.23.0</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="View\Dialogs\" />
@@ -246,6 +250,12 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UserDicionary\UserDicionary.csproj">
+      <Project>{183a7d10-af51-4583-a625-a3472509e8cb}</Project>
+      <Name>UserDicionary</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
