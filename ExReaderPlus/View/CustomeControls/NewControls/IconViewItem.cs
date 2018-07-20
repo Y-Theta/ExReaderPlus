@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 
 namespace ExReaderPlus.View {
 
-    public sealed class IconViewItem : NavigationViewItem {
+    public sealed class IconViewItem : RadioButton {
         #region Properties
         /// <summary>
         /// 图标类型
@@ -36,25 +37,14 @@ namespace ExReaderPlus.View {
                 typeof(IconViewItem), new PropertyMetadata(null));
 
         /// <summary>
-        /// 点击命令
+        /// 图标属性
         /// </summary>
-        public ICommand Command {
-            get { return (ICommand)GetValue(CommandProperty); }
-            set { SetValue(CommandProperty, value); }
+        public string Icon {
+            get { return (string)GetValue(IconProperty); }
+            set { SetValue(IconProperty, value); }
         }
-        public static readonly DependencyProperty CommandProperty =
-            DependencyProperty.Register("Command", typeof(ICommand), 
-                typeof(IconViewItem), new PropertyMetadata(null));
-
-        /// <summary>
-        /// 命令参数
-        /// </summary>
-        public object CommandParameter {
-            get { return (object)GetValue(CommandParameterProperty); }
-            set { SetValue(CommandParameterProperty, value); }
-        }
-        public static readonly DependencyProperty CommandParameterProperty =
-            DependencyProperty.Register("CommandParameter", typeof(object), 
+        public static readonly DependencyProperty IconProperty =
+            DependencyProperty.Register("Icon", typeof(string), 
                 typeof(IconViewItem), new PropertyMetadata(null));
         #endregion
 

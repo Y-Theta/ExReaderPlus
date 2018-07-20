@@ -22,6 +22,7 @@ namespace ExReaderPlus.View {
     public sealed class CustomeNavigationView : Control {
 
         #region Properties
+        private string _radiogroupname;
 
         #region PaneBg
         public Brush PaneBackground {
@@ -46,20 +47,10 @@ namespace ExReaderPlus.View {
                 typeof(CustomeNavigationView), new PropertyMetadata(false));
         #endregion
 
-        #region ListItems
-        /// <summary>
-        /// 菜单项
-        /// </summary>
-        public IList<object> MenuItems {
-            get { return (IList<object>)GetValue(MenuItemsProperty); }
-            set { SetValue(MenuItemsProperty, value); }
-        }
-        public static readonly DependencyProperty MenuItemsProperty =
-            DependencyProperty.Register("MenuItems", typeof(IList<object>),
-                typeof(CustomeNavigationView), new PropertyMetadata(0));
-        #endregion
-
         #region Content
+        /// <summary>
+        /// 右侧内容区
+        /// </summary>
         public UIElement Content {
             get { return (UIElement)GetValue(ContentProperty); }
             set { SetValue(ContentProperty, value); }
@@ -69,9 +60,24 @@ namespace ExReaderPlus.View {
                 typeof(CustomeNavigationView), new PropertyMetadata(null));
         #endregion
 
+        #region FunctionArea
+        /// <summary>
+        /// 项目菜单区
+        /// </summary>
+        public UIElement FunctionArea {
+            get { return (UIElement)GetValue(FunctionAreaProperty); }
+            set { SetValue(FunctionAreaProperty, value); }
+        }
+        public static readonly DependencyProperty FunctionAreaProperty =
+            DependencyProperty.Register("FunctionArea", typeof(UIElement),
+                typeof(CustomeNavigationView), new PropertyMetadata(null));
+        #endregion
+
         #region PanelWidth
 
         #endregion
+
+        //SizeProperties
 
         #region ClipOffset
         /// <summary>
@@ -94,7 +100,7 @@ namespace ExReaderPlus.View {
             get { return (Rect)GetValue(PaneClipProperty); }
             set { SetValue(PaneClipProperty, value); }
         }
-        public static readonly DependencyProperty PaneClipProperty =
+        private static readonly DependencyProperty PaneClipProperty =
             DependencyProperty.Register("PaneClip", typeof(Rect), 
                 typeof(CustomeNavigationView), new PropertyMetadata(null));
         #endregion
@@ -138,6 +144,34 @@ namespace ExReaderPlus.View {
                 typeof(CustomeNavigationView), new PropertyMetadata(null));
         #endregion
 
+        #region UserIcon
+        public RadioButton UserIcon {
+            get { return (RadioButton)GetValue(UserIconProperty); }
+            set { SetValue(UserIconProperty, value); }
+        }
+        public static readonly DependencyProperty UserIconProperty =
+            DependencyProperty.Register("UserIcon", typeof(RadioButton), 
+                typeof(CustomeNavigationView), new PropertyMetadata(null, OnUserIconSet));
+
+        private static void OnUserIconSet(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+            (e.NewValue as RadioButton).GroupName = (d as CustomeNavigationView)._radiogroupname;
+        }
+        #endregion
+
+
+        #region SettingButton
+        public RadioButton SettingButton {
+            get { return (RadioButton)GetValue(SettingButtonProperty); }
+            set { SetValue(SettingButtonProperty, value); }
+        }
+        public static readonly DependencyProperty SettingButtonProperty =
+            DependencyProperty.Register("SettingButton", typeof(RadioButton),
+                typeof(CustomeNavigationView), new PropertyMetadata(null, OnSettingButtonSet));
+        private static void OnSettingButtonSet(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+            (e.NewValue as RadioButton).GroupName = (d as CustomeNavigationView)._radiogroupname;
+        }
+        #endregion
+
         #endregion
 
 
@@ -161,7 +195,8 @@ namespace ExReaderPlus.View {
         }
 
         private void CustomeNavigationView_Loaded(object sender, RoutedEventArgs e) {
-            VisualStateManager.GoToState(this, "CollapseMode_Open", true);
+            ClipOffset = OpenWidth - CollapseWidth;
+            VisualStateManager.GoToState(this, "CollapseMode_Collapse", false);
         }
 
         private void CustomeNavigationView_SizeChanged(object sender, SizeChangedEventArgs e) {
@@ -173,6 +208,7 @@ namespace ExReaderPlus.View {
         #region Contructors
         public CustomeNavigationView() {
             InitCommands();
+            _radiogroupname = this.GetHashCode().ToString();
             this.Loaded += CustomeNavigationView_Loaded;
             this.SizeChanged += CustomeNavigationView_SizeChanged;
             this.DefaultStyleKey = typeof(CustomeNavigationView);

@@ -16,7 +16,19 @@
         <Rectangle x:Name="TitleBarTouch"
                    Fill="Transparent" />
         <Custome:CustomeNavigationView Grid.RowSpan="2">
-            <Custome:Richwordview />
+            <Custome:CustomeNavigationView.FunctionArea>
+                <Grid>
+
+
+                </Grid>
+            </Custome:CustomeNavigationView.FunctionArea>
+            <Custome:CustomeNavigationView.SettingButton>
+                <Custome:IconViewItem x:Name="Setting"
+                                      Grid.Row="8"
+                                      IconFormat="Icon"
+                                      Icon="&#xE713;" />
+            </Custome:CustomeNavigationView.SettingButton>
+        <Custome:Richwordview />
         </Custome:CustomeNavigationView>
         <!--<NavigationView Grid.RowSpan="2" >
             <NavigationView.MenuItems>

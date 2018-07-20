@@ -11,7 +11,8 @@
     <!--Converter-->
     <Converter:BOOLtoICONF x:Key="BOOLtoICONF" />
     <Converter:GRIDLtoDOUBLE x:Key="GRIDLtoDOUBLE" />
-    
+    <Converter:NegativeConverter x:Key="NegativeConverter" />
+
     <!--Styles-->
     <ResourceDictionary.MergedDictionaries>
         <!--ScrollViewerAndSlider-->
