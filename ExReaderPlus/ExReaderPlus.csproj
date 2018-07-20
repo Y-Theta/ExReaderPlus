@@ -98,7 +98,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Manage\CustomDicManage.cs" />
+    <Compile Include="Manage\FileManage\FileManage.cs" />
     <Compile Include="Manage\PassageManager.cs" />
+    <Compile Include="Manage\ReaderManager\ReadManage.cs" />
     <Compile Include="Manage\userManage.cs" />
     <Compile Include="TestDB\TestDB\Class1.cs" />
     <Compile Include="TestDB\TestDB\EFCore.cs" />
