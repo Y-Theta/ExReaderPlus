@@ -116,7 +116,6 @@ namespace ExReaderPlus.View{
         }
 
         protected override void OnPointerEntered(PointerRoutedEventArgs e) {
-            Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Hand, 0);
             base.OnPointerEntered(e);
         }
 

@@ -3,11 +3,16 @@
                     xmlns:Converter="using:ExReaderPlus.View.Converter"
                     xmlns:local="using:ExReaderPlus.View">
 
+    <!--Enums-->
     <local:IconKind x:Key="ICONF.Round">Round</local:IconKind>
     <local:IconKind x:Key="ICONF.Rect">Rect</local:IconKind>
     <local:IconKind x:Key="ICONF.Icon">Icon</local:IconKind>
-
+    
+    <!--Converter-->
     <Converter:BOOLtoICONF x:Key="BOOLtoICONF" />
+    <Converter:GRIDLtoDOUBLE x:Key="GRIDLtoDOUBLE" />
+    <Converter:NegativeConverter x:Key="NegativeConverter" />
+
     <!--Styles-->
     <ResourceDictionary.MergedDictionaries>
         <!--ScrollViewerAndSlider-->
