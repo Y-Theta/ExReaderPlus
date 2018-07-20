@@ -1,4 +1,5 @@
-﻿using ExReaderPlus.DatabaseManager;
+﻿
+using ExReaderPlus.DatabaseManager;
 using ExReaderPlus.DataManage;
 using System;
 using System.Collections.Generic;

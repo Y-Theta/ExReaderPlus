@@ -4,14 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
-using exReader.WordsManager;
-using exReader.PassageManager;
+using ExReaderPlus.WordsManager;
+using ExReaderPlus.Manage.PassageManager;
 using Windows.Storage;
 using System.IO;
 using System.Diagnostics;
 using Windows.Storage.Pickers;
-using exReader.ReaderManager;
+using Windows.System;
+using ExReaderPlus.Manage.ReaderManager;
 using Windows.UI.Notifications;
+using ExReaderPlus.Manage.PassageManager;
+using ExReaderPlus.Manage.ReaderManager;
 
 namespace ExReaderPlus.FileManage
 {
@@ -113,7 +116,28 @@ namespace ExReaderPlus.FileManage
         }
 
 
+        public async void ShareData()
+        {
 
+
+            //从文本框获取文章内容
+            var uri = new Uri(@"https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http%3A%2F%2Fv.ExreaderPlus.com%2Fvideo%2F3250296&desc=I+find+a+pretty+good+passage+in+ExreaderPlus+you+should+not+miss+it+");
+
+            var success = await Launcher.LaunchUriAsync(uri);
+            if (success)
+            {
+                // 如果你感兴趣，可以在成功启动后在这里执行一些操作。
+
+                ShowToastNotification("ExReaderPlus提示", "分享成功");
+
+            }
+            else
+            {
+                // 如果你感兴趣，可以在这里处理启动失败的一些情况。
+                ShowToastNotification("ExReaderPlus提示", "分享失败");
+            }
+
+        }
 
     }
 }

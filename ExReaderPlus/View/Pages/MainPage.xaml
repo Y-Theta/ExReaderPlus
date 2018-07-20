@@ -2,6 +2,7 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:local="using:ExReaderPlus.View.Pages"
+      xmlns:Graphics="using:Microsoft.Graphics.Canvas.UI.Xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:Custome="using:ExReaderPlus.View"
@@ -15,22 +16,20 @@
         </Grid.RowDefinitions>
         <Rectangle x:Name="TitleBarTouch"
                    Fill="Transparent" />
-        <Custome:CustomeNavigationView Grid.RowSpan="2">
-            
+        <Custome:CustomeNavigationView Grid.RowSpan="2"
+                                       PaneBackground="{ThemeResource DefaultNavigationViewPaneBG}">
+            <Custome:CustomeNavigationView.FunctionArea>
+                <Grid>
+                    
+                </Grid>
+            </Custome:CustomeNavigationView.FunctionArea>
+
+            <Frame x:Name="MainFrame"/>
         </Custome:CustomeNavigationView>
-        <!--<NavigationView Grid.RowSpan="2" >
-            <NavigationView.MenuItems>
-                <Custome:IconViewItem x:Name="UserLogin"
-                                      Grid.Row="7"
-                                      Icon="Setting"
-                                      IconFormat="Round"
-                                      ImageSource="ms-appx:///Assets/StoreLogo.png" />
-                <Custome:IconViewItem x:Name="Setting"
-                                      Grid.Row="8"
-                                      IconFormat="Icon"
-                                      Icon="Setting" />
-            </NavigationView.MenuItems>
-            
-        </NavigationView>-->
+        <Graphics:CanvasControl x:Name="ArcLayer"
+                                IsHitTestVisible="False"
+                                CreateResources="ArcLayer_CreateResources"
+                                Draw="ArcLayer_Draw"
+                                Grid.RowSpan="2" />
     </Grid>
 </Page>

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ExReaderPlus.Manage;
+using ExReaderPlus.Manage.PassageManager;
 //using exReader.PassageManager;
 using ExReaderPlus.WordsManager;
 using Microsoft.Data.Sqlite;
@@ -102,7 +104,7 @@ namespace ExReaderPlus.DatabaseManager
                 command.ExecuteNonQuery();
             }
         }
-        /*
+  
         public void SavaPassage(Passage passage)
         {
             var command = new SqliteCommand();
@@ -154,6 +156,6 @@ namespace ExReaderPlus.DatabaseManager
             command.CommandText = "DELETE FROM articles WHERE title = " + "'" + title + "'";
             command.ExecuteNonQuery();
         }
-        */
+        
     }
 }

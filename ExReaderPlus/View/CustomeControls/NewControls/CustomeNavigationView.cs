@@ -5,6 +5,8 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Foundation;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
@@ -20,11 +22,17 @@ namespace ExReaderPlus.View {
     public sealed class CustomeNavigationView : Control {
 
         #region Properties
+        private string _radiogroupname;
 
-        //private GridLength _collapseGridLength;
-        //public GridLength CollapseGridLength {
-           
-        //}
+        #region PaneBg
+        public Brush PaneBackground {
+            get { return (Brush)GetValue(PaneBackgroundProperty); }
+            set { SetValue(PaneBackgroundProperty, value); }
+        }
+        public static readonly DependencyProperty PaneBackgroundProperty =
+            DependencyProperty.Register("PaneBackground", typeof(Brush),
+                typeof(CustomeNavigationView), new PropertyMetadata(new SolidColorBrush(Color.FromArgb(0, 255, 255, 255))));
+        #endregion
 
         #region IsPaneOpen
         /// <summary>
@@ -39,20 +47,10 @@ namespace ExReaderPlus.View {
                 typeof(CustomeNavigationView), new PropertyMetadata(false));
         #endregion
 
-        #region ListItems
-        /// <summary>
-        /// 菜单项
-        /// </summary>
-        public IList<object> MenuItems {
-            get { return (IList<object>)GetValue(MenuItemsProperty); }
-            set { SetValue(MenuItemsProperty, value); }
-        }
-        public static readonly DependencyProperty MenuItemsProperty =
-            DependencyProperty.Register("MenuItems", typeof(IList<object>), 
-                typeof(CustomeNavigationView), new PropertyMetadata(0));
-        #endregion
-
         #region Content
+        /// <summary>
+        /// 右侧内容区
+        /// </summary>
         public UIElement Content {
             get { return (UIElement)GetValue(ContentProperty); }
             set { SetValue(ContentProperty, value); }
@@ -62,16 +60,50 @@ namespace ExReaderPlus.View {
                 typeof(CustomeNavigationView), new PropertyMetadata(null));
         #endregion
 
-        #region PanelWidth
-        public double PanelWidth {
-            get { return (double)GetValue(PanelWidthProperty); }
-            set { SetValue(PanelWidthProperty, value); }
+        #region FunctionArea
+        /// <summary>
+        /// 项目菜单区
+        /// </summary>
+        public UIElement FunctionArea {
+            get { return (UIElement)GetValue(FunctionAreaProperty); }
+            set { SetValue(FunctionAreaProperty, value); }
         }
-        public static readonly DependencyProperty PanelWidthProperty =
-            DependencyProperty.Register("PanelWidth", typeof(double),
-                typeof(CustomeNavigationView), new PropertyMetadata(48.0));
+        public static readonly DependencyProperty FunctionAreaProperty =
+            DependencyProperty.Register("FunctionArea", typeof(UIElement),
+                typeof(CustomeNavigationView), new PropertyMetadata(null));
         #endregion
 
+        #region PanelWidth
+
+        #endregion
+
+        //SizeProperties
+
+        #region ClipOffset
+        /// <summary>
+        /// 使用Clip位移制作宽度动画
+        /// </summary>
+        public double ClipOffset {
+            get { return (double)GetValue(ClipOffsetProperty); }
+            set { SetValue(ClipOffsetProperty, value); }
+        }
+        public static readonly DependencyProperty ClipOffsetProperty =
+            DependencyProperty.Register("ClipOffset", typeof(double),
+                typeof(CustomeNavigationView), new PropertyMetadata(0));
+        #endregion
+
+        #region PanelClip
+        /// <summary>
+        /// 裁剪矩形
+        /// </summary>
+        public Rect PaneClip {
+            get { return (Rect)GetValue(PaneClipProperty); }
+            private set { SetValue(PaneClipProperty, value); }
+        }
+        private static readonly DependencyProperty PaneClipProperty =
+            DependencyProperty.Register("PaneClip", typeof(Rect),
+                typeof(CustomeNavigationView), new PropertyMetadata(null));
+        #endregion
 
         #region OpenWidth
         /// <summary>
@@ -100,6 +132,9 @@ namespace ExReaderPlus.View {
         #endregion
 
         #region OpenPaneCommand
+        /// <summary>
+        /// 打开pane命令
+        /// </summary>
         public CommandBase OpenPaneCommand {
             get { return (CommandBase)GetValue(OpenPaneCommandProperty); }
             set { SetValue(OpenPaneCommandProperty, value); }
@@ -109,27 +144,93 @@ namespace ExReaderPlus.View {
                 typeof(CustomeNavigationView), new PropertyMetadata(null));
         #endregion
 
+        //
+
+        #region AboutButton
+        public Style AboutButton {
+            get { return (Style)GetValue(AboutButtonProperty); }
+            set { SetValue(AboutButtonProperty, value); }
+        }
+        public static readonly DependencyProperty AboutButtonProperty =
+            DependencyProperty.Register("AboutButton", typeof(Style), 
+                typeof(CustomeNavigationView), new PropertyMetadata(null));
+        #endregion
+
+        #region UserButton
+        public Style UserButton {
+            get { return (Style)GetValue(UserButtonProperty); }
+            set { SetValue(UserButtonProperty, value); }
+        }
+        public static readonly DependencyProperty UserButtonProperty =
+            DependencyProperty.Register("UserButton", typeof(Style),
+                typeof(CustomeNavigationView), new PropertyMetadata(null));
+        #endregion
+
+        #region SettingButton
+        public Style SettingButton {
+            get { return (Style)GetValue(SettingButtonProperty); }
+            set { SetValue(SettingButtonProperty, value); }
+        }
+        public static readonly DependencyProperty SettingButtonProperty =
+            DependencyProperty.Register("SettingButton", typeof(Style),
+                typeof(CustomeNavigationView), new PropertyMetadata(null));
+        #endregion
+
+        #region UserIcon
+        public string UserIcon {
+            get { return (string)GetValue(UserIconProperty); }
+            set { SetValue(UserIconProperty, value); }
+        }
+        public static readonly DependencyProperty UserIconProperty =
+            DependencyProperty.Register("UserIcon", typeof(string),
+                typeof(CustomeNavigationView), new PropertyMetadata(null));
+        #endregion
+
+        #region IconStroke
+        public Brush IconStroke {
+            get { return (Brush)GetValue(IconStrokeProperty); }
+            set { SetValue(IconStrokeProperty, value); }
+        }
+        public static readonly DependencyProperty IconStrokeProperty =
+            DependencyProperty.Register("IconStroke", typeof(Brush),
+                typeof(CustomeNavigationView), new PropertyMetadata(new SolidColorBrush(Color.FromArgb(0, 0, 0, 0))));
+        #endregion
+
         #endregion
 
 
         #region Motheds
         private void InitCommands() {
-            OpenPaneCommand = new CommandBase();
-            OpenPaneCommand.Commandaction += OpenPaneCommand_Commandaction;
+            OpenPaneCommand = new CommandBase(obj => {
+                if (IsPaneOpen)
+                    ClosePane();
+                else
+                    OpenPane();
+            });
         }
 
-        private void OpenPaneCommand_Commandaction(object parameter) {
-            if (IsPaneOpen)
-            {
-                IsPaneOpen = false;
-              
-                VisualStateManager.GoToState(this, "CollapseMode_Collapse", true);
-            }
-            else
-            {
-                IsPaneOpen = true;
-                VisualStateManager.GoToState(this, "CollapseMode_Open", true);
-            }
+        private void OpenPane() {
+            IsPaneOpen = true;
+            VisualStateManager.GoToState(this, "CollapseMode_Open", true);
+        }
+
+        private void ClosePane() {
+            IsPaneOpen = false;
+            VisualStateManager.GoToState(this, "CollapseMode_Collapse", true);
+        }
+
+        protected override void OnLostFocus(RoutedEventArgs e) {
+            base.OnLostFocus(e);
+            ClosePane();
+        }
+
+        private void CustomeNavigationView_Loaded(object sender, RoutedEventArgs e) {
+            ClipOffset = OpenWidth - CollapseWidth;
+            VisualStateManager.GoToState(this, "CollapseMode_Collapse", false);
+        }
+
+        private void CustomeNavigationView_SizeChanged(object sender, SizeChangedEventArgs e) {
+            PaneClip = new Rect(0, 0, OpenWidth, e.NewSize.Height);
         }
         #endregion
 
@@ -137,6 +238,9 @@ namespace ExReaderPlus.View {
         #region Contructors
         public CustomeNavigationView() {
             InitCommands();
+            _radiogroupname = this.GetHashCode().ToString();
+            this.Loaded += CustomeNavigationView_Loaded;
+            this.SizeChanged += CustomeNavigationView_SizeChanged;
             this.DefaultStyleKey = typeof(CustomeNavigationView);
         }
         #endregion

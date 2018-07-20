@@ -67,6 +67,8 @@
         </Setter>
     </Style>
 
+
+    <x:String x:Key="IconViewItemTransitionSpan">0:0:0.125</x:String>
     <!--IconViewItem-->
     <Style TargetType="local:IconViewItem">
         <Setter Property="Foreground"
@@ -115,7 +117,7 @@
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
-                            <VisualStateGroup x:Name="PointerStates">
+                            <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
@@ -137,45 +139,34 @@
                                                 Value="{ThemeResource NavigationViewItemFG_P}" />
                                     </VisualState.Setters>
                                 </VisualState>
-                                <VisualState x:Name="Selected">
+                                <VisualState x:Name="Disabled" />
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="CheckStates">
+                                <VisualState x:Name="Checked">
                                     <VisualState.Setters>
                                         <Setter Target="LayoutRoot.Background"
                                                 Value="{ThemeResource NavigationViewItemBG_CN}" />
                                         <Setter Target="ContentPresenter.Foreground"
                                                 Value="{ThemeResource NavigationViewItemFG_CN}" />
                                     </VisualState.Setters>
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SelectionIndicator"
+                                                                       Storyboard.TargetProperty="Opacity">
+                                            <LinearDoubleKeyFrame KeyTime="{StaticResource IconViewItemTransitionSpan}"
+                                                                  Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
                                 </VisualState>
-                                <VisualState x:Name="PointerOverSelected">
-                                    <VisualState.Setters>
-                                        <Setter Target="LayoutRoot.(RevealBrush.State)"
-                                                Value="PointerOver" />
-                                        <Setter Target="LayoutRoot.Background"
-                                                Value="{ThemeResource NavigationViewItemBG_CR}" />
-                                        <Setter Target="ContentPresenter.Foreground"
-                                                Value="{ThemeResource NavigationViewItemFG_CR}" />
-                                    </VisualState.Setters>
+                                <VisualState x:Name="Unchecked">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SelectionIndicator"
+                                                                       Storyboard.TargetProperty="Opacity">
+                                            <LinearDoubleKeyFrame KeyTime="{StaticResource IconViewItemTransitionSpan}"
+                                                                  Value="0" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
                                 </VisualState>
-                                <VisualState x:Name="PressedSelected">
-                                    <VisualState.Setters>
-                                        <Setter Target="LayoutRoot.(RevealBrush.State)"
-                                                Value="Pressed" />
-                                        <Setter Target="LayoutRoot.Background"
-                                                Value="{ThemeResource NavigationViewItemBG_CP}" />
-                                        <Setter Target="ContentPresenter.Foreground"
-                                                Value="{ThemeResource NavigationViewItemFG_CP}" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                            </VisualStateGroup>
-                            <VisualStateGroup x:Name="DisabledStates">
-                                <VisualState x:Name="Enabled" />
-                                <VisualState x:Name="Disabled">
-                                    <VisualState.Setters>
-                                        <Setter Target="RevealBorder.BorderBrush"
-                                                Value="{ThemeResource NavigationViewItemBG_CD}" />
-                                        <Setter Target="LayoutRoot.Opacity"
-                                                Value="{ThemeResource NavigationViewItemFG_CD}" />
-                                    </VisualState.Setters>
-                                </VisualState>
+                                <VisualState x:Name="Indeterminate" />
                             </VisualStateGroup>
                             <VisualStateGroup x:Name="IconStates">
                                 <VisualState x:Name="IconVisible" />
@@ -193,14 +184,14 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Grid HorizontalAlignment="Left"
-                              VerticalAlignment="Center">
-                            <Rectangle x:Name="SelectionIndicator"
-                                       Width="2"
-                                       Height="36"
-                                       Fill="{ThemeResource NavigationViewSelectionID}"
-                                       Opacity="0.0" />
-                        </Grid>
+                        <Rectangle x:Name="SelectionIndicator"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   Width="4"
+                                   Height="36"
+                                   Visibility="{Binding SelectIconVisibility, RelativeSource={RelativeSource TemplatedParent}}"
+                                   Fill="{ThemeResource NavigationViewSelectionID}"
+                                   Opacity="0.0" />
                         <Border x:Name="RevealBorder"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}" />
@@ -213,25 +204,33 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Viewbox x:Name="IconBox"
-                                     Child="{TemplateBinding Icon}"
-                                     Margin="16,12" />
+                                     Stretch="Uniform"
+                                     Margin="16,12">
+                                <TextBlock FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                           Text="{TemplateBinding Icon}" />
+                            </Viewbox>
                             <Grid x:Name="ImageLayer"
                                   Visibility="Collapsed">
                                 <Ellipse x:Name="IconBoxRound"
-                                         Stroke="#080808"
+                                         Stroke="{TemplateBinding IconStroke}"
                                          Margin="14,10"
                                          Visibility="Collapsed">
                                     <Ellipse.Fill>
                                         <ImageBrush ImageSource="{Binding ImageSource,RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                                    Stretch="Uniform" />
+                                                    AlignmentX="Center"
+                                                    AlignmentY="Center"
+                                                    Stretch="Fill" />
                                     </Ellipse.Fill>
                                 </Ellipse>
                                 <Rectangle x:Name="IconBoxRect"
+                                           Stroke="{TemplateBinding IconStroke}"
                                            Margin="14,10"
                                            Visibility="Visible">
                                     <Rectangle.Fill>
                                         <ImageBrush ImageSource="{Binding ImageSource,RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                                    Stretch="Uniform" />
+                                                    AlignmentX="Center"
+                                                    AlignmentY="Center"
+                                                    Stretch="Fill" />
                                     </Rectangle.Fill>
                                 </Rectangle>
                             </Grid>
@@ -255,73 +254,199 @@
     <x:Double x:Key="PaneToggleButtonWidth">48</x:Double>
     <x:Double x:Key="CustomeNavigationViewCollapseWidth">48</x:Double>
     <x:Double x:Key="CustomeNavigationViewOpenWidth">240</x:Double>
+    <x:Double x:Key="BigUserIconSize">96</x:Double>
+    <x:String x:Key="TransformSpan">0:0:0.01</x:String>
     <!--CustomeNavigationView-->
     <Style TargetType="local:CustomeNavigationView">
-        <Setter Property="IsTabStop"
-                Value="False" />
         <Setter Property="CollapseWidth"
                 Value="{StaticResource CustomeNavigationViewCollapseWidth}" />
         <Setter Property="OpenWidth"
                 Value="{StaticResource CustomeNavigationViewOpenWidth}" />
-        <Setter Property="Background"
-                Value="#0596cc" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:CustomeNavigationView">
-                    <Grid x:Name="RootGrid"
-                          HorizontalAlignment="Left"
-                          VerticalAlignment="Stretch">
+                    <Grid x:Name="RootGrid">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CollapseMode">
                                 <VisualStateGroup.Transitions>
                                     <VisualTransition From="CollapseMode_Collapse"
                                                       To="CollapseMode_Open">
-
+                                        <Storyboard FillBehavior="HoldEnd">
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Colum1"
+                                                                           Storyboard.TargetProperty="Width">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{Binding OpenWidth,RelativeSource={RelativeSource Mode=TemplatedParent},Converter={StaticResource GRIDLtoDOUBLE}}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PaneClipRectangleTransform"
+                                                                           Storyboard.TargetProperty="TranslateX">
+                                                <SplineDoubleKeyFrame KeySpline="0,0.85 0.3,1"
+                                                                      KeyTime="{StaticResource TransformSpan}"
+                                                                      Value="0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
                                     </VisualTransition>
                                     <VisualTransition From="CollapseMode_Open"
                                                       To="CollapseMode_Collapse">
-
+                                        <Storyboard FillBehavior="HoldEnd">
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Colum1"
+                                                                           Storyboard.TargetProperty="Width">
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0.5"
+                                                                        Value="{Binding CollapseWidth,RelativeSource={RelativeSource Mode=TemplatedParent},Converter={StaticResource GRIDLtoDOUBLE}}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PaneClipRectangleTransform"
+                                                                           Storyboard.TargetProperty="TranslateX">
+                                                <SplineDoubleKeyFrame KeySpline="0,0.85 0.3,1"
+                                                                      KeyTime="{StaticResource TransformSpan}"
+                                                                      Value="{Binding ClipOffset ,RelativeSource={RelativeSource Mode=TemplatedParent},
+                                                                              Converter={StaticResource NegativeConverter}}" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
                                     </VisualTransition>
                                 </VisualStateGroup.Transitions>
                                 <VisualState x:Name="CollapseMode_Collapse">
                                     <VisualState.Setters>
-
+                                        <Setter Target="Colum1.Width"
+                                                Value="{Binding CollapseWidth,RelativeSource={RelativeSource Mode=TemplatedParent},
+                                                        Converter={StaticResource GRIDLtoDOUBLE},FallbackValue=0}" />
+                                        <Setter Target="PaneClipRectangleTransform.TranslateX"
+                                                Value="{Binding ClipOffset ,RelativeSource={RelativeSource Mode=TemplatedParent},
+                                                        Converter={StaticResource NegativeConverter}}" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="CollapseMode_Open">
                                     <VisualState.Setters>
-
+                                        <Setter Target="Colum1.Width"
+                                                Value="{Binding OpenWidth,RelativeSource={RelativeSource Mode=TemplatedParent},
+                                                        Converter={StaticResource GRIDLtoDOUBLE},FallbackValue=0}" />
+                                        <Setter Target="PaneClipRectangleTransform.TranslateX"
+                                                Value="0" />
                                     </VisualState.Setters>
+                                    <Storyboard>
+                                        <!--<ObjectAnimationUsingKeyFrames Storyboard.TargetName="User"
+                                                                       Storyboard.TargetProperty="(Grid.Column)">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="3" />
+                                        </ObjectAnimationUsingKeyFrames>-->
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="User"
+                                                                       Storyboard.TargetProperty="(IconViewItem.SelectIconVisibility)">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="Collapsed" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <!--<ObjectAnimationUsingKeyFrames Storyboard.TargetName="About"
+                                                                       Storyboard.TargetProperty="(Grid.Row)">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="0" />
+                                        </ObjectAnimationUsingKeyFrames>-->
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="About"
+                                                                       Storyboard.TargetProperty="(IconViewItem.SelectIconVisibility)">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="Collapsed" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <!--<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Setting"
+                                                                       Storyboard.TargetProperty="(Grid.Row)">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="0" />
+                                        </ObjectAnimationUsingKeyFrames>-->
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Setting"
+                                                                       Storyboard.TargetProperty="(IconViewItem.SelectIconVisibility)">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="Collapsed" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FootArea"
+                                                                       Storyboard.TargetProperty="Orientation">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="Horizontal" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeadArea"
+                                                                       Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="Visible" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
                                 </VisualState>
-                            </VisualStateGroup>
-                            <VisualStateGroup>
-
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
-                        <Grid x:Name="RootPanel"
-                              Background="{TemplateBinding Background}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition x:Name="CollapsePanel" Width="auto" />
-                                <ColumnDefinition x:Name="OpenPanel" Width="auto" />
-                            </Grid.ColumnDefinitions>
-                            <Grid HorizontalAlignment="Left"
-                                  VerticalAlignment="Stretch"
-                                  Canvas.ZIndex="1"
-                                  Width="{Binding OpenWidth,RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}">
-                                <Grid.Clip>
-                                    <RectangleGeometry Rect="{Binding }">
-                                        <RectangleGeometry.Transform>
-                                            <CompositeTransform TranslateX="100" />
-                                        </RectangleGeometry.Transform>
-                                    </RectangleGeometry>
-                                </Grid.Clip>
-                                <Button x:Name="TogglePaneButton"
-                                        Content="&#xE700;"
-                                        Command="{Binding OpenPaneCommand,RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                        Style="{StaticResource PaneToggleButtonStyle}"
-                                        VerticalAlignment="Top" />
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition x:Name="Colum1"
+                                              Width="{Binding CollapseWidth,RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay,Converter={StaticResource GRIDLtoDOUBLE},FallbackValue=0}" />
+                            <ColumnDefinition x:Name="Colum2"
+                                              Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid x:Name="PaneRoot"
+                              HorizontalAlignment="Left"
+                              Visibility="Visible"
+                              Background="{TemplateBinding PaneBackground}"
+                              Width="{Binding OpenWidth, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                              Canvas.ZIndex="1">
+                            <Grid.Clip>
+                                <RectangleGeometry x:Name="PaneClipRectangle"
+                                                   Rect="{Binding PaneClip,RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}">
+                                    <RectangleGeometry.Transform>
+                                        <CompositeTransform  x:Name="PaneClipRectangleTransform"
+                                                             TranslateX="{Binding ClipOffset ,RelativeSource={RelativeSource Mode=TemplatedParent},
+                                                                          Converter={StaticResource NegativeConverter}}" />
+                                    </RectangleGeometry.Transform>
+                                </RectangleGeometry>
+                            </Grid.Clip>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="8" />
+                            </Grid.RowDefinitions>
+                            <Button x:Name="TogglePaneButton"
+                                    Content="&#xE700;"
+                                    Command="{Binding OpenPaneCommand,RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                    Style="{StaticResource PaneToggleButtonStyle}"
+                                    VerticalAlignment="Top" />
+                            <Grid x:Name="HeadArea"
+                                  Grid.Row="1"
+                                  Visibility="Collapsed">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+                                <Ellipse x:Name="IconBoxRound"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         Stroke="{TemplateBinding IconStroke}"
+                                         Width="{StaticResource BigUserIconSize}"
+                                         Height="{StaticResource BigUserIconSize}"
+                                         Margin="0,4,0,4">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="{Binding UserIcon,RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                                    AlignmentX="Center"
+                                                    AlignmentY="Center"
+                                                    Stretch="Fill" />
+                                    </Ellipse.Fill>
+                                </Ellipse>
                             </Grid>
+                            <Border x:Name="FunctionArea"
+                                    Grid.Row="2"
+                                    Child="{TemplateBinding FunctionArea}" />
+                            <StackPanel x:Name="FootArea"
+                                        Orientation="Vertical"
+                                        HorizontalAlignment="Left"
+                                        Grid.Row="3">
+                                <local:IconViewItem x:Name="User"
+                                                    IconFormat="Round"
+                                                    ImageSource="{TemplateBinding UserIcon}"
+                                                    Width="{TemplateBinding CollapseWidth}" />
+                                <local:IconViewItem x:Name="About"
+                                                    IconFormat="Icon"
+                                                    Icon="&#xEC26;"
+                                                    Width="{TemplateBinding CollapseWidth}" />
+                                <local:IconViewItem x:Name="Setting"
+                                                    IconFormat="Icon"
+                                                    Icon="&#xE713;"
+                                                    Width="{TemplateBinding CollapseWidth}" />
+                            </StackPanel>
+                        </Grid>
+                        <Grid x:Name="ContentRoot"
+                              Grid.Column="1">
+                            <Border Child="{TemplateBinding Content}" />
                         </Grid>
                     </Grid>
                 </ControlTemplate>
