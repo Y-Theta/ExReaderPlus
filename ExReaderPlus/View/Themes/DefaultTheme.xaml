@@ -29,9 +29,14 @@
     
     <!--NavigationView-->
     <SolidColorBrush x:Key="DefaultNavigationViewPaneBG"
-                     Color="#808080" />
+                     Color="#477FBF" />
     <SolidColorBrush x:Key="DefaultNavigationViewUserIconStroke"
                      Color="#080808" />
+    
+    <!--RichTextBox-->
+    
+    
+    
 
     <!--PaneToggleButton-->
     <SolidColorBrush x:Key="PaneToggleButtonBG_N"

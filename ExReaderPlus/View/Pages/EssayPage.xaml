@@ -5,8 +5,29 @@
       xmlns:Custome="using:ExReaderPlus.View"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      DataContext="{StaticResource EssayPageViewModel}"
+      Background="Brown"
       mc:Ignorable="d">
-    <Grid>
-        <Custome:Richwordview />
+    <Grid x:Name="Rootgrid" Margin="0,32,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ScrollViewer Style="{StaticResource DefaultScrollViewer}"
+                      Grid.Row="1"
+                      HorizontalScrollBarVisibility="Disabled">
+            <Custome:RichTextBox x:Name="TextView"
+                                 TextWrapping="Wrap"
+                                 TextPrerender="True" />
+        </ScrollViewer>
+        <AppBarButton Icon="Add"
+                      Grid.RowSpan="2"
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Bottom"
+                      Margin="0,0,40,40"
+                      Command="{Binding LoadPassage}"
+                      Width="48" />
+        <Button x:Name="text" Width="48" Height="48" Click="Text_OnClick"></Button>
+
     </Grid>
 </Page>

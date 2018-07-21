@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Windows.UI;
+﻿using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
@@ -50,6 +42,17 @@ namespace ExReaderPlus.View {
                 typeof(IconViewItem), new PropertyMetadata(null));
 
         /// <summary>
+        /// 图标字体样式
+        /// </summary>
+        public FontFamily IconFont {
+            get { return (FontFamily)GetValue(IconFontProperty); }
+            set { SetValue(IconFontProperty, value); }
+        }
+        public static readonly DependencyProperty IconFontProperty =
+            DependencyProperty.Register("IconFont", typeof(FontFamily), 
+                typeof(IconViewItem), new PropertyMetadata(null));
+
+        /// <summary>
         /// 选中可见性
         /// </summary>
         public Visibility SelectIconVisibility {
@@ -70,15 +73,12 @@ namespace ExReaderPlus.View {
             DependencyProperty.Register("IconStroke", typeof(Brush),
                 typeof(IconViewItem), new PropertyMetadata(new SolidColorBrush(Color.FromArgb(0, 0, 0, 0))));
         #endregion
+
         #endregion
 
         #region Methods
         protected override void OnPointerPressed(PointerRoutedEventArgs e) {
             base.OnPointerPressed(e);
-            if (Command != null) {
-                if(Command.CanExecute(CommandParameter))
-                    Command.Execute(CommandParameter);
-            }
         }
         #endregion
 

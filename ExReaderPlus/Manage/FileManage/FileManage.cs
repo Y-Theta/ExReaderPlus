@@ -1,29 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
-using ExReaderPlus.WordsManager;
 using ExReaderPlus.Manage.PassageManager;
 using Windows.Storage;
 using System.IO;
 using System.Diagnostics;
+using System.Numerics;
 using Windows.Storage.Pickers;
 using Windows.System;
+using Windows.UI;
 using ExReaderPlus.Manage.ReaderManager;
 using Windows.UI.Notifications;
-using ExReaderPlus.Manage.PassageManager;
-using ExReaderPlus.Manage.ReaderManager;
+using ExReaderPlus.View;
+using ExReaderPlus.ViewModels;
+using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.Text;
 
-namespace ExReaderPlus.FileManage
-{
+
+namespace ExReaderPlus.FileManage {
     //汤浩工作空间
     //本类实现将 #工程文件# 涉及到的 #类数据# 打包与解包，实现序列化、反序列化，实现导入、导出工程文件 （自定义文件名 .xread）
     //附操作 MainReader.xaml.cs
 
     public class FileManage
     {
+        private EssayPageViewModel viewModel;
+        private static FileManage _instence;
+        
+        public static FileManage Instence {
+           get {
+                if (_instence == null)
+                    _instence = new FileManage();
+                return _instence;
+            }
+        }
 
         //序列化
         public async void SerializeFile(ReaderManage reader)
@@ -74,25 +85,23 @@ namespace ExReaderPlus.FileManage
             picker.ViewMode = PickerViewMode.Thumbnail;
             picker.SuggestedStartLocation = PickerLocationId.MusicLibrary;
             picker.FileTypeFilter.Add(".txt");
-            picker.FileTypeFilter.Add(".pdf");
+            
+            // TODO:
+            //picker.FileTypeFilter.Add(".pdf");
 
             StorageFile storageFile = await picker.PickSingleFileAsync();
             if (storageFile != null)
             {
                 var stream = await storageFile.OpenStreamForReadAsync();
 
-
                 passage.Content = await FileIO.ReadTextAsync(storageFile);
-                passage.HeadName = "xxxxx";
-
-
+                passage.HeadName = storageFile.DisplayName;
 
 
                 return passage;
             }
             else
             {
-
                 return null;
             }
 
@@ -139,5 +148,35 @@ namespace ExReaderPlus.FileManage
 
         }
 
+        public async Task Win2DTask(string str)
+        {
+            var pick = new FileOpenPicker();
+            pick.FileTypeFilter.Add(".jpg");
+            pick.FileTypeFilter.Add(".png");
+
+            var file = await pick.PickSingleFileAsync();
+            var duvDbecdgiu =
+                await CanvasBitmap.LoadAsync(new CanvasDevice(true), await file.OpenAsync(FileAccessMode.Read));
+            var canvasRenderTarget = new CanvasRenderTarget(duvDbecdgiu, duvDbecdgiu.Size);
+            using (var dc = canvasRenderTarget.CreateDrawingSession())
+            {
+
+                dc.DrawImage(duvDbecdgiu);
+                dc.DrawText(str,
+                    100,100,1700,50,
+                    Color.FromArgb(0xA1, 100, 100, 100), new CanvasTextFormat()
+                    {
+                        FontSize = 50
+                    });
+            }
+
+            var pick1 = new FileSavePicker();
+            pick1.FileTypeChoices.Add("image", new List<string>() { ".png" });
+
+            var file1 = await pick1.PickSaveFileAsync();
+
+            await canvasRenderTarget.SaveAsync(await file1.OpenAsync(FileAccessMode.ReadWrite), CanvasBitmapFileFormat.Png);
+
+        }
     }
 }

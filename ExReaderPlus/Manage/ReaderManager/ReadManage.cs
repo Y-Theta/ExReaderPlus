@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using ExReaderPlus.Manage.PassageManager;
+
 using ExReaderPlus.WordsManager;
 
 namespace ExReaderPlus.Manage.ReaderManager

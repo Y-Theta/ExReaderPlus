@@ -1,27 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Numerics;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Timers;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using ExReaderPlus.Models;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Text;
-using Windows.UI;
-using System.Reflection;
 using Windows.UI.Core;
 
-namespace ExReaderPlus.View{
+namespace ExReaderPlus.View {
     /// <summary>
     /// 自定义富文本框，继承自系统富文本编辑框，在此之中处理文字
     /// 渲染等操作，通过事件将操作暴露
@@ -29,15 +19,25 @@ namespace ExReaderPlus.View{
     public sealed class RichTextBox : RichEditBox {
 
         #region Properties
+
         /// <summary>
         /// 计时器，用于在文本变化后一定时间内刷新字典
         /// </summary>
         private Timer _refreshdic;
 
+        private Timer _pointover;
+
+        /// <summary>
+        /// 内容
+        /// </summary>
+        private Grid _content;
+
         /// <summary>
         /// 前一次渲染的单词的位置
         /// </summary>
         private Range _lastRange;
+
+        private Point _hoverloc;
 
         /// <summary>
         /// 内容文本，节省每次预渲染时的开销
@@ -62,6 +62,29 @@ namespace ExReaderPlus.View{
         }
 
         /// <summary>
+        /// 字典状
+        /// </summary>
+        private bool _dicstate = true;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private string _pointstring;
+        public string PointString {
+            get => _pointstring;
+            private set => _pointstring = value;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private string _pressstring;
+        public string PressString {
+            get => _pressstring;
+            private set => _pressstring = value;
+        }
+
+        /// <summary>
         /// 单词字典
         /// </summary>
         private Dictionary<string, List<Range>> _elementsLoc;
@@ -79,10 +102,7 @@ namespace ExReaderPlus.View{
         }
         public static readonly DependencyProperty KeywordsProperty =
             DependencyProperty.Register("Keywords", typeof(List<Rendergroup>),
-                typeof(RichTextBox), new PropertyMetadata(null, KeywordsChanged));
-        private static void KeywordsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-
-        }
+                typeof(RichTextBox), new PropertyMetadata(null));
 
         /// <summary>
         /// 文字预渲染，默认关闭
@@ -115,30 +135,33 @@ namespace ExReaderPlus.View{
             base.OnApplyTemplate();
         }
 
-        protected override void OnPointerEntered(PointerRoutedEventArgs e) {
-            base.OnPointerEntered(e);
-        }
-
         protected override void OnPointerPressed(PointerRoutedEventArgs e) {
             base.OnPointerPressed(e);
-            Range range;
-            string str;
-            GetPointedWord(e.GetCurrentPoint(this).Position, out range, out str);
+            GetPointedWord(e.GetCurrentPoint(this).Position, out Range range, out string str);
             if (range is null)
                 return;
-            Prerender(range,str);
+            Prerender(range, str);
         }
 
         protected override void OnPointerMoved(PointerRoutedEventArgs e) {
-            base.OnPointerMoved(e);
+           // _pointover.Enabled = true;
+            _hoverloc = e.GetCurrentPoint(this).Position;
+        }
+
+        protected override void OnPointerExited(PointerRoutedEventArgs e) {
+           // _pointover.Enabled = false;
+        }
+
+        protected override void OnPointerEntered(PointerRoutedEventArgs e) {
+           // _pointover.Enabled = true;
         }
 
         private void RichTextBox_Paste(object sender, TextControlPasteEventArgs e) {
-
+            TransformComplete = false;
         }
 
         private void RichTextBox_TextChanged(object sender, RoutedEventArgs e) {
-                TransformComplete = false;
+            TransformComplete = false;
         }
         #endregion
 
@@ -151,6 +174,18 @@ namespace ExReaderPlus.View{
         private void InitTimer() {
             _refreshdic = new Timer { Interval = 3000 };
             _refreshdic.Elapsed += _refreshdic_Elapsed;
+            _pointover = new Timer { Interval = 1500 };
+            _pointover.Elapsed += _pointover_Elapsed;
+        }
+
+        private async void _pointover_Elapsed(object sender, ElapsedEventArgs e) {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                GetPointedWord(_hoverloc, out Range range, out string str);
+                if (range is null)
+                    return;
+                Prerender(range, str);
+            });
         }
 
         private void _refreshdic_Elapsed(object sender, ElapsedEventArgs e) {
@@ -174,7 +209,8 @@ namespace ExReaderPlus.View{
             ElementsLoc.Clear();
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                SetContentFormat(new Action(() => {
+                SetContentFormat(new Action(() =>
+                {
                     Document.GetText(TextGetOptions.None, out s);
                     Document.Selection.StartPosition = 0;
                     Document.Selection.EndPosition = s.Length;
@@ -218,12 +254,17 @@ namespace ExReaderPlus.View{
                 str = null;
                 return;
             }
+
             var tr = Document.GetRangeFromPoint(p, PointOptions.ClientCoordinates);
             int offsf = tr.StartPosition, offsb = tr.StartPosition;
-            while (offsf <= ContentString.Length - 1 && ((ContentString[offsf] >= 'a' && ContentString[offsf] <= 'z') || (ContentString[offsf] >= 'A' && ContentString[offsf] <= 'Z') || ContentString[offsf].Equals('-')))
-                offsf++;
-            while (offsb >= 0 && ((ContentString[offsb] >= 'a' && ContentString[offsb] <= 'z') || (ContentString[offsb] >= 'A' && ContentString[offsb] <= 'Z') || ContentString[offsb].Equals('-')))
-                offsb--;
+
+            if (_transformComplete)
+            {
+                while (offsf <= ContentString.Length - 1 && ((ContentString[offsf] >= 'a' && ContentString[offsf] <= 'z') || (ContentString[offsf] >= 'A' && ContentString[offsf] <= 'Z') || ContentString[offsf].Equals('-')))
+                    offsf++;
+                while (offsb > 0 && ((ContentString[offsb] >= 'a' && ContentString[offsb] <= 'z') || (ContentString[offsb] >= 'A' && ContentString[offsb] <= 'Z') || ContentString[offsb].Equals('-')))
+                    offsb--;
+            }
 
             string s = "";
             try { s = ContentString.Substring(offsb + 1, offsf - offsb - 1); }
@@ -250,23 +291,29 @@ namespace ExReaderPlus.View{
         /// <summary>
         /// 预渲染选中单词，TextPrerender = true
         /// </summary>
-        private void Prerender(Range range,string str) {
-            if (TextPrerender )
+        private void Prerender(Range range, string str) {
+            if (TextPrerender)
             {
                 if (Keywords != null && Keywords.Count > 0 && Keywords[0].Words.Contains(str))
                     return;
-                if (_lastRange != null) {
+                if (_lastRange != null)
+                {
                     SetDefaultformat(_lastRange);
                 }
-                SetContentFormat(new Action(() =>{
+                SetContentFormat(new Action(() =>
+                {
                     Document.Selection.StartPosition = range.Start;
                     Document.Selection.EndPosition = range.End;
-                    Document.Selection.CharacterFormat.Weight = 500;
-                    Document.Selection.CharacterFormat.Size = 8;
-                    Document.Selection.CharacterFormat.Spacing = 4;
+                    Document.Selection.CharacterFormat.ForegroundColor = OverallViewSettings.Instence.RichTextSelectBoxFg;
+                    Document.Selection.CharacterFormat.BackgroundColor = OverallViewSettings.Instence.RichTextSelectBoxBg;
+                    Document.Selection.StartPosition = range.End;
+                    Document.Selection.GetRect(PointOptions.None, out Rect outrect, out int hit);
+                    Debug.WriteLine(outrect);
+                    
                 }));
                 _lastRange = new Range(range);
             }
+            
             //Rect rect;
             //int hit;
             //selection.GetRect(PointOptions.None, out rect, out hit);
@@ -278,7 +325,8 @@ namespace ExReaderPlus.View{
         /// </summary>
         /// <param name="range"></param>
         private void SetDefaultformat(Range range) {
-            SetContentFormat(new Action(() =>{
+            SetContentFormat(new Action(() =>
+            {
                 Document.Selection.StartPosition = range.Start;
                 Document.Selection.EndPosition = range.End;
                 Document.Selection.CharacterFormat = Document.GetDefaultCharacterFormat();
@@ -293,6 +341,24 @@ namespace ExReaderPlus.View{
             this.TextChanged -= RichTextBox_TextChanged;
             action?.Invoke();
             this.TextChanged += RichTextBox_TextChanged;
+        }
+
+        private void RichTextBox_Loaded(object sender, RoutedEventArgs e) {
+            SetDefaultFormat();
+
+        }
+
+        private void Set() {
+
+        }
+
+        private void SetDefaultFormat() {
+            ITextCharacterFormat defaultformat = Document.GetDefaultCharacterFormat();
+            defaultformat.ForegroundColor = OverallViewSettings.Instence.RichTextBoxFg;
+            defaultformat.BackgroundColor = OverallViewSettings.Instence.RichTextBoxBg;
+            defaultformat.Size = OverallViewSettings.Instence.RichTextBoxSize;
+            defaultformat.Weight = OverallViewSettings.Instence.RichTextBoxWeight;
+            Document.SetDefaultCharacterFormat(defaultformat);
         }
 
         private string PrintDicItem(List<Range> ranges) {
@@ -311,6 +377,7 @@ namespace ExReaderPlus.View{
         public RichTextBox() {
             InitTimer();
             ElementsLoc = new Dictionary<string, List<Range>>();
+            this.Loaded += RichTextBox_Loaded;
             this.TextChanged += RichTextBox_TextChanged;
             this.Paste += RichTextBox_Paste;
             this.DefaultStyleKey = typeof(RichTextBox);

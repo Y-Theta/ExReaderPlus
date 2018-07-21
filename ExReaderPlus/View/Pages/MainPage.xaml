@@ -8,6 +8,7 @@
       xmlns:Custome="using:ExReaderPlus.View"
       Loaded="Page_Loaded"
       Background="{ThemeResource MainThemeColor}"
+      DataContext="{StaticResource MainPageViewModel}"
       mc:Ignorable="d">
     <Grid x:Name="RootGrid">
         <Grid.RowDefinitions>
@@ -17,19 +18,42 @@
         <Rectangle x:Name="TitleBarTouch"
                    Fill="Transparent" />
         <Custome:CustomeNavigationView Grid.RowSpan="2"
+                                       IconStroke="{ThemeResource ContrastMask_D0}"
                                        PaneBackground="{ThemeResource DefaultNavigationViewPaneBG}">
             <Custome:CustomeNavigationView.FunctionArea>
-                <Grid>
-                    
+                <Grid Margin="0,8,0,0"
+                      DataContext="{StaticResource MainPageViewModel}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <Custome:IconViewItem x:Name="Dictionary"
+                                          IconFormat="Icon"
+                                          Content="字典"
+                                          Command="{Binding Navigate}"
+                                          CommandParameter="{StaticResource DicPage}"
+                                          Icon="&#xE82D;" />
+                    <Custome:IconViewItem x:Name="Glossary"
+                                          Grid.Row="1"
+                                          IconFormat="Icon"
+                                          Content="用户词库"
+                                          Command="{Binding Navigate}"
+                                          CommandParameter="{StaticResource GlossaryPage}"
+                                          IconFont="{StaticResource IconY}"
+                                          Icon="&#xE700;" />
+                    <Custome:IconViewItem x:Name="Passage"
+                                          Grid.Row="2"
+                                          IconFormat="Icon"
+                                          Content="文章浏览"
+                                          Command="{Binding Navigate}"
+                                          CommandParameter="{StaticResource EssayPage}"
+                                          Icon="&#xE7BC;" />
                 </Grid>
             </Custome:CustomeNavigationView.FunctionArea>
 
             <Frame x:Name="MainFrame"/>
         </Custome:CustomeNavigationView>
-        <Graphics:CanvasControl x:Name="ArcLayer"
-                                IsHitTestVisible="False"
-                                CreateResources="ArcLayer_CreateResources"
-                                Draw="ArcLayer_Draw"
-                                Grid.RowSpan="2" />
+
     </Grid>
 </Page>

@@ -109,13 +109,11 @@
     <Compile Include="TestDB\TestDB\Mission.cs" />
     <Compile Include="TestDB\TestDB\Student.cs" />
     <Compile Include="TestDB\TestDB\StudentMission.cs" />
+    <Compile Include="ViewModels\EssayPageViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBasse.cs" />
     <Compile Include="View\Commands\CommandBase.cs" />
     <Compile Include="View\Converter\Converters.cs" />
     <Compile Include="View\Converter\StateTriggers.cs" />
-    <Compile Include="View\CustomeControls\ComplexControls\Richwordview.xaml.cs">
-      <DependentUpon>Richwordview.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\CustomeControls\NewControls\CustomeNavigationView.cs" />
     <Compile Include="View\CustomeControls\NewControls\Enums.cs" />
     <Compile Include="View\CustomeControls\NewControls\IconViewItem.cs" />
@@ -123,7 +121,8 @@
     <Compile Include="Manage\DataManage\UserDataDB.cs" />
     <Compile Include="Manage\DataManage\UserDB.cs" />
     <Compile Include="Manage\DataManage\WordManage.cs" />
-    <Compile Include="View\Layout\CircleLayout.cs" />
+    <Compile Include="View\Layout\FlowLayout.cs" />
+    <Compile Include="View\OverallViewSettings.cs" />
     <Compile Include="View\Pages\DicPage.xaml.cs">
       <DependentUpon>DicPage.xaml</DependentUpon>
     </Compile>
@@ -145,6 +144,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="Assets\IconY.ttf" />
     <None Include="DB\dic.db" />
     <None Include="DB\user.db" />
     <None Include="ExReaderPlus_TemporaryKey.pfx" />
@@ -172,11 +172,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\CustomeControls\ComplexControls\Richwordview.xaml">
+    <Page Include="View\CustomeControls\ControlStyles\CustomeNavigationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\CustomeControls\ControlStyles\CustomeNavigationView.xaml">
+    <Page Include="View\CustomeControls\ControlStyles\ButtonStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -232,8 +232,8 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.1.5</Version>
     </PackageReference>
-    <PackageReference Include="MvvmLightLibs">
-      <Version>5.4.1</Version>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>11.0.2</Version>
     </PackageReference>
     <PackageReference Include="RestSharp">
       <Version>106.3.1</Version>
@@ -252,6 +252,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="View\CustomeControls\ComplexControls\" />
     <Folder Include="View\Dialogs\" />
     <Folder Include="View\MixControls\" />
   </ItemGroup>
