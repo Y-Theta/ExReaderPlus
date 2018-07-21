@@ -32,7 +32,7 @@ namespace SQLiteHelper
 
 
             //读取整张表
-            sql.InsertValues("userinfo", new string[] { "2", "张三", "Zhang@163.com" });
+          //  sql.InsertValues("userinfo", new string[] { "2", "张三", "Zhang@163.com" });
             SQLiteDataReader reader = sql.ReadFullTable("userinfo");
             while (reader.Read())
             {

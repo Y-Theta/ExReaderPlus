@@ -7,7 +7,6 @@ namespace UserDic
 {
     public class DataContext:DbContext
     {
-        public DbSet<user> users { get; set; }
         public DbSet<passage> passages { get; set; }
         public DbSet<customDic> customDics { get; set; }
 
@@ -16,6 +15,16 @@ namespace UserDic
         {
             ///数据库可以更改
             optionsBuilder.UseSqlite("Data Source=userinfo.db");
+        }
+
+        /// <summary>
+        /// 设置属性
+        /// </summary>
+        /// <param name="modelBuilder"></param>
+        protected override void OnModelCreating(
+            ModelBuilder modelBuilder)
+        {
+
         }
     }
 

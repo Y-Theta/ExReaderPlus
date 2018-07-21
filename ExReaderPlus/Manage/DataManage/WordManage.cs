@@ -26,10 +26,11 @@ namespace ExReaderPlus.DataManage
             public static WordManage instance;
             SQLiteConnection dbfile;
             SQLiteConnection db;
+            public string path = @"D:\TestPath\dic.db";
             public WordManage()
             {
                 //文件词库数据库
-                string path = Path.GetFullPath("DB/dic.db");
+               
                 dbfile = new SQLiteConnection("Data Source=" + path + ";Version=3;");
                 dbfile.Open();
                 //内存词库数据库
@@ -46,6 +47,7 @@ namespace ExReaderPlus.DataManage
                 dbfile = null;
                 //建立查询文章表
                 command.CommandText = "CREATE TABLE wordset AS SELECT word FROM stardict WHERE \'1\' = \'2\'";
+                //WHERE 1=2在SQL中是一定不会出现结果的。通常在需要获得一个空的表结构时候使用。
                 command.ExecuteNonQuery();
                 command.CommandText = "CREATE UNIQUE INDEX wordset_word ON wordset(word)";
                 command.ExecuteNonQuery();
@@ -139,7 +141,7 @@ namespace ExReaderPlus.DataManage
                 String[] Types = TypeSet.Split(spc);
                 SQLiteCommand command = new SQLiteCommand();
                 command.Connection = db;
-
+                //从词库中提取词义
                 command.CommandText =
                     "SELECT wordcache.word,stardict.translation FROM wordcache,stardict WHERE wordcache.word = stardict.word ";
                 foreach (String Type in Types)

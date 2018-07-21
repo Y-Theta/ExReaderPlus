@@ -9,11 +9,14 @@ namespace UserDic
     /// </summary>
     public class customDic
     {
-        public int id { get; set; }
         /// <summary>
-        /// 用户名
+        /// 主键id编程词的意思
         /// </summary>
-        public string userName { get; set; }
+        public string id { get; set; }
+        /// <summary>
+        /// 词典的名字
+        /// </summary>
+        public string dicName { get; set; }
         public string word { get; set; }           //单词
         public string translation { get; set; }    //单词释义
         public int classification { get; set; }    //单词分类
