@@ -76,15 +76,7 @@ namespace ExReaderPlus {
 
             rootFrame.ActualThemeChanged += RootFrame_ActualThemeChanged;
             //强置主题
-            if (rootFrame.ActualTheme.Equals(ElementTheme.Light))
-            {
-                rootFrame.RequestedTheme = ElementTheme.Light;
-            }
-            else
-            {
-                rootFrame.RequestedTheme = ElementTheme.Dark;
-            }
-            
+            RootFrame_ActualThemeChanged(null, null);
         }
 
         private void RootFrame_ActualThemeChanged(FrameworkElement sender, object args) {
