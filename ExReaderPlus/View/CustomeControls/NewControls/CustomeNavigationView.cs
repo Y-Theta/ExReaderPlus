@@ -1,11 +1,15 @@
 ﻿using ExReaderPlus.View.Commands;
+using System.Timers;
 using Windows.Foundation;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
+using System;
+
 
 namespace ExReaderPlus.View {
 
@@ -13,7 +17,11 @@ namespace ExReaderPlus.View {
     public sealed class CustomeNavigationView : Control {
 
         #region Properties
+        private bool _pointover = false;
+
         private string _radiogroupname;
+
+        private Timer _transtiontimer;
 
         private IconViewItem _selecteditem;
 
@@ -175,7 +183,7 @@ namespace ExReaderPlus.View {
             set { SetValue(SelectedIconfontProperty, value); }
         }
         public static readonly DependencyProperty SelectedIconfontProperty =
-            DependencyProperty.Register("SelectedIconfont", typeof(FontFamily), 
+            DependencyProperty.Register("SelectedIconfont", typeof(FontFamily),
                 typeof(CustomeNavigationView), new PropertyMetadata(null));
         #endregion
 
@@ -207,17 +215,24 @@ namespace ExReaderPlus.View {
                         (uie as IconViewItem).GroupName = _radiogroupname;
                         (uie as IconViewItem).PointerEntered += OverButton;
                         (uie as IconViewItem).Checked += CheckButton; ;
+                        (uie as IconViewItem).PointerExited += LeaveButton; ; ;
                     }
                 }
             IconViewItem Ab = GetTemplateChild("About") as IconViewItem;
             Ab.GroupName = _radiogroupname;
             Ab.PointerEntered += OverButton;
             Ab.Checked += CheckButton;
+            Ab.PointerExited += LeaveButton;
 
             IconViewItem St = GetTemplateChild("Setting") as IconViewItem;
             St.GroupName = _radiogroupname;
             St.PointerEntered += OverButton;
             St.Checked += CheckButton;
+            St.PointerExited += LeaveButton;
+        }
+
+        private void LeaveButton(object sender, PointerRoutedEventArgs e) {
+            _pointover = false;
         }
 
         private void CheckButton(object sender, RoutedEventArgs e) {
@@ -228,6 +243,26 @@ namespace ExReaderPlus.View {
             var Over = sender as IconViewItem;
             SelectedIcon = Over.Icon;
             SelectedIconfont = Over.IconFont;
+            VisualStateManager.GoToState(this, "HeaderIconAreaC", true);
+            _pointover = true;
+            _transtiontimer.Enabled = true;
+        }
+
+        private void InitTimer() {
+            _transtiontimer = new Timer { Interval = 500 };
+            _transtiontimer.Elapsed += _transtiontimer_Elapsed;
+        }
+
+        /// <summary>
+        /// 渐变重置
+        /// </summary>
+        private async void _transtiontimer_Elapsed(object sender, ElapsedEventArgs e) {
+            if (_pointover)
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    VisualStateManager.GoToState(this, "HeaderIconAreaN", false);
+                    _transtiontimer.Enabled = false;
+                });
         }
 
         private void InitCommands() {
@@ -274,6 +309,7 @@ namespace ExReaderPlus.View {
         #region Contructors
         public CustomeNavigationView() {
             InitCommands();
+            InitTimer();
             _radiogroupname = this.GetHashCode().ToString();
             this.Loaded += CustomeNavigationView_Loaded;
             this.SizeChanged += CustomeNavigationView_SizeChanged;

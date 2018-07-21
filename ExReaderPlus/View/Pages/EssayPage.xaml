@@ -27,7 +27,6 @@
                       Margin="0,0,40,40"
                       Command="{Binding LoadPassage}"
                       Width="48" />
-        
-
+        <TextBlock x:Name="Return" FontSize="48" Foreground="Black" Width="480" Height="120"/>
     </Grid>
 </Page>

@@ -6,6 +6,8 @@
     <!--MainTheme-->
     <SolidColorBrush x:Key="MainThemeColor"
                      Color="#EFEFEF" />
+    <SolidColorBrush x:Key="MainThemeFG"
+                     Color="#080808" />
     <SolidColorBrush x:Key="ContrastMask_D0"
                      Color="#D0000000" />
     <SolidColorBrush x:Key="ContrastMask_A0"
@@ -30,6 +32,8 @@
     <!--NavigationView-->
     <SolidColorBrush x:Key="DefaultNavigationViewPaneBG"
                      Color="#477FBF" />
+    <SolidColorBrush x:Key="DefaultNavigationViewPaneFG"
+                     Color="#efefef" />
     <SolidColorBrush x:Key="DefaultNavigationViewUserIconStroke"
                      Color="#080808" />
     
