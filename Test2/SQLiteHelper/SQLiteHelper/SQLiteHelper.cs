@@ -11,7 +11,7 @@ namespace SQLiteHelper
     /// <summary>
     /// SQLite 操作类
     /// </summary>
-    class SqLiteHelper
+    public class SqLiteHelper
     {
 
         /// <summary>

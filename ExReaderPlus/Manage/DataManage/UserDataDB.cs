@@ -17,7 +17,6 @@ namespace ExReaderPlus.DatabaseManager
         SqliteConnection db;
         public UserDataDB()
         {
-
             var tt = new SqliteConnectionStringBuilder("Data Source=:memory:;");
             //传递参数使之驻留在内存
             db = new SqliteConnection("filename=userdata.db");
@@ -69,6 +68,7 @@ namespace ExReaderPlus.DatabaseManager
         {
             var command = new SqliteCommand();
             command.Connection = db;
+            //记忆状态remember
             command.CommandText = "SELECT rmb FROM newword WHERE word = '" + word + "'";
             var reader = command.ExecuteReader();
             bool r;

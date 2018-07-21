@@ -97,8 +97,10 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Baidu\Translate.cs" />
     <Compile Include="Manage\CustomDicManage.cs" />
     <Compile Include="Manage\FileManage\FileManage.cs" />
+    <Compile Include="Manage\fileDatabaseManage.cs" />
     <Compile Include="Manage\PassageManager.cs" />
     <Compile Include="Manage\ReaderManager\ReadManage.cs" />
     <Compile Include="Manage\userManage.cs" />
@@ -116,7 +118,6 @@
     <Compile Include="View\CustomeControls\NewControls\Enums.cs" />
     <Compile Include="View\CustomeControls\NewControls\IconViewItem.cs" />
     <Compile Include="View\CustomeControls\NewControls\RichTextBox.cs" />
-    <Compile Include="Manage\DataManage\SqLiteTool.cs" />
     <Compile Include="Manage\DataManage\UserDataDB.cs" />
     <Compile Include="Manage\DataManage\UserDB.cs" />
     <Compile Include="Manage\DataManage\WordManage.cs" />
@@ -147,6 +148,7 @@
     <None Include="DB\dic.db" />
     <None Include="DB\user.db" />
     <None Include="ExReaderPlus_TemporaryKey.pfx" />
+    <None Include="Manage\DB\dic.db" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Cybran_Y_T.jpg" />
@@ -232,6 +234,9 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>11.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="RestSharp">
+      <Version>106.3.1</Version>
     </PackageReference>
     <PackageReference Include="SQLite.Interop">
       <Version>1.0.0</Version>
