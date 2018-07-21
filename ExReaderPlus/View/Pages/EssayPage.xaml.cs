@@ -12,9 +12,9 @@ namespace ExReaderPlus.View.Pages {
 
         private EssayPageViewModel viewModel;
         public EssayPage() {
-            this.InitializeComponent();
-            this.Loaded += EssayPage_Loaded;
-            this.Unloaded += EssayPage_Unloaded;
+            InitializeComponent();
+            Loaded += EssayPage_Loaded;
+            Unloaded += EssayPage_Unloaded;
         }
 
         private void EssayPage_Unloaded(object sender, RoutedEventArgs e) {
@@ -24,6 +24,11 @@ namespace ExReaderPlus.View.Pages {
         private void EssayPage_Loaded(object sender, RoutedEventArgs e) {
             viewModel = DataContext as EssayPageViewModel;
             viewModel.PassageLoaded += EssayPage_PassageLoaded;
+            TextView.WordSelect += TextView_WordSelect;
+        }
+
+        private void TextView_WordSelect(object sender, EventArgs e) {
+            
         }
 
         private async void EssayPage_PassageLoaded(object sender, EventArgs e) {

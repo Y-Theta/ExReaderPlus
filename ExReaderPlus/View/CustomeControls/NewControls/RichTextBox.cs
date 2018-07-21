@@ -127,6 +127,11 @@ namespace ExReaderPlus.View {
         /// 渲染结束
         /// </summary>
         public event EventHandler RenderComplete;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public event EventHandler WordSelect;
         #endregion
 
 
@@ -311,9 +316,9 @@ namespace ExReaderPlus.View {
                     Debug.WriteLine(outrect);
                     
                 }));
+                WordSelect?.Invoke(str, EventArgs.Empty);
                 _lastRange = new Range(range);
             }
-            
             //Rect rect;
             //int hit;
             //selection.GetRect(PointOptions.None, out rect, out hit);
