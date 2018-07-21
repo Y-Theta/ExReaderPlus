@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Windows.UI;
+﻿using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
@@ -47,6 +39,17 @@ namespace ExReaderPlus.View {
         }
         public static readonly DependencyProperty IconProperty =
             DependencyProperty.Register("Icon", typeof(string), 
+                typeof(IconViewItem), new PropertyMetadata(null));
+
+        /// <summary>
+        /// 图标字体样式
+        /// </summary>
+        public FontFamily IconFont {
+            get { return (FontFamily)GetValue(IconFontProperty); }
+            set { SetValue(IconFontProperty, value); }
+        }
+        public static readonly DependencyProperty IconFontProperty =
+            DependencyProperty.Register("IconFont", typeof(FontFamily), 
                 typeof(IconViewItem), new PropertyMetadata(null));
 
         /// <summary>

@@ -19,7 +19,6 @@
                    Fill="Transparent" />
         <Custome:CustomeNavigationView Grid.RowSpan="2"
                                        IconStroke="{ThemeResource ContrastMask_D0}"
-                                       UserIcon="{Binding UserIcon}"
                                        PaneBackground="{ThemeResource DefaultNavigationViewPaneBG}">
             <Custome:CustomeNavigationView.FunctionArea>
                 <Grid Margin="0,8,0,0"
@@ -41,7 +40,8 @@
                                           Content="用户词库"
                                           Command="{Binding Navigate}"
                                           CommandParameter="{StaticResource GlossaryPage}"
-                                          Icon="&#xEBC3;" />
+                                          IconFont="{StaticResource IconY}"
+                                          Icon="&#xE700;" />
                     <Custome:IconViewItem x:Name="Passage"
                                           Grid.Row="2"
                                           IconFormat="Icon"

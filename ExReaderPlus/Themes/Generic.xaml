@@ -54,6 +54,8 @@
                 Value="{ThemeResource NavigationViewItemFG_N}" />
         <Setter Property="Background"
                 Value="{ThemeResource NavigationViewItemBG_N}" />
+        <Setter Property="IconFont"
+                Value="{StaticResource SymbolThemeFontFamily}" />
         <Setter Property="UseSystemFocusVisuals"
                 Value="True" />
         <Setter Property="HorizontalContentAlignment"
@@ -185,7 +187,7 @@
                             <Viewbox x:Name="IconBox"
                                      Stretch="Uniform"
                                      Margin="16,12">
-                                <TextBlock FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                <TextBlock FontFamily="{TemplateBinding IconFont}"
                                            Text="{TemplateBinding Icon}" />
                             </Viewbox>
                             <Grid x:Name="ImageLayer"
@@ -279,7 +281,7 @@
                                                                         Value="0" />
                                                 <SplineDoubleKeyFrame KeySpline="0.3,0 1,0.5"
                                                                       KeyTime="0:0:0.125"
-                                                                      Value="104" />
+                                                                      Value="120" />
                                             </DoubleAnimationUsingKeyFrames>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="FootArea"
                                                                            Storyboard.TargetProperty="Opacity">
@@ -292,13 +294,6 @@
                                     <VisualTransition From="CollapseMode_Open"
                                                       To="CollapseMode_Collapse">
                                         <Storyboard FillBehavior="Stop">
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="User"
-                                                                           Storyboard.TargetProperty="(IconViewItem.SelectIconVisibility)">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="Collapsed" />
-                                                <DiscreteObjectKeyFrame KeyTime="0:0:0.125"
-                                                                        Value="Visible" />
-                                            </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="About"
                                                                            Storyboard.TargetProperty="(IconViewItem.SelectIconVisibility)">
                                                 <DiscreteObjectKeyFrame KeyTime="0"
@@ -319,13 +314,6 @@
                                                                         Value="Horizontal" />
                                                 <DiscreteObjectKeyFrame KeyTime="0:0:0.125"
                                                                         Value="Vertical" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="User"
-                                                                           Storyboard.TargetProperty="Visibility">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="Collapsed" />
-                                                <DiscreteObjectKeyFrame KeyTime="0:0:0.125"
-                                                                        Value="Visible" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FunctionArea"
                                                                            Storyboard.TargetProperty="(Grid.Row)">
@@ -360,7 +348,7 @@
                                                                       Value="0" />
                                                 <SplineDoubleKeyFrame KeySpline="0.3,0 1,0.5"
                                                                       KeyTime="0:0:0.125"
-                                                                      Value="-104" />
+                                                                      Value="-120" />
                                             </DoubleAnimationUsingKeyFrames>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="FootArea"
                                                                            Storyboard.TargetProperty="Opacity">
@@ -394,16 +382,6 @@
                                                 Value="0" />
                                     </VisualState.Setters>
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="User"
-                                                                       Storyboard.TargetProperty="(IconViewItem.SelectIconVisibility)">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="Collapsed" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="User"
-                                                                       Storyboard.TargetProperty="Visibility">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="Collapsed" />
-                                        </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="About"
                                                                        Storyboard.TargetProperty="(IconViewItem.SelectIconVisibility)">
                                             <DiscreteObjectKeyFrame KeyTime="0"
@@ -442,8 +420,29 @@
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
+                            <VisualStateGroup x:Name="HeaderIconAni">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition From="HeaderIconAreaN"
+                                                      To="HeaderIconAreaC"
+                                                      GeneratedDuration="0:0:0.4">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="HeadArea"
+                                                                           Storyboard.TargetProperty="Opacity">
+                                                <LinearDoubleKeyFrame KeyTime="0"
+                                                                      Value="1" />
+                                                <LinearDoubleKeyFrame KeyTime="0:0:0.125"
+                                                                      Value="0" />
+                                                <LinearDoubleKeyFrame KeyTime="0:0:0.25"
+                                                                      Value="1" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualTransition>
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="HeaderIconAreaN" />
+                                <VisualState x:Name="HeaderIconAreaC" />
+                            </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-
+                       
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition x:Name="Colum1"
                                               Width="{Binding CollapseWidth,RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay,Converter={StaticResource GRIDLtoDOUBLE},FallbackValue=0}" />
@@ -487,20 +486,19 @@
                                     <RowDefinition Height="auto" />
                                     <RowDefinition Height="auto" />
                                 </Grid.RowDefinitions>
-                                <Ellipse x:Name="IconBoxRound"
-                                         HorizontalAlignment="Center"
-                                         VerticalAlignment="Center"
-                                         Stroke="{TemplateBinding IconStroke}"
-                                         Width="{StaticResource BigUserIconSize}"
-                                         Height="{StaticResource BigUserIconSize}"
-                                         Margin="0,4,0,4">
-                                    <Ellipse.Fill>
-                                        <ImageBrush ImageSource="{Binding UserIcon,RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}"
-                                                    AlignmentX="Center"
-                                                    AlignmentY="Center"
-                                                    Stretch="Fill" />
-                                    </Ellipse.Fill>
-                                </Ellipse>
+                                <Border x:Name="IconBoxRound"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Width="{StaticResource BigUserIconSize}"
+                                        Height="{StaticResource BigUserIconSize}"
+                                        Margin="0,12,0,12">
+                                    <TextBlock FontFamily="{Binding SelectedIconfont, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}"
+                                               Text="{Binding SelectedIcon, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}"
+                                               Foreground="{TemplateBinding Foreground}"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontSize="64"/>
+                                </Border>
                             </Grid>
                             <Border x:Name="FunctionArea"
                                     Grid.Row="1"
@@ -515,11 +513,6 @@
                                         Orientation="Vertical"
                                         HorizontalAlignment="Left"
                                         Grid.Row="3">
-                                <local:IconViewItem x:Name="User"
-                                                    IconFormat="Round"
-                                                    Visibility="{TemplateBinding UserButton}"
-                                                    ImageSource="{TemplateBinding UserIcon}"
-                                                    Width="{TemplateBinding CollapseWidth}" />
                                 <local:IconViewItem x:Name="About"
                                                     IconFormat="Icon"
                                                     Icon="&#xEC26;"

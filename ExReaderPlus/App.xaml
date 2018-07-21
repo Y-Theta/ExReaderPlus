@@ -6,6 +6,7 @@
              xmlns:local="using:ExReaderPlus">
     
     <Application.Resources>
+        
         <ResourceDictionary>
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
@@ -16,8 +17,11 @@
             </ResourceDictionary.ThemeDictionaries>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="View/CustomeControls/CustomeStaticStyles.xaml" />
+                <ResourceDictionary Source="Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
             
+            <FontFamily x:Key="LineNumber">Assets/LineNumber.ttf#LineNumber</FontFamily>
+
             <!--ViewModels-->
             <viewmodels:MainPageViewModel x:Key="MainPageViewModel" />
             <viewmodels:EssayPageViewModel x:Key="EssayPageViewModel" />

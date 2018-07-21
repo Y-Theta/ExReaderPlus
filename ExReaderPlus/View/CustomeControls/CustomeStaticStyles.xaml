@@ -2,7 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:Converter="using:ExReaderPlus.View.Converter"
                     xmlns:local="using:ExReaderPlus.View">
-
+    <!--Fontfamily-->
+    <FontFamily x:Key="IconY">ms-appx:///Assets/IconY.ttf#IconY</FontFamily>
+    
     <!--Enums-->
     <local:IconKind x:Key="ICONF.Round">Round</local:IconKind>
     <local:IconKind x:Key="ICONF.Rect">Rect</local:IconKind>
@@ -15,6 +17,8 @@
 
     <!--Styles-->
     <ResourceDictionary.MergedDictionaries>
+        <!--ButtonStyles-->
+        <ResourceDictionary Source="ControlStyles/ButtonStyles.xaml" />
         <!--ScrollViewerAndSlider-->
         <ResourceDictionary Source="ControlStyles/ScrollViewerAndSlider.xaml" />
         <!--CustomeNavigationView-->

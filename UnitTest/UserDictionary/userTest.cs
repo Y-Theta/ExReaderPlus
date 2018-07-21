@@ -1,14 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UserDic;
 
-namespace UnitTest.UserDictionary
-{
+namespace UnitTest.UserDictionary {
     /// <summary>
     /// 测试EFcore的user
     /// </summary>
