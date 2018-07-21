@@ -2,7 +2,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using ExReaderPlus.ViewModels;
-
+using ExReaderPlus.Baidu;
 
 namespace ExReaderPlus.View.Pages {
     /// <summary>
@@ -27,7 +27,18 @@ namespace ExReaderPlus.View.Pages {
             TextView.WordSelect += TextView_WordSelect;
         }
 
-        private void TextView_WordSelect(object sender, EventArgs e) {
+        private async void TextView_WordSelect(object sender, EventArgs e) {
+            string s ="";
+            var d = new Translate();
+            if (sender.ToString() != null && sender.ToString() != "")
+            {
+                d.Text = sender.ToString();
+                s = d.GetResult();
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                {
+                    Return.Text = s;
+                });
+            }
             
         }
 

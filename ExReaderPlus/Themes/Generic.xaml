@@ -123,8 +123,6 @@
                                     <VisualState.Setters>
                                         <Setter Target="LayoutRoot.Background"
                                                 Value="{ThemeResource NavigationViewItemBG_CN}" />
-                                        <Setter Target="ContentPresenter.Foreground"
-                                                Value="{ThemeResource NavigationViewItemFG_CN}" />
                                     </VisualState.Setters>
                                     <Storyboard>
                                         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SelectionIndicator"
