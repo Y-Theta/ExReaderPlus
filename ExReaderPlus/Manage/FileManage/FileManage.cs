@@ -9,10 +9,16 @@ using ExReaderPlus.Manage.PassageManager;
 using Windows.Storage;
 using System.IO;
 using System.Diagnostics;
+using System.Numerics;
 using Windows.Storage.Pickers;
 using Windows.System;
+using Windows.UI;
 using ExReaderPlus.Manage.ReaderManager;
 using Windows.UI.Notifications;
+using ExReaderPlus.View;
+using ExReaderPlus.ViewModels;
+using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.Text;
 
 
 namespace ExReaderPlus.FileManage
@@ -23,7 +29,9 @@ namespace ExReaderPlus.FileManage
 
     public class FileManage
     {
+        private EssayPageViewModel viewModel;
         private static FileManage _instence;
+        
         public static FileManage Instence {
            get {
                 if (_instence == null)
@@ -144,5 +152,35 @@ namespace ExReaderPlus.FileManage
 
         }
 
+        public async Task Win2DTask(string str)
+        {
+            var pick = new FileOpenPicker();
+            pick.FileTypeFilter.Add(".jpg");
+            pick.FileTypeFilter.Add(".png");
+
+            var file = await pick.PickSingleFileAsync();
+            var duvDbecdgiu =
+                await CanvasBitmap.LoadAsync(new CanvasDevice(true), await file.OpenAsync(FileAccessMode.Read));
+            var canvasRenderTarget = new CanvasRenderTarget(duvDbecdgiu, duvDbecdgiu.Size);
+            using (var dc = canvasRenderTarget.CreateDrawingSession())
+            {
+
+                dc.DrawImage(duvDbecdgiu);
+                dc.DrawText(str,
+                    100,100,1700,50,
+                    Color.FromArgb(0xA1, 100, 100, 100), new CanvasTextFormat()
+                    {
+                        FontSize = 50
+                    });
+            }
+
+            var pick1 = new FileSavePicker();
+            pick1.FileTypeChoices.Add("image", new List<string>() { ".png" });
+
+            var file1 = await pick1.PickSaveFileAsync();
+
+            await canvasRenderTarget.SaveAsync(await file1.OpenAsync(FileAccessMode.ReadWrite), CanvasBitmapFileFormat.Png);
+
+        }
     }
 }

@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
+
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
 namespace ExReaderPlus.View.Pages {
@@ -23,6 +24,7 @@ namespace ExReaderPlus.View.Pages {
     public sealed partial class EssayPage : Page {
 
         private EssayPageViewModel viewModel;
+        private RichTextBox richTextBox;
         public EssayPage() {
             this.InitializeComponent();
             this.Loaded += EssayPage_Loaded;
@@ -44,5 +46,11 @@ namespace ExReaderPlus.View.Pages {
                 TextView.Document.SetText(Windows.UI.Text.TextSetOptions.None, viewModel.TempPassage.Content);
             });
         }
+
+        //private void Text_OnClick(object sender, RoutedEventArgs e)
+        //{
+        //    FileManage.FileManage fileManage = new FileManage.FileManage();
+        //    fileManage.Win2DTask(viewModel.TempPassage.Content);
+        //}
     }
 }
