@@ -1,20 +1,11 @@
 ﻿using ExReaderPlus.View.Commands;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
 
 namespace ExReaderPlus.View {
 
@@ -23,6 +14,8 @@ namespace ExReaderPlus.View {
 
         #region Properties
         private string _radiogroupname;
+
+        private IconViewItem _selecteditem;
 
         #region PaneBg
         public Brush PaneBackground {
@@ -156,16 +149,6 @@ namespace ExReaderPlus.View {
                 typeof(CustomeNavigationView), new PropertyMetadata(null));
         #endregion
 
-        #region UserButton
-        public Visibility UserButton {
-            get { return (Visibility)GetValue(UserButtonProperty); }
-            set { SetValue(UserButtonProperty, value); }
-        }
-        public static readonly DependencyProperty UserButtonProperty =
-            DependencyProperty.Register("UserButton", typeof(Visibility),
-                typeof(CustomeNavigationView), new PropertyMetadata(null));
-        #endregion
-
         #region SettingButton
         public Visibility SettingButton {
             get { return (Visibility)GetValue(SettingButtonProperty); }
@@ -173,16 +156,6 @@ namespace ExReaderPlus.View {
         }
         public static readonly DependencyProperty SettingButtonProperty =
             DependencyProperty.Register("SettingButton", typeof(Visibility),
-                typeof(CustomeNavigationView), new PropertyMetadata(null));
-        #endregion
-
-        #region UserIcon
-        public string UserIcon {
-            get { return (string)GetValue(UserIconProperty); }
-            set { SetValue(UserIconProperty, value); }
-        }
-        public static readonly DependencyProperty UserIconProperty =
-            DependencyProperty.Register("UserIcon", typeof(string),
                 typeof(CustomeNavigationView), new PropertyMetadata(null));
         #endregion
 
@@ -196,6 +169,30 @@ namespace ExReaderPlus.View {
                 typeof(CustomeNavigationView), new PropertyMetadata(new SolidColorBrush(Color.FromArgb(0, 0, 0, 0))));
         #endregion
 
+        #region SelectedIconfont
+        public FontFamily SelectedIconfont {
+            get { return (FontFamily)GetValue(SelectedIconfontProperty); }
+            set { SetValue(SelectedIconfontProperty, value); }
+        }
+        public static readonly DependencyProperty SelectedIconfontProperty =
+            DependencyProperty.Register("SelectedIconfont", typeof(FontFamily), 
+                typeof(CustomeNavigationView), new PropertyMetadata(null));
+        #endregion
+
+        #region SelectedIcon
+        public string SelectedIcon {
+            get { return (string)GetValue(SelectedIconProperty); }
+            set { SetValue(SelectedIconProperty, value); }
+        }
+        public static readonly DependencyProperty SelectedIconProperty =
+            DependencyProperty.Register("SelectedIcon", typeof(string),
+                typeof(CustomeNavigationView), new PropertyMetadata(null));
+        #endregion
+
+        #region PanelWidth
+
+        #endregion
+
         #endregion
 
 
@@ -206,11 +203,31 @@ namespace ExReaderPlus.View {
                 foreach (UIElement uie in FunctionArea.Children)
                 {
                     if (uie is IconViewItem)
+                    {
                         (uie as IconViewItem).GroupName = _radiogroupname;
+                        (uie as IconViewItem).PointerEntered += OverButton;
+                        (uie as IconViewItem).Checked += CheckButton; ;
+                    }
                 }
-            (GetTemplateChild("User") as IconViewItem).GroupName = _radiogroupname;
-            (GetTemplateChild("About") as IconViewItem).GroupName = _radiogroupname;
-            (GetTemplateChild("Setting") as IconViewItem).GroupName = _radiogroupname;
+            IconViewItem Ab = GetTemplateChild("About") as IconViewItem;
+            Ab.GroupName = _radiogroupname;
+            Ab.PointerEntered += OverButton;
+            Ab.Checked += CheckButton;
+
+            IconViewItem St = GetTemplateChild("Setting") as IconViewItem;
+            St.GroupName = _radiogroupname;
+            St.PointerEntered += OverButton;
+            St.Checked += CheckButton;
+        }
+
+        private void CheckButton(object sender, RoutedEventArgs e) {
+            _selecteditem = (IconViewItem)sender;
+        }
+
+        private void OverButton(object sender, PointerRoutedEventArgs e) {
+            var Over = sender as IconViewItem;
+            SelectedIcon = Over.Icon;
+            SelectedIconfont = Over.IconFont;
         }
 
         private void InitCommands() {
@@ -224,6 +241,11 @@ namespace ExReaderPlus.View {
         }
 
         private void OpenPane() {
+            if (_selecteditem != null)
+            {
+                SelectedIcon = _selecteditem.Icon;
+                SelectedIconfont = _selecteditem.IconFont;
+            }
             IsPaneOpen = true;
             VisualStateManager.GoToState(this, "CollapseMode_Open", true);
         }
