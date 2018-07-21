@@ -147,23 +147,23 @@ namespace ExReaderPlus.View {
 
         protected override void OnPointerPressed(PointerRoutedEventArgs e) {
             base.OnPointerPressed(e);
-            //GetPointedWord(e.GetCurrentPoint(this).Position, out Range range, out string str);
-            //if (range is null)
-            //    return;
-            //Prerender(range, str);
+            GetPointedWord(e.GetCurrentPoint(this).Position, out Range range, out string str);
+            if (range is null)
+                return;
+            Prerender(range, str);
         }
 
         protected override void OnPointerMoved(PointerRoutedEventArgs e) {
-            _pointover.Enabled = true;
+           // _pointover.Enabled = true;
             _hoverloc = e.GetCurrentPoint(this).Position;
         }
 
         protected override void OnPointerExited(PointerRoutedEventArgs e) {
-            _pointover.Enabled = false;
+           // _pointover.Enabled = false;
         }
 
         protected override void OnPointerEntered(PointerRoutedEventArgs e) {
-            _pointover.Enabled = true;
+           // _pointover.Enabled = true;
         }
 
         private void RichTextBox_Paste(object sender, TextControlPasteEventArgs e) {
@@ -314,12 +314,10 @@ namespace ExReaderPlus.View {
                 {
                     Document.Selection.StartPosition = range.Start;
                     Document.Selection.EndPosition = range.End;
-                    Document.Selection.CharacterFormat.Weight = 400;
-                    Document.Selection.CharacterFormat.Size = 8;
-                    Document.Selection.CharacterFormat.Spacing = 0;
-                    Rect outrect;
-                    int hit;
-                    Document.Selection.GetRect(PointOptions.None, out outrect, out hit);
+                    Document.Selection.CharacterFormat.ForegroundColor = OverallViewSettings.Instence.RichTextSelectBoxFg;
+                    Document.Selection.CharacterFormat.BackgroundColor = OverallViewSettings.Instence.RichTextSelectBoxBg;
+                    Document.Selection.StartPosition = range.End;
+                    Document.Selection.GetRect(PointOptions.None, out Rect outrect, out int hit);
                     Debug.WriteLine(outrect);
                     
                 }));
@@ -366,10 +364,10 @@ namespace ExReaderPlus.View {
 
         private void SetDefaultFormat() {
             ITextCharacterFormat defaultformat = Document.GetDefaultCharacterFormat();
-            //defaultformat.ForegroundColor = (Color)App.Current.Resources["RichTextBoxFg"];
-            //defaultformat.BackgroundColor = (Color)App.Current.Resources["RichTextBoxBg"];
-            //defaultformat.Size = (float)(Double)App.Current.Resources["RichTextBoxSize"];
-            //defaultformat.Weight = (int)App.Current.Resources["RichTextBoxWeight"];
+            defaultformat.ForegroundColor = OverallViewSettings.Instence.RichTextBoxFg;
+            defaultformat.BackgroundColor = OverallViewSettings.Instence.RichTextBoxBg;
+            defaultformat.Size = OverallViewSettings.Instence.RichTextBoxSize;
+            defaultformat.Weight = OverallViewSettings.Instence.RichTextBoxWeight;
             Document.SetDefaultCharacterFormat(defaultformat);
         }
 

@@ -107,13 +107,11 @@
     <Compile Include="TestDB\TestDB\Mission.cs" />
     <Compile Include="TestDB\TestDB\Student.cs" />
     <Compile Include="TestDB\TestDB\StudentMission.cs" />
+    <Compile Include="ViewModels\EssayPageViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBasse.cs" />
     <Compile Include="View\Commands\CommandBase.cs" />
     <Compile Include="View\Converter\Converters.cs" />
     <Compile Include="View\Converter\StateTriggers.cs" />
-    <Compile Include="View\CustomeControls\ComplexControls\Richwordview.xaml.cs">
-      <DependentUpon>Richwordview.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\CustomeControls\NewControls\CustomeNavigationView.cs" />
     <Compile Include="View\CustomeControls\NewControls\Enums.cs" />
     <Compile Include="View\CustomeControls\NewControls\IconViewItem.cs" />
@@ -170,10 +168,6 @@
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\CustomeControls\ComplexControls\Richwordview.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\CustomeControls\ControlStyles\CustomeNavigationView.xaml">
       <SubType>Designer</SubType>
@@ -251,6 +245,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="View\CustomeControls\ComplexControls\" />
     <Folder Include="View\Dialogs\" />
     <Folder Include="View\MixControls\" />
   </ItemGroup>

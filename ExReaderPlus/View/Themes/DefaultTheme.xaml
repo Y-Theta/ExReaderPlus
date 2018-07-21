@@ -29,11 +29,12 @@
     
     <!--NavigationView-->
     <SolidColorBrush x:Key="DefaultNavigationViewPaneBG"
-                     Color="#69A1FF" />
+                     Color="#477FBF" />
     <SolidColorBrush x:Key="DefaultNavigationViewUserIconStroke"
                      Color="#080808" />
     
     <!--RichTextBox-->
+    
     
     
 

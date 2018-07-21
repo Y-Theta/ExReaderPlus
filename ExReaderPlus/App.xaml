@@ -20,7 +20,8 @@
             
             <!--ViewModels-->
             <viewmodels:MainPageViewModel x:Key="MainPageViewModel" />
-            
+            <viewmodels:EssayPageViewModel x:Key="EssayPageViewModel" />
+
             <!--Pages-->
             <pages:DicPage x:Key="DicPage" />
             <pages:EssayPage x:Key="EssayPage" />

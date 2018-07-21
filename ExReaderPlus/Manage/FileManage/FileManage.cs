@@ -26,7 +26,7 @@ namespace ExReaderPlus.FileManage
         private static FileManage _instence;
         public static FileManage Instence {
            get {
-                if (_instence != null)
+                if (_instence == null)
                     _instence = new FileManage();
                 return _instence;
             }

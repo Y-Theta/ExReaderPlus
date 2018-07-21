@@ -10,6 +10,8 @@
                 Value="Enabled" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility"
                 Value="Auto" />
+        <Setter Property="SelectionHighlightColor"
+                Value="Transparent" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:RichTextBox">
@@ -256,7 +258,7 @@
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeadArea"
                                                                            Storyboard.TargetProperty="Visibility">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0.05"
                                                                         Value="Visible" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PaneClipRectangleTransform"
@@ -273,6 +275,8 @@
                                             </DoubleAnimationUsingKeyFrames>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="FunctionAreaTransform"
                                                                            Storyboard.TargetProperty="TranslateY">
+                                                <DiscreteDoubleKeyFrame KeyTime="0"
+                                                                        Value="0" />
                                                 <SplineDoubleKeyFrame KeySpline="0.3,0 1,0.5"
                                                                       KeyTime="0:0:0.125"
                                                                       Value="104" />
@@ -287,7 +291,28 @@
                                     </VisualTransition>
                                     <VisualTransition From="CollapseMode_Open"
                                                       To="CollapseMode_Collapse">
-                                        <Storyboard>
+                                        <Storyboard FillBehavior="Stop">
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="User"
+                                                                           Storyboard.TargetProperty="(IconViewItem.SelectIconVisibility)">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="Collapsed" />
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0.125"
+                                                                        Value="Visible" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="About"
+                                                                           Storyboard.TargetProperty="(IconViewItem.SelectIconVisibility)">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="Collapsed" />
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0.125"
+                                                                        Value="Visible" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Setting"
+                                                                           Storyboard.TargetProperty="(IconViewItem.SelectIconVisibility)">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="Collapsed" />
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0.125"
+                                                                        Value="Visible" />
+                                            </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FootArea"
                                                                            Storyboard.TargetProperty="Orientation">
                                                 <DiscreteObjectKeyFrame KeyTime="0"
@@ -319,7 +344,7 @@
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Colum1"
                                                                            Storyboard.TargetProperty="Width">
-                                                <DiscreteObjectKeyFrame KeyTime="0:0:0.5"
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0.125"
                                                                         Value="{Binding CollapseWidth,RelativeSource={RelativeSource Mode=TemplatedParent},Converter={StaticResource GRIDLtoDOUBLE}}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PaneClipRectangleTransform"
@@ -331,6 +356,8 @@
                                             </DoubleAnimationUsingKeyFrames>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="FunctionAreaTransform"
                                                                            Storyboard.TargetProperty="TranslateY">
+                                                <LinearDoubleKeyFrame KeyTime="0"
+                                                                      Value="0" />
                                                 <SplineDoubleKeyFrame KeySpline="0.3,0 1,0.5"
                                                                       KeyTime="0:0:0.125"
                                                                       Value="-104" />
@@ -356,14 +383,7 @@
                                                 Value="{Binding ClipOffset ,RelativeSource={RelativeSource Mode=TemplatedParent},
                                                         Converter={StaticResource NegativeConverter}}" />
                                     </VisualState.Setters>
-                                    <!--<Storyboard>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="FootArea"
-                                                                       Storyboard.TargetProperty="Opacity">
-                                            <SplineDoubleKeyFrame KeySpline="0.3,0 1,0.5"
-                                                                  KeyTime="0:0:0.125"
-                                                                  Value="1" />
-                                        </DoubleAnimationUsingKeyFrames>
-                                    </Storyboard>-->
+
                                 </VisualState>
                                 <VisualState x:Name="CollapseMode_Open">
                                     <VisualState.Setters>
@@ -419,13 +439,6 @@
                                             <DiscreteObjectKeyFrame KeyTime="0"
                                                                     Value="1" />
                                         </ObjectAnimationUsingKeyFrames>
-                                        
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="FootArea"
-                                                                       Storyboard.TargetProperty="Opacity">
-                                            <SplineDoubleKeyFrame KeySpline="0.3,0 1,0.5"
-                                                                  KeyTime="0:0:0.125"
-                                                                  Value="1" />
-                                        </DoubleAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
@@ -498,6 +511,7 @@
                                 </Border.RenderTransform>
                             </Border>
                             <StackPanel x:Name="FootArea"
+                                        Opacity="1"
                                         Orientation="Vertical"
                                         HorizontalAlignment="Left"
                                         Grid.Row="3">
