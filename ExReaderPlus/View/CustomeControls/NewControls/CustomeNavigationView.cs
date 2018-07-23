@@ -197,7 +197,7 @@ namespace ExReaderPlus.View {
                 typeof(CustomeNavigationView), new PropertyMetadata(null));
         #endregion
 
-        #region PanelWidth
+        #region PointChange
 
         #endregion
 

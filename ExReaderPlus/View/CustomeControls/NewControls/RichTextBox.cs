@@ -10,6 +10,9 @@ using ExReaderPlus.Models;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Text;
 using Windows.UI.Core;
+using Windows.UI.Xaml.Shapes;
+using Windows.UI;
+using Windows.UI.Xaml.Media;
 
 namespace ExReaderPlus.View {
     /// <summary>
@@ -25,19 +28,7 @@ namespace ExReaderPlus.View {
         /// </summary>
         private Timer _refreshdic;
 
-        private Timer _pointover;
-
-        /// <summary>
-        /// 内容
-        /// </summary>
-        private Grid _content;
-
-        /// <summary>
-        /// 前一次渲染的单词的位置
-        /// </summary>
-        private Range _lastRange;
-
-        private Point _hoverloc;
+        private bool _refrash = false;
 
         /// <summary>
         /// 内容文本，节省每次预渲染时的开销
@@ -62,47 +53,26 @@ namespace ExReaderPlus.View {
         }
 
         /// <summary>
-        /// 字典状
-        /// </summary>
-        private bool _dicstate = true;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private string _pointstring;
-        public string PointString {
-            get => _pointstring;
-            private set => _pointstring = value;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private string _pressstring;
-        public string PressString {
-            get => _pressstring;
-            private set => _pressstring = value;
-        }
-
-        /// <summary>
         /// 单词字典
         /// </summary>
-        private Dictionary<string, List<Range>> _elementsLoc;
-        public Dictionary<string, List<Range>> ElementsLoc {
+        private Dictionary<string, List<Rect>> _elementsLoc;
+        public Dictionary<string, List<Rect>> ElementsLoc {
             get => _elementsLoc;
             private set { _elementsLoc = value; }
         }
 
+
         /// <summary>
-        /// 关键字，需要渲染的关键字组
+        /// 暴露IsReadOnly,增加修改回调
         /// </summary>
-        public List<Rendergroup> Keywords {
-            get { return (List<Rendergroup>)GetValue(KeywordsProperty); }
-            set { SetValue(KeywordsProperty, value); }
+        public event EventHandler IsReadOnlyChanged;
+        public new bool IsReadOnly {
+            get { return (bool)GetValue(IsReadOnlyProperty); }
+            set {
+                IsReadOnlyChanged?.Invoke(this, EventArgs.Empty);
+                SetValue(IsReadOnlyProperty, value);
+            }
         }
-        public static readonly DependencyProperty KeywordsProperty =
-            DependencyProperty.Register("Keywords", typeof(List<Rendergroup>),
-                typeof(RichTextBox), new PropertyMetadata(null));
 
         /// <summary>
         /// 文字预渲染，默认关闭
@@ -131,7 +101,7 @@ namespace ExReaderPlus.View {
         /// <summary>
         /// 
         /// </summary>
-        public event EventHandler WordSelect;
+        public event WordSelectEventHandler WordSelect;
         #endregion
 
 
@@ -142,108 +112,89 @@ namespace ExReaderPlus.View {
 
         protected override void OnPointerPressed(PointerRoutedEventArgs e) {
             base.OnPointerPressed(e);
-            GetPointedWord(e.GetCurrentPoint(this).Position, out Range range, out string str);
-            if (range is null)
-                return;
-            Prerender(range, str);
         }
 
         protected override void OnPointerMoved(PointerRoutedEventArgs e) {
-           // _pointover.Enabled = true;
-            _hoverloc = e.GetCurrentPoint(this).Position;
+            base.OnPointerMoved(e);
         }
 
         protected override void OnPointerExited(PointerRoutedEventArgs e) {
-           // _pointover.Enabled = false;
+            base.OnPointerExited(e);
         }
 
         protected override void OnPointerEntered(PointerRoutedEventArgs e) {
-           // _pointover.Enabled = true;
+            base.OnPointerEntered(e);
         }
 
         private void RichTextBox_Paste(object sender, TextControlPasteEventArgs e) {
-            TransformComplete = false;
+            _refrash = true;
         }
 
         private void RichTextBox_TextChanged(object sender, RoutedEventArgs e) {
-            TransformComplete = false;
+            _refrash = true;
         }
         #endregion
 
 
         #region PrivateMotheds
+        private void RichTextBox_IsReadOnlyChanged(object sender, EventArgs e) {
+            UpdateDic();
+        }
+
         /// <summary>
         /// 初始化计时器,为了避免文字变化时同步处理,
         /// 用计时器异步降低开销
         /// </summary>
         private void InitTimer() {
             _refreshdic = new Timer { Interval = 3000 };
-            _refreshdic.Elapsed += _refreshdic_Elapsed;
-            _pointover = new Timer { Interval = 1500 };
-            _pointover.Elapsed += _pointover_Elapsed;
-        }
-
-        private async void _pointover_Elapsed(object sender, ElapsedEventArgs e) {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                GetPointedWord(_hoverloc, out Range range, out string str);
-                if (range is null)
-                    return;
-                Prerender(range, str);
-            });
-        }
-
-        private void _refreshdic_Elapsed(object sender, ElapsedEventArgs e) {
-            if (!_transformComplete)
-            {
-                UpdateDic();
-                _transformComplete = true;
-            }
-            else
-            {
-                _refreshdic.Enabled = false;
-                ElementSorted?.Invoke(this, null);
-            }
         }
 
         /// <summary>
         /// 更新字典 txt-txt
         /// </summary>
-        private async void UpdateDic() {
+        private void UpdateDic() {
             string s = "";
             ElementsLoc.Clear();
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            if(!IsReadOnly && _refrash)
+            SetContentFormat(() =>
             {
-                SetContentFormat(new Action(() =>
+                IsEnabled = false;
+                IsReadOnly = false;
+                Document.GetText(TextGetOptions.None, out s);
+                Document.Selection.StartPosition = 0;
+                Document.Selection.EndPosition = s.Length;
+                Document.Selection.CharacterFormat = Document.GetDefaultCharacterFormat();
+                ContentString = s;
+                MatchCollection mc = Regex.Matches(s, @"[a-zA-Z-]+");
+                foreach (Match m in mc)
                 {
-                    Document.GetText(TextGetOptions.None, out s);
-                    Document.Selection.StartPosition = 0;
-                    Document.Selection.EndPosition = s.Length;
-                    Document.Selection.CharacterFormat = Document.GetDefaultCharacterFormat();
-                    Document.Selection.StartPosition = s.Length;
-                }));
+                    Document.Selection.StartPosition = m.Index;
+                    Document.Selection.EndPosition = m.Index + m.Length;
+                    Document.Selection.GetRect(PointOptions.ClientCoordinates, out Rect outrect, out int hit);
+                    AddtoLocDic(m.Value, outrect);
+                }
+                Document.Selection.StartPosition = Document.Selection.EndPosition = 0;
+                foreach (var pk in ElementsLoc)
+                {
+                    Debug.WriteLine(pk.Key + "        " + PrintDicItem(pk.Value));
+                }
+                IsReadOnly = true;
+                IsEnabled = true;
             });
-            ContentString = s;
-            MatchCollection mc = Regex.Matches(s, @"[a-zA-Z-]+");
-            foreach (Match m in mc)
-            {
-                AddtoLocDic(m.Value, new Range(m.Index, m.Index + m.Length));
-            }
-            //foreach (var kv in ElementsLoc)
-            //    Debug.WriteLine(String.Format("{0}   {1}", kv.Key, PrintDicItem(kv.Value)));
+            ElementSorted?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
         /// 由于文章中会有重复的单词，所以用这种方式添加到字典
         /// </summary>
-        private void AddtoLocDic(string key, Range value) {
+        private void AddtoLocDic(string key, Rect value) {
             if (ElementsLoc.ContainsKey(key))
             {
                 ElementsLoc[key].Add(value);
             }
             else
             {
-                ElementsLoc.Add(key, new List<Range>() { value });
+                ElementsLoc.Add(key, new List<Rect>() { value });
             }
         }
 
@@ -252,11 +203,12 @@ namespace ExReaderPlus.View {
         /// </summary>
         /// <param name="p">鼠标位置p</param>
         /// <returns>当前位置最近的单词</returns>
-        private void GetPointedWord(Point p, out Range value, out string str) {
+        private void GetPointedWord(Point p, out Range value, out string str, out Rect area) {
             if (ContentString is null)
             {
                 value = null;
                 str = null;
+                area = new Rect(0, 0, 0, 0);
                 return;
             }
 
@@ -271,71 +223,38 @@ namespace ExReaderPlus.View {
                     offsb--;
             }
 
+            Rect outrect;
+            SetContentFormat(() =>
+            {
+                Document.Selection.StartPosition = offsb + 1;
+                Document.Selection.EndPosition = offsf;
+                Document.Selection.GetRect(PointOptions.ClientCoordinates, out outrect, out int hit);
+                Document.Selection.StartPosition = offsf;
+            });
+
             string s = "";
             try { s = ContentString.Substring(offsb + 1, offsf - offsb - 1); }
             catch (Exception) { s = ""; }
             str = s;
             value = new Range(offsb + 1, offsf);
-        }
-
-        /// <summary>
-        /// 渲染词库中的单词项
-        /// </summary>
-        private void RenderWord() {
-            this.TextChanged -= RichTextBox_TextChanged;
-            if (Keywords != null && Keywords.Count > 0)
-            {
-                foreach (var kw in Keywords)
-                {
-                    kw.OldFormat = Document.GetDefaultCharacterFormat();
-                    //  List<Range> 
-                }
-            }
+            area = outrect;
         }
 
         /// <summary>
         /// 预渲染选中单词，TextPrerender = true
         /// </summary>
-        private void Prerender(Range range, string str) {
-            if (TextPrerender)
-            {
-                if (Keywords != null && Keywords.Count > 0 && Keywords[0].Words.Contains(str))
-                    return;
-                if (_lastRange != null)
-                {
-                    SetDefaultformat(_lastRange);
-                }
-                SetContentFormat(new Action(() =>
-                {
-                    Document.Selection.StartPosition = range.Start;
-                    Document.Selection.EndPosition = range.End;
-                    Document.Selection.CharacterFormat.ForegroundColor = OverallViewSettings.Instence.RichTextSelectBoxFg;
-                    Document.Selection.CharacterFormat.BackgroundColor = OverallViewSettings.Instence.RichTextSelectBoxBg;
-                    Document.Selection.StartPosition = range.End;
-                    Document.Selection.GetRect(PointOptions.None, out Rect outrect, out int hit);
-                    Debug.WriteLine(outrect);
-                    
-                }));
-                WordSelect?.Invoke(str, EventArgs.Empty);
-                _lastRange = new Range(range);
-            }
-            //Rect rect;
-            //int hit;
-            //selection.GetRect(PointOptions.None, out rect, out hit);
-            //Debug.WriteLine(string.Format("{0}   {1}        {2}", rect.Width, rect.Height, hit));
+        private void Prerender(Point p) {
+            GetPointedWord(p, out Range range, out string str, out Rect rect);
+            if (range is null)
+                return;
+            WordSelect?.Invoke(this, new WordSelectArgs(rect, str, range));
         }
 
         /// <summary>
         /// 将块格式还原为默认
         /// </summary>
-        /// <param name="range"></param>
-        private void SetDefaultformat(Range range) {
-            SetContentFormat(new Action(() =>
-            {
-                Document.Selection.StartPosition = range.Start;
-                Document.Selection.EndPosition = range.End;
-                Document.Selection.CharacterFormat = Document.GetDefaultCharacterFormat();
-            }));
+        private void SetDefaultformat(Button range) {
+            //_content.Children.Remove(_lastRange);
         }
 
         /// <summary>
@@ -343,14 +262,15 @@ namespace ExReaderPlus.View {
         /// </summary>
         /// <param name="action">设置格式的操作</param>
         private void SetContentFormat(Action action) {
-            this.TextChanged -= RichTextBox_TextChanged;
+            TextChanged -= RichTextBox_TextChanged;
+            IsReadOnlyChanged -= RichTextBox_IsReadOnlyChanged;
             action?.Invoke();
-            this.TextChanged += RichTextBox_TextChanged;
+            TextChanged += RichTextBox_TextChanged;
+            IsReadOnlyChanged += RichTextBox_IsReadOnlyChanged;
         }
 
         private void RichTextBox_Loaded(object sender, RoutedEventArgs e) {
             SetDefaultFormat();
-
         }
 
         private void Set() {
@@ -361,12 +281,14 @@ namespace ExReaderPlus.View {
             ITextCharacterFormat defaultformat = Document.GetDefaultCharacterFormat();
             defaultformat.ForegroundColor = OverallViewSettings.Instence.RichTextBoxFg;
             defaultformat.BackgroundColor = OverallViewSettings.Instence.RichTextBoxBg;
+            defaultformat.Spacing = OverallViewSettings.Instence.RichTextBoxSpace;
+         
             defaultformat.Size = OverallViewSettings.Instence.RichTextBoxSize;
             defaultformat.Weight = OverallViewSettings.Instence.RichTextBoxWeight;
             Document.SetDefaultCharacterFormat(defaultformat);
         }
 
-        private string PrintDicItem(List<Range> ranges) {
+        private string PrintDicItem(List<Rect> ranges) {
             // throw new NotImplementedException();
             string s = "";
             foreach (var r in ranges)
@@ -381,11 +303,12 @@ namespace ExReaderPlus.View {
         #region Constructor
         public RichTextBox() {
             InitTimer();
-            ElementsLoc = new Dictionary<string, List<Range>>();
-            this.Loaded += RichTextBox_Loaded;
-            this.TextChanged += RichTextBox_TextChanged;
-            this.Paste += RichTextBox_Paste;
-            this.DefaultStyleKey = typeof(RichTextBox);
+            ElementsLoc = new Dictionary<string, List<Rect>>();
+            IsReadOnlyChanged += RichTextBox_IsReadOnlyChanged;
+            Loaded += RichTextBox_Loaded;
+            TextChanged += RichTextBox_TextChanged;
+            Paste += RichTextBox_Paste;
+            DefaultStyleKey = typeof(RichTextBox);
         }
         #endregion
     }
