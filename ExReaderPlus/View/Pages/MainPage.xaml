@@ -18,6 +18,7 @@
         <Rectangle x:Name="TitleBarTouch"
                    Fill="Transparent" />
         <Custome:CustomeNavigationView Grid.RowSpan="2"
+                                       Foreground="{ThemeResource DefaultNavigationViewPaneFG}"
                                        IconStroke="{ThemeResource ContrastMask_D0}"
                                        PaneBackground="{ThemeResource DefaultNavigationViewPaneBG}">
             <Custome:CustomeNavigationView.FunctionArea>
@@ -31,6 +32,7 @@
                     <Custome:IconViewItem x:Name="Dictionary"
                                           IconFormat="Icon"
                                           Content="字典"
+                                          Foreground="{ThemeResource DefaultNavigationViewPaneFG}"
                                           Command="{Binding Navigate}"
                                           CommandParameter="{StaticResource DicPage}"
                                           Icon="&#xE82D;" />
@@ -38,6 +40,7 @@
                                           Grid.Row="1"
                                           IconFormat="Icon"
                                           Content="用户词库"
+                                          Foreground="{ThemeResource DefaultNavigationViewPaneFG}"
                                           Command="{Binding Navigate}"
                                           CommandParameter="{StaticResource GlossaryPage}"
                                           IconFont="{StaticResource IconY}"
@@ -46,6 +49,7 @@
                                           Grid.Row="2"
                                           IconFormat="Icon"
                                           Content="文章浏览"
+                                          Foreground="{ThemeResource DefaultNavigationViewPaneFG}"
                                           Command="{Binding Navigate}"
                                           CommandParameter="{StaticResource EssayPage}"
                                           Icon="&#xE7BC;" />

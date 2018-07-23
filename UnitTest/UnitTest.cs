@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Diagnostics;
+//using ExReaderPlus.Baidu;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTest
@@ -11,8 +12,7 @@ namespace UnitTest
         [TestMethod]
         public void TestMethod1()
         {
-            Console.WriteLine("TEST　Consle----------------------------");
-            Assert.AreEqual(1, 1);
+            
         }
     }
 }

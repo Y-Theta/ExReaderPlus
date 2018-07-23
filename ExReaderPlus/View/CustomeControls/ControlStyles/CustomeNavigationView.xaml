@@ -18,6 +18,8 @@
                 Value="{StaticResource PaneToggleButtonWidth}" />
         <Setter Property="Background"
                 Value="{ThemeResource PaneToggleButtonBG_N}" />
+        <Setter Property="Foreground"
+                Value="{ThemeResource DefaultNavigationViewPaneFG}" />
         <Setter Property="Padding"
                 Value="0" />
         <Setter Property="Template">

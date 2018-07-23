@@ -1,0 +1,15 @@
+﻿<Page
+    x:Class="EFCore.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:EFCore"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <StackPanel>
+        <Button Name="MigrateButton" Click="MigrateButton_OnClick">Migrate</Button>
+        <Button Name="InsertButton" Click="InsertButton_OnClick">Insert</Button>
+    </StackPanel>
+</Page>

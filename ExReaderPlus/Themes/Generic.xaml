@@ -106,8 +106,6 @@
                                                 Value="PointerOver" />
                                         <Setter Target="LayoutRoot.Background"
                                                 Value="{ThemeResource NavigationViewItemBG_R}" />
-                                        <Setter Target="ContentPresenter.Foreground"
-                                                Value="{ThemeResource NavigationViewItemFG_R}" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
@@ -116,8 +114,6 @@
                                                 Value="Pressed" />
                                         <Setter Target="LayoutRoot.Background"
                                                 Value="{ThemeResource NavigationViewItemBG_P}" />
-                                        <Setter Target="ContentPresenter.Foreground"
-                                                Value="{ThemeResource NavigationViewItemFG_P}" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Disabled" />
@@ -127,8 +123,6 @@
                                     <VisualState.Setters>
                                         <Setter Target="LayoutRoot.Background"
                                                 Value="{ThemeResource NavigationViewItemBG_CN}" />
-                                        <Setter Target="ContentPresenter.Foreground"
-                                                Value="{ThemeResource NavigationViewItemFG_CN}" />
                                     </VisualState.Setters>
                                     <Storyboard>
                                         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SelectionIndicator"
@@ -187,7 +181,8 @@
                             <Viewbox x:Name="IconBox"
                                      Stretch="Uniform"
                                      Margin="16,12">
-                                <TextBlock FontFamily="{TemplateBinding IconFont}"
+                                <TextBlock Foreground="{TemplateBinding Foreground}"
+                                           FontFamily="{TemplateBinding IconFont}"
                                            Text="{TemplateBinding Icon}" />
                             </Viewbox>
                             <Grid x:Name="ImageLayer"
@@ -215,14 +210,13 @@
                                     </Rectangle.Fill>
                                 </Rectangle>
                             </Grid>
-                            <ContentPresenter x:Name="ContentPresenter"
-                                              Grid.Column="1"
-                                              ContentTransitions="{TemplateBinding ContentTransitions}"
-                                              ContentTemplate="{TemplateBinding ContentTemplate}"
-                                              Content="{TemplateBinding Content}"
-                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                              Margin="{TemplateBinding Padding}" />
+                            <TextBlock x:Name="ContentPresenter"
+                                       Grid.Column="1"
+                                       Foreground="{TemplateBinding Foreground}"
+                                       Text="{TemplateBinding Content}"
+                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                       Margin="{TemplateBinding Padding}" />
                         </Grid>
                     </Grid>
                 </ControlTemplate>
@@ -423,23 +417,40 @@
                             <VisualStateGroup x:Name="HeaderIconAni">
                                 <VisualStateGroup.Transitions>
                                     <VisualTransition From="HeaderIconAreaN"
-                                                      To="HeaderIconAreaC"
-                                                      GeneratedDuration="0:0:0.4">
+                                                      To="HeaderIconAreaC">
                                         <Storyboard>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="HeadArea"
                                                                            Storyboard.TargetProperty="Opacity">
                                                 <LinearDoubleKeyFrame KeyTime="0"
-                                                                      Value="1" />
-                                                <LinearDoubleKeyFrame KeyTime="0:0:0.125"
                                                                       Value="0" />
-                                                <LinearDoubleKeyFrame KeyTime="0:0:0.25"
+                                                <SplineDoubleKeyFrame KeySpline="0,0.6 0.6,1" 
+                                                                      KeyTime="0:0:0.8"
                                                                       Value="1" />
                                             </DoubleAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualTransition>
+                                    <VisualTransition To="HeaderIconAreaN"
+                                                      From="HeaderIconAreaC">
+                                    </VisualTransition>
                                 </VisualStateGroup.Transitions>
-                                <VisualState x:Name="HeaderIconAreaN" />
-                                <VisualState x:Name="HeaderIconAreaC" />
+                                <VisualState x:Name="HeaderIconAreaN">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeadArea"
+                                                                       Storyboard.TargetProperty="Opacity">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="1" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="HeaderIconAreaC">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeadArea"
+                                                                       Storyboard.TargetProperty="Opacity">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="1" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                        
@@ -516,11 +527,13 @@
                                 <local:IconViewItem x:Name="About"
                                                     IconFormat="Icon"
                                                     Icon="&#xEC26;"
+                                                    Foreground="{TemplateBinding Foreground}"
                                                     Visibility="{TemplateBinding AboutButton}"
                                                     Width="{TemplateBinding CollapseWidth}" />
                                 <local:IconViewItem x:Name="Setting"
                                                     IconFormat="Icon"
                                                     Icon="&#xE713;"
+                                                    Foreground="{TemplateBinding Foreground}"
                                                     Visibility="{TemplateBinding SettingButton}"
                                                     Width="{TemplateBinding CollapseWidth}" />
                             </StackPanel>
