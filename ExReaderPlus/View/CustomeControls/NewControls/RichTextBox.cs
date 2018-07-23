@@ -281,11 +281,14 @@ namespace ExReaderPlus.View {
             ITextCharacterFormat defaultformat = Document.GetDefaultCharacterFormat();
             defaultformat.ForegroundColor = OverallViewSettings.Instence.RichTextBoxFg;
             defaultformat.BackgroundColor = OverallViewSettings.Instence.RichTextBoxBg;
-            defaultformat.Spacing = OverallViewSettings.Instence.RichTextBoxSpace;
-         
             defaultformat.Size = OverallViewSettings.Instence.RichTextBoxSize;
             defaultformat.Weight = OverallViewSettings.Instence.RichTextBoxWeight;
+
+            ITextParagraphFormat defaultformatp = Document.GetDefaultParagraphFormat();
+            defaultformatp.SetLineSpacing(LineSpacingRule.AtLeast, OverallViewSettings.Instence.RichTextBoxSpace);
+
             Document.SetDefaultCharacterFormat(defaultformat);
+            Document.SetDefaultParagraphFormat(defaultformatp);
         }
 
         private string PrintDicItem(List<Rect> ranges) {

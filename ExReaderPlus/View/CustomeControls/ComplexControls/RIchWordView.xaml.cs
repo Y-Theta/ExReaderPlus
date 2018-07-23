@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
@@ -24,6 +25,12 @@ namespace ExReaderPlus.View {
     public sealed partial class RichWordView : UserControl {
         #region Properties
         public EssayPageViewModel viewModel;
+
+        private Dictionary<string,List<Control>> _controlDic;
+        public Dictionary<string, List<Control>> ControlDic {
+            get => _controlDic;
+            set => _controlDic = value;
+        }
 
         /// <summary>
         /// 获取或设置是否渲染文字
@@ -50,7 +57,8 @@ namespace ExReaderPlus.View {
         #endregion
 
         public RichWordView() {
-            this.InitializeComponent();
+            ControlDic = new Dictionary<string, List<Control>>();
+            InitializeComponent();
             Loaded += RIchWordView_Loaded;
             Unloaded += RIchWordView_Unloaded;
         }
@@ -72,6 +80,7 @@ namespace ExReaderPlus.View {
         /// </summary>
         private void TextView_ElementSorted(object sender, EventArgs e) {
             RichTextBox rtb = sender as RichTextBox;
+            ControlDic.Clear();
             foreach (var kp in rtb.ElementsLoc) {
                 foreach (var loc in kp.Value) {
                     Button rect = new Button
@@ -84,10 +93,21 @@ namespace ExReaderPlus.View {
                         Height = loc.Height + 2,
                         Name = kp.Key
                     };
+                    AddtoControlDic(kp.Key, rect);
                     RenderLayer.Children.Add(rect);
                 }
             }
-            RenderLayer.UpdateLayout();
+        }
+
+        private void AddtoControlDic(string key, Control value) {
+            if (ControlDic.ContainsKey(key))
+            {
+                ControlDic[key].Add(value);
+            }
+            else
+            {
+                ControlDic.Add(key, new List<Control>() { value });
+            }
         }
 
 
@@ -98,7 +118,6 @@ namespace ExReaderPlus.View {
             });
         }
 
-
         public void SetText(TextSetOptions opt, string str) {
             TextView.Document.SetText(opt, str);
         }
@@ -108,6 +127,13 @@ namespace ExReaderPlus.View {
                 TextView.IsReadOnly = false;
             else
                 TextView.IsReadOnly = true;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e) {
+            List<Control> ss = ControlDic["have"];
+            foreach (var con in ss) {
+                (con as Button).Background = new SolidColorBrush(Colors.Cyan);
+            }
         }
     }
 }

@@ -32,5 +32,13 @@
                 Margin="0,0,90,40"
                 Click="Enable"
                 Style="{StaticResource IconButtonStyle}" />
+        <Button Content="&#xA000;"
+                Grid.Row="1"
+                FontFamily="{StaticResource IconY}"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Margin="0,0,140,40"
+                Click="Button_Click"
+                Style="{StaticResource IconButtonStyle}" />
     </Grid>
 </UserControl>
