@@ -18,6 +18,7 @@
         <Rectangle x:Name="TitleBarTouch"
                    Fill="Transparent" />
         <Custome:CustomeNavigationView Grid.RowSpan="2"
+                                       Background="{Binding FrameBg}"
                                        Foreground="{ThemeResource DefaultNavigationViewPaneFG}"
                                        IconStroke="{ThemeResource ContrastMask_D0}"
                                        PaneBackground="{ThemeResource DefaultNavigationViewPaneBG}">

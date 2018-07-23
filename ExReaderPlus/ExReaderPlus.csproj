@@ -114,6 +114,9 @@
     <Compile Include="View\Commands\CommandBase.cs" />
     <Compile Include="View\Converter\Converters.cs" />
     <Compile Include="View\Converter\StateTriggers.cs" />
+    <Compile Include="View\CustomeControls\ComplexControls\RIchWordView.xaml.cs">
+      <DependentUpon>RIchWordView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\CustomeControls\NewControls\CustomeNavigationView.cs" />
     <Compile Include="View\CustomeControls\NewControls\Enums.cs" />
     <Compile Include="View\CustomeControls\NewControls\IconViewItem.cs" />
@@ -121,6 +124,7 @@
     <Compile Include="Manage\DataManage\UserDataDB.cs" />
     <Compile Include="Manage\DataManage\UserDB.cs" />
     <Compile Include="Manage\DataManage\WordManage.cs" />
+    <Compile Include="View\Event\WordSelectArgs.cs" />
     <Compile Include="View\Layout\FlowLayout.cs" />
     <Compile Include="View\OverallViewSettings.cs" />
     <Compile Include="View\Pages\DicPage.xaml.cs">
@@ -172,6 +176,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\CustomeControls\ComplexControls\RIchWordView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\CustomeControls\ControlStyles\CustomeNavigationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -181,6 +189,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\CustomeControls\ControlStyles\ScrollViewerAndSlider.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CustomeControls\ControlStyles\TextBlockStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -252,9 +264,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="View\CustomeControls\ComplexControls\" />
     <Folder Include="View\Dialogs\" />
-    <Folder Include="View\MixControls\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

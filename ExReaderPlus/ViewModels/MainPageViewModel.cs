@@ -5,6 +5,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI;
+using Windows.UI.Xaml.Media;
 
 namespace ExReaderPlus.ViewModels {
     public class MainPageViewModel : ViewModelBasse {
@@ -14,6 +16,12 @@ namespace ExReaderPlus.ViewModels {
         public string UserIcon {
             get => _userIcon;
             set => SetValue<string>(out _userIcon, value, nameof(UserIcon));
+        }
+
+        private Brush _frameBg;
+        public Brush FrameBg {
+            get => _frameBg;
+            set => SetValue<Brush>(out _frameBg, value, nameof(FrameBg));
         }
 
         public CommandBase Navigate { get; set; }

@@ -3,6 +3,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using ExReaderPlus.ViewModels;
 using ExReaderPlus.Baidu;
+using System.Diagnostics;
 
 namespace ExReaderPlus.View.Pages {
     /// <summary>
@@ -18,36 +19,14 @@ namespace ExReaderPlus.View.Pages {
         }
 
         private void EssayPage_Unloaded(object sender, RoutedEventArgs e) {
-            viewModel.PassageLoaded -= EssayPage_PassageLoaded;
         }
 
         private void EssayPage_Loaded(object sender, RoutedEventArgs e) {
             viewModel = DataContext as EssayPageViewModel;
-            viewModel.PassageLoaded += EssayPage_PassageLoaded;
-            TextView.WordSelect += TextView_WordSelect;
+            if (viewModel.TempPassage != null)
+                TextView.SetText(Windows.UI.Text.TextSetOptions.None, viewModel.TempPassage.Content);
         }
 
-        private async void TextView_WordSelect(object sender, EventArgs e) {
-            string s ="";
-            var d = new Translate();
-            if (sender.ToString() != null && sender.ToString() != "")
-            {
-                d.Text = sender.ToString();
-                s = d.GetResult();
-                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-                {
-                    Return.Text = s;
-                });
-            }
-            
-        }
 
-        private async void EssayPage_PassageLoaded(object sender, EventArgs e) {
-
-            await this.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-            {
-                TextView.Document.SetText(Windows.UI.Text.TextSetOptions.None, viewModel.TempPassage.Content);
-            });
-        }
     }
 }

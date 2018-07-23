@@ -10,37 +10,27 @@
                 Value="Enabled" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility"
                 Value="Auto" />
-        <Setter Property="SelectionHighlightColor"
-                Value="Transparent" />
+        <!--<Setter Property="ContextFlyout"
+                Value="{}" />-->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:RichTextBox">
                     <Grid>
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="EditMode">
-                                <VisualState x:Name="Disabled">
-                                </VisualState>
-                                <VisualState x:Name="Normal" />
-                                <VisualState x:Name="PointerOver">
-                                </VisualState>
-                                <VisualState x:Name="Focused">
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-                        <Grid x:Name="EnablePanel">
-                            <ContentPresenter x:Name="ContentElement"
+                        <ContentPresenter x:Name="ContentElement"
+                                              Background="Transparent"
                                               Margin="{TemplateBinding BorderThickness}"
                                               Padding="{TemplateBinding Padding}"
-                                              AutomationProperties.AccessibilityView="Raw" />
+                                              AutomationProperties.AccessibilityView="Raw"
+                                              Canvas.ZIndex="10" />
                             <TextBlock x:Name="PlaceholderTextContentPresenter"
                                        Foreground="{ThemeResource TextControlPlaceholderForeground}"
                                        Margin="{TemplateBinding BorderThickness}"
                                        Padding="{TemplateBinding Padding}"
                                        Text="{TemplateBinding PlaceholderText}"
                                        TextAlignment="{TemplateBinding TextAlignment}"
+                                       Canvas.ZIndex="10"
                                        IsHitTestVisible="False" />
                         </Grid>
-                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -240,12 +230,12 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:CustomeNavigationView">
-                    <Grid x:Name="RootGrid">
+                    <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
                         <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CollapseMode">
+                            <VisualStateGroup x:Name="CollapseMode" >
                                 <VisualStateGroup.Transitions>
                                     <VisualTransition From="CollapseMode_Collapse"
-                                                      To="CollapseMode_Open">
+                                                      To="CollapseMode_Open"  >
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Colum1"
                                                                            Storyboard.TargetProperty="Width">
@@ -287,7 +277,7 @@
                                     </VisualTransition>
                                     <VisualTransition From="CollapseMode_Open"
                                                       To="CollapseMode_Collapse">
-                                        <Storyboard FillBehavior="Stop">
+                                        <Storyboard >
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="About"
                                                                            Storyboard.TargetProperty="(IconViewItem.SelectIconVisibility)">
                                                 <DiscreteObjectKeyFrame KeyTime="0"
@@ -309,19 +299,9 @@
                                                 <DiscreteObjectKeyFrame KeyTime="0:0:0.125"
                                                                         Value="Vertical" />
                                             </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FunctionArea"
-                                                                           Storyboard.TargetProperty="(Grid.Row)">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="2" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FunctionArea"
-                                                                           Storyboard.TargetProperty="(Grid.RowSpan)">
-                                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                                        Value="1" />
-                                            </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeadArea"
                                                                            Storyboard.TargetProperty="Visibility">
-                                                <DiscreteObjectKeyFrame KeyTime="0:0:0.5"
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0.25"
                                                                         Value="Collapsed" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Colum1"
@@ -339,10 +319,10 @@
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="FunctionAreaTransform"
                                                                            Storyboard.TargetProperty="TranslateY">
                                                 <LinearDoubleKeyFrame KeyTime="0"
-                                                                      Value="0" />
+                                                                      Value="120" />
                                                 <SplineDoubleKeyFrame KeySpline="0.3,0 1,0.5"
                                                                       KeyTime="0:0:0.125"
-                                                                      Value="-120" />
+                                                                      Value="0" />
                                             </DoubleAnimationUsingKeyFrames>
                                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="FootArea"
                                                                            Storyboard.TargetProperty="Opacity">
@@ -365,7 +345,6 @@
                                                 Value="{Binding ClipOffset ,RelativeSource={RelativeSource Mode=TemplatedParent},
                                                         Converter={StaticResource NegativeConverter}}" />
                                     </VisualState.Setters>
-
                                 </VisualState>
                                 <VisualState x:Name="CollapseMode_Open">
                                     <VisualState.Setters>
@@ -376,6 +355,7 @@
                                                 Value="0" />
                                     </VisualState.Setters>
                                     <Storyboard>
+                                        
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="About"
                                                                        Storyboard.TargetProperty="(IconViewItem.SelectIconVisibility)">
                                             <DiscreteObjectKeyFrame KeyTime="0"
@@ -423,7 +403,7 @@
                                                                            Storyboard.TargetProperty="Opacity">
                                                 <LinearDoubleKeyFrame KeyTime="0"
                                                                       Value="0" />
-                                                <SplineDoubleKeyFrame KeySpline="0,0.6 0.6,1" 
+                                                <SplineDoubleKeyFrame KeySpline="0,0.65 0.53,1" 
                                                                       KeyTime="0:0:0.8"
                                                                       Value="1" />
                                             </DoubleAnimationUsingKeyFrames>

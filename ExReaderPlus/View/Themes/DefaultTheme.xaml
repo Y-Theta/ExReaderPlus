@@ -37,6 +37,20 @@
     <SolidColorBrush x:Key="DefaultNavigationViewUserIconStroke"
                      Color="#080808" />
     
+    <!--DefaultButton-->
+    <SolidColorBrush x:Key="DefaultButtonBG_N"
+                     Color="Transparent" />
+    <SolidColorBrush x:Key="DefaultButtonBG_R"
+                     Color="#30000000" />
+    <SolidColorBrush x:Key="DefaultButtonBG_P"
+                     Color="#60000000" />
+    <SolidColorBrush x:Key="DefaultButtonFG_N"
+                     Color="#080808" />
+    <SolidColorBrush x:Key="DefaultButtonFG_R"
+                     Color="#080808" />
+    <SolidColorBrush x:Key="DefaultButtonFG_P"
+                     Color="#080808" />
+
     <!--RichTextBox-->
     
     

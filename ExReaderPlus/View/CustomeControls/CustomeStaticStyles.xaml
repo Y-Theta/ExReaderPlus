@@ -9,14 +9,17 @@
     <local:IconKind x:Key="ICONF.Round">Round</local:IconKind>
     <local:IconKind x:Key="ICONF.Rect">Rect</local:IconKind>
     <local:IconKind x:Key="ICONF.Icon">Icon</local:IconKind>
-    
+
     <!--Converter-->
+    <Converter:BOOLC x:Key="BOOLC" />
     <Converter:BOOLtoICONF x:Key="BOOLtoICONF" />
     <Converter:GRIDLtoDOUBLE x:Key="GRIDLtoDOUBLE" />
     <Converter:NegativeConverter x:Key="NegativeConverter" />
 
     <!--Styles-->
     <ResourceDictionary.MergedDictionaries>
+        <!--TextBlockStyles-->
+        <ResourceDictionary Source="ControlStyles/TextBlockStyles.xaml" />
         <!--ButtonStyles-->
         <ResourceDictionary Source="ControlStyles/ButtonStyles.xaml" />
         <!--ScrollViewerAndSlider-->

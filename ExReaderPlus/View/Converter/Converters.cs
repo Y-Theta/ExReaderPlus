@@ -31,11 +31,25 @@ namespace ExReaderPlus.View.Converter {
 
     public class NegativeConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, string language) {
-            return -System.Convert.ToDouble(value);
+            if (parameter is null)
+                return -System.Convert.ToDouble(value);
+            if (parameter.ToString().Equals("bool"))
+                return (bool)value ? false : true;
+            else return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language) {
             return null;
+        }
+    }
+
+    public class BOOLC : IValueConverter {
+        public object Convert(object value, Type targetType, object parameter, string language) {
+            return (bool)value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language) {
+            return System.Convert.ToBoolean(value);
         }
     }
 

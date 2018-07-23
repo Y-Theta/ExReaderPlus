@@ -3,17 +3,100 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:ExReaderPlus.View">
 
-    <Style x:Key="IconButtonStyle" TargetType="Button">
+    <x:Double x:Key="DefaultButtonSize">32</x:Double>
+    <x:Double x:Key="DefaultButtonIconSize">16</x:Double>
+    <!--IconButtonStyle-->
+    <Style x:Key="IconButtonStyle"
+           TargetType="Button">
+        <Setter Property="FontSize"
+                Value="{StaticResource DefaultButtonIconSize}" />
+        <Setter Property="Width"
+                Value="{StaticResource DefaultButtonSize}" />
+        <Setter Property="Height"
+                Value="{StaticResource DefaultButtonSize}" />
         <Setter Property="FontFamily"
                 Value="{StaticResource SymbolThemeFontFamily}" />
+        <Setter Property="Background"
+                Value="{ThemeResource DefaultButtonBG_N}" />
+        <Setter Property="Foreground"
+                Value="{ThemeResource DefaultButtonFG_N}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    
+                    <Grid x:Name="RootGrid"
+                          Background="{TemplateBinding Background}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="PointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Target="RootGrid.Background"
+                                                Value="{ThemeResource DefaultButtonBG_R}" />
+                                        <Setter Target="IconHolder.Foreground"
+                                                Value="{ThemeResource DefaultButtonFG_R}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter Target="RootGrid.Background"
+                                                Value="{ThemeResource DefaultButtonBG_P}" />
+                                        <Setter Target="IconHolder.Foreground"
+                                                Value="{ThemeResource DefaultButtonFG_P}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        
+                        <TextBlock x:Name="IconHolder"
+                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                   Foreground="{TemplateBinding Foreground}"
+                                   FontFamily="{TemplateBinding FontFamily}"
+                                   Text="{TemplateBinding Content}" 
+                                   FontSize="{TemplateBinding FontSize}"/>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-
+    <!--BoundButtonStyle-->
+    <Style x:Key="BoundButtonStyle" TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="RootBorder"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="PointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Target="RootBorder.Background"
+                                                Value="{ThemeResource DefaultButtonBG_R}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter Target="RootBorder.Background"
+                                                Value="{ThemeResource DefaultButtonBG_P}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid x:Name="RootGrid">
+                            <TextBox IsReadOnly="True"
+                                     FontSize="{TemplateBinding FontSize}"
+                                     Foreground="{TemplateBinding Foreground}"
+                                     FontWeight="{TemplateBinding FontWeight}"
+                                     Text="{TemplateBinding Name}" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
 </ResourceDictionary>
