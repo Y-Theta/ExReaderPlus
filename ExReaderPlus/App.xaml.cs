@@ -75,8 +75,8 @@ namespace ExReaderPlus {
             CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
 
             rootFrame.ActualThemeChanged += RootFrame_ActualThemeChanged;
+            //强置主题
             RootFrame_ActualThemeChanged(null, null);
-            
         }
 
         private void RootFrame_ActualThemeChanged(FrameworkElement sender, object args) {
@@ -89,7 +89,6 @@ namespace ExReaderPlus {
 
             TitleBar.ButtonPressedBackgroundColor = (Color)App.Current.Resources["TitleBarButtonBG_P"];
             TitleBar.ButtonPressedForegroundColor = (Color)App.Current.Resources["TitleBarButtonFG_P"];
-
         }
 
         /// <summary>

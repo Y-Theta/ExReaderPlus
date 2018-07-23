@@ -104,11 +104,6 @@
     <Compile Include="Manage\PassageManager.cs" />
     <Compile Include="Manage\ReaderManager\ReadManage.cs" />
     <Compile Include="Manage\userManage.cs" />
-    <Compile Include="TestDB\TestDB\Class1.cs" />
-    <Compile Include="TestDB\TestDB\EFCore.cs" />
-    <Compile Include="TestDB\TestDB\Mission.cs" />
-    <Compile Include="TestDB\TestDB\Student.cs" />
-    <Compile Include="TestDB\TestDB\StudentMission.cs" />
     <Compile Include="ViewModels\EssayPageViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBasse.cs" />
     <Compile Include="View\Commands\CommandBase.cs" />
@@ -164,8 +159,6 @@
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
-    <Content Include="TestDB\TestDB.sln" />
-    <Content Include="TestDB\TestDB\TestDB.csproj" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

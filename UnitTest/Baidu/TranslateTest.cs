@@ -12,22 +12,17 @@ namespace UnitTest.Baidu
     [TestClass]
     public class TranslateTest
     {
-
+        /// <summary>
+        /// 测试
+        /// </summary>
         [TestMethod]
-        public void getResult()
-        {
-
-        }
-
-        [TestMethod]
-        public void GetJsonTest()
+        public void GetTranslationTest()
         {
             var t = new Translate();
             t.Text = "test";
             var s = t.GetResult();
             Assert.AreEqual("测试", s);
         }
-
         
     }
 }
