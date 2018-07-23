@@ -113,7 +113,7 @@
       <DependentUpon>RIchWordView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\CustomeControls\NewControls\CustomeNavigationView.cs" />
-    <Compile Include="View\CustomeControls\NewControls\Enums.cs" />
+    <Compile Include="View\CustomeControls\Enums.cs" />
     <Compile Include="View\CustomeControls\NewControls\IconViewItem.cs" />
     <Compile Include="View\CustomeControls\NewControls\RichTextBox.cs" />
     <Compile Include="Manage\DataManage\UserDataDB.cs" />

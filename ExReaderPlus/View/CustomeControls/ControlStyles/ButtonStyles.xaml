@@ -61,7 +61,8 @@
     </Style>
 
     <!--BoundButtonStyle-->
-    <Style x:Key="BoundButtonStyle" TargetType="Button">
+    <Style x:Key="BoundButtonStyle"
+           TargetType="Button">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -87,16 +88,17 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                         <Grid x:Name="RootGrid">
-                            <TextBox IsReadOnly="True"
+                            <!--<TextBox IsReadOnly="True"
+                                     VerticalAlignment="Top"
                                      FontSize="{TemplateBinding FontSize}"
                                      Foreground="{TemplateBinding Foreground}"
                                      FontWeight="{TemplateBinding FontWeight}"
-                                     Text="{TemplateBinding Name}" />
+                                     Text="{TemplateBinding Name}" />-->
                         </Grid>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    
+
 </ResourceDictionary>
