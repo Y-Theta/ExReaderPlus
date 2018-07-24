@@ -109,11 +109,12 @@
     <Compile Include="View\Commands\CommandBase.cs" />
     <Compile Include="View\Converter\Converters.cs" />
     <Compile Include="View\Converter\StateTriggers.cs" />
-    <Compile Include="View\CustomeControls\ComplexControls\RIchWordView.xaml.cs">
-      <DependentUpon>RIchWordView.xaml</DependentUpon>
+    <Compile Include="View\CustomeControls\ComplexControls\RichWordView.xaml.cs">
+      <DependentUpon>RichWordView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\CustomeControls\NewControls\CustomeNavigationView.cs" />
     <Compile Include="View\CustomeControls\Enums.cs" />
+    <Compile Include="View\CustomeControls\NewControls\HitHolder.cs" />
     <Compile Include="View\CustomeControls\NewControls\IconViewItem.cs" />
     <Compile Include="View\CustomeControls\NewControls\RichTextBox.cs" />
     <Compile Include="Manage\DataManage\UserDataDB.cs" />
@@ -169,7 +170,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\CustomeControls\ComplexControls\RIchWordView.xaml">
+    <Page Include="View\CustomeControls\ComplexControls\RichWordView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -261,12 +262,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\UserDicionary\UserDicionary.csproj">
-      <Project>{183a7d10-af51-4583-a625-a3472509e8cb}</Project>
-      <Name>UserDicionary</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

@@ -58,25 +58,32 @@ namespace ExReaderPlus.View {
             set => SetValue<float>(out _richTextBoxSpace, value, nameof(RichTextBoxSpace));
         }
 
-
+        /// <summary>
+        /// 富文本框文字字重
+        /// </summary>
         private int _richTextBoxWeight = 400;
         public int RichTextBoxWeight {
             get => _richTextBoxWeight;
             set => SetValue<int>(out _richTextBoxWeight, value, nameof(RichTextBoxWeight));
         }
 
+        /// <summary>
+        /// 富文本框选中前景色
+        /// </summary>
         private Color _richTextSelectBoxFg = Color.FromArgb(255, 8, 8, 8);
         public Color RichTextSelectBoxFg {
             get => _richTextSelectBoxFg;
             set => SetValue<Color>(out _richTextSelectBoxFg, value, nameof(RichTextSelectBoxFg));
         }
 
+        /// <summary>
+        /// 富文本框选中背景色
+        /// </summary>
         private Color _richTextSelectBoxBg = Color.FromArgb(255, 115, 135, 86);
         public Color RichTextSelectBoxBg {
             get => _richTextSelectBoxBg;
             set => SetValue<Color>(out _richTextSelectBoxBg, value, nameof(RichTextSelectBoxBg));
         }
-
         #endregion
 
 
@@ -85,6 +92,7 @@ namespace ExReaderPlus.View {
         #endregion
 
         #region Constructors
+
         #endregion
     }
 

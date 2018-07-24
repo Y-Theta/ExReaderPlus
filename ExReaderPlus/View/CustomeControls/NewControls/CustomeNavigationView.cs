@@ -9,7 +9,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
 using System;
-
+using System.Diagnostics;
 
 namespace ExReaderPlus.View {
 
@@ -310,10 +310,10 @@ namespace ExReaderPlus.View {
         public CustomeNavigationView() {
             InitCommands();
             InitTimer();
-            _radiogroupname = this.GetHashCode().ToString();
-            this.Loaded += CustomeNavigationView_Loaded;
-            this.SizeChanged += CustomeNavigationView_SizeChanged;
-            this.DefaultStyleKey = typeof(CustomeNavigationView);
+            _radiogroupname = GetHashCode().ToString();
+            Loaded += CustomeNavigationView_Loaded;
+            SizeChanged += CustomeNavigationView_SizeChanged;
+            DefaultStyleKey = typeof(CustomeNavigationView);
         }
         #endregion
     }

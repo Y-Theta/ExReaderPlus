@@ -2,47 +2,24 @@
 using ExReaderPlus.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-
 
 namespace ExReaderPlus.View {
     public sealed partial class RichWordView : UserControl {
         #region Properties
         public EssayPageViewModel viewModel;
 
-        private Dictionary<string,List<Control>> _controlDic;
+        private Dictionary<string, List<Control>> _controlDic;
         public Dictionary<string, List<Control>> ControlDic {
             get => _controlDic;
             set => _controlDic = value;
         }
-
-        /// <summary>
-        /// 获取或设置是否渲染文字
-        /// </summary>
-        public bool RenderText {
-            get { return (bool)GetValue(RenderTextProperty); }
-            set { SetValue(RenderTextProperty, value); }
-        }
-        public static readonly DependencyProperty RenderTextProperty =
-            DependencyProperty.Register("RenderText", typeof(bool),
-                typeof(RichWordView), new PropertyMetadata(false));
-
 
         /// <summary>
         /// 关键字，需要渲染的关键字组
@@ -56,23 +33,20 @@ namespace ExReaderPlus.View {
                 typeof(RichTextBox), new PropertyMetadata(null));
         #endregion
 
-        public RichWordView() {
-            ControlDic = new Dictionary<string, List<Control>>();
-            InitializeComponent();
-            Loaded += RIchWordView_Loaded;
-            Unloaded += RIchWordView_Unloaded;
-        }
-
+        #region Methods
         private void RIchWordView_Unloaded(object sender, RoutedEventArgs e) {
             viewModel.PassageLoaded -= EssayPage_PassageLoaded;
+        }
 
+        private void RichWordView_SizeChanged(object sender, SizeChangedEventArgs e) {
+            TextView.ViewPortHeight = e.NewSize.Height;
+            TextView.SizeChangeRefrash();
         }
 
         private void RIchWordView_Loaded(object sender, RoutedEventArgs e) {
             viewModel = (EssayPageViewModel)DataContext;
             viewModel.PassageLoaded += EssayPage_PassageLoaded;
             TextView.ElementSorted += TextView_ElementSorted; ;
-        
         }
 
         /// <summary>
@@ -81,22 +55,25 @@ namespace ExReaderPlus.View {
         private void TextView_ElementSorted(object sender, EventArgs e) {
             RichTextBox rtb = sender as RichTextBox;
             ControlDic.Clear();
-            foreach (var kp in rtb.ElementsLoc) {
-                foreach (var loc in kp.Value) {
-                    Button rect = new Button
+            RenderLayer.Children.Clear();
+            RenderLayer.UpdateLayout();
+            foreach (var kp in rtb.ElementsLoc)
+            {
+                foreach (var loc in kp.Value)
+                {
+                    HitHolder rect = new HitHolder
                     {
-                        BorderThickness = new Thickness(1),
-                        BorderBrush = new SolidColorBrush(Color.FromArgb(180, 0, 0, 0)),
-                        Style = (Style)Application.Current.Resources["BoundButtonStyle"],
-                        Margin = new Thickness(loc.Left - 2, loc.Top, 0, 0),
-                        Width = loc.Width + 4,
-                        Height = loc.Height + 2,
+                        PointBrush = new SolidColorBrush(Color.FromArgb(200, 0, 120, 200)),
+                        Margin = new Thickness(loc.Left, loc.Top + 2, 0, 0),
+                        Width = loc.Width,
+                        Height = loc.Height - 2,
                         Name = kp.Key
                     };
                     AddtoControlDic(kp.Key, rect);
                     RenderLayer.Children.Add(rect);
                 }
             }
+            RenderLayer.UpdateLayout();
         }
 
         private void AddtoControlDic(string key, Control value) {
@@ -110,30 +87,42 @@ namespace ExReaderPlus.View {
             }
         }
 
-
         private async void EssayPage_PassageLoaded(object sender, EventArgs e) {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                TextView.Document.SetText(TextSetOptions.None, viewModel.TempPassage.Content);
+                SetText((sender as EssayPageViewModel).TempPassage.Content);
             });
         }
 
-        public void SetText(TextSetOptions opt, string str) {
-            TextView.Document.SetText(opt, str);
+        public void SetText(string str) {
+            TextView.ContentString = str;
         }
 
         private void Enable(object sender, RoutedEventArgs e) {
-            if (TextView.IsReadOnly)
-                TextView.IsReadOnly = false;
-            else
+            if (!TextView.IsReadOnly)
+            {
                 TextView.IsReadOnly = true;
+                RenderLayer.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                TextView.IsReadOnly = false;
+                RenderLayer.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e) {
             List<Control> ss = ControlDic["have"];
-            foreach (var con in ss) {
-                (con as Button).Background = new SolidColorBrush(Colors.Cyan);
-            }
+
+        }
+        #endregion
+
+        public RichWordView() {
+            ControlDic = new Dictionary<string, List<Control>>();
+            InitializeComponent();
+            SizeChanged += RichWordView_SizeChanged;
+            Loaded += RIchWordView_Loaded;
+            Unloaded += RIchWordView_Unloaded;
         }
     }
 }

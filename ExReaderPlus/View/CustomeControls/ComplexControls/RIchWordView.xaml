@@ -14,7 +14,8 @@
             <Grid x:Name="TextLayer">
                 <local:RichTextBox x:Name="TextView"
                                    TextWrapping="Wrap" />
-                <Canvas x:Name="RenderLayer" />
+                <Canvas x:Name="RenderLayer"
+                      Visibility="Collapsed" />
             </Grid>
         </ScrollViewer>
         <Button Content="&#xE948;"

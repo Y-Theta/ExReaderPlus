@@ -145,10 +145,6 @@
       <Project>{a0db6afc-d5a3-4e04-88b5-7d260cabcac1}</Project>
       <Name>ExReaderPlus</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UserDicionary\UserDicionary.csproj">
-      <Project>{183a7d10-af51-4583-a625-a3472509e8cb}</Project>
-      <Name>UserDicionary</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
