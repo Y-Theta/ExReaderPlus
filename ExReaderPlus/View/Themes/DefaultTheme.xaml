@@ -42,6 +42,8 @@
                      Color="#080808" />
     <SolidColorBrush x:Key="DefaultToolTipBg"
                      Color="#EFEFEF"/>
+    <SolidColorBrush x:Key="DefaultToolTipBd"
+                     Color="#080808" />
 
     <!--DefaultButton-->
     <SolidColorBrush x:Key="DefaultButtonBG_N"

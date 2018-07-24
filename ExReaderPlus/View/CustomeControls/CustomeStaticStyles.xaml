@@ -18,14 +18,15 @@
 
     <!--Styles-->
     <ResourceDictionary.MergedDictionaries>
-        <!--TextBlockStyles--><!--
-        <ResourceDictionary Source="ControlStyles/TextBlockStyles.xaml" />-->
         <!--ButtonStyles-->
         <ResourceDictionary Source="ControlStyles/ButtonStyles.xaml" />
+        
+        <ResourceDictionary Source="ControlStyles/TextBlocks.xaml" />
         <!--ScrollViewerAndSlider-->
         <ResourceDictionary Source="ControlStyles/ScrollViewerAndSlider.xaml" />
         <!--CustomeNavigationView-->
         <ResourceDictionary Source="ControlStyles/CustomeNavigationView.xaml" />
+        
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

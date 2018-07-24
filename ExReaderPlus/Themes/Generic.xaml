@@ -15,25 +15,24 @@
                 <ControlTemplate TargetType="local:RichTextBox">
                     <Grid>
                         <ContentPresenter x:Name="ContentElement"
-                                              Background="Transparent"
-                                              Margin="{TemplateBinding BorderThickness}"
-                                              Padding="{TemplateBinding Padding}"
-                                              AutomationProperties.AccessibilityView="Raw"
-                                              Canvas.ZIndex="10" />
-                            <TextBlock x:Name="PlaceholderTextContentPresenter"
-                                       Foreground="{ThemeResource TextControlPlaceholderForeground}"
-                                       Margin="{TemplateBinding BorderThickness}"
-                                       Padding="{TemplateBinding Padding}"
-                                       Text="{TemplateBinding PlaceholderText}"
-                                       TextAlignment="{TemplateBinding TextAlignment}"
-                                       Canvas.ZIndex="10"
-                                       IsHitTestVisible="False" />
-                        </Grid>
+                                          Background="Transparent"
+                                          Margin="{TemplateBinding BorderThickness}"
+                                          Padding="{TemplateBinding Padding}"
+                                          AutomationProperties.AccessibilityView="Raw"
+                                          Canvas.ZIndex="10" />
+                        <TextBlock x:Name="PlaceholderTextContentPresenter"
+                                   Foreground="{ThemeResource TextControlPlaceholderForeground}"
+                                   Margin="{TemplateBinding BorderThickness}"
+                                   Padding="{TemplateBinding Padding}"
+                                   Text="{TemplateBinding PlaceholderText}"
+                                   TextAlignment="{TemplateBinding TextAlignment}"
+                                   Canvas.ZIndex="10"
+                                   IsHitTestVisible="False" />
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-
 
     <x:String x:Key="IconViewItemTransitionSpan">0:0:0.125</x:String>
     <!--IconViewItem-->
@@ -159,8 +158,20 @@
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}" />
                         <Grid Height="40"
+                              Background="Transparent"
                               HorizontalAlignment="Left"
                               x:Name="ContentGrid">
+                            <ToolTipService.ToolTip>
+                                <ToolTip Placement="Mouse"
+                                         Padding="-1">
+                                    <Border Background="{ThemeResource DefaultToolTipBg}"
+                                          BorderBrush="{ThemeResource DefaultToolTipBd}"
+                                          BorderThickness="1">
+                                        <TextBlock 
+                                                   Text="{Binding Tooltip, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}" />
+                                    </Border>
+                                </ToolTip>
+                            </ToolTipService.ToolTip>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition x:Name="IconColumn"
                                                   Width="48" />
@@ -505,12 +516,14 @@
                                 <local:IconViewItem x:Name="About"
                                                     IconFormat="Icon"
                                                     Icon="&#xEC26;"
+                                                    Tooltip="关于"
                                                     Foreground="{TemplateBinding Foreground}"
                                                     Visibility="{TemplateBinding AboutButton}"
                                                     Width="{TemplateBinding CollapseWidth}" />
                                 <local:IconViewItem x:Name="Setting"
                                                     IconFormat="Icon"
                                                     Icon="&#xE713;"
+                                                    Tooltip="设置"
                                                     Foreground="{TemplateBinding Foreground}"
                                                     Visibility="{TemplateBinding SettingButton}"
                                                     Width="{TemplateBinding CollapseWidth}" />
@@ -555,7 +568,14 @@
                             <Rectangle x:Name="BackHolder"
                                        Fill="{TemplateBinding Background}"
                                        Stroke="{TemplateBinding BorderBrush}"
-                                       StrokeThickness="1" />
+                                       StrokeThickness="1">
+                                <ToolTipService.ToolTip>
+                                    <ToolTip Padding="-1" Placement="Mouse">
+                                        <TextBlock 
+                                                   Text="{Binding Tooltip, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}" />
+                                    </ToolTip>
+                                </ToolTipService.ToolTip>
+                            </Rectangle>
                         </Grid>
                     </Border>
                 </ControlTemplate>

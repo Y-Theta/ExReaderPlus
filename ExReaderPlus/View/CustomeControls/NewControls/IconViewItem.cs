@@ -63,6 +63,13 @@ namespace ExReaderPlus.View {
             DependencyProperty.Register("SelectIconVisibility", typeof(Visibility),
                 typeof(IconViewItem), new PropertyMetadata(Visibility.Visible));
 
+        public string Tooltip {
+            get { return (string)GetValue(TooltipProperty); }
+            set { SetValue(TooltipProperty, value); }
+        }
+        public static readonly DependencyProperty TooltipProperty =
+            DependencyProperty.Register("Tooltip", typeof(string), 
+                typeof(IconViewItem), new PropertyMetadata(null));
 
         #region IconStroke
         public Brush IconStroke {

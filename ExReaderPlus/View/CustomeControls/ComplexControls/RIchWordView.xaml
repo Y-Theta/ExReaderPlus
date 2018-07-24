@@ -22,9 +22,9 @@
         </ScrollViewer>
         <Grid x:Name="ControlLayer"
               Grid.Row="1"
-              HorizontalAlignment="Center"
+              HorizontalAlignment="Stretch"
               VerticalAlignment="Bottom"
-              Margin="0,0,0,32">
+              Margin="8,0,8,32">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="auto" />

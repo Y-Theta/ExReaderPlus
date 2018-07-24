@@ -1,4 +1,5 @@
-﻿using ExReaderPlus.Models;
+﻿using ExReaderPlus.Baidu;
+using ExReaderPlus.Models;
 using ExReaderPlus.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using Windows.UI.Core;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
 namespace ExReaderPlus.View {
@@ -52,7 +54,6 @@ namespace ExReaderPlus.View {
         /// 富文本框的字典构建完毕,转换到阅读模式
         /// </summary>
         private void TextView_ElementSorted(object sender, EventArgs e) {
-            RenderLayer.Visibility = Visibility.Collapsed;
             RichTextBox rtb = sender as RichTextBox;
             ControlDic.Clear();
             RenderLayer.Children.Clear();
@@ -70,6 +71,7 @@ namespace ExReaderPlus.View {
                             Height = loc.Height - 2,
                             Name = kp.Key
                         };
+                        rect.PointerEntered += Rect_PointerEntered;
                         AddtoControlDic(kp.Key, rect);
                         RenderLayer.Children.Add(rect);
                     }
@@ -78,6 +80,14 @@ namespace ExReaderPlus.View {
             TextView.IsEnabled = true;
             if (TextView.IsReadOnly)
                 RenderLayer.Visibility = Visibility.Visible;
+        }
+
+        private void Rect_PointerEntered(object sender, PointerRoutedEventArgs e) {
+            var control = (HitHolder)sender;
+            var t = new Translate();
+            t.Text = control.Name;
+            var s = t.GetResult();
+            control.Tooltip = s;
         }
 
         private void AddtoControlDic(string key, Control value) {
