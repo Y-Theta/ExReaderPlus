@@ -6,49 +6,62 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UserDictionary;
 
 namespace ExReaderPlus.Manage
 {
     /// <summary>
-    /// 自定义词库管理
+    /// 用户自定义词典管理
     /// </summary>
     public class CustomDicManage
     {
+        
         /// <summary>
-        /// 文件数据库
+        /// TODO 修改为异步的方法 用户增加一个词典
+        /// 如果词典名已存在，则返回FALSE
         /// </summary>
-        SQLiteConnection dbfile;
-        /// <summary>
-        /// 内存数据库
-        /// </summary>
-        SQLiteConnection db;
-        /// <summary>
-        /// 读出文件字典到内存数据库db
-        /// </summary>
-        public void readFileDataBase()
+        public bool AddACustomDictionary(string DictionaryName)
         {
-  
+            using(var db=new DataContext())
+            {
+                if (db.Dictionaries.Find(DictionaryName) == null)
+                {
+                    var dictionary = new Dictionary();
+                    dictionary.Id = DictionaryName;
+                    dictionary.TotalWordsNumber = 0;
+                    db.Dictionaries.Add(dictionary);
+                    db.SaveChanges();
+                    return true;
+                }
+                else return false;
+            }
         }
+        
 
-        //public List<Vocabulary> selectDicType(string type)
-        //{
 
-            
-        //}
         /// <summary>
-        /// 将软件安装包中的词库导入C盘程序应用的目录
+        /// 将用户自定义词典读出到Dictionary<string,Vocabulary>
+        /// 定义了两个词汇类，暂时妥协，读出来重新赋值
         /// </summary>
         /// <returns></returns>
-        public bool backUpfileDataBase()
+        public Dictionary<string,Vocabulary> ReadCustomDictionary(string DictionaryName)
         {
-            /// <summary>
-            /// 分隔符
-            /// </summary>
-            char[] spc = new char[] { ' ', ',', '.', '?', '!', '\'', '\"', '=', '\\', '/' };
-            SQLiteConnection dbfile;//存放在DB下的文件
-            SQLiteConnection db;
-            string path = Path.GetFullPath("D");
-            return true;
+            var dictionary = new Dictionary<string, Vocabulary>();
+            using (var db = new DataContext())
+            {
+                var listOfWords=db.Words.ToList();
+                foreach(Word word in db.Words)
+                {
+                    var vocabulary = new Vocabulary();
+                    vocabulary.Word = word.Id;
+                    vocabulary.YesorNo = word.YesorNo;
+                    vocabulary.Translation = word.Translation;
+                    vocabulary.Tag = word.Tag;
+                    vocabulary.Phonetic = word.Phonetic;
+                    dictionary.Add(vocabulary.Word,vocabulary);
+                }
+            }
+                return dictionary;
         }
     }
 }

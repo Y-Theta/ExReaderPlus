@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace ExReaderPlus.Manage
 {
     /// <summary>
@@ -16,55 +15,92 @@ namespace ExReaderPlus.Manage
     /// </summary>
     public class fileDatabaseManage
     {
+
+
         public static char[] spc = new char[] { ' ', ',', '.', '?', '!', '\'', '\"', '=', '\\', '/' };
-        public static fileDatabaseManage instance;
-        SQLiteConnection dbfile;
-        SQLiteConnection db;
-        SQLiteCommand command;
+        
         /// <summary>
-        /// 构造函数，链接到文件数据库，将其读如到内存数据库
+        /// 声明的文数据库静态类，用来控制数据库
+        /// </summary>
+        public static fileDatabaseManage instance;
+
+        /// <summary>
+        /// 内存数据库
+        /// </summary>
+        SQLiteConnection _dbInmemory;
+
+        /// <summary>
+        /// 文件数据库
+        /// </summary>
+        SQLiteConnection _dbFile;
+
+        /// <summary>
+        /// 读到的结果集
+        /// </summary>
+        SQLiteDataReader _reader;
+
+        /// <summary>
+        /// 数据库命令
+        /// </summary>
+        private SQLiteCommand _command;
+
+        /// <summary>
+        /// 获取文件数据库路径
+        /// </summary>
+        public String FileDataPath { get; set; }
+
+        /// <summary>
+        /// 构造函数，链接到文件数据库，将其读入到内存数据库
         /// </summary>
         public fileDatabaseManage()
         {
-            //文件词库数据库
-            string path = Path.GetFullPath("DB/dic.db");
-            dbfile = new SQLiteConnection("Data Source=" + path + ";Version=3;");
-            dbfile.Open();
+            var  path = "DB/dic.db";
+            path = Path.GetFullPath(path);
+            _dbFile = new SQLiteConnection("Data Source="+path+";Version=3;");
+            _dbFile.Open();
             //内存词库数据库
             string str = "Data Source=:memory:;Version=3;New=True;";
-            db = new SQLiteConnection(str);
-            db.Open();
+            _dbInmemory = new SQLiteConnection(str);
+            _dbInmemory.Open();
             //数据库读入内存
-            dbfile.BackupDatabase(db, "main", "main", -1, null, 0);
+            _dbFile.BackupDatabase(_dbInmemory, "main", "main", -1, null, 0);
             //command对象
-            var command = new SQLiteCommand();
-            command.Connection = db;
+            this._command = new SQLiteCommand();
+            this._command.Connection = _dbInmemory;
             //关闭文件词库数据库
-            dbfile.Close();
-            dbfile = null;
+            _dbFile.Close();
+            _dbFile = null;
         }
+
+
         /// <summary>
-        /// 返回所查询一个词汇的对象
+        ///从数据库读入到WordBook
         /// </summary>
         /// <param name="word"></param>
         /// <returns></returns>
-        public Vocabulary getAWord(string word)
+        public void GetDictionaries()
         {
-            string commandText = "SELECT word,phonetic,translation FROM stardict WHERE word="+word;
-            command.CommandText = commandText;
-            var reader = command.ExecuteReader();
-            var vocabulary = new Vocabulary();
-            if (reader!=null) {
-                vocabulary.Word = reader.GetString(0);
-                vocabulary.Phonetic = reader.GetString(1);
-                vocabulary.Translation = reader.GetString(2);
-            }
-            else
+            //可能出现的问题：查询string用“=”；缺少空格，缺少引号，缺少转义字符
+            var commandText = "SELECT word,phonetic,translation,tag FROM stardict";
+
+            this._command.CommandText = commandText;               
+            var vocabularies = new List<Vocabulary>();
+            _reader = this._command.ExecuteReader();    
+            
+            while (_reader.Read())
             {
-                Debug.WriteLine("2018年7月20日21:54:06----------reader is Null");
+                var vocabulary = new Vocabulary();
+                vocabulary.Word = _reader.GetString(0);
+                vocabulary.Phonetic = _reader.GetString(1);
+                vocabulary.Translation = _reader.GetString(2);
+                vocabulary.Tag = _reader.GetString(3);
+                //可能出现问题，返回列名错误
+                WordBook.InsertWordsToDictionary(vocabulary);
+
             }
-            return vocabulary;
+            _reader.Close();
         }
+       
 
     }
 }

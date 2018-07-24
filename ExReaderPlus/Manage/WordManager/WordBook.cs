@@ -14,222 +14,139 @@ namespace ExReaderPlus.WordsManager
     //本空间下实现单词本界面各功能实现
     //附操作 MyWordsList.xaml.cs
 
-    public enum Type
+    /// <summary>
+    /// 单词掌握情况
+    /// </summary>
+    enum wordState
     {
-        CET4 = 1,
-        CET6 = 2,
-        KY = 3,
-        TOEFL = 4,
-        IETLTS = 5,
+        no=0,
+        yes=1
     }
-
+    /// <summary>
+    /// 单词，包含状态位、音标、意思
+    /// </summary>
     public class Vocabulary
     {
-        private string word;           //单词
-        private string translation;    //单词释义
-        private int classification;    //单词分类
-        private int yesorNo;           //单词掌握情况
-
-        private string phonetic;    //音标,新增
-        private string stateColor;
-
+        /// <summary>
+        /// 音标
+        /// </summary>
         public string Phonetic
         {
-            get { return phonetic; }
-            set { phonetic = value; }
+            get;
+            set;
         }
+        /// <summary>
+        /// 词汇
+        /// </summary>
         public string Word
         {
-            get { return word; }
-            set { word = value; }
+            get;
+            set;
 
         }
+        /// <summary>
+        /// 单词意思
+        /// </summary>
         public string Translation
         {
-            get { return translation; }
-            set { translation = value; }
+            get;
+            set;
 
         }
-        public int Classification
+        /// <summary>
+        /// 单词分类标签
+        /// </summary>
+        public string Tag
         {
-            get { return classification; }
-            set { classification = value; }
+            get;
+            set;
         }
+        /// <summary>
+        /// 单词掌握情况
+        /// </summary>
         public int YesorNo
         {
-            get { return yesorNo; }
-            set { yesorNo = value; }
+            get;
+            set;
         }
+        
         public string StateColor
         {
-            get { return stateColor; }
-            set { stateColor = value; }
+            get;
+            set;
         }
 
     }
 
-
+    /// <summary>
+    /// 默认的单词书;使用前调用静态方法初始化
+    /// </summary>
     public class WordBook
     {
-        private static List<Vocabulary> cet4_Book = new List<Vocabulary>(FetchWordBook("cet4"));
-        private static List<Vocabulary> cet6_Book = new List<Vocabulary>(FetchWordBook("cet6"));
-        private static List<Vocabulary> kaoyan_Book = new List<Vocabulary>(FetchWordBook("ky"));
-        private static List<Vocabulary> toefl_Book = new List<Vocabulary>(FetchWordBook("toefl"));
-        private static List<Vocabulary> ielts_Book = new List<Vocabulary>(FetchWordBook("ielts"));
-        private static List<Vocabulary> gre_Book = new List<Vocabulary>(FetchWordBook("gre"));
-        private static List<Vocabulary> all_Book = new List<Vocabulary>(CombineBook());
-
-
-        public static List<Vocabulary> CET4_Book
+        public static Dictionary<string, Vocabulary> GaoKao
         {
-            get { return cet4_Book; }
-            set { cet4_Book = value; }
+            get;
+            set;
         }
 
-        public static List<Vocabulary> CET6_Book
+        public static Dictionary<string,Vocabulary> CET4
         {
-            get { return cet6_Book; }
-            set { cet6_Book = value; }
-        }
-        public static List<Vocabulary> Kaoyan_Book
-        {
-            get { return kaoyan_Book; }
-            set { kaoyan_Book = value; }
-        }
-        public static List<Vocabulary> TOEFL_Book
-        {
-            get { return toefl_Book; }
-            set { toefl_Book = value; }
-        }
-        public static List<Vocabulary> IELTS_Book
-        {
-            get { return ielts_Book; }
-            set { ielts_Book = value; }
-        }
-        public static List<Vocabulary> GRE_Book
-        {
-            get { return gre_Book; }
-            set { gre_Book = value; }
+            get;
+            set;
         }
 
-        public static List<Vocabulary> All_Book
+        public static Dictionary<string,Vocabulary> CET6
         {
-            get { return all_Book; }
-            set { all_Book = value; }
+            get;
+            set;
         }
 
-        public static void InitWordsBook()
+        public static Dictionary<string,Vocabulary> KaoYan
         {
-            CET4_Book = new List<Vocabulary>();
-            CET6_Book = new List<Vocabulary>();
-            Kaoyan_Book = new List<Vocabulary>();
-            TOEFL_Book = new List<Vocabulary>();
-            IELTS_Book = new List<Vocabulary>();
-            GRE_Book = new List<Vocabulary>();
-            All_Book = new List<Vocabulary>();
+            get;
+            set;
         }
 
-        public static List<Vocabulary> CombineBook()
+        public static Dictionary<string, Vocabulary> TOEFL
         {
-            List<Vocabulary> vocabularies = new List<Vocabulary>();
-            vocabularies = CET4_Book.Concat(CET6_Book).Concat(Kaoyan_Book).Concat(TOEFL_Book)
-                .Concat(IELTS_Book).Concat(GRE_Book).ToList();
-            return vocabularies;
+            get;
+            set;
         }
 
-        //将导出的单词添加类别标签
-        public static List<Vocabulary> SetBooks(ObservableCollection<Vocabulary> reader_sourcelist, int type)
+        public static Dictionary<string, Vocabulary> IELTS
         {
-            List<Vocabulary> This_Book = new List<Vocabulary>();
-            List<Vocabulary> New_Book = new List<Vocabulary>(reader_sourcelist);
-            foreach (var item in New_Book)
-            {
-                item.Classification = type;
-                item.YesorNo = 0;
-                This_Book.Add(item);
-            }
-            return This_Book;
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// 初始化词典，将数据读入到每个词典内
+        /// </summary>
+        public static void InitDictionaries()
+        {
+            GaoKao = new Dictionary<string, Vocabulary>();
+            CET4 = new Dictionary<string, Vocabulary>();
+            CET6 = new Dictionary<string, Vocabulary>();
+            KaoYan = new Dictionary<string, Vocabulary>();
+            TOEFL = new Dictionary<string, Vocabulary>();
+            IELTS = new Dictionary<string, Vocabulary>();
 
         }
 
-        //筛选出未掌握的单词
-        public static ObservableCollection<Vocabulary> GetNoWordBook(ObservableCollection<Vocabulary> allWordBook)
+        /// <summary>
+        /// 将词库添加到单词书中,并且初始化
+        /// </summary>
+        public static void InsertWordsToDictionary( Vocabulary vocabulary)
         {
-            var noWordBook = new ObservableCollection<Vocabulary>();
-            foreach (var word in allWordBook)
-            {
-                if (word.YesorNo == 0)
-                {
-                    word.StateColor = "#ff0000";
-                    noWordBook.Add(word);
-                }
-            }
-
-            return noWordBook;
+            vocabulary.YesorNo = 0;
+            if (vocabulary.Tag.Contains("gk")) GaoKao.Add(vocabulary.Word, vocabulary);
+            if (vocabulary.Tag.Contains("cet4")) CET4.Add(vocabulary.Word, vocabulary);
+            if (vocabulary.Tag.Contains("cet6")) CET6.Add(vocabulary.Word, vocabulary);
+            if (vocabulary.Tag.Contains("ky")) KaoYan.Add(vocabulary.Word, vocabulary);
+            if (vocabulary.Tag.Contains("toefl")) TOEFL.Add(vocabulary.Word, vocabulary);
+            if (vocabulary.Tag.Contains("IELTS")) IELTS.Add(vocabulary.Word, vocabulary);
         }
-
-        //筛选出已掌握的单词
-        public static ObservableCollection<Vocabulary> GetYesWordBook(ObservableCollection<Vocabulary> allWordBook)
-        {
-            var yesWordBook = new ObservableCollection<Vocabulary>();
-            foreach (var word in allWordBook)
-            {
-                if (word.YesorNo == 1)
-                {
-                    word.StateColor = "#00ff00";
-                    yesWordBook.Add(word);
-                }
-            }
-            return yesWordBook;
-        }
-
-        //标记单词掌握颜色
-        public static List<Vocabulary> MarkColor(List<Vocabulary> v)
-        {
-            foreach (var item in v)
-            {
-                if (item.YesorNo == 1)
-                {
-                    item.StateColor = "#00ff00";
-                }
-                else if (item.YesorNo == 0)
-                {
-                    item.StateColor = "#ff0000";
-                }
-            }
-            return v;
-        }
-
-
-        // # 向数据库存储单词本数据
-       public static void StorageWordBook(List<Vocabulary> new_readerbook)
-       {
-            UserDataDB.instance.SaveWordBook(new_readerbook);
-       }
-
-        // # 从数据库取出单词本数据
-        public static List<Vocabulary> FetchWordBook(string type)
-        {
-            WordManage.instance.CacheAddList(UserDataDB.instance.FetchWord());
-            List<Vocabulary> DataBaseBook = WordManage.instance.VocabularyFiltCache(type);
-            return DataBaseBook;
-        }
-
-        private static void PrintList(List<Vocabulary> list)
-        {
-            if (list != null)
-            {
-                foreach (var item in list)
-                {
-                    Debug.WriteLine(item.Word);
-                }
-            }
-            else
-            {
-                Debug.WriteLine("list is empty!");
-            }
-        }
-
 
     }
-}
+
+}//命名空间

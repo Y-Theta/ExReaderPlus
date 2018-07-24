@@ -9,6 +9,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using ExReaderPlus.View.Pages;
+using ExReaderPlus.Manage;
 
 namespace ExReaderPlus {
     /// <summary>
@@ -25,7 +26,8 @@ namespace ExReaderPlus {
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
-         //   this.RequiresPointerMode = ApplicationRequiresPointerMode.WhenRequested;
+            //   this.RequiresPointerMode = ApplicationRequiresPointerMode.WhenRequested;
+
         }
 
         /// <summary>
