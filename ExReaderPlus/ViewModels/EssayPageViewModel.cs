@@ -6,8 +6,6 @@ using ExReaderPlus.View.Commands;
 namespace ExReaderPlus.ViewModels {
     public class EssayPageViewModel : ViewModelBasse{
         #region Properties
-        private Timer _passagetimer;
-
         public CommandBase LoadPassage { get; set; }
 
         public Passage TempPassage { get; set; }
@@ -23,25 +21,14 @@ namespace ExReaderPlus.ViewModels {
             {
                 TempPassage = null;
                 TempPassage = await FileManage.FileManage.Instence.DeSerializeFile();
-                _passagetimer.Enabled = true;
+                while (TempPassage is null) ;
+                PassageLoaded?.Invoke(this, EventArgs.Empty);
             });
-        }
-
-        private void InitTimer() {
-            _passagetimer = new Timer { Interval = 1000 };
-            _passagetimer.Elapsed += _passagetimer_Elapsed;
-        }
-
-        private void _passagetimer_Elapsed(object sender, ElapsedEventArgs e) {
-            while (TempPassage is null) ;
-            PassageLoaded?.Invoke(this, EventArgs.Empty);
-            _passagetimer.Enabled = false;
         }
         #endregion
 
         #region Constructors
         public EssayPageViewModel() {
-            InitTimer();
             InitCommand();
         }
         #endregion

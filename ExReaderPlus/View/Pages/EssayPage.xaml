@@ -9,7 +9,6 @@
       mc:Ignorable="d">
     <Grid x:Name="Rootgrid"
           Margin="0,32,0,0">
-        <Custome:RichWordView x:Name="TextView"
-                              RenderText="True" />
+        <Custome:RichWordView x:Name="TextView" />
     </Grid>
 </Page>

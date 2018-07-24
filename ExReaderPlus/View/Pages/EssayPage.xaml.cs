@@ -24,7 +24,7 @@ namespace ExReaderPlus.View.Pages {
         private void EssayPage_Loaded(object sender, RoutedEventArgs e) {
             viewModel = DataContext as EssayPageViewModel;
             if (viewModel.TempPassage != null)
-                TextView.SetText(Windows.UI.Text.TextSetOptions.None, viewModel.TempPassage.Content);
+                TextView.SetText(viewModel.TempPassage.Content);
         }
 
 

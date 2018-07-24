@@ -103,19 +103,22 @@
     <Compile Include="Manage\fileDatabaseManage.cs" />
     <Compile Include="Manage\PassageManager.cs" />
     <Compile Include="Manage\ReaderManager\ReadManage.cs" />
+    <Compile Include="Manage\userManage.cs" />
     <Compile Include="ViewModels\EssayPageViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBasse.cs" />
     <Compile Include="View\Commands\CommandBase.cs" />
     <Compile Include="View\Converter\Converters.cs" />
     <Compile Include="View\Converter\StateTriggers.cs" />
-    <Compile Include="View\CustomeControls\ComplexControls\RIchWordView.xaml.cs">
-      <DependentUpon>RIchWordView.xaml</DependentUpon>
+    <Compile Include="View\CustomeControls\ComplexControls\RichWordView.xaml.cs">
+      <DependentUpon>RichWordView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\CustomeControls\NewControls\CustomeNavigationView.cs" />
-    <Compile Include="View\CustomeControls\NewControls\Enums.cs" />
+    <Compile Include="View\CustomeControls\Enums.cs" />
+    <Compile Include="View\CustomeControls\NewControls\HitHolder.cs" />
     <Compile Include="View\CustomeControls\NewControls\IconViewItem.cs" />
     <Compile Include="View\CustomeControls\NewControls\RichTextBox.cs" />
     <Compile Include="Manage\DataManage\UserDataDB.cs" />
+    <Compile Include="Manage\DataManage\UserDB.cs" />
     <Compile Include="Manage\DataManage\WordManage.cs" />
     <Compile Include="View\Event\WordSelectArgs.cs" />
     <Compile Include="View\Layout\FlowLayout.cs" />
@@ -141,9 +144,11 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <Content Include="DB\dic.db" />
     <Content Include="Assets\IconY.ttf" />
+    <None Include="DB\dic.db" />
+    <None Include="DB\user.db" />
     <None Include="ExReaderPlus_TemporaryKey.pfx" />
+    <None Include="Manage\DB\dic.db" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Cybran_Y_T.jpg" />
@@ -165,9 +170,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\CustomeControls\ComplexControls\RIchWordView.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="View\CustomeControls\ComplexControls\RichWordView.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\CustomeControls\ControlStyles\CustomeNavigationView.xaml">
       <SubType>Designer</SubType>
@@ -178,6 +183,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\CustomeControls\ControlStyles\ScrollViewerAndSlider.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CustomeControls\ControlStyles\TextBlockStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -250,16 +259,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="View\Dialogs\" />
-    <Folder Include="View\MixControls\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\UserDictionary\UserDictionary.csproj">
-      <Project>{fbf0008f-1581-4a6a-b213-d3522dd28b41}</Project>
-      <Name>UserDictionary</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
