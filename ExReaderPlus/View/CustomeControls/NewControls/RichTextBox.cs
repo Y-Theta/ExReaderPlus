@@ -13,6 +13,8 @@ using Windows.UI.Core;
 using Windows.UI.Xaml.Shapes;
 using Windows.UI;
 using Windows.UI.Xaml.Media;
+using System.Threading.Tasks;
+using System.Text;
 
 namespace ExReaderPlus.View {
     /// <summary>
@@ -34,12 +36,18 @@ namespace ExReaderPlus.View {
 
         private bool _oldReadonly;
 
-        private bool _sizeChanged = false;
+        private bool _allowSwitch = true;
+
+        private bool _switchPage = false;
+
+        private bool _fontchange = false;
+
 
         private double _viewPortHeight;
         public double ViewPortHeight {
             get => _viewPortHeight;
             set {
+                _refrash = true;
                 _viewPortHeight = value;
                 OnWordChanged();
             }
@@ -53,7 +61,8 @@ namespace ExReaderPlus.View {
             get => _transformComplete;
             private set {
                 _transformComplete = value;
-                _refreshdic.Enabled = true;
+                if (!_refreshdic.Enabled)
+                    _refreshdic.Enabled = true;
             }
         }
 
@@ -81,8 +90,8 @@ namespace ExReaderPlus.View {
         /// <summary>
         /// 文章页表
         /// </summary>
-        private List<string> _pages;
-        public List<string> Pages {
+        private List<Range> _pages;
+        public List<Range> Pages {
             get => _pages;
             private set => _pages = value;
         }
@@ -90,10 +99,22 @@ namespace ExReaderPlus.View {
         /// <summary>
         /// 文章当前页
         /// </summary>
-        private string _temppage;
-        public string TempPage {
+        private int _temppage = 0;
+        public int TempPage {
             get => _temppage;
-            private set => _temppage = value;
+            private set {
+                if (value >= 0 && value < SumPage)
+                    _temppage = value;
+            }
+        }
+
+        /// <summary>
+        /// 总页数
+        /// </summary>
+        private int _sumPage;
+        public int SumPage {
+            get => _sumPage;
+            private set => _sumPage = value;
         }
 
         /// <summary>
@@ -103,8 +124,22 @@ namespace ExReaderPlus.View {
         public new bool IsReadOnly {
             get { return (bool)GetValue(IsReadOnlyProperty); }
             set {
-                IsReadOnlyChanged?.Invoke(this, EventArgs.Empty);
                 SetValue(IsReadOnlyProperty, value);
+                IsReadOnlyChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        /// <summary>
+        /// 暴露字体
+        /// </summary>
+        public new double FontSize {
+            get { return (double)GetValue(FontSizeProperty); }
+            set {
+                if (!_fontchange)
+                {
+                    _fontchange = true;
+                    SetValue(FontSizeProperty, value);
+                }
             }
         }
 
@@ -135,20 +170,14 @@ namespace ExReaderPlus.View {
 
 
         #region overrides
-        public void SizeChangeRefrash() {
-            _refrash = true;
-            _oldReadonly = IsReadOnly;
-            _sizeChanged = true;
-            TransformComplete = false;
-        }
-
         private void RichTextBox_Paste(object sender, TextControlPasteEventArgs e) {
             OnWordChanged();
             _refrash = true;
         }
 
         private void RichTextBox_TextChanged(object sender, RoutedEventArgs e) {
-            OnWordChanged();
+            if (!_switchPage)
+                OnWordChanged();
             _refrash = true;
         }
         #endregion
@@ -160,76 +189,134 @@ namespace ExReaderPlus.View {
         /// 用计时器异步降低开销
         /// </summary>
         private void InitTimer() {
-            _refreshdic = new Timer { Interval = 2800 };
+            _refreshdic = new Timer { Interval = 2000 };
             _refreshdic.Elapsed += _refreshdic_Elapsed;
         }
 
         private async void _refreshdic_Elapsed(object sender, ElapsedEventArgs e) {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                UpdateDic();
+                UpdateDic(Pages[TempPage]);
+                _transformComplete = true;
+                _refreshdic.Enabled = false;
+                
             });
-            _refreshdic.Enabled = false;
         }
 
+        /// <summary>
+        /// 文本可编辑状态改变
+        /// </summary>
         private void RichTextBox_IsReadOnlyChanged(object sender, EventArgs e) {
-            UpdateDic();
+            IsEnabled = false;
+            TransformComplete = false;
         }
 
         /// <summary>
         /// 文章载入后
         /// </summary>
         private void RichTextBox_PassageLoaded(object sender, EventArgs e) {
-            Document.SetText(TextSetOptions.None, _contentString);
+            OnWordChanged();
+        }
+
+        /// <summary>
+        /// 文本分页
+        /// </summary>
+        private void SortPages(int firstpage) {
+            int tempos = 0;
+            SumPage = 0;
+            Pages.Clear();
+            for (int i = 0; i < ContentString.Length; i++)
+            {
+                int offset = 0;
+                while (tempos + firstpage - offset < ContentString.Length && !ContentString[tempos + firstpage - offset].Equals(' '))
+                {
+                    offset++;
+                }
+                if (tempos + firstpage - offset < ContentString.Length)
+                    Pages.Add(new Range(tempos, firstpage - offset));
+                else
+                {
+                    Pages.Add(new Range(tempos, ContentString.Length - tempos - 1));
+                    SumPage++;
+                    return;
+                }
+                SumPage++;
+                tempos = tempos + firstpage - offset + 1;
+            }
         }
 
         /// <summary>
         /// 文字改变时重新分页
         /// </summary>
         private void OnWordChanged() {
-            SetContentFormat(() => {
-                IsEnabled = false;
-                Debug.WriteLine(ViewPortHeight);
-                ITextRange ran = Document.GetRangeFromPoint(new Point(0, ViewPortHeight), PointOptions.ClientCoordinates);
-                Debug.WriteLine(ran.StartPosition + "     " + ran.EndPosition);
-                Document.Selection.SetRange(0, ran.EndPosition);
-                IsEnabled = true;
-            });
+            IsEnabled = false;
+            _allowSwitch = false;
+            if (_contentString != null)
+                SetContentFormat(() =>
+                {
+                    Document.SetText(TextSetOptions.None, _contentString);
+                    ITextRange ran = Document.GetRangeFromPoint(new Point(0, ViewPortHeight - Margin.Bottom - Padding.Bottom), PointOptions.ClientCoordinates);
+                    SortPages(ran.EndPosition);
+                    SwitchPage();
+                });
+        }
+
+        /// <summary>
+        /// 换页
+        /// </summary>
+        private void SwitchPage() {
+            _allowSwitch = false;
+            _refrash = true;
+            if (_contentString != null)
+                SetIgnoreReadonly(() =>
+                {
+                    _switchPage = true;
+                    IsEnabled = false;
+                    string str = _contentString.Substring(Pages[TempPage].Start, Pages[TempPage].End);
+                    AddBlankFirst(ref str);
+                    Document.SetText(TextSetOptions.None, str);
+                    TransformComplete = false;
+                });
         }
 
         /// <summary>
         /// 更新字典
         /// </summary>
-        private void UpdateDic() {
-            ElementsLoc.Clear();
-            if (_refrash && ContentString != null)
-                SetContentFormat(() =>
-                {
-                    IsEnabled = false;
-                    IsReadOnly = false;
-                    _refrash = false;
-                    MatchCollection mc = Regex.Matches(ContentString, @"[a-zA-Z-]+");
-                    foreach (Match m in mc)
+        private void UpdateDic(Range range) {
+            if (range != null)
+            {
+                if (_refrash)
+                    SetContentFormat(() =>
                     {
-                        Document.Selection.StartPosition = m.Index;
-                        Document.Selection.EndPosition = m.Index + m.Length;
-                        Document.Selection.GetRect(PointOptions.ClientCoordinates, out Rect outrect, out int hit);
-                        AddtoLocDic(m.Value, outrect);
-                    }
-                    Document.Selection.StartPosition = Document.Selection.EndPosition = 0;
-                    //foreach (var pk in ElementsLoc)
-                    //{
-                    //    Debug.WriteLine(pk.Key + "        " + PrintDicItem(pk.Value));
-                    //}
-                    IsReadOnly = true;
-                    if (_sizeChanged)
-                        IsReadOnly = _oldReadonly;
-                    _sizeChanged = false;
-                    IsEnabled = true;
-                    ElementSorted?.Invoke(this, EventArgs.Empty);
-                });
+                        ElementsLoc.Clear();
+                        _refrash = false;
+                        Document.GetText(TextGetOptions.None, out string str);
+                        MatchCollection mc = Regex.Matches(str, @"[a-zA-Z-]+");
+                        foreach (Match m in mc)
+                        {
+                            Document.Selection.StartPosition = m.Index;
+                            Document.Selection.EndPosition = m.Index + m.Length;
+                            Document.Selection.GetRect(PointOptions.ClientCoordinates, out Rect outrect, out int hit);
+                            AddtoLocDic(m.Value, outrect);
+                        }
+                        Document.Selection.StartPosition = Document.Selection.EndPosition = 0;
+                        //foreach (var pk in ElementsLoc)
+                        //{
+                        //    Debug.WriteLine(pk.Key + "        " + PrintDicItem(pk.Value));
+                        //}
+                    });
+                ElementSorted?.Invoke(this, EventArgs.Empty);
+                //Switch
+                _fontchange = false;
+                _allowSwitch = true;
+                _switchPage = false;
+            }
         }
 
+        private string AddBlankFirst(ref string str) {
+            str = "    " + str;
+            return str.Replace("\n", "\n    ");
+        }
 
         /// <summary>
         /// 由于文章中会有重复的单词，所以用这种方式添加到字典
@@ -262,9 +349,16 @@ namespace ExReaderPlus.View {
         /// <param name="action">设置格式的操作</param>
         private void SetContentFormat(Action action) {
             TextChanged -= RichTextBox_TextChanged;
-            IsReadOnlyChanged -= RichTextBox_IsReadOnlyChanged;
-            action?.Invoke();
+            SetIgnoreReadonly(action);
             TextChanged += RichTextBox_TextChanged;
+        }
+
+        private void SetIgnoreReadonly(Action action) {
+            IsReadOnlyChanged -= RichTextBox_IsReadOnlyChanged;
+            _oldReadonly = IsReadOnly;
+            IsReadOnly = false;
+            action?.Invoke();
+            IsReadOnly = _oldReadonly;
             IsReadOnlyChanged += RichTextBox_IsReadOnlyChanged;
         }
 
@@ -273,10 +367,11 @@ namespace ExReaderPlus.View {
         }
 
         private void SetDefaultFormat() {
+            FontSize = OverallViewSettings.Instence.RichTextBoxSize;
+
             ITextCharacterFormat defaultformat = Document.GetDefaultCharacterFormat();
             defaultformat.ForegroundColor = OverallViewSettings.Instence.RichTextBoxFg;
             defaultformat.BackgroundColor = OverallViewSettings.Instence.RichTextBoxBg;
-            defaultformat.Size = OverallViewSettings.Instence.RichTextBoxSize;
             defaultformat.Weight = OverallViewSettings.Instence.RichTextBoxWeight;
 
             ITextParagraphFormat defaultformatp = Document.GetDefaultParagraphFormat();
@@ -284,6 +379,10 @@ namespace ExReaderPlus.View {
 
             Document.SetDefaultCharacterFormat(defaultformat);
             Document.SetDefaultParagraphFormat(defaultformatp);
+        }
+
+        private void Updatalayout() {
+
         }
 
         private string PrintDicItem(List<Rect> ranges) {
@@ -298,10 +397,39 @@ namespace ExReaderPlus.View {
         #endregion
 
 
+        #region InterfaceFun
+
+        public void GotoPage(int index) {
+            if (_allowSwitch)
+            {
+                TempPage = index;
+                SwitchPage();
+            }
+        }
+
+        public void PageUp() {
+            if (_allowSwitch)
+            {
+                TempPage += 1;
+                SwitchPage();
+            }
+        }
+
+        public void PageDown() {
+            if (_allowSwitch)
+            {
+                TempPage -= 1;
+                SwitchPage();
+            }
+        }
+        #endregion
+
+
         #region Constructor
         public RichTextBox() {
             InitTimer();
             ElementsLoc = new Dictionary<string, List<Rect>>();
+            Pages = new List<Range>();
             PassageLoaded += RichTextBox_PassageLoaded;
             IsReadOnlyChanged += RichTextBox_IsReadOnlyChanged;
             Loaded += RichTextBox_Loaded;

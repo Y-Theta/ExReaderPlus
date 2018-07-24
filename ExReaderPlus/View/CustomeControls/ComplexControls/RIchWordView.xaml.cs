@@ -40,7 +40,6 @@ namespace ExReaderPlus.View {
 
         private void RichWordView_SizeChanged(object sender, SizeChangedEventArgs e) {
             TextView.ViewPortHeight = e.NewSize.Height;
-            TextView.SizeChangeRefrash();
         }
 
         private void RIchWordView_Loaded(object sender, RoutedEventArgs e) {
@@ -53,27 +52,32 @@ namespace ExReaderPlus.View {
         /// 富文本框的字典构建完毕,转换到阅读模式
         /// </summary>
         private void TextView_ElementSorted(object sender, EventArgs e) {
+            RenderLayer.Visibility = Visibility.Collapsed;
             RichTextBox rtb = sender as RichTextBox;
             ControlDic.Clear();
             RenderLayer.Children.Clear();
             RenderLayer.UpdateLayout();
-            foreach (var kp in rtb.ElementsLoc)
-            {
-                foreach (var loc in kp.Value)
+            if (rtb.ElementsLoc != null && rtb.ElementsLoc.Count > 0)
+                foreach (var kp in rtb.ElementsLoc)
                 {
-                    HitHolder rect = new HitHolder
+                    foreach (var loc in kp.Value)
                     {
-                        PointBrush = new SolidColorBrush(Color.FromArgb(200, 0, 120, 200)),
-                        Margin = new Thickness(loc.Left, loc.Top + 2, 0, 0),
-                        Width = loc.Width,
-                        Height = loc.Height - 2,
-                        Name = kp.Key
-                    };
-                    AddtoControlDic(kp.Key, rect);
-                    RenderLayer.Children.Add(rect);
+                        HitHolder rect = new HitHolder
+                        {
+                            PointBrush = new SolidColorBrush(Color.FromArgb(200, 0, 120, 200)),
+                            Margin = new Thickness(loc.Left, loc.Top + 2, 0, 0),
+                            Width = loc.Width,
+                            Height = loc.Height - 2,
+                            Name = kp.Key
+                        };
+                        AddtoControlDic(kp.Key, rect);
+                        RenderLayer.Children.Add(rect);
+                    }
                 }
-            }
             RenderLayer.UpdateLayout();
+            TextView.IsEnabled = true;
+            if (TextView.IsReadOnly)
+                RenderLayer.Visibility = Visibility.Visible;
         }
 
         private void AddtoControlDic(string key, Control value) {
@@ -102,7 +106,6 @@ namespace ExReaderPlus.View {
             if (!TextView.IsReadOnly)
             {
                 TextView.IsReadOnly = true;
-                RenderLayer.Visibility = Visibility.Visible;
             }
             else
             {
@@ -112,7 +115,7 @@ namespace ExReaderPlus.View {
         }
 
         private void Button_Click(object sender, RoutedEventArgs e) {
-            List<Control> ss = ControlDic["have"];
+           
 
         }
         #endregion
@@ -123,6 +126,23 @@ namespace ExReaderPlus.View {
             SizeChanged += RichWordView_SizeChanged;
             Loaded += RIchWordView_Loaded;
             Unloaded += RIchWordView_Unloaded;
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e) {
+            TextView.PageDown();
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e) {
+            TextView.PageUp();
+
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e) {
+            TextView.FontSize += 0.5;
+        }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e) {
+            TextView.FontSize -= 0.5;
         }
     }
 }

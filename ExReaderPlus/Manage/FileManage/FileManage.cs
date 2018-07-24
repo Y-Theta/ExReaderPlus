@@ -97,7 +97,6 @@ namespace ExReaderPlus.FileManage {
                 passage.Content = await FileIO.ReadTextAsync(storageFile);
                 passage.HeadName = storageFile.DisplayName;
 
-
                 return passage;
             }
             else

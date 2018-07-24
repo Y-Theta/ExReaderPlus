@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:viewmodels="using:ExReaderPlus.ViewModels"
              xmlns:pages ="using:ExReaderPlus.View.Pages"
+             xmlns:view ="using:ExReaderPlus.View"
              xmlns:local="using:ExReaderPlus">
     
     <Application.Resources>
@@ -16,6 +17,7 @@
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="View/CustomeControls/ControlStyles/TextBlockStyles.xaml" />
                 <ResourceDictionary Source="View/CustomeControls/CustomeStaticStyles.xaml" />
                 <ResourceDictionary Source="Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -23,6 +25,8 @@
             <FontFamily x:Key="LineNumber">Assets/LineNumber.ttf#LineNumber</FontFamily>
 
             <!--ViewModels-->
+            <view:OverallViewSettings x:Key="OverallViewSettings" />
+
             <viewmodels:MainPageViewModel x:Key="MainPageViewModel" />
             <viewmodels:EssayPageViewModel x:Key="EssayPageViewModel" />
 

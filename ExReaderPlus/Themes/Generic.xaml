@@ -529,7 +529,7 @@
     <!--HitHolder-->
     <Style TargetType="local:HitHolder">
         <Setter Property="Background"
-                Value="#80000000" />
+                Value="Transparent" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:HitHolder">
@@ -562,4 +562,5 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
 </ResourceDictionary>

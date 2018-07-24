@@ -115,8 +115,6 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="DB\dic.db" />
-    <None Include="DB\user.db" />
     <None Include="UnitTest_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

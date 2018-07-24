@@ -43,7 +43,7 @@ namespace ExReaderPlus.View {
         /// <summary>
         /// 富文本框文字字体大小
         /// </summary>
-        private float _richTextBoxSize = 12;
+        private float _richTextBoxSize = 18;
         public float RichTextBoxSize {
             get => _richTextBoxSize;
             set => SetValue<float>(out _richTextBoxSize, value, nameof(RichTextBoxSize));
@@ -84,6 +84,8 @@ namespace ExReaderPlus.View {
             get => _richTextSelectBoxBg;
             set => SetValue<Color>(out _richTextSelectBoxBg, value, nameof(RichTextSelectBoxBg));
         }
+
+
         #endregion
 
 

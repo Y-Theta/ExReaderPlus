@@ -18,8 +18,8 @@
 
     <!--Styles-->
     <ResourceDictionary.MergedDictionaries>
-        <!--TextBlockStyles-->
-        <ResourceDictionary Source="ControlStyles/TextBlockStyles.xaml" />
+        <!--TextBlockStyles--><!--
+        <ResourceDictionary Source="ControlStyles/TextBlockStyles.xaml" />-->
         <!--ButtonStyles-->
         <ResourceDictionary Source="ControlStyles/ButtonStyles.xaml" />
         <!--ScrollViewerAndSlider-->

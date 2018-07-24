@@ -7,39 +7,66 @@
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="400">
-    <Grid x:Name="Rootgrid">
+    <Grid x:Name="Rootgrid"
+          Margin="4,0,4,8">
         <ScrollViewer Style="{StaticResource DefaultScrollViewer}"
                       Grid.Row="1"
                       HorizontalScrollBarVisibility="Disabled">
             <Grid x:Name="TextLayer">
                 <local:RichTextBox x:Name="TextView"
+                                   FontSize="{Binding RichTextBoxSize, Source={StaticResource OverallViewSettings},Mode=TwoWay}"
                                    TextWrapping="Wrap" />
                 <Canvas x:Name="RenderLayer"
-                      Visibility="Collapsed" />
+                        Visibility="Collapsed" />
             </Grid>
         </ScrollViewer>
-        <Button Content="&#xE948;"
-                Grid.Row="1"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Bottom"
-                Margin="0,0,40,40"
-                Command="{Binding LoadPassage}"
-                Style="{StaticResource IconButtonStyle}" />
-        <Button Content="&#xA000;"
-                Grid.Row="1"
-                FontFamily="{StaticResource IconY}"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Bottom"
-                Margin="0,0,90,40"
-                Click="Enable"
-                Style="{StaticResource IconButtonStyle}" />
-        <Button Content="&#xA000;"
-                Grid.Row="1"
-                FontFamily="{StaticResource IconY}"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Bottom"
-                Margin="0,0,140,40"
-                Click="Button_Click"
-                Style="{StaticResource IconButtonStyle}" />
+        <Grid x:Name="ControlLayer"
+              Grid.Row="1"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Bottom"
+              Margin="0,0,0,32">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+            <Button Content="&#xE948;"
+                    Grid.Column="0"
+                    Command="{Binding LoadPassage}"
+                    Style="{StaticResource IconButtonStyle}" />
+            <Button Content="&#xA000;"
+                    Grid.Column="1"
+                    FontFamily="{StaticResource IconY}"
+                    Click="Enable"
+                    Style="{StaticResource IconButtonStyle}" />
+            <Button Content="&#xA000;"
+                    Grid.Column="2"
+                    FontFamily="{StaticResource IconY}"
+                    Click="Button_Click"
+                    Style="{StaticResource IconButtonStyle}" />
+            <Button Content="&#xF0D3;"
+                    Grid.Column="5"
+                    Click="Button_Click_1"
+                    Style="{StaticResource IconButtonStyle}" />
+            <Button Content="&#xF0D2;"
+                    Grid.Column="6"
+                    Click="Button_Click_2"
+                    Style="{StaticResource IconButtonStyle}" />
+            <Button Content="&#xE8E7;"
+                    Grid.Column="7"
+                    Click="Button_Click_3"
+                    Style="{StaticResource IconButtonStyle}" />
+            <Button Content="&#xE8E8;"
+                    Grid.Column="8"
+                    Click="Button_Click_4"
+                    Style="{StaticResource IconButtonStyle}" />
+        </Grid>
+
     </Grid>
 </UserControl>
