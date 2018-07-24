@@ -7,11 +7,16 @@ using Windows.Storage;
 using System.IO;
 using System.Diagnostics;
 using System.Numerics;
+using Windows.ApplicationModel.Core;
 using Windows.Storage.Pickers;
 using Windows.System;
 using Windows.UI;
+using Windows.UI.Core;
 using ExReaderPlus.Manage.ReaderManager;
 using Windows.UI.Notifications;
+using Windows.UI.ViewManagement;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using ExReaderPlus.View;
 using ExReaderPlus.ViewModels;
 using Microsoft.Graphics.Canvas;
@@ -19,9 +24,10 @@ using Microsoft.Graphics.Canvas.Text;
 
 
 namespace ExReaderPlus.FileManage {
-    //汤浩工作空间
-    //本类实现将 #工程文件# 涉及到的 #类数据# 打包与解包，实现序列化、反序列化，实现导入、导出工程文件 （自定义文件名 .xread）
-    //附操作 MainReader.xaml.cs
+   /// <summary>
+   /// File
+   /// </summary>
+   
 
     public class FileManage
     {
@@ -123,7 +129,9 @@ namespace ExReaderPlus.FileManage {
             ToastNotifier.Show(toast);
         }
 
-
+        /// <summary>
+        /// 用于网页分享功能
+        /// </summary>
         public async void ShareData()
         {
 
@@ -147,6 +155,11 @@ namespace ExReaderPlus.FileManage {
 
         }
 
+        /// <summary>
+        /// win2d对图片写字
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public async Task Win2DTask(string str)
         {
             var pick = new FileOpenPicker();
@@ -157,17 +170,23 @@ namespace ExReaderPlus.FileManage {
             var duvDbecdgiu =
                 await CanvasBitmap.LoadAsync(new CanvasDevice(true), await file.OpenAsync(FileAccessMode.Read));
             var canvasRenderTarget = new CanvasRenderTarget(duvDbecdgiu, duvDbecdgiu.Size);
-            using (var dc = canvasRenderTarget.CreateDrawingSession())
+            
+            using (var dc = canvasRenderTarget.CreateDrawingSession())//用后则需撤销
             {
 
+                ///先将图片读取
                 dc.DrawImage(duvDbecdgiu);
+                ///写图片
                 dc.DrawText(str,
                     100,100,1700,50,
-                    Color.FromArgb(0xA1, 100, 100, 100), new CanvasTextFormat()
+                    Colors.Black, new CanvasTextFormat()
                     {
                         FontSize = 50
                     });
             }
+
+
+            ShowToastNotification("图片已保存成功","请选择图片保存位置");
 
             var pick1 = new FileSavePicker();
             pick1.FileTypeChoices.Add("image", new List<string>() { ".png" });
@@ -176,6 +195,37 @@ namespace ExReaderPlus.FileManage {
 
             await canvasRenderTarget.SaveAsync(await file1.OpenAsync(FileAccessMode.ReadWrite), CanvasBitmapFileFormat.Png);
 
+//            CoreApplicationView newView = CoreApplication.CreateNewView();
+//
+//            int newViewId = 0;
+//
+//            await newView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+//
+//            {
+//
+//                Frame frame = new Frame();
+//
+//                frame.Navigate(typeof(MainPageViewModel), null);
+//
+//                Window.Current.Content = frame;
+//
+//                // You have to activate the window in order to show it later.
+//
+//                Window.Current.Activate();
+//
+//
+//
+//                newViewId = ApplicationView.GetForCurrentView().Id;
+//
+//            });
+//
+//            bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newViewId);
         }
+
+
+                 
+
+        
+
     }
 }

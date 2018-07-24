@@ -17,9 +17,9 @@
         <Setter Property="FontFamily"
                 Value="{StaticResource SymbolThemeFontFamily}" />
         <Setter Property="Background"
-                Value="{ThemeResource DefaultButtonBG_N}" />
+                Value="{ThemeResource DefaultControlBarButtonBG_N}" />
         <Setter Property="Foreground"
-                Value="{ThemeResource DefaultButtonFG_N}" />
+                Value="{ThemeResource DefaultControlBarButtonFG_N}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -31,17 +31,17 @@
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
                                         <Setter Target="RootGrid.Background"
-                                                Value="{ThemeResource DefaultButtonBG_R}" />
+                                                Value="{ThemeResource DefaultControlBarButtonBG_R}" />
                                         <Setter Target="IconHolder.Foreground"
-                                                Value="{ThemeResource DefaultButtonFG_R}" />
+                                                Value="{ThemeResource DefaultControlBarButtonFG_R}" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <VisualState.Setters>
                                         <Setter Target="RootGrid.Background"
-                                                Value="{ThemeResource DefaultButtonBG_P}" />
+                                                Value="{ThemeResource DefaultControlBarButtonBG_P}" />
                                         <Setter Target="IconHolder.Foreground"
-                                                Value="{ThemeResource DefaultButtonFG_P}" />
+                                                Value="{ThemeResource DefaultControlBarButtonFG_P}" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>

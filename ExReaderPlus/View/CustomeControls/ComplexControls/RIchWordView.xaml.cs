@@ -48,6 +48,16 @@ namespace ExReaderPlus.View {
             viewModel = (EssayPageViewModel)DataContext;
             viewModel.PassageLoaded += EssayPage_PassageLoaded;
             TextView.ElementSorted += TextView_ElementSorted; ;
+            ControlLayer.PointerEntered += GridBg_PointerEntered;
+            ControlLayer.PointerExited += ControlLayer_PointerExited;
+        }
+
+        private void ControlLayer_PointerExited(object sender, PointerRoutedEventArgs e) {
+            (sender as Grid).Opacity = 0.3;
+        }
+
+        private void GridBg_PointerEntered(object sender, PointerRoutedEventArgs e) {
+            (sender as Grid).Opacity = 1;
         }
 
         /// <summary>
@@ -55,17 +65,19 @@ namespace ExReaderPlus.View {
         /// </summary>
         private void TextView_ElementSorted(object sender, EventArgs e) {
             RichTextBox rtb = sender as RichTextBox;
+            foreach (var cot in ControlDic)
+                foreach (var loc in cot.Value)
+                        (loc as HitHolder).PointerEntered -= Rect_PointerEntered;
             ControlDic.Clear();
             RenderLayer.Children.Clear();
             RenderLayer.UpdateLayout();
             if (rtb.ElementsLoc != null && rtb.ElementsLoc.Count > 0)
                 foreach (var kp in rtb.ElementsLoc)
-                {
                     foreach (var loc in kp.Value)
                     {
                         HitHolder rect = new HitHolder
                         {
-                            PointBrush = new SolidColorBrush(Color.FromArgb(200, 0, 120, 200)),
+                            PointBrush = new SolidColorBrush(Color.FromArgb(96, 0, 120, 200)),
                             Margin = new Thickness(loc.Left, loc.Top + 2, 0, 0),
                             Width = loc.Width,
                             Height = loc.Height - 2,
@@ -75,7 +87,6 @@ namespace ExReaderPlus.View {
                         AddtoControlDic(kp.Key, rect);
                         RenderLayer.Children.Add(rect);
                     }
-                }
             RenderLayer.UpdateLayout();
             TextView.IsEnabled = true;
             if (TextView.IsReadOnly)
@@ -83,11 +94,11 @@ namespace ExReaderPlus.View {
         }
 
         private void Rect_PointerEntered(object sender, PointerRoutedEventArgs e) {
-            var control = (HitHolder)sender;
-            var t = new Translate();
-            t.Text = control.Name;
-            var s = t.GetResult();
-            control.Tooltip = s;
+            //var control = (HitHolder)sender;
+            //var t = new Translate();
+            //t.Text = control.Name;
+            //var s = t.GetResult();
+            //control.Tooltip = s;
         }
 
         private void AddtoControlDic(string key, Control value) {

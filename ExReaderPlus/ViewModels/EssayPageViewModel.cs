@@ -2,10 +2,12 @@
 using System.Timers;
 using ExReaderPlus.Manage.PassageManager;
 using ExReaderPlus.View.Commands;
+using Windows.UI.Xaml.Media;
 
 namespace ExReaderPlus.ViewModels {
     public class EssayPageViewModel : ViewModelBasse{
         #region Properties
+
         public CommandBase LoadPassage { get; set; }
 
         public Passage TempPassage { get; set; }
@@ -25,11 +27,16 @@ namespace ExReaderPlus.ViewModels {
                 PassageLoaded?.Invoke(this, EventArgs.Empty);
             });
         }
+
+        private void LoadRes() {
+            
+        }
         #endregion
 
         #region Constructors
         public EssayPageViewModel() {
             InitCommand();
+            LoadRes();
         }
         #endregion
     }

@@ -5,8 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             d:DesignHeight="300"
-             d:DesignWidth="400">
+             DataContext="{StaticResource EssayPageViewModel}">
     <Grid x:Name="Rootgrid"
           Margin="4,0,4,8">
         <ScrollViewer Style="{StaticResource DefaultScrollViewer}"
@@ -22,8 +21,11 @@
         </ScrollViewer>
         <Grid x:Name="ControlLayer"
               Grid.Row="1"
+              Background="{ThemeResource ControlBarBg_N}"
+              Opacity="0.3"
               HorizontalAlignment="Stretch"
               VerticalAlignment="Bottom"
+              Padding="4,0,4,0"
               Margin="8,0,8,32">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
@@ -58,11 +60,11 @@
                     Grid.Column="6"
                     Click="Button_Click_2"
                     Style="{StaticResource IconButtonStyle}" />
-            <Button Content="&#xE8E7;"
+            <Button Content="&#xE8E8;"
                     Grid.Column="7"
                     Click="Button_Click_3"
                     Style="{StaticResource IconButtonStyle}" />
-            <Button Content="&#xE8E8;"
+            <Button Content="&#xE8E7;"
                     Grid.Column="8"
                     Click="Button_Click_4"
                     Style="{StaticResource IconButtonStyle}" />
