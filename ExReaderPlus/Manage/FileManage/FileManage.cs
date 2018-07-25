@@ -178,11 +178,15 @@ namespace ExReaderPlus.FileManage {
                 dc.DrawImage(duvDbecdgiu);
                 ///写图片
                 dc.DrawText(str,
-                    100,100,1700,50,
+                    100,100,520,50,
                     Colors.Black, new CanvasTextFormat()
                     {
-                        FontSize = 50
+                        FontSize = 30
                     });
+                dc.DrawText("Exreader",600,1000,Color.FromArgb(10,25,25,112),new CanvasTextFormat()
+                {
+                    FontSize = 50
+                });
             }
 
 

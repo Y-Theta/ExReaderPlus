@@ -103,6 +103,7 @@
     <Compile Include="Manage\fileDatabaseManage.cs" />
     <Compile Include="Manage\PassageManager.cs" />
     <Compile Include="Manage\ReaderManager\ReadManage.cs" />
+    <Compile Include="Tile\TileService.cs" />
     <Compile Include="ViewModels\EssayPageViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBasse.cs" />
     <Compile Include="View\Commands\CommandBase.cs" />
