@@ -37,9 +37,7 @@ namespace ExReaderPlus {
         /// </summary>
         /// <param name="e">有关启动请求和过程的详细信息。</param>
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
-        {
-            await InitDicAsync();
-          
+        {          
             Frame rootFrame = Window.Current.Content as Frame;
 
             // 不要在窗口已包含内容时重复应用程序初始化，
@@ -81,11 +79,11 @@ namespace ExReaderPlus {
             rootFrame.ActualThemeChanged += RootFrame_ActualThemeChanged;
             //强置主题
             RootFrame_ActualThemeChanged(null, null);
+            await InitDicAsync();
         }
 
         private async Task InitDicAsync() {
-            Task s = new Task(() =>
-            {
+            Task s = new Task(() => {
                 fileDatabaseManage.instance = new fileDatabaseManage();
                 WordBook.InitDictionaries();
                 fileDatabaseManage.instance.GetDictionaries();

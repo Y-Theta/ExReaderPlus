@@ -7,8 +7,28 @@
              mc:Ignorable="d"
              DataContext="{StaticResource EssayPageViewModel}">
     <Grid x:Name="Rootgrid"
+          AllowDrop="True"
+          DragLeave="Rootgrid_DragLeave"
           Margin="8,0,8,8">
-        
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="ControlLayerState">
+                <VisualStateGroup.Transitions>
+                </VisualStateGroup.Transitions>
+                <VisualState x:Name="ControlLayerShow">
+                    <VisualState.Setters>
+                        <Setter Target="ControlLayer.Visibility"
+                                Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="ControlLayerHide">
+                    <VisualState.Setters>
+                        <Setter Target="ControlLayer.Visibility"
+                                Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+            
+        </VisualStateManager.VisualStateGroups>
         <ScrollViewer Style="{StaticResource DefaultScrollViewer}"
                       Grid.Row="1"
                       HorizontalScrollBarVisibility="Disabled">
@@ -20,13 +40,18 @@
                         Visibility="Collapsed" />
             </Grid>
         </ScrollViewer>
+
         <Grid x:Name="ControlLayer"
               Background="{ThemeResource ControlBarBg_N}"
-              Opacity="0.3"
-              HorizontalAlignment="Stretch"
+              CanDrag="True"
+              DragStarting="ControlLayer_DragStarting"
+              DropCompleted="ControlLayer_DropCompleted"
               VerticalAlignment="Bottom"
+              Visibility="Visible"
+              Height="36"
+              Opacity="0.3"
               Padding="4,0,4,0"
-              Margin="8,0,8,32">
+              Margin="{Binding ReadingPageControlBar,Source={StaticResource OverallViewSettings},Mode=TwoWay}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="auto" />
@@ -69,5 +94,6 @@
                     Click="Button_Click_4"
                     Style="{StaticResource IconButtonStyle}" />
         </Grid>
+
     </Grid>
 </UserControl>

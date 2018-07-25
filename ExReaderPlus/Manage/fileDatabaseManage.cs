@@ -22,7 +22,7 @@ namespace ExReaderPlus.Manage
         /// <summary>
         /// 声明的文数据库静态类，用来控制数据库
         /// </summary>
-        public static fileDatabaseManage instance;
+        public static fileDatabaseManage instance = new fileDatabaseManage();
 
         /// <summary>
         /// 内存数据库

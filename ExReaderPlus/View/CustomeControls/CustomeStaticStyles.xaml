@@ -15,6 +15,7 @@
     <Converter:BOOLtoICONF x:Key="BOOLtoICONF" />
     <Converter:GRIDLtoDOUBLE x:Key="GRIDLtoDOUBLE" />
     <Converter:NegativeConverter x:Key="NegativeConverter" />
+    <Converter:NULLnoVIS x:Key="NULLnoVIS" />
 
     <!--Styles-->
     <ResourceDictionary.MergedDictionaries>
@@ -22,6 +23,8 @@
         <ResourceDictionary Source="ControlStyles/ButtonStyles.xaml" />
         
         <ResourceDictionary Source="ControlStyles/TextBlocks.xaml" />
+
+        <ResourceDictionary Source="ControlStyles/CollectionViews.xaml" />
         <!--ScrollViewerAndSlider-->
         <ResourceDictionary Source="ControlStyles/ScrollViewerAndSlider.xaml" />
         <!--CustomeNavigationView-->

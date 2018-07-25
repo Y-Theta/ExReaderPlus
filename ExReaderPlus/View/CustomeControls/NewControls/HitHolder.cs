@@ -47,7 +47,7 @@ namespace ExReaderPlus.View
         }
         public static readonly DependencyProperty TooltipProperty =
             DependencyProperty.Register("Tooltip", typeof(string), 
-                typeof(HitHolder), new PropertyMetadata(""));
+                typeof(HitHolder), new PropertyMetadata(null));
         #endregion
 
         #region Methods

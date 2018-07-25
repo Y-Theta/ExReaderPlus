@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI;
+using Windows.UI.Xaml;
 
 namespace ExReaderPlus.View {
     [Serializable]
@@ -85,7 +86,14 @@ namespace ExReaderPlus.View {
             set => SetValue<Color>(out _richTextSelectBoxBg, value, nameof(RichTextSelectBoxBg));
         }
 
-
+        /// <summary>
+        /// 阅读界面控制条位置
+        /// </summary>
+        private Thickness _readingPageControlBar = new Thickness(8, 0, 8, 32);
+        public Thickness ReadingPageControlBar {
+            get => _readingPageControlBar;
+            set => SetValue<Thickness>(out _readingPageControlBar, value, nameof(ReadingPageControlBar));
+        }
         #endregion
 
 

@@ -166,6 +166,11 @@ namespace ExReaderPlus.View {
         /// 字典更新结束
         /// </summary>
         public event EventHandler ElementSorted;
+
+        /// <summary>
+        /// 渲染开始
+        /// </summary>
+        public event EventHandler RenderBegin;
         #endregion
 
 
@@ -255,7 +260,7 @@ namespace ExReaderPlus.View {
                 SetContentFormat(() =>
                 {
                     Document.SetText(TextSetOptions.None, _contentString);
-                    ITextRange ran = Document.GetRangeFromPoint(new Point(ActualWidth, ViewPortHeight - Margin.Bottom - Padding.Bottom - 5), PointOptions.ClientCoordinates);
+                    ITextRange ran = Document.GetRangeFromPoint(new Point(ActualWidth, ViewPortHeight - Margin.Bottom - Padding.Bottom - 1.2 * FontSize), PointOptions.ClientCoordinates);
                     SortPages(ran.EndPosition);
                     SwitchPage();
                 });
@@ -265,6 +270,7 @@ namespace ExReaderPlus.View {
         /// 换页
         /// </summary>
         private void SwitchPage() {
+            RenderBegin?.Invoke(this, EventArgs.Empty);
             _allowSwitch = false;
             _refrash = true;
             if (_contentString != null)
@@ -355,10 +361,17 @@ namespace ExReaderPlus.View {
 
         private void SetIgnoreReadonly(Action action) {
             IsReadOnlyChanged -= RichTextBox_IsReadOnlyChanged;
-            _oldReadonly = IsReadOnly;
-            IsReadOnly = false;
+            if (IsReadOnly)
+            {
+                _oldReadonly = true;
+                IsReadOnly = false;
+            }
             action?.Invoke();
-            IsReadOnly = _oldReadonly;
+            if (_oldReadonly)
+            {
+                _oldReadonly = false;
+                IsReadOnly = true;
+            }
             IsReadOnlyChanged += RichTextBox_IsReadOnlyChanged;
         }
 

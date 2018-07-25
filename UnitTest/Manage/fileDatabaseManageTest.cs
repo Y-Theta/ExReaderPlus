@@ -45,7 +45,7 @@ namespace UnitTest.Manage
             fileDatabaseManage.instance = new fileDatabaseManage();
             WordBook.InitDictionaries();
             fileDatabaseManage.instance.GetDictionaries();
-            Assert.AreEqual(100,WordBook.CET6.Count());
+            Assert.AreEqual(100,WordBook.CET6.Wordlist.Count());
         }
     }
 }

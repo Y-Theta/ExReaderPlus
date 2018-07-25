@@ -163,8 +163,8 @@
                               x:Name="ContentGrid">
                             <ToolTipService.ToolTip>
                                 <ToolTip Placement="Mouse"
-                                         HorizontalOffset="12"
-                                         KeyTipVerticalOffset="12"
+                                         HorizontalOffset="16"
+                                         VerticalOffset="16"
                                          Padding="-1">
                                     <Border Background="{ThemeResource DefaultToolTipBg}"
                                           BorderBrush="{ThemeResource DefaultToolTipBd}"
@@ -554,25 +554,23 @@
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
-                                        <Setter Target="BackHolder.Fill"
+                                        <Setter Target="BackHolder.Background"
                                                 Value="{Binding PointBrush, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <VisualState.Setters>
-                                        <Setter Target="BackHolder.Fill"
+                                        <Setter Target="BackHolder.Background"
                                                 Value="{Binding PressBrush, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}"/>
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Grid x:Name="RootGrid">
-                            <Rectangle x:Name="BackHolder"
-                                       Fill="{TemplateBinding Background}"
-                                       Stroke="{TemplateBinding BorderBrush}"
-                                       StrokeThickness="1">
-                                <ToolTipService.ToolTip>
+                        <Grid x:Name="BackHolder"
+                              Background="{TemplateBinding Background}">
+                            <ToolTipService.ToolTip>
                                     <ToolTip Padding="-1"
+                                             Visibility="{Binding Tooltip, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay,Converter={StaticResource NULLnoVIS}}"
                                              HorizontalOffset="12"
                                              VerticalOffset="12"
                                              Placement="Mouse">
@@ -583,7 +581,6 @@
                                         </Border>
                                     </ToolTip>
                                 </ToolTipService.ToolTip>
-                            </Rectangle>
                         </Grid>
                     </Border>
                 </ControlTemplate>
