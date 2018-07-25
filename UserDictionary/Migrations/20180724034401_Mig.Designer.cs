@@ -9,7 +9,7 @@ using UserDictionary;
 namespace UserDictionary.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20180723125337_Mig")]
+    [Migration("20180724034401_Mig")]
     partial class Mig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

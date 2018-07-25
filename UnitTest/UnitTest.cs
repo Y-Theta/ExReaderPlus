@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 //using ExReaderPlus.Baidu;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using UserDictionary;
 
 namespace UnitTest
 {
@@ -12,7 +13,9 @@ namespace UnitTest
         [TestMethod]
         public void TestMethod1()
         {
-            
+            using(var db=new DataContext() )
+            {
+            }
         }
     }
 }
