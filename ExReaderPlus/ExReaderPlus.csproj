@@ -145,7 +145,7 @@
     </AppxManifest>
     <Content Include="Assets\IconY.ttf" />
     <Content Include="DB\dic.db" />
-    <Content Include="ExReaderPlus_TemporaryKey.pfx" />
+    <None Include="ExReaderPlus_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Cybran_Y_T.jpg" />
