@@ -19,7 +19,7 @@ namespace ExReaderPlus.Manage
     {
         
         /// <summary>
-        /// TODO 修改为异步的方法 用户增加一个词典
+        /// 用户增加一个词典 
         /// 如果词典名已存在，则返回FALSE
         /// </summary>
         public static bool AddACustomDictionary(string DictionaryName)
@@ -76,11 +76,13 @@ namespace ExReaderPlus.Manage
         }
 
         /// <summary>
-        /// 通过词典名删除一个词典
-        /// 如果删除失败，所有事物回滚
+        /// 通过词典名删除一个词典，包括词典中存在的单词
+        /// 成功返回1
+        /// 删除失败，返回0
+        /// 词典不存在，返回-1
         /// </summary>
         /// <returns></returns>
-        public static bool DeleteDictionary(string dictionaryName)
+        public static int DeleteDictionary(string dictionaryName)
         {
             using (var db = new DataContext())
             {
@@ -88,24 +90,25 @@ namespace ExReaderPlus.Manage
                 var dic = db.Dictionaries.FirstOrDefault(
                     d => d.Id.Equals(dictionaryName)
                     );
-                db.Dictionaries.Remove(dic);
+                if (dic == null) return -1;
                 try
                 {
                     db.Database.BeginTransaction();
-                    db.SaveChanges();
                     var wordsInDictionary = db.DictionaryWords.Where(dw => dw.DictionaryId.Equals(dictionaryName));
                     foreach(var word in wordsInDictionary)
                     {
                         db.DictionaryWords.Remove(word);
                     }
                     db.SaveChanges();
+                    db.Dictionaries.Remove(dic);
+                    db.SaveChanges();
                     db.Database.CommitTransaction();
-                    return true ;
+                    return 1 ;
                 }
                 catch
                 {
                     db.Database.RollbackTransaction();
-                    return false;
+                    return 0 ;
                 }
                 finally
                 {
@@ -129,17 +132,18 @@ namespace ExReaderPlus.Manage
             return word;
         }
         /// <summary>
-        /// 插入单词到单词本。如果插入失败，那么返回FALSE
+        /// 插入一个单词到单词本。如果插入失败，那么返回FALSE
         /// 原来已经存在，则返回0
         /// 插入失败 返回-1
         /// 插入成功 返回1
         /// </summary>
-        public static int InsertAVocabularyToCustomDictionary(string dictionaryName,Vocabulary vocabulary)
+        public static int InsertAVocabularyToCustomDictionary(string customDictionaryName,Vocabulary vocabulary)
         {
             using(var db=new DataContext())
             {
                 db.Database.Migrate();
-                var dictionary = db.Dictionaries.FirstOrDefault(v => v.Id.Equals(dictionaryName));
+                var dictionary = db.Dictionaries.Find(customDictionaryName);
+                if (dictionary == null) return 2;//如果词典存在，就返回-1
                 db.Words.Add(VocabularyToWord(vocabulary));//添加一个单词
                 try
                 {
@@ -152,26 +156,27 @@ namespace ExReaderPlus.Manage
                 //无论原来单词是否存在，都在wordDictionary关系表中建立一个条目
                 var Selectedword = db.DictionaryWords
                         .Where(dw => dw.WordId.Equals(vocabulary.Word))
-                        .Where(dw => dw.DictionaryId.Equals(dictionaryName))
-                        .FirstOrDefault();
-                if (Selectedword != null)//如果词典中不存在这个条目
+                        .Where(dw => dw.DictionaryId.Equals(customDictionaryName))
+                        .Count();
+                if (Selectedword==0)//如果词典中不存在这个条目
                 {
                     DictionaryWord dictionaryWord =
                             new DictionaryWord
                             {
                                 WordId = vocabulary.Word,
-                                DictionaryId = dictionaryName
+                                DictionaryId = customDictionaryName
                             };
                     db.DictionaryWords.Add(dictionaryWord);
-                    try
-                    {
+                 
                         db.SaveChanges();
                         return 1;
-                    }
-                    catch
-                    {
-                        return -1;
-                    }
+                   
+                    //catch(Exception e)
+                    //{
+                    //    e.StackTrace();
+                    //    return -1;
+                      
+                    //}
                 }
                 else
                 {
@@ -179,12 +184,50 @@ namespace ExReaderPlus.Manage
                 }
             }
         }
+
+
         /// <summary>
         /// 把单词书中的词汇导入用户词库
+        /// 成功 1
+        /// 失败 0
         /// </summary>
-        public static void DumpWordsFromWordBookToCustomDictionary()
+        public static int DumpWordsFromWordBookToCustomDictionary(string customDictionaryName,Dictionary<string,Vocabulary> wordBook)
         {
+            using (var db = new DataContext())
+            {
+                ///两个查询语句耗时太多，修正方案：把数据读出来，查询是否存在
+                var wordCache=db.Words.ToDictionary(w=>w.Id,w=>w.Id);
+                var wordDictionaryCache = db.DictionaryWords
+                    .Where(dw => dw.DictionaryId.Equals(customDictionaryName))//选出为这个词汇的单词
+                    .ToDictionary(dw=>dw.WordId,dw=>dw.DictionaryId);
+                foreach (var v in wordBook)
+                {
+                    //先查找是否在上下文存在                  
+                    if (!wordCache.ContainsKey(v.Key))
+                    {
+                        db.Words.Add(VocabularyToWord(v.Value));  
+                    }
+                    if (!wordDictionaryCache.ContainsKey(v.Key))
+                    {
+                        db.DictionaryWords.Add(new DictionaryWord
+                        {
+                            WordId = v.Key,
+                            DictionaryId = customDictionaryName
 
+                        });
+                    }
+                }
+                try
+                {
+                    db.SaveChanges();
+                    return 1;
+                }
+                catch
+                {
+                    return 0;
+                }
+                //InsertAVocabularyToCustomDictionary(customDictionaryName, v.Value);
+            }
         }
 
         /// <summary>

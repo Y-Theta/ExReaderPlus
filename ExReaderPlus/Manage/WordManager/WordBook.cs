@@ -1,6 +1,5 @@
 ﻿
 using ExReaderPlus.DatabaseManager;
-using ExReaderPlus.DataManage;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -68,13 +67,7 @@ namespace ExReaderPlus.WordsManager
         {
             get;
             set;
-        }
-        
-        public string StateColor
-        {
-            get;
-            set;
-        }
+        }       
 
     }
 
