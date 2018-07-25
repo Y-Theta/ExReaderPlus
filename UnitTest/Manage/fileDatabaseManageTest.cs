@@ -1,5 +1,4 @@
-﻿using ExReaderPlus.DataManage;
-using ExReaderPlus.Manage;
+﻿using ExReaderPlus.Manage;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -45,7 +44,7 @@ namespace UnitTest.Manage
             fileDatabaseManage.instance = new fileDatabaseManage();
             WordBook.InitDictionaries();
             fileDatabaseManage.instance.GetDictionaries();
-            Assert.AreEqual(100,WordBook.CET6.Wordlist.Count());
+            Assert.AreEqual(5407,WordBook.CET6.Wordlist.Count());
         }
     }
 }

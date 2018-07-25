@@ -1,4 +1,5 @@
 ﻿using ExReaderPlus.Manage;
+using ExReaderPlus.WordsManager;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -22,15 +23,61 @@ namespace UnitTest.Manage
         /// </summary>
         [TestMethod]
         public void ChangeDictionaryNameTest()
-        {          
-                Assert.AreEqual(true,
-                    CustomDicManage.AddACustomDictionary("testDic"));
-                Assert.AreEqual(true,
-                    CustomDicManage.ChangeDictionaryName("testDic", "testDicChanged"));
+        {
+            Assert.AreEqual(true,
+                CustomDicManage.AddACustomDictionary("testDic"));
+            Assert.AreEqual(true,
+                CustomDicManage.ChangeDictionaryName("testDic", "testDicChanged"));
+        }
+        [TestMethod]
+        public void InsertAVocabularyToCustomDictionaryTest()
+        {
+            CustomDicManage.AddACustomDictionary("InsertTestDic");
+            Assert.AreEqual(1, CustomDicManage.InsertAVocabularyToCustomDictionary("InsertTestDic",
+              new ExReaderPlus.WordsManager.Vocabulary
+              {
+                  Word = "01Test", Translation = "单词关联词典插入测试"
+              }));
         }
 
+        /// <summary>
+        /// 测试删除单词本
+        /// </summary>
+        [TestMethod]
+        public void DeleteDictionaryTest()
+        {
+            CustomDicManage.AddACustomDictionary("DeleteTestDic");
+            Assert.AreEqual(1, CustomDicManage.InsertAVocabularyToCustomDictionary("DeleteTestDic",
+              new ExReaderPlus.WordsManager.Vocabulary
+              {
+                  Word = "001Test",
+                  Translation = "单词关联词典插入测试"
+              }));
+            Assert.AreEqual(1, CustomDicManage.InsertAVocabularyToCustomDictionary("DeleteTestDic",
+              new ExReaderPlus.WordsManager.Vocabulary
+              {
+                  Word = "002Test",
+                  Translation = "单词关联词典插入测试"
+              }));
+            Assert.AreEqual(1, CustomDicManage.InsertAVocabularyToCustomDictionary("DeleteTestDic",
+              new ExReaderPlus.WordsManager.Vocabulary
+              {
+                  Word = "003Test",
+                  Translation = "单词关联词典插入测试"
+              }));
+            Assert.AreEqual(1, CustomDicManage.DeleteDictionary("DeleteTestDic"));
+        }
 
+        [TestMethod]
+        public void DumpWordsFromWordBookToCustomDictionaryTest()
+        {
+            fileDatabaseManage.instance = new fileDatabaseManage();
+            WordBook.InitDictionaries();
+            fileDatabaseManage.instance.GetDictionaries();
+            CustomDicManage.AddACustomDictionary("dumpWordsTest");
+            CustomDicManage.DumpWordsFromWordBookToCustomDictionary("dumpWordsTest",WordBook.CET6.Wordlist);
 
+        }
 
     }
 }

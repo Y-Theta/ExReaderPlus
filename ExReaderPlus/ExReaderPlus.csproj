@@ -118,7 +118,6 @@
     <Compile Include="View\CustomeControls\NewControls\IconViewItem.cs" />
     <Compile Include="View\CustomeControls\NewControls\RichTextBox.cs" />
     <Compile Include="Manage\DataManage\UserDataDB.cs" />
-    <Compile Include="Manage\DataManage\WordManage.cs" />
     <Compile Include="View\Event\WordSelectArgs.cs" />
     <Compile Include="View\Layout\FlowLayout.cs" />
     <Compile Include="View\OverallViewSettings.cs" />

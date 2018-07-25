@@ -48,7 +48,7 @@
         </Setter>
         <Setter Property="ItemTemplate">
             <Setter.Value>
-                <DataTemplate x:DataType="manage:EngDictionary">
+                <DataTemplate >
                     <Grid  >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto" />
@@ -58,7 +58,7 @@
                             <ColumnDefinition Width="auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock x:Name="DicName" Text="{Binding }"/>
+                        <TextBlock x:Name="DicName" />
                     </Grid>
                 </DataTemplate>
             </Setter.Value>

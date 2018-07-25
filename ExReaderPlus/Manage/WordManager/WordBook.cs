@@ -1,5 +1,4 @@
 ﻿using ExReaderPlus.DatabaseManager;
-using ExReaderPlus.DataManage;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,16 +6,14 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 
-namespace ExReaderPlus.WordsManager
-{
+namespace ExReaderPlus.WordsManager {
 
     /// <summary>
     /// 单词掌握情况
     /// </summary>
-    enum wordState
-    {
-        no=0,
-        yes=1
+    enum wordState {
+        no = 0,
+        yes = 1
     }
 
 
@@ -28,40 +25,25 @@ namespace ExReaderPlus.WordsManager
 
         public bool IsSystem { get; set; }
 
-        public Dictionary<string, Vocabulary> Wordlist { get; private set; }
+        public Dictionary<string, Vocabulary> Wordlist { get; set; }
 
-        public EngDictionary() {
-        }
-
-        public EngDictionary(string str = "NewDic", bool sys = false) {
-            Wordlist = new Dictionary<string, Vocabulary>();
-            Name = str;
-            IsSystem = sys;
-        }
-
-        public bool HasWord(string str) {
-            return Wordlist.ContainsKey(str);
-        }
     }
 
     /// <summary>
     /// 单词，包含状态位、音标、意思
     /// </summary>
-    public class Vocabulary
-    {
+    public class Vocabulary {
         /// <summary>
         /// 音标
         /// </summary>
-        public string Phonetic
-        {
+        public string Phonetic {
             get;
             set;
         }
         /// <summary>
         /// 词汇
         /// </summary>
-        public string Word
-        {
+        public string Word {
             get;
             set;
 
@@ -69,8 +51,7 @@ namespace ExReaderPlus.WordsManager
         /// <summary>
         /// 单词意思
         /// </summary>
-        public string Translation
-        {
+        public string Translation {
             get;
             set;
 
@@ -78,22 +59,19 @@ namespace ExReaderPlus.WordsManager
         /// <summary>
         /// 单词分类标签
         /// </summary>
-        public string Tag
-        {
+        public string Tag {
             get;
             set;
         }
         /// <summary>
         /// 单词掌握情况
         /// </summary>
-        public bool YesorNo
-        {
+        public bool YesorNo {
             get;
             set;
         }
-        
-        public string StateColor
-        {
+
+        public string StateColor {
             get;
             set;
         }
@@ -109,7 +87,7 @@ namespace ExReaderPlus.WordsManager
 
         public static EngDictionary GaoKao { get; set; }
 
-        public static EngDictionary CET4 { get;  set; }
+        public static EngDictionary CET4 { get; set; }
 
         public static EngDictionary CET6 { get; set; }
 
@@ -142,21 +120,31 @@ namespace ExReaderPlus.WordsManager
         /// <summary>
         /// 初始化词典，将数据读入到每个词典内
         /// </summary>
-        public static void InitDictionaries()
-        {
-            GaoKao = new EngDictionary("高考词汇",true);
-            CET4 = new EngDictionary("大学四级", true);
-            CET6 = new EngDictionary("大学六级", true);
-            KaoYan = new EngDictionary("考研词汇", true);
-            TOEFL = new EngDictionary("托福词汇", true);
-            IELTS = new EngDictionary("雅思词汇", true);
+        public static void InitDictionaries() {
+            GaoKao = new EngDictionary { Name = "高考词汇", IsSystem = true };
+            GaoKao.Wordlist = new Dictionary<string, Vocabulary>();
+
+            CET4 = new EngDictionary { Name = "大学四级", IsSystem = true };
+            CET4.Wordlist = new Dictionary<string, Vocabulary>();
+
+            CET6 = new EngDictionary { Name = "大学六级", IsSystem = true };
+            CET6.Wordlist = new Dictionary<string, Vocabulary>();
+
+            KaoYan = new EngDictionary { Name = "考研词汇", IsSystem = true };
+            KaoYan.Wordlist = new Dictionary<string, Vocabulary>();
+
+            TOEFL = new EngDictionary { Name = "托福词汇", IsSystem = true };
+            TOEFL.Wordlist = new Dictionary<string, Vocabulary>();
+
+            IELTS = new EngDictionary { Name = "雅思词汇", IsSystem = true };
+            IELTS.Wordlist = new Dictionary<string, Vocabulary>();
+
         }
 
         /// <summary>
         /// 将词库添加到单词书中,并且初始化
         /// </summary>
-        public static void InsertWordsToDictionary( Vocabulary vocabulary)
-        {
+        public static void InsertWordsToDictionary(Vocabulary vocabulary) {
             vocabulary.YesorNo = false;
             if (vocabulary.Tag.Contains("gk")) GaoKao.Wordlist.Add(vocabulary.Word, vocabulary);
             if (vocabulary.Tag.Contains("cet4")) CET4.Wordlist.Add(vocabulary.Word, vocabulary);

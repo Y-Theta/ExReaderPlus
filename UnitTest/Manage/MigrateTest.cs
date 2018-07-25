@@ -33,16 +33,16 @@ namespace UnitTest.Manage
             {
                 db.Database.Migrate();
                 var dictionary = new Dictionary();
-                dictionary.Id = "testDic";
+                dictionary.Id = "createTestDic";
                 dictionary.TotalWordsNumber = 0;
                 db.Dictionaries.Add(dictionary);
                 db.SaveChanges();
                 db.Database.CloseConnection();
                 db.Database.Migrate();
-                var result = db.Dictionaries.SingleOrDefault(m =>  m.Id.Equals("testDic"));
-                Assert.AreEqual(0, result.DictionaryWords);
+                var result = db.Dictionaries.SingleOrDefault(m =>  m.Id.Equals("createTestDic"));
+                Assert.AreEqual(0, result.TotalWordsNumber);
 
-                var deleteResult=db.Dictionaries.SingleOrDefault(m => m.Id.Equals("testDic"));
+                var deleteResult=db.Dictionaries.SingleOrDefault(m => m.Id.Equals("createTestDic"));
 
                 if (deleteResult != null)
                 {

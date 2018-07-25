@@ -129,7 +129,7 @@ namespace ExReaderPlus.View {
                             Height = loc.Height - 2,
                             Name = kp.Key
                         };
-                        if (WordBook.CET6.HasWord(kp.Key))
+                        if (WordBook.CET6.Wordlist.ContainsKey(kp.Key))
                         {
                             rect.Background = new SolidColorBrush(Color.FromArgb(48, 0, 200, 120));
                             KeyWords.Add(kp.Key);
