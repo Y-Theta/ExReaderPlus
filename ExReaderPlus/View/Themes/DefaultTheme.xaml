@@ -37,24 +37,31 @@
     <SolidColorBrush x:Key="DefaultNavigationViewUserIconStroke"
                      Color="#080808" />
     
-    <!--DefaultButton-->
-    <SolidColorBrush x:Key="DefaultButtonBG_N"
-                     Color="Transparent" />
-    <SolidColorBrush x:Key="DefaultButtonBG_R"
-                     Color="#30000000" />
-    <SolidColorBrush x:Key="DefaultButtonBG_P"
-                     Color="#60000000" />
-    <SolidColorBrush x:Key="DefaultButtonFG_N"
+    <!--Tooltip-->
+    <SolidColorBrush x:Key="DefaultToolTipFg"
                      Color="#080808" />
-    <SolidColorBrush x:Key="DefaultButtonFG_R"
-                     Color="#080808" />
-    <SolidColorBrush x:Key="DefaultButtonFG_P"
+    <SolidColorBrush x:Key="DefaultToolTipBg"
+                     Color="#EFEFEF"/>
+    <SolidColorBrush x:Key="DefaultToolTipBd"
                      Color="#080808" />
 
+    <!--DefaultControlBarButton-->
+    <SolidColorBrush x:Key="DefaultControlBarButtonBG_N"
+                     Color="Transparent" />
+    <SolidColorBrush x:Key="DefaultControlBarButtonBG_R"
+                     Color="Transparent" />
+    <SolidColorBrush x:Key="DefaultControlBarButtonBG_P"
+                     Color="Transparent" />
+    <SolidColorBrush x:Key="DefaultControlBarButtonFG_N"
+                     Color="#808080" />
+    <SolidColorBrush x:Key="DefaultControlBarButtonFG_R"
+                     Color="#E0E0E0" />
+    <SolidColorBrush x:Key="DefaultControlBarButtonFG_P"
+                     Color="#E0E0E0" />
+
     <!--RichTextBox-->
-    
-    
-    
+    <SolidColorBrush x:Key="ControlBarBg_N"
+                     Color="#477FBF" />
 
     <!--PaneToggleButton-->
     <SolidColorBrush x:Key="PaneToggleButtonBG_N"
@@ -66,11 +73,11 @@
     <SolidColorBrush x:Key="PaneToggleButtonBG_D"
                      Color="Transparent"/>
     <SolidColorBrush x:Key="PaneToggleButtonFG_N"
-                     Color="#080808" />
+                     Color="#FFFFFF" />
     <SolidColorBrush x:Key="PaneToggleButtonFG_R"
-                     Color="#080808" />
+                     Color="#FFFFFF" />
     <SolidColorBrush x:Key="PaneToggleButtonFG_P"
-                     Color="#080808" />
+                     Color="#FFFFFF" />
     <SolidColorBrush x:Key="PaneToggleButtonFG_D"
                      Color="Transparent" />
     <SolidColorBrush x:Key="NavigationViewBackground"
@@ -83,32 +90,16 @@
                      Color="#30000000" />
     <SolidColorBrush x:Key="NavigationViewItemBG_P"
                      Color="#60000000" />
-    <SolidColorBrush x:Key="NavigationViewItemBG_D"
-                     Color="Transparent" />
     <SolidColorBrush x:Key="NavigationViewItemFG_N"
                      Color="#080808" />
     <SolidColorBrush x:Key="NavigationViewItemFG_R"
                      Color="#080808" />
     <SolidColorBrush x:Key="NavigationViewItemFG_P"
                      Color="#080808" />
-    <SolidColorBrush x:Key="NavigationViewItemFG_D"
-                     Color="Transparent" />
     <SolidColorBrush x:Key="NavigationViewItemBG_CN"
-                     Color="Transparent" />
-    <SolidColorBrush x:Key="NavigationViewItemBG_CR"
-                     Color="Transparent" />
-    <SolidColorBrush x:Key="NavigationViewItemBG_CP"
-                     Color="Transparent" />
-    <SolidColorBrush x:Key="NavigationViewItemBG_CD"
                      Color="Transparent" />
     <SolidColorBrush x:Key="NavigationViewItemFG_CN"
                      Color="#080808" />
-    <SolidColorBrush x:Key="NavigationViewItemFG_CR"
-                     Color="#080808" />
-    <SolidColorBrush x:Key="NavigationViewItemFG_CP"
-                     Color="#080808" />
-    <SolidColorBrush x:Key="NavigationViewItemFG_CD"
-                     Color="Transparent" />
     <SolidColorBrush x:Key="NavigationViewSelectionID"
                      Color="#080808" />
 

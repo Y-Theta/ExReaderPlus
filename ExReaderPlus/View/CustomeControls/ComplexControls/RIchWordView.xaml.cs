@@ -1,4 +1,5 @@
-﻿using ExReaderPlus.Models;
+﻿using ExReaderPlus.Baidu;
+using ExReaderPlus.Models;
 using ExReaderPlus.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using Windows.UI.Core;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
 namespace ExReaderPlus.View {
@@ -40,13 +42,22 @@ namespace ExReaderPlus.View {
 
         private void RichWordView_SizeChanged(object sender, SizeChangedEventArgs e) {
             TextView.ViewPortHeight = e.NewSize.Height;
-            TextView.SizeChangeRefrash();
         }
 
         private void RIchWordView_Loaded(object sender, RoutedEventArgs e) {
             viewModel = (EssayPageViewModel)DataContext;
             viewModel.PassageLoaded += EssayPage_PassageLoaded;
             TextView.ElementSorted += TextView_ElementSorted; ;
+            ControlLayer.PointerEntered += GridBg_PointerEntered;
+            ControlLayer.PointerExited += ControlLayer_PointerExited;
+        }
+
+        private void ControlLayer_PointerExited(object sender, PointerRoutedEventArgs e) {
+            (sender as Grid).Opacity = 0.3;
+        }
+
+        private void GridBg_PointerEntered(object sender, PointerRoutedEventArgs e) {
+            (sender as Grid).Opacity = 1;
         }
 
         /// <summary>
@@ -54,26 +65,40 @@ namespace ExReaderPlus.View {
         /// </summary>
         private void TextView_ElementSorted(object sender, EventArgs e) {
             RichTextBox rtb = sender as RichTextBox;
+            foreach (var cot in ControlDic)
+                foreach (var loc in cot.Value)
+                        (loc as HitHolder).PointerEntered -= Rect_PointerEntered;
             ControlDic.Clear();
             RenderLayer.Children.Clear();
             RenderLayer.UpdateLayout();
-            foreach (var kp in rtb.ElementsLoc)
-            {
-                foreach (var loc in kp.Value)
-                {
-                    HitHolder rect = new HitHolder
+            if (rtb.ElementsLoc != null && rtb.ElementsLoc.Count > 0)
+                foreach (var kp in rtb.ElementsLoc)
+                    foreach (var loc in kp.Value)
                     {
-                        PointBrush = new SolidColorBrush(Color.FromArgb(200, 0, 120, 200)),
-                        Margin = new Thickness(loc.Left, loc.Top + 2, 0, 0),
-                        Width = loc.Width,
-                        Height = loc.Height - 2,
-                        Name = kp.Key
-                    };
-                    AddtoControlDic(kp.Key, rect);
-                    RenderLayer.Children.Add(rect);
-                }
-            }
+                        HitHolder rect = new HitHolder
+                        {
+                            PointBrush = new SolidColorBrush(Color.FromArgb(96, 0, 120, 200)),
+                            Margin = new Thickness(loc.Left, loc.Top + 2, 0, 0),
+                            Width = loc.Width,
+                            Height = loc.Height - 2,
+                            Name = kp.Key
+                        };
+                        rect.PointerEntered += Rect_PointerEntered;
+                        AddtoControlDic(kp.Key, rect);
+                        RenderLayer.Children.Add(rect);
+                    }
             RenderLayer.UpdateLayout();
+            TextView.IsEnabled = true;
+            if (TextView.IsReadOnly)
+                RenderLayer.Visibility = Visibility.Visible;
+        }
+
+        private void Rect_PointerEntered(object sender, PointerRoutedEventArgs e) {
+            //var control = (HitHolder)sender;
+            //var t = new Translate();
+            //t.Text = control.Name;
+            //var s = t.GetResult();
+            //control.Tooltip = s;
         }
 
         private void AddtoControlDic(string key, Control value) {
@@ -102,7 +127,6 @@ namespace ExReaderPlus.View {
             if (!TextView.IsReadOnly)
             {
                 TextView.IsReadOnly = true;
-                RenderLayer.Visibility = Visibility.Visible;
             }
             else
             {
@@ -112,7 +136,7 @@ namespace ExReaderPlus.View {
         }
 
         private void Button_Click(object sender, RoutedEventArgs e) {
-            List<Control> ss = ControlDic["have"];
+           
 
         }
         #endregion
@@ -123,6 +147,23 @@ namespace ExReaderPlus.View {
             SizeChanged += RichWordView_SizeChanged;
             Loaded += RIchWordView_Loaded;
             Unloaded += RIchWordView_Unloaded;
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e) {
+            TextView.PageDown();
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e) {
+            TextView.PageUp();
+
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e) {
+            TextView.FontSize += 0.5;
+        }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e) {
+            TextView.FontSize -= 0.5;
         }
     }
 }

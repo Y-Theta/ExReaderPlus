@@ -53,16 +53,6 @@
                                                 Value="{ThemeResource PaneToggleButtonFG_P}" />
                                     </VisualState.Setters>
                                 </VisualState>
-                                <VisualState x:Name="Disabled">
-                                    <VisualState.Setters>
-                                        <Setter Target="LayoutRoot.Background"
-                                                Value="{ThemeResource NavigationViewItemBackgroundDisabled}" />
-                                        <Setter Target="RevealBorder.BorderBrush"
-                                                Value="{ThemeResource NavigationViewItemBorderBrushDisabled}" />
-                                        <Setter Target="ContentPresenter.Foreground"
-                                                Value="{ThemeResource NavigationViewItemForegroundDisabled}" />
-                                    </VisualState.Setters>
-                                </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                         <Grid Width="{TemplateBinding MinWidth}"

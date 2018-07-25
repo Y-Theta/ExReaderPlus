@@ -1,0 +1,29 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="using:ExReaderPlus.View">
+
+    <Style x:Key="ToolTipTextStyle" TargetType="TextBlock">
+        <Setter Property="FontSize"
+                Value="14" />
+        <Setter Property="Foreground"
+                Value="{ThemeResource DefaultToolTipFg}" />
+        <Setter Property="FontWeight"
+                Value="Light" />
+        <Setter Property="Margin"
+                Value="4,2,4,2" />
+    </Style>
+
+
+    <Style x:Key="WordToolTipstyle"
+           TargetType="TextBlock">
+        <Setter Property="FontSize"
+                Value="18" />
+        <Setter Property="Foreground"
+                Value="{ThemeResource DefaultToolTipFg}" />
+        <Setter Property="FontWeight"
+                Value="ExtraLight" />
+        <Setter Property="Margin"
+                Value="2,1,2,1" />
+    </Style>
+    
+</ResourceDictionary>

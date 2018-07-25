@@ -37,6 +37,17 @@ namespace ExReaderPlus.View
         public static readonly DependencyProperty PressBrushProperty =
             DependencyProperty.Register("PressBrush", typeof(Brush), 
                 typeof(HitHolder), new PropertyMetadata(new SolidColorBrush(Colors.Transparent)));
+
+        /// <summary>
+        /// 鼠标提示
+        /// </summary>
+        public string Tooltip {
+            get { return (string)GetValue(TooltipProperty); }
+            set { SetValue(TooltipProperty, value); }
+        }
+        public static readonly DependencyProperty TooltipProperty =
+            DependencyProperty.Register("Tooltip", typeof(string), 
+                typeof(HitHolder), new PropertyMetadata(""));
         #endregion
 
         #region Methods
