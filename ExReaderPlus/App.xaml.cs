@@ -10,6 +10,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using ExReaderPlus.View.Pages;
 using ExReaderPlus.Manage;
+using ExReaderPlus.WordsManager;
+using System.Threading.Tasks;
 
 namespace ExReaderPlus {
     /// <summary>
@@ -24,10 +26,9 @@ namespace ExReaderPlus {
         /// </summary>
         public App()
         {
-            this.InitializeComponent();
-            this.Suspending += OnSuspending;
+            InitializeComponent();
+            Suspending += OnSuspending;
             //   this.RequiresPointerMode = ApplicationRequiresPointerMode.WhenRequested;
-
         }
 
         /// <summary>
@@ -35,8 +36,9 @@ namespace ExReaderPlus {
         /// 将在启动应用程序以打开特定文件等情况下使用。
         /// </summary>
         /// <param name="e">有关启动请求和过程的详细信息。</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
+            await InitDicAsync();
           
             Frame rootFrame = Window.Current.Content as Frame;
 
@@ -79,6 +81,17 @@ namespace ExReaderPlus {
             rootFrame.ActualThemeChanged += RootFrame_ActualThemeChanged;
             //强置主题
             RootFrame_ActualThemeChanged(null, null);
+        }
+
+        private async Task InitDicAsync() {
+            Task s = new Task(() =>
+            {
+                fileDatabaseManage.instance = new fileDatabaseManage();
+                WordBook.InitDictionaries();
+                fileDatabaseManage.instance.GetDictionaries();
+            });
+            s.Start();
+            await s;
         }
 
         private void RootFrame_ActualThemeChanged(FrameworkElement sender, object args) {

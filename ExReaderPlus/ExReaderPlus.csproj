@@ -144,10 +144,8 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <Content Include="Assets\IconY.ttf" />
-    <None Include="DB\dic.db" />
-    <None Include="DB\user.db" />
+    <Content Include="DB\dic.db" />
     <None Include="ExReaderPlus_TemporaryKey.pfx" />
-    <None Include="Manage\DB\dic.db" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Cybran_Y_T.jpg" />
@@ -268,7 +266,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UserDictionary\UserDictionary.csproj">
-      <Project>{b9c63224-0819-4885-bea8-e20be3cafa8a}</Project>
+      <Project>{33f5f627-5fdf-4821-92fe-b617c6986873}</Project>
       <Name>UserDictionary</Name>
     </ProjectReference>
   </ItemGroup>

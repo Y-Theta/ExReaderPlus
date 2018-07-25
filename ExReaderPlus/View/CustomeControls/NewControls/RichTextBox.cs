@@ -228,10 +228,10 @@ namespace ExReaderPlus.View {
             for (int i = 0; i < ContentString.Length; i++)
             {
                 int offset = 0;
-                while (tempos + firstpage - offset < ContentString.Length && !ContentString[tempos + firstpage - offset].Equals(' '))
-                {
+                if(tempos + firstpage == ContentString.Length-1)
+                    Pages.Add(new Range(tempos, firstpage));
+                while (tempos + firstpage - offset < ContentString.Length && !ContentString[tempos + firstpage - offset].Equals(' ') && !ContentString[tempos + firstpage - offset].Equals('\n'))
                     offset++;
-                }
                 if (tempos + firstpage - offset < ContentString.Length)
                     Pages.Add(new Range(tempos, firstpage - offset));
                 else
@@ -255,7 +255,7 @@ namespace ExReaderPlus.View {
                 SetContentFormat(() =>
                 {
                     Document.SetText(TextSetOptions.None, _contentString);
-                    ITextRange ran = Document.GetRangeFromPoint(new Point(0, ViewPortHeight - Margin.Bottom - Padding.Bottom), PointOptions.ClientCoordinates);
+                    ITextRange ran = Document.GetRangeFromPoint(new Point(ActualWidth, ViewPortHeight - Margin.Bottom - Padding.Bottom - 5), PointOptions.ClientCoordinates);
                     SortPages(ran.EndPosition);
                     SwitchPage();
                 });
