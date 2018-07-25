@@ -177,12 +177,21 @@ namespace ExReaderPlus.FileManage {
                 ///先将图片读取
                 dc.DrawImage(duvDbecdgiu);
                 ///写图片
-                dc.DrawText(str,
-                    100,100,1700,50,
+                dc.DrawText("The English are a nation and ethnic group native to England, who speak the English language. The English identity is of early mediaeval origin, when they were known in Old English as the Angelcynn (\"nationality of the Angles\"). England is one of the countries of the United Kingdom and English people in England are British citizens.",
+                    100, 150, 520, 50,
                     Colors.Black, new CanvasTextFormat()
                     {
-                        FontSize = 50
+
+                        FontSize = 30
                     });
+                dc.DrawText("分享自 Exreader", 300, 1000, Color.FromArgb(255, 25, 25, 112), new CanvasTextFormat()
+                {
+                    FontSize = 50
+                });
+                dc.DrawText("我在Exreader上发现了一篇不错的文章", 30, 50, Colors.Gray, new CanvasTextFormat()
+                {
+                    FontSize = 40
+                });
             }
 
 
