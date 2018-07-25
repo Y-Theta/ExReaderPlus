@@ -137,6 +137,9 @@
     <PackageReference Include="MSTest.TestFramework">
       <Version>1.2.1</Version>
     </PackageReference>
+    <PackageReference Include="System.Data.SQLite">
+      <Version>1.0.108</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ExReaderPlus\ExReaderPlus.csproj">
