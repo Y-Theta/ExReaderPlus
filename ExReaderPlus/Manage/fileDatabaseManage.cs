@@ -76,8 +76,6 @@ namespace ExReaderPlus.Manage
         /// <summary>
         ///从数据库读入到WordBook
         /// </summary>
-        /// <param name="word"></param>
-        /// <returns></returns>
         public void GetDictionaries()
         {
             //可能出现的问题：查询string用“=”；缺少空格，缺少引号，缺少转义字符

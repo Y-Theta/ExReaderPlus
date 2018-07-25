@@ -103,6 +103,7 @@
     <Compile Include="Manage\fileDatabaseManage.cs" />
     <Compile Include="Manage\PassageManager.cs" />
     <Compile Include="Manage\ReaderManager\ReadManage.cs" />
+    <Compile Include="Tile\TileService.cs" />
     <Compile Include="ViewModels\EssayPageViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBasse.cs" />
     <Compile Include="View\Commands\CommandBase.cs" />
@@ -143,10 +144,8 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <Content Include="Assets\IconY.ttf" />
-    <None Include="DB\dic.db" />
-    <None Include="DB\user.db" />
-    <None Include="ExReaderPlus_TemporaryKey.pfx" />
-    <None Include="Manage\DB\dic.db" />
+    <Content Include="DB\dic.db" />
+    <Content Include="ExReaderPlus_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Cybran_Y_T.jpg" />
