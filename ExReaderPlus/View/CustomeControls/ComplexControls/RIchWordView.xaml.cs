@@ -94,11 +94,11 @@ namespace ExReaderPlus.View {
         }
 
         private void Rect_PointerEntered(object sender, PointerRoutedEventArgs e) {
-            //var control = (HitHolder)sender;
-            //var t = new Translate();
-            //t.Text = control.Name;
-            //var s = t.GetResult();
-            //control.Tooltip = s;
+            var control = (HitHolder)sender;
+            var t = new Translate();
+            t.Text = control.Name;
+            var s = t.GetResult();
+            control.Tooltip = s;
         }
 
         private void AddtoControlDic(string key, Control value) {

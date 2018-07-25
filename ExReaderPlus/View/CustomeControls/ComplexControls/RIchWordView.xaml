@@ -7,7 +7,8 @@
              mc:Ignorable="d"
              DataContext="{StaticResource EssayPageViewModel}">
     <Grid x:Name="Rootgrid"
-          Margin="4,0,4,8">
+          Margin="8,0,8,8">
+        
         <ScrollViewer Style="{StaticResource DefaultScrollViewer}"
                       Grid.Row="1"
                       HorizontalScrollBarVisibility="Disabled">
@@ -20,7 +21,6 @@
             </Grid>
         </ScrollViewer>
         <Grid x:Name="ControlLayer"
-              Grid.Row="1"
               Background="{ThemeResource ControlBarBg_N}"
               Opacity="0.3"
               HorizontalAlignment="Stretch"
@@ -69,6 +69,5 @@
                     Click="Button_Click_4"
                     Style="{StaticResource IconButtonStyle}" />
         </Grid>
-
     </Grid>
 </UserControl>
