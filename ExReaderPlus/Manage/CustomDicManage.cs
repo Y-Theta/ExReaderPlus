@@ -131,11 +131,13 @@ namespace ExReaderPlus.Manage
             word.Phonetic = vocabulary.Phonetic;
             return word;
         }
+
         /// <summary>
-        /// 插入一个单词到单词本。如果插入失败，那么返回FALSE
-        /// 原来已经存在，则返回0
+        /// 插入一个单词到单词本。
+        /// 已经存在 返回0
         /// 插入失败 返回-1
         /// 插入成功 返回1
+        /// 词典不存在 返回2
         /// </summary>
         public static int InsertAVocabularyToCustomDictionary(string customDictionaryName,Vocabulary vocabulary)
         {
@@ -143,7 +145,7 @@ namespace ExReaderPlus.Manage
             {
                 db.Database.Migrate();
                 var dictionary = db.Dictionaries.Find(customDictionaryName);
-                if (dictionary == null) return 2;//如果词典存在，就返回-1
+                if (dictionary == null) return 2;//如果词典不存在，就返回-1
                 db.Words.Add(VocabularyToWord(vocabulary));//添加一个单词
                 try
                 {
@@ -151,7 +153,7 @@ namespace ExReaderPlus.Manage
                 }
                 catch
                 {
-
+                    return -1;
                 }
                 //无论原来单词是否存在，都在wordDictionary关系表中建立一个条目
                 var Selectedword = db.DictionaryWords
@@ -169,14 +171,7 @@ namespace ExReaderPlus.Manage
                     db.DictionaryWords.Add(dictionaryWord);
                  
                         db.SaveChanges();
-                        return 1;
-                   
-                    //catch(Exception e)
-                    //{
-                    //    e.StackTrace();
-                    //    return -1;
-                      
-                    //}
+                        return 1;               
                 }
                 else
                 {
@@ -346,6 +341,35 @@ namespace ExReaderPlus.Manage
                
             }
         }
+
+        /// <summary>
+        /// 在数据库中修改一个单词的状态位，传入想要修改成的状态位
+        /// 0 表示未掌握
+        /// 1 表示掌握
+        /// 其他状态可以自定义。修改状态位会访问数据库，建议异步
+        /// 成功返回true 失败返回false
+        /// </summary>
+        /// <param name="vocabulary"></param>
+        /// <returns></returns>
+        public static bool ChangeTheStateOfAWord(string word,int state)
+        {
+            
+            using(var db=new DataContext())
+            {
+                db.Database.Migrate();
+                db.Words.FirstOrDefault(w=>w.Id.Equals(word)).YesorNo=state;//找到这个词语
+                try
+                {
+                    db.SaveChanges();
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
 
     }
 }

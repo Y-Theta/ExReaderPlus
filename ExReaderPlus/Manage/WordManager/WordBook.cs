@@ -1,5 +1,4 @@
-﻿using ExReaderPlus.DatabaseManager;
-using ExReaderPlus.Models;
+﻿using ExReaderPlus.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
