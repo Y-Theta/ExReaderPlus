@@ -1,5 +1,7 @@
 ﻿using ExReaderPlus.DatabaseManager;
 using ExReaderPlus.Models;
+using ExReaderPlus.View;
+using ExReaderPlus.View.Commands;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using UserDictionary;
 
 namespace ExReaderPlus.WordsManager {
@@ -89,10 +92,6 @@ namespace ExReaderPlus.WordsManager {
             set;
         }
 
-        public string StateColor {
-            get;
-            set;
-        }
 
     }
 
@@ -103,7 +102,8 @@ namespace ExReaderPlus.WordsManager {
 
         public static bool Initdicready = false;
 
-        public static int SelectedDic;
+
+        public static int SelectedDic = 2;
 
         public static EngDictionary GaoKao { get; set; }
 
@@ -141,42 +141,38 @@ namespace ExReaderPlus.WordsManager {
         /// 初始化词典，将数据读入到每个词典内
         /// </summary>
         public static void InitDictionaries() {
-            GaoKao = new EngDictionary { Name = "高考词汇", IsSystem = true,Dicname = 0 };
-
-            CET4 = new EngDictionary { Name = "大学四级", IsSystem = true, Dicname = 1};
-
-            CET6 = new EngDictionary { Name = "大学六级", IsSystem = true, Dicname = 2};
-
+            GaoKao = new EngDictionary { Name = "高考词汇", IsSystem = true, Dicname = 0 };
+            CET4 = new EngDictionary { Name = "大学四级", IsSystem = true, Dicname = 1 };
+            CET6 = new EngDictionary { Name = "大学六级", IsSystem = true, Dicname = 2 };
             KaoYan = new EngDictionary { Name = "考研词汇", IsSystem = true, Dicname = 3 };
-
-            TOEFL = new EngDictionary { Name = "托福词汇", IsSystem = true, Dicname = 4};
-
+            TOEFL = new EngDictionary { Name = "托福词汇", IsSystem = true, Dicname = 4 };
             IELTS = new EngDictionary { Name = "雅思词汇", IsSystem = true, Dicname = 5 };
-
         }
 
-        /// <summary>
-        /// 将词库添加到单词书中,并且初始化
-        /// </summary>
-        public static void InsertWordsToDictionary(Vocabulary vocabulary) {
-            vocabulary.YesorNo = 0;
-            if (vocabulary.Tag.Contains("gk")) GaoKao.Wordlist.Add(vocabulary.Word, vocabulary);
-            if (vocabulary.Tag.Contains("cet4")) CET4.Wordlist.Add(vocabulary.Word, vocabulary);
-            if (vocabulary.Tag.Contains("cet6")) CET6.Wordlist.Add(vocabulary.Word, vocabulary);
-            if (vocabulary.Tag.Contains("ky")) KaoYan.Wordlist.Add(vocabulary.Word, vocabulary);
-            if (vocabulary.Tag.Contains("toefl")) TOEFL.Wordlist.Add(vocabulary.Word, vocabulary);
-            if (vocabulary.Tag.Contains("IELTS")) IELTS.Wordlist.Add(vocabulary.Word, vocabulary);
+        public static async Task InitDicCollectionAsync() {
+            Task tk = new Task(() => {
+                GaoKao.Wordlist = GetDictionaryByName("gk");
+                CET4.Wordlist = GetDictionaryByName("cet4");
+                CET6.Wordlist = GetDictionaryByName("cet6");
+                KaoYan.Wordlist = GetDictionaryByName("ky");
+                TOEFL.Wordlist = GetDictionaryByName("toefl");
+                IELTS.Wordlist = GetDictionaryByName("ielts");
+                Initdicready = true;
+            });
+            tk.Start();
+            await tk;
         }
+
 
         /// <summary>
         /// 返回一个词库 
         /// 默认词典参数 gk cet4 cet6 ky ielts toefl
         /// </summary>
         /// <param name="dictionaryName"></param>
-        public static EngDictionary GetDictionaryByName(string dictionaryName)
+        public static Dictionary<string, Vocabulary> GetDictionaryByName(string dictionaryName)
         {
-
-            using(var db=new DataContext())
+            Dictionary<string, Vocabulary> keyValues = new Dictionary<string, Vocabulary>();
+            using (var db=new DataContext())
             {
                 db.Database.Migrate();
                 var result = db.DictionaryWords
@@ -184,22 +180,18 @@ namespace ExReaderPlus.WordsManager {
                     .Include(m => m.Dictionary)
                     .Where(m => m.Dictionary.Id == dictionaryName);
 
-                var dic = new EngDictionary
-                {
-
-                };
                 foreach (var r in result)
                 {
                     var v = new Vocabulary();
                     v.Word = r.Word.Id;
                     v.YesorNo= r.Word.YesorNo;
                     v.Translation = r.Word.Translation;
-                    v.Phonetic = r.Word.Translation;
-                    dic.Wordlist.Add(v.Word, v);
+                    v.Phonetic = r.Word.Phonetic;
+                    keyValues.Add(v.Word, v);
                 }
-                db.Database.CloseConnection();
-                return dic;
 
+                db.Database.CloseConnection();
+                return keyValues;
             }
             
         }

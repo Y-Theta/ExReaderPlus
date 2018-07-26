@@ -9,14 +9,24 @@
       DataContext="{StaticResource MainPageViewModel}"
       mc:Ignorable="d">
     <Grid x:Name="RootGrid">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="32" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Rectangle x:Name="TitleBarTouch"
-                   Fill="Transparent" />
-        <Custome:CustomeNavigationView Grid.RowSpan="2"
-                                       Background="{Binding FrameBg}"
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="48" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Frame x:Name="MainFrame"
+                   Grid.Column="1"
+                   Grid.RowSpan="2" />
+            <Rectangle x:Name="TitleBarTouch"
+                       Grid.ColumnSpan="2"
+                       Fill="Transparent" />
+
+        </Grid>
+        <Custome:CustomeNavigationView Background="{Binding FrameBg}"
                                        Foreground="{ThemeResource DefaultNavigationViewPaneFG}"
                                        IconStroke="{ThemeResource ContrastMask_D0}"
                                        PaneBackground="{ThemeResource DefaultNavigationViewPaneBG}">
@@ -57,8 +67,6 @@
                                           Icon="&#xE7BC;" />
                 </Grid>
             </Custome:CustomeNavigationView.FunctionArea>
-            <Frame x:Name="MainFrame"/>
         </Custome:CustomeNavigationView>
-
     </Grid>
 </Page>

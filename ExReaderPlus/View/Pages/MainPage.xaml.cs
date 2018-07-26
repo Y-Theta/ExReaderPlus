@@ -1,29 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.ApplicationModel.Core;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using ExReaderPlus.FileManage;
 using Windows.UI.Xaml.Navigation;
 using ExReaderPlus.ViewModels;
 using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Composition;
-using Windows.UI.Xaml.Hosting;
-using Microsoft.Graphics.Canvas.Effects;
-using Windows.UI.Xaml.Media.Imaging;
-using System.Diagnostics;
-using ExReaderPlus.Manage.PassageManager;
 
 namespace ExReaderPlus.View.Pages {
     /// <summary>
@@ -53,7 +33,6 @@ namespace ExReaderPlus.View.Pages {
 
         private void MainFrame_Navigated(object sender, NavigationEventArgs e) {
             var viewmodel = (MainPageViewModel)DataContext;
-            viewmodel.FrameBg = ((sender as Frame).Content as Page).Background;
             var s = ((sender as Frame).Content as Page).GetType();
         }
 

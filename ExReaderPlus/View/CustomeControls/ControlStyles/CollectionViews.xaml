@@ -3,6 +3,7 @@
                     x:Class="ExReaderPlus.CollectionViews"
                     xmlns:local="using:ExReaderPlus.View"
                     xmlns:manage="using:ExReaderPlus.WordsManager"
+                    xmlns:model="using:ExReaderPlus.Models"
                     xmlns:layout="using:ExReaderPlus.View.Layout">
 
     <!--DicGridView-->
@@ -55,7 +56,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <!--KeyWordListView-->
     <Style x:Key="KeyWordListView"
            TargetType="ListView">
@@ -72,6 +73,16 @@
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="ItemContainerTransitions">
+            <Setter.Value>
+                <TransitionCollection>
+                    <AddDeleteThemeTransition />
+                    <ContentThemeTransition />
+                    <ReorderThemeTransition />
+                    <EntranceThemeTransition IsStaggeringEnabled="False" />
+                </TransitionCollection>
+            </Setter.Value>
+        </Setter>
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
                 <Style TargetType="ListViewItem">
@@ -81,8 +92,7 @@
                         <Setter.Value>
                             <ControlTemplate TargetType="ListViewItem">
                                 <Border x:Name="ContentBorder"
-                                        Control.IsTemplateFocusTarget="True"
-                                        Background="{ThemeResource WordListItemBg_N}">
+                                        Control.IsTemplateFocusTarget="True">
                                     <ContentPresenter x:Name="Content"
                                                       VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                                       HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
@@ -96,11 +106,11 @@
         </Setter>
         <Setter Property="ItemTemplate">
             <Setter.Value>
-                <DataTemplate x:DataType="manage:Vocabulary">
+                <DataTemplate x:DataType="model:ActionVocabulary">
                     <local:HitContentholder Background="{ThemeResource WordListItemBg_N}"
                                             PointBrush="{ThemeResource WordListItemBg_R}"
                                             PressBrush="{ThemeResource WordListItemBg_P}">
-                        <Grid Margin="8,0,0,8">
+                        <Grid Margin="12,0,0,8">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto" />
                                 <ColumnDefinition Width="auto" />
@@ -110,33 +120,61 @@
                                 <RowDefinition Height="auto" />
                                 <RowDefinition Height="auto" />
                             </Grid.RowDefinitions>
+                            <Rectangle Fill="{ThemeResource WordListWordFg}" 
+                                       Width="2"
+                                       Grid.RowSpan="2"
+                                       VerticalAlignment="Stretch"
+                                       HorizontalAlignment="Left"
+                                       Margin="-8,4,0,-4" />
                             <TextBox Grid.Row="0"
                                      Style="{StaticResource WordListCaption}"
                                      Text="{Binding Word}" />
                             <TextBlock Grid.Column="1"
                                        Style="{StaticResource WordListPhonetic}"
-                                       Text="{Binding Phonetic}" />
+                                       Text="{Binding Phonetic,Converter={StaticResource PhoneticCON}}">
+                                <ToolTipService.ToolTip>
+                                    <ToolTip Padding="0"
+                                             Visibility="{Binding Phonetic,Mode=OneWay,Converter={StaticResource NULLnoVIS}}"
+                                             Background="{ThemeResource WordListMoreBg}"
+                                             BorderThickness="0"
+                                             HorizontalOffset="12"
+                                             VerticalOffset="12"
+                                             Placement="Mouse">
+                                         <Border Padding="2">
+                                             <TextBlock Style="{StaticResource WordListMoreToolTip_P}"
+                                                        Text="{Binding Phonetic,Mode=OneWay}" />
+                                         </Border>
+                                    </ToolTip>
+                                </ToolTipService.ToolTip>
+                            </TextBlock>
                             <TextBlock Grid.Row="1"
                                        Grid.ColumnSpan="2"
                                        Style="{StaticResource WordListTranslation}"
                                        Text="{Binding Translation}">
-                             <ToolTipService.ToolTip>
-                                <ToolTip Padding="0"
+                                <ToolTipService.ToolTip>
+                                    <ToolTip Padding="0"
                                          Visibility="{Binding Translation,Mode=OneWay,Converter={StaticResource NULLnoVIS}}"
                                          Background="{ThemeResource WordListMoreBg}"
                                          BorderThickness="0"
                                          HorizontalOffset="12"
                                          VerticalOffset="12"
                                          Placement="Mouse">
-                                    <Border Padding="2">
-                                         <TextBlock Style="{StaticResource WordListMoreToolTip}"
-                                                    Text="{Binding Translation,Mode=OneWay}" />
-                                    </Border>
-                                </ToolTip>
-                            </ToolTipService.ToolTip>
-                        </TextBlock>
-                            <Button Grid.Column="2"
-                                    Grid.RowSpan="2" />
+                                         <Border Padding="2">
+                                             <TextBlock Style="{StaticResource WordListMoreToolTip}"
+                                                        Text="{Binding Translation,Mode=OneWay}" />
+                                         </Border>
+                                    </ToolTip>
+                                </ToolTipService.ToolTip>
+                            </TextBlock>
+                            <Button Style="{StaticResource IconButtonStyle}"
+                                    Content="&#xE73E;"
+                                    Tag="已掌握"
+                                    Margin="0,8,0,0"
+                                    Grid.Column="2"
+                                    Grid.RowSpan="2"
+                                    VerticalAlignment="Center"
+                                    Command="{Binding RemCommand}"
+                                    CommandParameter="{Binding}" />
                         </Grid>
                     </local:HitContentholder>
                 </DataTemplate>
@@ -177,6 +215,6 @@
         </Setter>
 
     </Style>
-    
-    
+
+
 </ResourceDictionary>

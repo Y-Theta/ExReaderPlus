@@ -47,6 +47,14 @@ namespace ExReaderPlus.View {
             DependencyProperty.Register("BackIcon", typeof(string),
                 typeof(IconToggelButton), new PropertyMetadata(null));
 
+        public Visibility ToogelIdVis {
+            get { return (Visibility)GetValue(ToogelIdVisProperty); }
+            set { SetValue(ToogelIdVisProperty, value); }
+        }
+        public static readonly DependencyProperty ToogelIdVisProperty =
+            DependencyProperty.Register("ToogelIdVis", typeof(Visibility), 
+                typeof(IconToggelButton), new PropertyMetadata(Visibility.Collapsed));
+
         #region ForeTip
         public string ForeToolTip {
             get { return (string)GetValue(ForeToolTipProperty); }

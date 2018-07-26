@@ -6,21 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Xaml;
+using System.Diagnostics;
+using Windows.UI.ViewManagement;
 
 namespace ExReaderPlus.View {
     [Serializable]
-    public class OverallViewSettings : ViewModelBasse{
-        private static OverallViewSettings _instence;
-        /// <summary>
-        /// 用户界面设置存储
-        /// </summary>
-        public static OverallViewSettings Instence {
-            get {
-                if (_instence is null)
-                    _instence = new OverallViewSettings();
-                return _instence;
-            }
-        }
+    public class OverallViewSettings : ViewModelBasse {
 
         #region Properties
         /// <summary>
@@ -71,16 +62,16 @@ namespace ExReaderPlus.View {
         /// <summary>
         /// 富文本框选中前景色
         /// </summary>
-        private Color _richTextSelectBoxFg = Color.FromArgb(255, 8, 8, 8);
+        private Color _richTextSelectBoxFg = Color.FromArgb(48, 8, 8, 8);
         public Color RichTextSelectBoxFg {
             get => _richTextSelectBoxFg;
-            set => SetValue<Color>(out _richTextSelectBoxFg, value, nameof(RichTextSelectBoxFg));
+            set { SetValue<Color>(out _richTextSelectBoxFg, value, nameof(RichTextSelectBoxFg)); Debug.WriteLine(ReadingPageControlBar); }
         }
 
         /// <summary>
         /// 富文本框选中背景色
         /// </summary>
-        private Color _richTextSelectBoxBg = Color.FromArgb(255, 115, 135, 86);
+        private Color _richTextSelectBoxBg = Color.FromArgb(48, 161, 55, 78);
         public Color RichTextSelectBoxBg {
             get => _richTextSelectBoxBg;
             set => SetValue<Color>(out _richTextSelectBoxBg, value, nameof(RichTextSelectBoxBg));
@@ -98,6 +89,17 @@ namespace ExReaderPlus.View {
 
 
         #region Methods
+        public void StateBarButtonWhite(bool black) {
+            var TitleBar = ApplicationView.GetForCurrentView().TitleBar;
+            if (black)
+                TitleBar.ButtonForegroundColor = Color.FromArgb(255, 0, 0, 0);
+            else
+                TitleBar.ButtonForegroundColor = Color.FromArgb(255, 255, 255, 255);
+        }
+
+        private void InitProperties() {
+
+        }
 
         #endregion
 

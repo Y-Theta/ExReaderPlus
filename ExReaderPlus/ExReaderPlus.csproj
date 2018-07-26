@@ -146,6 +146,7 @@
     </AppxManifest>
     <Content Include="Assets\IconY.ttf" />
     <Content Include="DB\dic.db" />
+    <Content Include="Assets\Rect.ttf" />
     <None Include="ExReaderPlus_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

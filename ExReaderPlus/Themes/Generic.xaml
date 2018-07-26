@@ -241,8 +241,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:CustomeNavigationView">
-                    <Grid x:Name="RootGrid"
-                          Background="{TemplateBinding Background}">
+                    <Grid x:Name="RootGrid">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CollapseMode">
                                 <VisualStateGroup.Transitions>
@@ -445,21 +444,11 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Grid x:Name="ContentRoot">
+
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="{Binding CollapseWidth,RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay,Converter={StaticResource GRIDLtoDOUBLE},FallbackValue=0}" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Border Grid.Column="1"
-                                    Child="{TemplateBinding Content}" />
-                        </Grid>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition x:Name="Colum1"
-                                                  Width="{Binding CollapseWidth,RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay,Converter={StaticResource GRIDLtoDOUBLE},FallbackValue=0}" />
-                                <ColumnDefinition x:Name="Colum2"
-                                                  Width="*" />
-                            </Grid.ColumnDefinitions>
+                            <ColumnDefinition x:Name="Colum1"
+                                              Width="{Binding CollapseWidth,RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay,Converter={StaticResource GRIDLtoDOUBLE},FallbackValue=0}" />
+                        </Grid.ColumnDefinitions>
                             <Grid x:Name="PaneRoot"
                                   HorizontalAlignment="Left"
                                   Visibility="Visible"
@@ -540,7 +529,6 @@
                                                         Width="{TemplateBinding CollapseWidth}" />
                                 </StackPanel>
                             </Grid>
-                        </Grid>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -628,7 +616,7 @@
     <Style TargetType="local:IconToggelButton">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="ToggleButton">
+                <ControlTemplate TargetType="local:IconToggelButton">
                     <Grid x:Name="RootGrid"
                           Background="{TemplateBinding Background}">
 
@@ -651,30 +639,82 @@
                                     <VisualState.Setters>
                                         <Setter Target="ContentPresenter.Foreground"
                                                 Value="{Binding CheckedBrush, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                        <Setter Target="ContentPresenter.Text"
+                                                Value="{Binding BackIcon, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                        <Setter Target="ContentPresenter.Tag"
+                                                Value="{Binding BackToolTip, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
                                     </VisualState.Setters>
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ToogelId"
+                                                                       Storyboard.TargetProperty="Opacity">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="1" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="CheckedPointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.Foreground"
+                                                Value="{Binding CheckedBrush, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                        <Setter Target="ContentPresenter.Text"
+                                                Value="{Binding BackIcon, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                        <Setter Target="ContentPresenter.Tag"
+                                                Value="{Binding BackToolTip, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                    </VisualState.Setters>
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ToogelId"
+                                                                       Storyboard.TargetProperty="Opacity">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="1" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="CheckedPressed">
+                                    <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.Foreground"
+                                                Value="{Binding CheckedBrush, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                        <Setter Target="ContentPresenter.Text"
+                                                Value="{Binding BackIcon, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                        <Setter Target="ContentPresenter.Tag"
+                                                Value="{Binding BackToolTip, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                    </VisualState.Setters>
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ToogelId"
+                                                                       Storyboard.TargetProperty="Opacity">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="1" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
+                        <Rectangle x:Name="ToogelId"
+                                   Height="1"
+                                   HorizontalAlignment="Stretch"
+                                   VerticalAlignment="Bottom"
+                                   Visibility="{TemplateBinding ToogelIdVis}"
+                                   Opacity="0"
+                                   Fill="{Binding Foreground, ElementName= ContentPresenter,Mode=OneWay}"/>
                         <TextBlock x:Name="ContentPresenter"
+                                   Tag="{Binding ForeToolTip, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                   FontFamily="{TemplateBinding FontFamily}"
+                                   FontSize="{TemplateBinding FontSize}"
                                    Foreground="{TemplateBinding Foreground}"
-                                   Text="{TemplateBinding Name}"
+                                   Text="{Binding ForeIcon,RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                    Margin="{TemplateBinding Padding}">
                             <ToolTipService.ToolTip>
                                 <ToolTip Padding="-1"
-                                         Visibility="{Binding Tooltip, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay,Converter={StaticResource NULLnoVIS}}"
+                                         Visibility="{Binding Tag, ElementName=ContentPresenter,Mode=OneWay,Converter={StaticResource NULLnoVIS}}"
                                          HorizontalOffset="12"
                                          VerticalOffset="12"
                                          Placement="Mouse">
                                 <Border BorderBrush="{ThemeResource DefaultToolTipBd}"
                                         BorderThickness="1">
-                                    <TextBlock Style="{StaticResource WordToolTipstyle}"
-                                               Text="{Binding Tooltip, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}" />
+                                    <TextBlock x:Name="ToolTipText"
+                                               Style="{StaticResource ToolTipTextStyle}"
+                                               Text="{Binding Tag, ElementName=ContentPresenter,Mode=OneWay}" />
                                 </Border>
                             </ToolTip>
                             </ToolTipService.ToolTip>
@@ -684,4 +724,5 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
 </ResourceDictionary>

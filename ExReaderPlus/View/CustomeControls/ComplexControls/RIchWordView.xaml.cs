@@ -1,4 +1,5 @@
-﻿using ExReaderPlus.ViewModels;
+﻿using ExReaderPlus.Models;
+using ExReaderPlus.ViewModels;
 using ExReaderPlus.WordsManager;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,8 @@ using Windows.UI.Xaml.Media.Imaging;
 namespace ExReaderPlus.View {
     public sealed partial class RichWordView : UserControl {
         #region Properties
+        private OverallViewSettings _instence;
+
         private EssayPageViewModel _viewModel;
 
         private Timer _autohidetimer;
@@ -44,22 +47,15 @@ namespace ExReaderPlus.View {
         }
 
         /// <summary>
-        /// 关键字，需要渲染的关键字组
+        /// 目标词列表裁剪矩形
         /// </summary>
-        private HashSet<string> _keyWords;
-        public HashSet<string> KeyWords {
-            get => _keyWords;
-            set => _keyWords = value;
+        public Rect WordPanelRect {
+            get { return (Rect)GetValue(WordPanelRectProperty); }
+            set { SetValue(WordPanelRectProperty, value); }
         }
-
-        /// <summary>
-        /// 侧边栏列表
-        /// </summary>
-        private ObservableCollection<Vocabulary> _keywordlist;
-        public ObservableCollection<Vocabulary> Keywordlist {
-            get => _keywordlist;
-            set => _keywordlist = value;
-        }
+        public static readonly DependencyProperty WordPanelRectProperty =
+            DependencyProperty.Register("WordPanelRect", typeof(Rect), 
+                typeof(RichWordView), new PropertyMetadata(null));
         #endregion
 
         #region Methods
@@ -67,19 +63,13 @@ namespace ExReaderPlus.View {
         protected override void OnTapped(TappedRoutedEventArgs e) {
             base.OnTapped(e);
             if (_controlbararea.Contains(e.GetPosition(this)) && TextView.IsReadOnly)
-            {
                 ControlLayer.Visibility = ControlLayer.Visibility.Equals(Visibility.Visible) ? Visibility.Collapsed : Visibility.Visible;
-            }
             else if (_lastpagearea.Contains(e.GetPosition(this)) && TextView.IsReadOnly)
                 TextView.PageDown();
             else if (_nextpagearea.Contains(e.GetPosition(this)) && TextView.IsReadOnly) 
                 TextView.PageUp();
             else if(_wordlistarea.Contains(e.GetPosition(this)) && TextView.IsReadOnly)
-            {
-                WordPanel.Visibility = WordPanel.Visibility.Equals(Visibility.Visible) ? Visibility.Collapsed : Visibility.Visible;
-                TextView.FreshLayout();
-                ArrangeRect();
-            }
+                WordPanelSwitch();
         }
 
         #endregion
@@ -100,32 +90,31 @@ namespace ExReaderPlus.View {
             ControlLayer.PointerExited += ControlLayer_PointerExited;
         }
 
+        private void _viewModel_WordCommand(object sender, CommandArgs args) {
+            var tgb = args.parameter as IconToggelButton;
+            Debug.WriteLine(tgb.Name);
+        }
+
         /// <summary>
         /// 按钮命令回调
         /// </summary>
         private void _viewModel_ControlCommand(object sender, CommandArgs args) {
-            switch (args.command)
+            switch (args.parameter)
             {
-                case "TurnPage":
-                    if (args.parameter is null)
-                        TextView.PageUp();
-                    else
-                        TextView.PageDown();
-                    break;
-                case "SizeText":
-                    if (args.parameter is null)
-                        TextView.FontSize += 0.5;
-                    else
-                        TextView.FontSize -= 0.5;
-                    break;
+                case "TurnPageNext": TextView.PageUp(); break;
+                case "TurnPageBack": TextView.PageDown(); break;
+                case "SizeTextLarge": TextView.FontSize += 0.5; break;
+                case "SizeTextLittle": TextView.FontSize -= 0.5; break;
+                case "HideWordList": WordPanelSwitch(); break;
                 case "ChangeMode":
-                    if (!TextView.IsReadOnly)
-                        TextView.IsReadOnly = true;
-                    else
-                    {
-                        TextView.IsReadOnly = false;
-                        RenderLayer.Visibility = Visibility.Collapsed;
-                    }
+                    if (_viewModel.TempPassage != null)
+                        if (!TextView.IsReadOnly)
+                            TextView.IsReadOnly = true;
+                        else
+                        {
+                            TextView.IsReadOnly = false;
+                            RenderLayer.Visibility = Visibility.Collapsed;
+                        }
                     break;
             }
         }
@@ -141,6 +130,7 @@ namespace ExReaderPlus.View {
             _nextpagearea = new Rect(TextScroll.ActualWidth * 5 / 6, 0, TextScroll.ActualWidth / 6, TextScroll.ActualHeight);
             _lastpagearea = new Rect(0, 0, TextScroll.ActualWidth / 6, TextScroll.ActualHeight);
             _wordlistarea = new Rect(TextScroll.ActualWidth / 3, 0, TextScroll.ActualWidth / 3, TextScroll.ActualHeight / 3);
+            WordPanelRect = new Rect(0, 0, 280, ActualHeight);
         }
 
         /// <summary>
@@ -166,11 +156,8 @@ namespace ExReaderPlus.View {
         /// </summary>
         private void TextView_ElementSorted(object sender, EventArgs e) {
             RichTextBox rtb = sender as RichTextBox;
-            foreach (var cot in ControlDic)
-                foreach (var loc in cot.Value)
-                    (loc as HitHolder).PointerEntered -= Rect_PointerEntered;
-            KeyWords.Clear();
-            Keywordlist.Clear();
+            _viewModel.KeyWords.Clear();
+            _viewModel.Keywordlist.Clear();
             ControlDic.Clear();
             RenderLayer.Children.Clear();
             RenderLayer.UpdateLayout();
@@ -180,29 +167,42 @@ namespace ExReaderPlus.View {
                     {
                         HitHolder rect = new HitHolder
                         {
-                            PointBrush = new SolidColorBrush(Color.FromArgb(48, 0, 120, 200)),
+                            PointBrush = new SolidColorBrush(_instence.RichTextSelectBoxFg),
                             Margin = new Thickness(loc.Left, loc.Top + 2, 0, 0),
                             Width = loc.Width,
                             Height = loc.Height - 2,
                             Name = kp.Key
                         };
-                        if (WordBook.CET6.Wordlist.ContainsKey(kp.Key))
+                        if (WordBook.GetDicNow().Wordlist.ContainsKey(kp.Key))
                         {
-                            rect.Background = new SolidColorBrush(Color.FromArgb(48, 0, 200, 120));
-                            KeyWords.Add(kp.Key);
+                            rect.Background = new SolidColorBrush(_instence.RichTextSelectBoxBg);
+                            _viewModel.KeyWords.Add(kp.Key);
                         }
                         rect.PointerEntered += Rect_PointerEntered;
                         AddtoControlDic(kp.Key, rect);
                         RenderLayer.Children.Add(rect);
                     }
+            
             RenderLayer.UpdateLayout();
             TextView.IsEnabled = true;
             if (TextView.IsReadOnly)
             {
                 RenderLayer.Visibility = Visibility.Visible;
-                foreach (var k in KeyWords)
-                    Keywordlist.Add(WordBook.CET6.Wordlist[k]);
+                foreach (var k in _viewModel.KeyWords)
+                {
+                    ActionVocabulary avb = ActionVocabulary.FromVocabulary(WordBook.GetDicNow().Wordlist[k]);
+                    avb.RemCommandAction += Avb_RemCommandAction;
+                    _viewModel.Keywordlist.Add(avb);
+                }
             }
+        }
+
+        private void Avb_RemCommandAction(object sender, CommandArgs args) {
+            var s = sender as ActionVocabulary;
+            foreach (var hithold in ControlDic[s.Word])
+                (hithold as HitHolder).Background = new SolidColorBrush(Colors.Transparent);
+            _viewModel.KeyWords.Remove(s.Word);
+            _viewModel.Keywordlist.Remove(s);
         }
 
         private void Rect_PointerEntered(object sender, PointerRoutedEventArgs e) {
@@ -234,6 +234,29 @@ namespace ExReaderPlus.View {
         #endregion
 
         #region PrivateMethods
+        private void WordPanelSwitch() {
+            if (WordPanel.Visibility.Equals(Visibility.Visible))
+            {
+                VisualStateManager.GoToState(this, "WordPanelCollapsed", true);
+                _instence.StateBarButtonWhite(true);
+            }
+            else
+            {
+                VisualStateManager.GoToState(this, "WordPanelShow", true);
+                _instence.StateBarButtonWhite(false);
+            }
+        }
+
+        private void WordPanelState_CurrentStateChanged(object sender, VisualStateChangedEventArgs e) {
+            TextView.FreshLayout();
+            ArrangeRect();
+        }
+
+        private void InitVisualStates() {
+            _instence = App.Current.Resources["OverallViewSettings"] as OverallViewSettings;
+            VisualStateManager.GoToState(this, "WordPanelCollapsed", false);
+        }
+
         private void AttachMethods() {
             SizeChanged += RichWordView_SizeChanged;
             Loaded += RichWordView_Loaded;
@@ -242,8 +265,6 @@ namespace ExReaderPlus.View {
 
         private void InitCollections() {
             ControlDic = new Dictionary<string, List<Control>>();
-            KeyWords = new HashSet<string>();
-            Keywordlist = new ObservableCollection<Vocabulary>();
         }
 
         private void InitTimer() {
@@ -294,6 +315,7 @@ namespace ExReaderPlus.View {
             InitCollections();
             AttachMethods();
             InitializeComponent();
+            InitVisualStates();
         }
         #endregion
 
@@ -303,5 +325,6 @@ namespace ExReaderPlus.View {
 //            FileManage.FileManage fileManage= new FileManage.FileManage();
 //            fileManage.NewPage();
         }
+
     }
 }
