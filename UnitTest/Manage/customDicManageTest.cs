@@ -79,5 +79,47 @@ namespace UnitTest.Manage
 
         }
 
+        /// <summary>
+        /// 把数据库导入单词本测试
+        /// </summary>
+        [TestMethod]
+        public void DumpWordsFromFileDataBaseToTheDiconaryForTestTest()
+        {
+            Assert.AreEqual(1, CustomDicManage.DumpWordsFromFileDataBaseToTheDiconaryForTest());
+        }
+
+        /// <summary>
+        /// 改变单词状态位测试
+        /// </summary>
+        [TestMethod]
+        public void ChangeTheStateOfAWordTest()
+        {
+            var v = new Vocabulary
+            {
+                Word = "changeStateTest",
+                Translation = "改变状态位测试",
+                YesorNo = 0
+                
+            };
+            CustomDicManage.AddACustomDictionary("changeStateTest");
+            Assert.AreEqual(1,CustomDicManage.InsertAVocabularyToCustomDictionary("changeStateTest",v));
+            using(var db=new DataContext())
+            {
+                db.Database.Migrate();
+                var test=db.Words.First(vo => vo.Id.Equals(v.Word));
+                Assert.AreEqual(0, test.YesorNo);
+                db.Database.CloseConnection();
+            }
+
+            CustomDicManage.ChangeTheStateOfAWord(v.Word, 1);
+
+            using (var db = new DataContext())
+            {
+                db.Database.Migrate();
+                var test = db.Words.First(vo => vo.Id.Equals(v.Word));
+                Assert.AreEqual(1, test.YesorNo);
+                db.Database.CloseConnection();
+            }
+        }
     }
 }

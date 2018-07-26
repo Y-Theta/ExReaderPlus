@@ -13,17 +13,6 @@ namespace UnitTest.Manage
     [TestClass]
     public class fileDatabaseManageTest
     {
-        /// <summary>
-        ///测试从文件数据库读词
-        /// </summary>
-        //[TestMethod]
-        //public void getAWordTest()
-        //{
-        //    var testWord = "abandon";
-        //    fileDatabaseManage.instance = new fileDatabaseManage();//创建一个静态实例
-        //    var testVocabularies = fileDatabaseManage.instance.GetDictionary();
-        //    Assert.AreEqual(testWord, testVocabularies.ElementAt(1).Word);
-        //}
 
         /// <summary>
         /// 测试打开文件数据库,将数据库读入内存数据库
@@ -45,6 +34,16 @@ namespace UnitTest.Manage
             WordBook.InitDictionaries();
             fileDatabaseManage.instance.GetDictionaries();
             Assert.AreEqual(5407,WordBook.CET6.Wordlist.Count());
+        }
+
+        [TestMethod]
+        public void SearchVocabularyTest()
+        {
+            fileDatabaseManage.instance = new fileDatabaseManage();
+            var v1=fileDatabaseManage.instance.SearchVocabulary("test");
+            Assert.AreEqual(true, v1.Translation.Contains("测试"));
+            var v2 = fileDatabaseManage.instance.SearchVocabulary("00");
+            Assert.AreEqual(null, v2);
         }
     }
 }

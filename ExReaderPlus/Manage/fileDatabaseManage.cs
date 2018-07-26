@@ -91,5 +91,36 @@ namespace ExReaderPlus.Manage
             _reader.Close();
             return vocabularies.ToDictionary(v => v.Word, v => v);
         }
+
+        /// <summary>
+        /// 本地查找生词
+        /// 查询为空或则失败则返回为空
+        /// </summary>
+        /// <param name="word"></param>
+        /// <returns></returns>
+        public Vocabulary SearchVocabulary(string word)
+        {
+            var commandText = "SELECT word,phonetic,translation FROM newdic where word = " + "\"" + word + "\"";
+            this._command.CommandText = commandText;
+            var vocabulary = new Vocabulary();
+            try
+            {
+                if ((_reader = this._command.ExecuteReader()) == null)
+                    return null;//如果结果为空，则返回为空
+                _reader.Read();
+                vocabulary.Word = _reader.GetString(0);
+                vocabulary.Phonetic = _reader.GetString(1);
+                vocabulary.Translation = _reader.GetString(2);              
+                return vocabulary;
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                _reader.Close();
+            }
+        }
     }
 }
