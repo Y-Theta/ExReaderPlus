@@ -127,7 +127,7 @@ namespace ExReaderPlus.Manage
             word.Id = vocabulary.Word;
             word.Tag = vocabulary.Tag;
             word.Translation = vocabulary.Translation;
-            word.YesorNo = vocabulary.YesorNo ? 1 : 0;
+            word.YesorNo = vocabulary.YesorNo;
             word.Phonetic = vocabulary.Phonetic;
             return word;
         }
@@ -246,7 +246,7 @@ namespace ExReaderPlus.Manage
                 {
                     var vocabulary = new Vocabulary();
                     vocabulary.Word = word.Id;
-                    vocabulary.YesorNo = word.YesorNo == 0 ? false : true;
+                    vocabulary.YesorNo = word.YesorNo;
                     vocabulary.Translation = word.Translation;
                     vocabulary.Tag = word.Tag;
                     vocabulary.Phonetic = word.Phonetic;

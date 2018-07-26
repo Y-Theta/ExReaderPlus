@@ -14,7 +14,13 @@
         <VisualStateManager.VisualStateGroups>
 
         </VisualStateManager.VisualStateGroups>
-        <ScrollViewer Style="{StaticResource DefaultScrollViewer}"
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+
+        <ScrollViewer x:Name="TextScroll"
+                      Style="{StaticResource DefaultScrollViewer}"
                       Grid.Row="1"
                       HorizontalScrollBarVisibility="Disabled">
             <Grid x:Name="TextLayer">
@@ -60,6 +66,7 @@
                     FontFamily="{StaticResource IconY}"
                     Style="{StaticResource IconButtonStyle}" />
             <Button Content="&#xA000;"
+                    Tag="分享"
                     Grid.Column="2"
                     FontFamily="{StaticResource IconY}"
                     Style="{StaticResource IconButtonStyle}" />
@@ -85,6 +92,19 @@
                     CommandParameter="1"
                     Grid.Column="8"
                     Style="{StaticResource IconButtonStyle}" />
+        </Grid>
+
+        <Grid x:Name="WordPanel"
+              Visibility="Collapsed"
+              Width="180"
+              Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <ListView Style="{StaticResource KeyWordListView}"
+                      Grid.Row="1"
+                      ItemsSource="{x:Bind Keywordlist,Mode=OneWay}" />
         </Grid>
     </Grid>
 </UserControl>

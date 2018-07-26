@@ -2,7 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="using:ExReaderPlus.View">
 
-    <Style x:Key="ToolTipTextStyle" TargetType="TextBlock">
+    <!--ToolTipTextStyle-->
+    <Style x:Key="ToolTipTextStyle"
+           TargetType="TextBlock">
         <Setter Property="FontSize"
                 Value="14" />
         <Setter Property="Foreground"
@@ -13,7 +15,7 @@
                 Value="4,2,4,2" />
     </Style>
 
-
+    <!--WordToolTipstyle-->
     <Style x:Key="WordToolTipstyle"
            TargetType="TextBlock">
         <Setter Property="FontSize"
@@ -25,5 +27,38 @@
         <Setter Property="Margin"
                 Value="2,1,2,1" />
     </Style>
-    
+
+    <!--WordListCaption-->
+    <Style x:Key="WordListCaption"
+           TargetType="TextBlock">
+        <Setter Property="FontSize"
+                Value="20" />
+        <Setter Property="FontWeight"
+                Value="Light" />
+        <Setter Property="Foreground"
+                Value="{ThemeResource WordListWordFg}" />
+    </Style>
+
+    <!--WordListPhonetic-->
+    <Style x:Key="WordListPhonetic"
+           TargetType="TextBlock">
+        <Setter Property="FontSize"
+                Value="12" />
+        <Setter Property="FontWeight"
+                Value="Bold" />
+        <Setter Property="Foreground"
+                Value="{ThemeResource WordListWordFg}" />
+    </Style>
+
+    <!--WordListTranslation-->
+    <Style x:Key="WordListTranslation"
+           TargetType="TextBlock">
+        <Setter Property="FontSize"
+                Value="12" />
+        <Setter Property="FontWeight"
+                Value="Light" />
+        <Setter Property="Foreground"
+                Value="{ThemeResource WordListWordFg}" />
+    </Style>
+
 </ResourceDictionary>

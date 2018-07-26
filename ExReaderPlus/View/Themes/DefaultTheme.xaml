@@ -121,7 +121,10 @@
     <SolidColorBrush x:Key="ScrollBarBg_D"
                      Color="Transparent" />
     
-    <!--Slider-->
-    
-    
+    <!--WordList-->
+    <SolidColorBrush x:Key="WordListWordFg"
+                     Color="#EFEFEF" />
+    <SolidColorBrush x:Key="WordListBg"
+                     Color="#477FBF" />
+
 </ResourceDictionary>
