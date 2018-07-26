@@ -82,7 +82,7 @@
     <x:Double x:Key="ScrollBarButtonSize">16</x:Double>
     <x:Double x:Key="ScrollBarThumbSize">10</x:Double>
     <x:Double x:Key="ScrollBarThumbMinSize">30</x:Double>
-    <x:Double x:Key="ScrollBarThumbScale">0.25</x:Double>
+    <x:Double x:Key="ScrollBarThumbScale">0.2</x:Double>
     <x:Double x:Key="ScrollBarThumbOffset">2</x:Double>
 
     <Style x:Key="DefaultScrollBar"

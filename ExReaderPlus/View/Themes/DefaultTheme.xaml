@@ -105,9 +105,9 @@
 
     <!--ScrollViewer-->
     <SolidColorBrush x:Key="ScrollBarThumb_N"
-                     Color="#A0A0A0" />
+                     Color="#60FFFFFF" />
     <SolidColorBrush x:Key="ScrollBarThumb_R"
-                     Color="#808080" />
+                     Color="#80FFFFFF" />
     <SolidColorBrush x:Key="ScrollBarThumb_P"
                      Color="#40000000" />
     <SolidColorBrush x:Key="ScrollBarThumb_D"

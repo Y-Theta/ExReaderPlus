@@ -139,6 +139,11 @@
                                    Text="{Binding Translation}" />
                         <Button Grid.Column="2"
                                 Grid.RowSpan="2" />
+                        <ToolTipService.ToolTip>
+                            <ToolTip>
+                                
+                            </ToolTip>
+                        </ToolTipService.ToolTip>
                     </Grid>
                 </DataTemplate>
             </Setter.Value>
