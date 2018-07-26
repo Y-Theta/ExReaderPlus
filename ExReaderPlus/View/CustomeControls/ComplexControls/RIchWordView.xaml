@@ -9,8 +9,7 @@
     <Grid x:Name="Rootgrid"
           AllowDrop="True"
           DragOver="ControlLayer_DragOver"
-          DragLeave="Rootgrid_DragLeave"
-          Margin="8,0,8,8">
+          DragLeave="Rootgrid_DragLeave">
         <VisualStateManager.VisualStateGroups>
 
         </VisualStateManager.VisualStateGroups>
@@ -20,6 +19,7 @@
         </Grid.ColumnDefinitions>
 
         <ScrollViewer x:Name="TextScroll"
+                      Margin="8,32,0,8"
                       Style="{StaticResource DefaultScrollViewer}"
                       Grid.Row="1"
                       HorizontalScrollBarVisibility="Disabled">
@@ -96,14 +96,35 @@
 
         <Grid x:Name="WordPanel"
               Visibility="Collapsed"
-              Width="180"
+              Background="{ThemeResource WordListBg}"
+              Padding="8,0,8,8"
+              Width="280"
               Grid.Column="1">
             <Grid.RowDefinitions>
+                <RowDefinition Height="32" />
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <ListView Style="{StaticResource KeyWordListView}"
-                      Grid.Row="1"
+            <StackPanel Background="Transparent" />
+            <Grid x:Name="WordPanelTitle"
+                  Margin="0,24,0,8"
+                  Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="Title"
+                           FontSize="24"
+                           Margin="4,0,0,0"
+                           FontWeight="Normal"
+                           TextAlignment="Center"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Bottom"
+                           Text="TextList" />
+                <ComboBox Grid.Column="1" />
+            </Grid>
+            <ListView Grid.Row="2"
+                      Style="{StaticResource KeyWordListView}"
                       ItemsSource="{x:Bind Keywordlist,Mode=OneWay}" />
         </Grid>
     </Grid>

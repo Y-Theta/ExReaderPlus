@@ -33,6 +33,14 @@
            TargetType="TextBlock">
         <Setter Property="FontSize"
                 Value="20" />
+        <Setter Property="MinWidth"
+                Value="120" />
+        <Setter Property="HorizontalAlignment"
+                Value="Left" />
+        <Setter Property="VerticalAlignment"
+                Value="Center" />
+        <Setter Property="TextAlignment"
+                Value="Left" />
         <Setter Property="FontWeight"
                 Value="Light" />
         <Setter Property="Foreground"
@@ -46,6 +54,16 @@
                 Value="12" />
         <Setter Property="FontWeight"
                 Value="Bold" />
+        <Setter Property="HorizontalAlignment"
+                Value="Left" />
+        <Setter Property="TextAlignment"
+                Value="Left" />
+        <Setter Property="VerticalAlignment"
+                Value="Bottom" />
+        <Setter Property="Width"
+                Value="80" />
+        <Setter Property="TextTrimming"
+                Value="WordEllipsis" />
         <Setter Property="Foreground"
                 Value="{ThemeResource WordListWordFg}" />
     </Style>
@@ -57,6 +75,22 @@
                 Value="12" />
         <Setter Property="FontWeight"
                 Value="Light" />
+        <Setter Property="TextAlignment"
+                Value="Left" />
+        <Setter Property="HorizontalAlignment"
+                Value="Left" />
+        <Setter Property="VerticalAlignment"
+                Value="Top" />
+        <Setter Property="MaxWidth"
+                Value="200" />
+        <Setter Property="TextWrapping"
+                Value="NoWrap" />
+        <Setter Property="TextTrimming"
+                Value="CharacterEllipsis" />
+        <Setter Property="Height"
+                Value="16" />
+        <Setter Property="Margin"
+                Value="0,4,0,0" />
         <Setter Property="Foreground"
                 Value="{ThemeResource WordListWordFg}" />
     </Style>

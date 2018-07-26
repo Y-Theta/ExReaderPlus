@@ -7,8 +7,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       DataContext="{StaticResource EssayPageViewModel}"
       mc:Ignorable="d">
-    <Grid x:Name="Rootgrid"
-          Margin="0,32,0,0">
+    <Grid x:Name="Rootgrid">
         <Custome:RichWordView x:Name="TextView" />
     </Grid>
 </Page>

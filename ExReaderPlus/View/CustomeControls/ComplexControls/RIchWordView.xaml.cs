@@ -46,13 +46,15 @@ namespace ExReaderPlus.View {
         /// <summary>
         /// 关键字，需要渲染的关键字组
         /// </summary>
-        /// 
         private HashSet<string> _keyWords;
         public HashSet<string> KeyWords {
             get => _keyWords;
             set => _keyWords = value;
         }
 
+        /// <summary>
+        /// 侧边栏列表
+        /// </summary>
         private ObservableCollection<Vocabulary> _keywordlist;
         public ObservableCollection<Vocabulary> Keywordlist {
             get => _keywordlist;
@@ -130,7 +132,7 @@ namespace ExReaderPlus.View {
 
         private void RichWordView_SizeChanged(object sender, SizeChangedEventArgs e) {
             TextView.ViewPortHeight = e.NewSize.Height
-                - Rootgrid.Margin.Bottom - Rootgrid.Margin.Top - Rootgrid.Padding.Bottom - Rootgrid.Padding.Top;
+                - TextScroll.Margin.Bottom - TextScroll.Margin.Top - TextScroll.Padding.Bottom - TextScroll.Padding.Top;
             ArrangeRect();
         }
 
