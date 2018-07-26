@@ -94,6 +94,7 @@
                                                 </VisualState.Setters>
                                             </VisualState>
                                             <VisualState x:Name="Selected">
+                                                
                                             </VisualState>
                                             <VisualState x:Name="PointerOverSelected">
 
@@ -127,23 +128,33 @@
                             <RowDefinition Height="auto" />
                             <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0"
-                                   Style="{StaticResource WordListCaption}"
-                                   Text="{Binding Word}" />
+                        <TextBox Grid.Row="0"
+                                 Style="{StaticResource WordListCaption}"
+                                 Text="{Binding Word}" />
                         <TextBlock Grid.Column="1"
                                    Style="{StaticResource WordListPhonetic}"
                                    Text="{Binding Phonetic}" />
                         <TextBlock Grid.Row="1"
                                    Grid.ColumnSpan="2"
                                    Style="{StaticResource WordListTranslation}"
-                                   Text="{Binding Translation}" />
+                                   Text="{Binding Translation}">
+                             <ToolTipService.ToolTip>
+                                <ToolTip Padding="2"
+                                         Visibility="{Binding Translation,Mode=OneWay,Converter={StaticResource NULLnoVIS}}"
+                                         Background="{ThemeResource WordListMoreBg}"
+                                         BorderThickness="0"
+                                         HorizontalOffset="12"
+                                         VerticalOffset="12"
+                                         Placement="Mouse">
+                                    <Border>
+                                                                                <TextBlock Style="{StaticResource WordListMoreToolTip}"
+                                                                                           Text="{Binding Translation,Mode=OneWay}" />
+                                    </Border>
+                                </ToolTip>
+                            </ToolTipService.ToolTip>
+                        </TextBlock>
                         <Button Grid.Column="2"
                                 Grid.RowSpan="2" />
-                        <ToolTipService.ToolTip>
-                            <ToolTip>
-                                
-                            </ToolTip>
-                        </ToolTipService.ToolTip>
                     </Grid>
                 </DataTemplate>
             </Setter.Value>
@@ -183,4 +194,24 @@
         </Setter>
 
     </Style>
+    
+    <!--ComboBox-->
+    <Style x:Key="WordListComb"
+           TargetType="ComboBox">
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ComboBoxItem">
+
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate >
+                    
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
 </ResourceDictionary>
