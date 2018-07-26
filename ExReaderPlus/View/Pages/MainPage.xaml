@@ -57,7 +57,6 @@
                                           Icon="&#xE7BC;" />
                 </Grid>
             </Custome:CustomeNavigationView.FunctionArea>
-
             <Frame x:Name="MainFrame"/>
         </Custome:CustomeNavigationView>
 

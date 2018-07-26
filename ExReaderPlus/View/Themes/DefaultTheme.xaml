@@ -136,7 +136,7 @@
     <SolidColorBrush x:Key="WordListItemBg_N"
                      Color="Transparent" />
     <SolidColorBrush x:Key="WordListItemBg_R"
-                     Color="#20000000" />
+                     Color="#10000000" />
     <SolidColorBrush x:Key="WordListItemBg_P"
                      Color="#40000000" />
     

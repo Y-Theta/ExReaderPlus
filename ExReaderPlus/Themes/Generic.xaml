@@ -167,8 +167,8 @@
                                          VerticalOffset="16"
                                          Padding="-1">
                                     <Border Background="{ThemeResource DefaultToolTipBg}"
-                                          BorderBrush="{ThemeResource DefaultToolTipBd}"
-                                          BorderThickness="1">
+                                            BorderBrush="{ThemeResource DefaultToolTipBd}"
+                                            BorderThickness="1">
                                         <TextBlock Style="{StaticResource ToolTipTextStyle}"
                                                    Text="{Binding Tooltip, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}" />
                                     </Border>
@@ -244,10 +244,10 @@
                     <Grid x:Name="RootGrid"
                           Background="{TemplateBinding Background}">
                         <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CollapseMode" >
+                            <VisualStateGroup x:Name="CollapseMode">
                                 <VisualStateGroup.Transitions>
                                     <VisualTransition From="CollapseMode_Collapse"
-                                                      To="CollapseMode_Open"  >
+                                                      To="CollapseMode_Open">
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Colum1"
                                                                            Storyboard.TargetProperty="Width">
@@ -289,7 +289,7 @@
                                     </VisualTransition>
                                     <VisualTransition From="CollapseMode_Open"
                                                       To="CollapseMode_Collapse">
-                                        <Storyboard >
+                                        <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="About"
                                                                            Storyboard.TargetProperty="(IconViewItem.SelectIconVisibility)">
                                                 <DiscreteObjectKeyFrame KeyTime="0"
@@ -367,7 +367,7 @@
                                                 Value="0" />
                                     </VisualState.Setters>
                                     <Storyboard>
-                                        
+
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="About"
                                                                        Storyboard.TargetProperty="(IconViewItem.SelectIconVisibility)">
                                             <DiscreteObjectKeyFrame KeyTime="0"
@@ -415,7 +415,7 @@
                                                                            Storyboard.TargetProperty="Opacity">
                                                 <LinearDoubleKeyFrame KeyTime="0"
                                                                       Value="0" />
-                                                <SplineDoubleKeyFrame KeySpline="0,0.65 0.53,1" 
+                                                <SplineDoubleKeyFrame KeySpline="0,0.65 0.53,1"
                                                                       KeyTime="0:0:0.8"
                                                                       Value="1" />
                                             </DoubleAnimationUsingKeyFrames>
@@ -554,45 +554,134 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:HitHolder">
-                    <Border x:Name="RootBorder">
+                    <Border x:Name="RootBorder"
+                            Background="{TemplateBinding Background}">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
-                                        <Setter Target="BackHolder.Background"
+                                        <Setter Target="RootBorder.Background"
                                                 Value="{Binding PointBrush, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <VisualState.Setters>
-                                        <Setter Target="BackHolder.Background"
-                                                Value="{Binding PressBrush, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}"/>
+                                        <Setter Target="RootBorder.Background"
+                                                Value="{Binding PressBrush, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Grid x:Name="BackHolder"
-                              Background="{TemplateBinding Background}">
-                            <ToolTipService.ToolTip>
-                                <ToolTip Padding="-1"
-                                         Visibility="{Binding Tooltip, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay,Converter={StaticResource NULLnoVIS}}"
-                                         HorizontalOffset="12"
-                                         VerticalOffset="12"
-                                         Placement="Mouse">
-                                    <Border BorderBrush="{ThemeResource DefaultToolTipBd}"
-                                            BorderThickness="1">
-                                        <TextBlock Style="{StaticResource WordToolTipstyle}"
-                                                   Text="{Binding Tooltip, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}" />
-                                    </Border>
-                                </ToolTip>
-                            </ToolTipService.ToolTip>
-                        </Grid>
+                        <ToolTipService.ToolTip>
+                            <ToolTip Padding="-1"
+                                     Visibility="{Binding Tooltip, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay,Converter={StaticResource NULLnoVIS}}"
+                                     HorizontalOffset="12"
+                                     VerticalOffset="12"
+                                     Placement="Mouse">
+                                <Border BorderBrush="{ThemeResource DefaultToolTipBd}"
+                                        BorderThickness="1">
+                                    <TextBlock Style="{StaticResource WordToolTipstyle}"
+                                               Text="{Binding Tooltip, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}" />
+                                </Border>
+                            </ToolTip>
+                        </ToolTipService.ToolTip>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
+    <!--HitContentholder-->
+    <Style TargetType="local:HitContentholder">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:HitContentholder">
+                    <Border x:Name="RootBorder"
+                            Background="{TemplateBinding Background}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="PointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Target="RootBorder.Background"
+                                                Value="{Binding PointBrush, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter Target="RootBorder.Background"
+                                                Value="{Binding PressBrush, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <ContentPresenter x:Name="ContentHolder"
+                                          Content="{TemplateBinding Content}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
+    <!--IconToggelButton-->
+    <Style TargetType="local:IconToggelButton">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Grid x:Name="RootGrid"
+                          Background="{TemplateBinding Background}">
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="PointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.Foreground"
+                                                Value="{Binding PointBrush, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.Foreground"
+                                                Value="{Binding PressBrush, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Checked">
+                                    <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.Foreground"
+                                                Value="{Binding CheckedBrush, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="CheckedPointerOver">
+                                </VisualState>
+                                <VisualState x:Name="CheckedPressed">
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <TextBlock x:Name="ContentPresenter"
+                                   Foreground="{TemplateBinding Foreground}"
+                                   Text="{TemplateBinding Name}"
+                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                   Margin="{TemplateBinding Padding}">
+                            <ToolTipService.ToolTip>
+                                <ToolTip Padding="-1"
+                                         Visibility="{Binding Tooltip, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay,Converter={StaticResource NULLnoVIS}}"
+                                         HorizontalOffset="12"
+                                         VerticalOffset="12"
+                                         Placement="Mouse">
+                                <Border BorderBrush="{ThemeResource DefaultToolTipBd}"
+                                        BorderThickness="1">
+                                    <TextBlock Style="{StaticResource WordToolTipstyle}"
+                                               Text="{Binding Tooltip, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}" />
+                                </Border>
+                            </ToolTip>
+                            </ToolTipService.ToolTip>
+                        </TextBlock>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>
