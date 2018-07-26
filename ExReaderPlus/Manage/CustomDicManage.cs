@@ -347,12 +347,5 @@ namespace ExReaderPlus.Manage
             }
         }
 
-        public static int updateStateOfWord(Vocabulary word)
-        {
-              using(var db =new DataContext()){
-                    
-              }
-        
-        }
     }
 }
