@@ -256,7 +256,6 @@ namespace ExReaderPlus.Manage
                 return dictionary;
         }
 
-
                 /// <summary>
         /// 把数据导入C盘考纲词汇
         /// 成功返回 1
@@ -346,6 +345,14 @@ namespace ExReaderPlus.Manage
                 }
                
             }
+        }
+
+        public static int updateStateOfWord(Vocabulary word)
+        {
+              using(var db =new DataContext()){
+                    
+              }
+        
         }
     }
 }

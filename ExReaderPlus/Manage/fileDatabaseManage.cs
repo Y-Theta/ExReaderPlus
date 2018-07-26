@@ -99,7 +99,25 @@ namespace ExReaderPlus.Manage
             WordBook.Initdicready = true;
             _reader.Close();
         }
-       
 
+        public Dictionary<string, Vocabulary> GetAllWords()
+        {
+            var commandText = "SELECT word,phonetic,translation,tag FROM stardict";
+
+            this._command.CommandText = commandText;
+            var vocabularies = new List<Vocabulary>();
+            _reader = this._command.ExecuteReader();
+            while (_reader.Read())
+            {
+                var vocabulary = new Vocabulary();
+                vocabulary.Word = _reader.GetString(0);
+                vocabulary.Phonetic = _reader.GetString(1);
+                vocabulary.Translation = _reader.GetString(2);
+                vocabulary.Tag = _reader.GetString(3);
+                vocabularies.Add(vocabulary);
+            }
+            _reader.Close();
+            return vocabularies.ToDictionary(v => v.Word, v => v);
+        }
     }
 }
