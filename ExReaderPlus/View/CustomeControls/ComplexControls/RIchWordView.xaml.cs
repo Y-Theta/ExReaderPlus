@@ -297,5 +297,11 @@ namespace ExReaderPlus.View {
         }
         #endregion
 
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            
+//            FileManage.FileManage fileManage= new FileManage.FileManage();
+//            fileManage.NewPage();
+        }
     }
 }

@@ -17,6 +17,7 @@ using Windows.UI.Notifications;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Imaging;
 using ExReaderPlus.View;
 using ExReaderPlus.ViewModels;
 using Microsoft.Graphics.Canvas;
@@ -170,18 +171,17 @@ namespace ExReaderPlus.FileManage {
             var duvDbecdgiu =
                 await CanvasBitmap.LoadAsync(new CanvasDevice(true), await file.OpenAsync(FileAccessMode.Read));
             var canvasRenderTarget = new CanvasRenderTarget(duvDbecdgiu, duvDbecdgiu.Size);
-            
+
             using (var dc = canvasRenderTarget.CreateDrawingSession())//用后则需撤销
             {
 
                 ///先将图片读取
                 dc.DrawImage(duvDbecdgiu);
                 ///写图片
-                dc.DrawText("The English are a nation and ethnic group native to England, who speak the English language. The English identity is of early mediaeval origin, when they were known in Old English as the Angelcynn (\"nationality of the Angles\"). England is one of the countries of the United Kingdom and English people in England are British citizens.",
+                dc.DrawText(str,
                     100, 150, 520, 50,
                     Colors.Black, new CanvasTextFormat()
                     {
-
                         FontSize = 30
                     });
                 dc.DrawText("分享自 Exreader", 300, 1000, Color.FromArgb(255, 25, 25, 112), new CanvasTextFormat()
@@ -193,17 +193,31 @@ namespace ExReaderPlus.FileManage {
                     FontSize = 40
                 });
             }
+            string desiredName = "Share" + ".png";
+            StorageFolder applicationFolder = ApplicationData.Current.LocalFolder;
+            //            Debug.WriteLine(applicationFolder.Path);
+
+            StorageFile saveFile = await applicationFolder.CreateFileAsync(desiredName, CreationCollisionOption.GenerateUniqueName);
+            await canvasRenderTarget.SaveAsync(await saveFile.OpenAsync(FileAccessMode.ReadWrite), CanvasBitmapFileFormat.Png);
+            // 把图片展现出来
+            var fileStream = await saveFile.OpenReadAsync();
+            var bitmap = new BitmapImage();
+            //bitmap是文件生成的位图
+            await bitmap.SetSourceAsync(fileStream);
+            //todo 将bitmap赋给image并显示
+            
 
 
-            ShowToastNotification("图片已保存成功","请选择图片保存位置");
+            ShowToastNotification("图片已保存成功","请预览");
 
-            var pick1 = new FileSavePicker();
-            pick1.FileTypeChoices.Add("image", new List<string>() { ".png" });
+           
 
-            var file1 = await pick1.PickSaveFileAsync();
+//            
+        }
 
-            await canvasRenderTarget.SaveAsync(await file1.OpenAsync(FileAccessMode.ReadWrite), CanvasBitmapFileFormat.Png);
-
+//        public async void NewPage()
+//        {
+//
 //            CoreApplicationView newView = CoreApplication.CreateNewView();
 //
 //            int newViewId = 0;
@@ -214,7 +228,7 @@ namespace ExReaderPlus.FileManage {
 //
 //                Frame frame = new Frame();
 //
-//                frame.Navigate(typeof(MainPageViewModel), null);
+//                frame.Navigate(typeof(SharePage), null);
 //
 //                Window.Current.Content = frame;
 //
@@ -229,12 +243,11 @@ namespace ExReaderPlus.FileManage {
 //            });
 //
 //            bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newViewId);
-        }
+//        }
 
 
-                 
 
-        
+
 
     }
 }

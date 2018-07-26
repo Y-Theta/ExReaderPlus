@@ -69,7 +69,7 @@
                     Tag="分享"
                     Grid.Column="2"
                     FontFamily="{StaticResource IconY}"
-                    Style="{StaticResource IconButtonStyle}" />
+                    Style="{StaticResource IconButtonStyle}" Click="ButtonBase_OnClick" />
             <Button Content="&#xF0D3;"
                     Tag="上一页"
                     Grid.Column="5"
