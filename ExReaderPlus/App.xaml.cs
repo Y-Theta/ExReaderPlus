@@ -124,9 +124,7 @@ namespace ExReaderPlus {
 
         private async Task InitDicAsync() {
             Task s = new Task(() => {
-                fileDatabaseManage.instance = new fileDatabaseManage();
-                WordBook.InitDictionaries();
-                fileDatabaseManage.instance.GetDictionaries();
+               CustomDicManage.DumpWordsFromFileDataBaseToTheDiconaryForTest();
             });
             s.Start();
             await s;

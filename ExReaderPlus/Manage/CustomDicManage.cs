@@ -255,5 +255,97 @@ namespace ExReaderPlus.Manage
             }
                 return dictionary;
         }
+
+                /// <summary>
+        /// 把数据导入C盘考纲词汇
+        /// 成功返回 1
+        /// 失败返回 0
+        /// 已经导入 -1
+        /// </summary>
+        /// <returns></returns>
+        public static int DumpWordsFromFileDataBaseToTheDiconaryForTest()
+        {
+            using (var db = new DataContext())
+            {
+                db.Database.Migrate();
+                if (db.Dictionaries.Find("ky")!=null) return -1;
+
+                string[] testBookName = new string[]{
+                "gk",
+                "cet4",
+                "cet6",
+                "ky",
+                "toefl",
+                "ielts"
+                };
+                foreach (var book in testBookName)
+                {
+                    db.Dictionaries.Add(
+                        new Dictionary
+                        {
+                            Id = book,
+                            TotalWordsNumber=0
+                        }
+                        );
+                }//添加词典到dictionary表             
+
+                fileDatabaseManage.instance = new fileDatabaseManage();
+                var dic = fileDatabaseManage.instance.GetAllWords();//返回所有单词
+
+                foreach(var w in dic)
+                {
+                    db.Words.Add(VocabularyToWord(w.Value));
+                }//添加单词到word表
+
+                foreach (var w in dic)
+                {
+                    if (w.Value.Tag.Contains("gk")) db.DictionaryWords.Add(new DictionaryWord
+                    {
+                        DictionaryId = "gk",
+                        WordId = w.Value.Word
+                    });
+                    if (w.Value.Tag.Contains("cet4")) db.DictionaryWords.Add(new DictionaryWord
+                    {
+                        DictionaryId = "cet4",
+                        WordId = w.Value.Word
+                    });
+                    if (w.Value.Tag.Contains("cet6")) db.DictionaryWords.Add(new DictionaryWord
+                    {
+                        DictionaryId = "cet6",
+                        WordId = w.Value.Word
+                    });
+                    if (w.Value.Tag.Contains("ky")) db.DictionaryWords.Add(new DictionaryWord
+                    {
+                        DictionaryId = "ky",
+                        WordId = w.Value.Word
+                    });
+                    if (w.Value.Tag.Contains("toefl")) db.DictionaryWords.Add(new DictionaryWord
+                    {
+                        DictionaryId = "toefl",
+                        WordId = w.Value.Word
+                    });
+                    if (w.Value.Tag.Contains("ielts")) db.DictionaryWords.Add(new DictionaryWord
+                    {
+                        DictionaryId = "ielts",
+                        WordId = w.Value.Word
+                    });
+                }
+                try
+                {
+                    db.SaveChanges();
+                    return 1;
+                }
+                catch
+                {
+                    return 0;
+                }
+                finally
+                {
+                    db.Database.CloseConnection();
+                }
+               
+            }
+        }
+
     }
 }
