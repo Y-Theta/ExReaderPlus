@@ -108,6 +108,12 @@ namespace ExReaderPlus.View {
             }
         }
 
+        private string _temppagecontent;
+        public string Temppagecontent {
+            get => _temppagecontent;
+            set => _temppagecontent = value;
+        }
+
         /// <summary>
         /// 总页数
         /// </summary>
@@ -181,8 +187,13 @@ namespace ExReaderPlus.View {
         }
 
         private void RichTextBox_TextChanged(object sender, RoutedEventArgs e) {
-            if (!_switchPage)
-                OnWordChanged();
+            if (_contentString != null)
+            {
+                Document.GetText(TextGetOptions.None, out string newstr);
+                _contentString = _contentString.Replace(Temppagecontent, newstr);
+                if (!_switchPage)
+                    OnWordChanged();
+            }
             _refrash = true;
         }
         #endregion
@@ -204,7 +215,6 @@ namespace ExReaderPlus.View {
                 UpdateDic(Pages[TempPage]);
                 _transformComplete = true;
                 _refreshdic.Enabled = false;
-                
             });
         }
 
@@ -213,13 +223,15 @@ namespace ExReaderPlus.View {
         /// </summary>
         private void RichTextBox_IsReadOnlyChanged(object sender, EventArgs e) {
             IsEnabled = false;
-            TransformComplete = false;
+            if (_contentString != null)
+                TransformComplete = false;
         }
 
         /// <summary>
         /// 文章载入后
         /// </summary>
         private void RichTextBox_PassageLoaded(object sender, EventArgs e) {
+            AddBlankFirst(ref _contentString);
             OnWordChanged();
         }
 
@@ -279,7 +291,7 @@ namespace ExReaderPlus.View {
                     _switchPage = true;
                     IsEnabled = false;
                     string str = _contentString.Substring(Pages[TempPage].Start, Pages[TempPage].End);
-                    AddBlankFirst(ref str);
+                    _temppagecontent = str;
                     Document.SetText(TextSetOptions.None, str);
                     TransformComplete = false;
                 });
@@ -411,12 +423,16 @@ namespace ExReaderPlus.View {
 
 
         #region InterfaceFun
+        public void FreshLayout() {
+            _refrash = false;
+            OnWordChanged();
+        }
 
         public void GotoPage(int index) {
             if (_allowSwitch)
             {
                 TempPage = index;
-                SwitchPage();
+                OnWordChanged();
             }
         }
 
@@ -424,7 +440,7 @@ namespace ExReaderPlus.View {
             if (_allowSwitch)
             {
                 TempPage += 1;
-                SwitchPage();
+                OnWordChanged();
             }
         }
 

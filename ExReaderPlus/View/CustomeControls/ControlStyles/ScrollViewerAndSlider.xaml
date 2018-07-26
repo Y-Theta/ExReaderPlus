@@ -82,7 +82,7 @@
     <x:Double x:Key="ScrollBarButtonSize">16</x:Double>
     <x:Double x:Key="ScrollBarThumbSize">10</x:Double>
     <x:Double x:Key="ScrollBarThumbMinSize">30</x:Double>
-    <x:Double x:Key="ScrollBarThumbScale">0.25</x:Double>
+    <x:Double x:Key="ScrollBarThumbScale">0.2</x:Double>
     <x:Double x:Key="ScrollBarThumbOffset">2</x:Double>
 
     <Style x:Key="DefaultScrollBar"
@@ -124,16 +124,9 @@
                                         <RowDefinition Height="*" />
                                         <RowDefinition Height="5" />
                                     </Grid.RowDefinitions>
-                                    <!--<Path x:Name="ThumbVisual_L"
-                                          Data="M 5,0 L 10,5 L 0,5 Z"
-                                          Fill="{StaticResource ScrollBarThumb_N}" />-->
                                     <Rectangle x:Name="ThumbVisual_C"
                                                Grid.Row="1"
                                                Fill="{StaticResource ScrollBarThumb_N}" />
-                                    <!--<Path x:Name="ThumbVisual_R"
-                                          Grid.Row="2"
-                                          Data="M 0,0 L 5,5 L 10,0 Z"
-                                          Fill="{StaticResource ScrollBarThumb_N}" />-->
                                     <VisualStateManager.VisualStateGroups>
                                         <VisualStateGroup x:Name="CommonStates">
                                             <VisualState x:Name="Normal" />
@@ -170,17 +163,10 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="5" />
                                     </Grid.ColumnDefinitions>
-                                    <!--<Path x:Name="ThumbVisual_L"
-                                          Data="M 5,0 L 0,5 L 5,10 Z"
-                                          Fill="{StaticResource ScrollBarThumb_N}" />-->
                                     <Rectangle x:Name="ThumbVisual_C"
                                                Grid.Column="1"
                                                HorizontalAlignment="Stretch"
                                                Fill="{StaticResource ScrollBarThumb_N}" />
-                                    <!--<Path x:Name="ThumbVisual_R"
-                                          Grid.Column="2"
-                                          Data="M 0,0 L 5,5 L 0,10 Z"
-                                          Fill="{StaticResource ScrollBarThumb_N}" />-->
                                     <VisualStateManager.VisualStateGroups>
                                         <VisualStateGroup x:Name="CommonStates">
                                             <VisualState x:Name="Normal" />

@@ -82,7 +82,7 @@ namespace ExReaderPlus.WordsManager {
         /// <summary>
         /// 单词掌握情况
         /// </summary>
-        public bool YesorNo {
+        public int YesorNo {
             get;
             set;
         }
@@ -157,7 +157,7 @@ namespace ExReaderPlus.WordsManager {
         /// 将词库添加到单词书中,并且初始化
         /// </summary>
         public static void InsertWordsToDictionary(Vocabulary vocabulary) {
-            vocabulary.YesorNo = false;
+            vocabulary.YesorNo = 0;
             if (vocabulary.Tag.Contains("gk")) GaoKao.Wordlist.Add(vocabulary.Word, vocabulary);
             if (vocabulary.Tag.Contains("cet4")) CET4.Wordlist.Add(vocabulary.Word, vocabulary);
             if (vocabulary.Tag.Contains("cet6")) CET6.Wordlist.Add(vocabulary.Word, vocabulary);

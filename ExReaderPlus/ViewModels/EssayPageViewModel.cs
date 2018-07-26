@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Timers;
 using ExReaderPlus.Manage.PassageManager;
 using ExReaderPlus.View;
@@ -9,10 +10,10 @@ namespace ExReaderPlus.ViewModels {
     public class EssayPageViewModel : ViewModelBasse {
         #region Properties
         public Passage TempPassage { get; set; }
-
         #endregion
 
         #region Commands&Events
+
         public CommandBase LoadPassage { get; set; }
 
         public CommandBase TurnPage { get; set; }

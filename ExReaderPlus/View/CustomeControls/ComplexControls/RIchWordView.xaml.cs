@@ -2,6 +2,7 @@
 using ExReaderPlus.WordsManager;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Timers;
 using Windows.ApplicationModel.DataTransfer;
@@ -21,11 +22,13 @@ namespace ExReaderPlus.View {
 
         private Timer _autohidetimer;
 
-        private Rect _controlbartap;
+        private Rect _controlbararea;
 
         private Rect _nextpagearea;
 
         private Rect _lastpagearea;
+
+        private Rect _wordlistarea;
 
         private Point _rectpoint;
 
@@ -43,21 +46,27 @@ namespace ExReaderPlus.View {
         /// <summary>
         /// 关键字，需要渲染的关键字组
         /// </summary>
+        private HashSet<string> _keyWords;
         public HashSet<string> KeyWords {
-            get { return (HashSet<string>)GetValue(KeyWordsProperty); }
-            set { SetValue(KeyWordsProperty, value); }
+            get => _keyWords;
+            set => _keyWords = value;
         }
-        public static readonly DependencyProperty KeyWordsProperty =
-            DependencyProperty.Register("KeyWords", typeof(HashSet<string>), 
-                typeof(RichWordView), new PropertyMetadata(null));
 
+        /// <summary>
+        /// 侧边栏列表
+        /// </summary>
+        private ObservableCollection<Vocabulary> _keywordlist;
+        public ObservableCollection<Vocabulary> Keywordlist {
+            get => _keywordlist;
+            set => _keywordlist = value;
+        }
         #endregion
 
         #region Methods
         #region Overrides
         protected override void OnTapped(TappedRoutedEventArgs e) {
             base.OnTapped(e);
-            if (_controlbartap.Contains(e.GetPosition(this)) && TextView.IsReadOnly)
+            if (_controlbararea.Contains(e.GetPosition(this)) && TextView.IsReadOnly)
             {
                 ControlLayer.Visibility = ControlLayer.Visibility.Equals(Visibility.Visible) ? Visibility.Collapsed : Visibility.Visible;
             }
@@ -65,7 +74,12 @@ namespace ExReaderPlus.View {
                 TextView.PageDown();
             else if (_nextpagearea.Contains(e.GetPosition(this)) && TextView.IsReadOnly) 
                 TextView.PageUp();
-
+            else if(_wordlistarea.Contains(e.GetPosition(this)) && TextView.IsReadOnly)
+            {
+                WordPanel.Visibility = WordPanel.Visibility.Equals(Visibility.Visible) ? Visibility.Collapsed : Visibility.Visible;
+                TextView.FreshLayout();
+                ArrangeRect();
+            }
         }
 
         #endregion
@@ -118,10 +132,15 @@ namespace ExReaderPlus.View {
 
         private void RichWordView_SizeChanged(object sender, SizeChangedEventArgs e) {
             TextView.ViewPortHeight = e.NewSize.Height
-                - Rootgrid.Margin.Bottom - Rootgrid.Margin.Top - Rootgrid.Padding.Bottom - Rootgrid.Padding.Top;
-            _controlbartap = new Rect(ActualWidth / 3, ActualHeight / 3, ActualWidth / 3, ActualHeight / 3);
-            _nextpagearea = new Rect(ActualWidth * 5 / 6, 0, ActualWidth / 6, ActualHeight);
-            _lastpagearea = new Rect(0, 0, ActualWidth / 6, ActualHeight);
+                - TextScroll.Margin.Bottom - TextScroll.Margin.Top - TextScroll.Padding.Bottom - TextScroll.Padding.Top;
+            ArrangeRect();
+        }
+
+        private void ArrangeRect() {
+            _controlbararea = new Rect(TextScroll.ActualWidth / 3, TextScroll.ActualHeight / 3, TextScroll.ActualWidth / 3, TextScroll.ActualHeight / 3);
+            _nextpagearea = new Rect(TextScroll.ActualWidth * 5 / 6, 0, TextScroll.ActualWidth / 6, TextScroll.ActualHeight);
+            _lastpagearea = new Rect(0, 0, TextScroll.ActualWidth / 6, TextScroll.ActualHeight);
+            _wordlistarea = new Rect(TextScroll.ActualWidth / 3, 0, TextScroll.ActualWidth / 3, TextScroll.ActualHeight / 3);
         }
 
         /// <summary>
@@ -151,6 +170,7 @@ namespace ExReaderPlus.View {
                 foreach (var loc in cot.Value)
                     (loc as HitHolder).PointerEntered -= Rect_PointerEntered;
             KeyWords.Clear();
+            Keywordlist.Clear();
             ControlDic.Clear();
             RenderLayer.Children.Clear();
             RenderLayer.UpdateLayout();
@@ -178,7 +198,11 @@ namespace ExReaderPlus.View {
             RenderLayer.UpdateLayout();
             TextView.IsEnabled = true;
             if (TextView.IsReadOnly)
+            {
                 RenderLayer.Visibility = Visibility.Visible;
+                foreach (var k in KeyWords)
+                    Keywordlist.Add(WordBook.CET6.Wordlist[k]);
+            }
         }
 
         private void Rect_PointerEntered(object sender, PointerRoutedEventArgs e) {
@@ -210,6 +234,18 @@ namespace ExReaderPlus.View {
         #endregion
 
         #region PrivateMethods
+        private void AttachMethods() {
+            SizeChanged += RichWordView_SizeChanged;
+            Loaded += RichWordView_Loaded;
+            Unloaded += RichWordView_Unloaded;
+        }
+
+        private void InitCollections() {
+            ControlDic = new Dictionary<string, List<Control>>();
+            KeyWords = new HashSet<string>();
+            Keywordlist = new ObservableCollection<Vocabulary>();
+        }
+
         private void InitTimer() {
             _autohidetimer = new Timer { Interval = 3000 };
             _autohidetimer.Elapsed += _autohidetimer_Elapsed;
@@ -255,11 +291,8 @@ namespace ExReaderPlus.View {
         #region Constructor
         public RichWordView() {
             InitTimer();
-            ControlDic = new Dictionary<string, List<Control>>();
-            KeyWords = new HashSet<string>();
-            SizeChanged += RichWordView_SizeChanged;
-            Loaded += RichWordView_Loaded;
-            Unloaded += RichWordView_Unloaded;
+            InitCollections();
+            AttachMethods();
             InitializeComponent();
         }
         #endregion

@@ -105,11 +105,11 @@
 
     <!--ScrollViewer-->
     <SolidColorBrush x:Key="ScrollBarThumb_N"
-                     Color="#a0a0a0" />
+                     Color="#60FFFFFF" />
     <SolidColorBrush x:Key="ScrollBarThumb_R"
-                     Color="#808080" />
+                     Color="#80FFFFFF" />
     <SolidColorBrush x:Key="ScrollBarThumb_P"
-                     Color="#323232" />
+                     Color="#40000000" />
     <SolidColorBrush x:Key="ScrollBarThumb_D"
                      Color="#808080" />
     <SolidColorBrush x:Key="ScrollBarBg_N"
@@ -121,7 +121,18 @@
     <SolidColorBrush x:Key="ScrollBarBg_D"
                      Color="Transparent" />
     
-    <!--Slider-->
-    
+    <!--WordList-->
+    <SolidColorBrush x:Key="WordListWordFg"
+                     Color="#EFEFEF" />
+    <SolidColorBrush x:Key="WordListBg"
+                     Color="#477FBF" />
+    <SolidColorBrush x:Key="WordListScrollBg"
+                     Color="#40000000" />
+    <SolidColorBrush x:Key="WordListItemBg_N"
+                     Color="Transparent" />
+    <SolidColorBrush x:Key="WordListItemBg_R"
+                     Color="#40000000" />
+    <SolidColorBrush x:Key="WordListItemBg_P"
+                     Color="#80000000" />
     
 </ResourceDictionary>
