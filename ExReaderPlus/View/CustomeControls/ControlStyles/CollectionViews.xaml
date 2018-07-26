@@ -2,8 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     x:Class="ExReaderPlus.CollectionViews"
                     xmlns:manage="using:ExReaderPlus.WordsManager"
-                    xmlns:layout="using:ExReaderPlus.View.Layout"
-                    xmlns:local="using:ExReaderPlus.View">
+                    xmlns:layout="using:ExReaderPlus.View.Layout">
 
     <!--DicGridView-->
     <Style x:Key="DicGridView"
@@ -61,7 +60,9 @@
            TargetType="ListView">
         <Setter Property="ItemsPanel">
             <Setter.Value>
-                <ItemsStackPanel />
+                <ItemsPanelTemplate>
+                    <ItemsStackPanel />
+                </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
         <Setter Property="ItemContainerStyle">

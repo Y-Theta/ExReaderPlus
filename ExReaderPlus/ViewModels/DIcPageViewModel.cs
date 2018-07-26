@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using ExReaderPlus.Models;
 using ExReaderPlus.WordsManager;
-using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 namespace ExReaderPlus.ViewModels {
     public class DicPageViewModel : ViewModelBasse {
