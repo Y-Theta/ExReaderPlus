@@ -165,6 +165,42 @@ namespace ExReaderPlus.WordsManager {
             if (vocabulary.Tag.Contains("toefl")) TOEFL.Wordlist.Add(vocabulary.Word, vocabulary);
             if (vocabulary.Tag.Contains("IELTS")) IELTS.Wordlist.Add(vocabulary.Word, vocabulary);
         }
+
+        /// <summary>
+        /// 返回一个词库 
+        /// 默认词典参数 gk cet4 cet6 ky ielts toefl
+        /// </summary>
+        /// <param name="dictionaryName"></param>
+        public static EngDictionary GetDictionaryByName(string dictionaryName)
+        {
+
+            using(var db=new DataContext())
+            {
+                db.Database.Migrate();
+                var result = db.DictionaryWords
+                    .Include(m => m.Word)
+                    .Include(m => m.Dictionary)
+                    .Where(m => m.Dictionary.Id == dictionaryName);
+
+                var dic = new EngDictionary
+                {
+
+                };
+                foreach (var r in result)
+                {
+                    var v = new Vocabulary();
+                    v.Word = r.Word.Id;
+                    v.YesorNo= r.Word.YesorNo;
+                    v.Translation = r.Word.Translation;
+                    v.Phonetic = r.Word.Translation;
+                    dic.Wordlist.Add(v.Word, v);
+                }
+                db.Database.CloseConnection();
+                return dic;
+
+            }
+            
+        }
     }
 
 }//命名空间
