@@ -30,13 +30,13 @@ namespace ExReaderPlus {
             Suspending += OnSuspending;
             //   this.RequiresPointerMode = ApplicationRequiresPointerMode.WhenRequested;
         }
-
+       
         /// <summary>
         /// 在应用程序由最终用户正常启动时进行调用。
         /// 将在启动应用程序以打开特定文件等情况下使用。
         /// </summary>
         /// <param name="e">有关启动请求和过程的详细信息。</param>
-        protected override async void OnLaunched(LaunchActivatedEventArgs e)
+        protected override void OnLaunched(LaunchActivatedEventArgs e)
         {          
             Frame rootFrame = Window.Current.Content as Frame;
 
@@ -57,7 +57,7 @@ namespace ExReaderPlus {
                 // 将框架放在当前窗口中
                 Window.Current.Content = rootFrame;
             }
-
+           
             if (e.PrelaunchActivated == false)
             {
                 if (rootFrame.Content == null)
@@ -79,17 +79,6 @@ namespace ExReaderPlus {
             rootFrame.ActualThemeChanged += RootFrame_ActualThemeChanged;
             //强置主题
             RootFrame_ActualThemeChanged(null, null);
-            await InitDicAsync();
-        }
-
-        private async Task InitDicAsync() {
-            Task s = new Task(() => {
-                fileDatabaseManage.instance = new fileDatabaseManage();
-                WordBook.InitDictionaries();
-                fileDatabaseManage.instance.GetDictionaries();
-            });
-            s.Start();
-            await s;
         }
 
         private void RootFrame_ActualThemeChanged(FrameworkElement sender, object args) {
@@ -125,9 +114,22 @@ namespace ExReaderPlus {
         {
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: 保存应用程序状态并停止任何后台活动
-
-
             deferral.Complete();
+        }
+
+        protected override async void OnWindowCreated(WindowCreatedEventArgs args) {
+            base.OnWindowCreated(args);
+            await InitDicAsync();
+        }
+
+        private async Task InitDicAsync() {
+            Task s = new Task(() => {
+                fileDatabaseManage.instance = new fileDatabaseManage();
+                WordBook.InitDictionaries();
+                fileDatabaseManage.instance.GetDictionaries();
+            });
+            s.Start();
+            await s;
         }
     }
 }

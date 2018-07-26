@@ -28,6 +28,7 @@
 
             <viewmodels:MainPageViewModel x:Key="MainPageViewModel" />
             <viewmodels:EssayPageViewModel x:Key="EssayPageViewModel" />
+            <viewmodels:DicPageViewModel x:Key="DicPageViewModel" />
 
             <!--Pages-->
             <pages:DicPage x:Key="DicPage" />

@@ -1,20 +1,18 @@
-﻿using ExReaderPlus.Baidu;
-using ExReaderPlus.Models;
-using ExReaderPlus.ViewModels;
+﻿using ExReaderPlus.ViewModels;
 using ExReaderPlus.WordsManager;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using System.Timers;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Core;
-using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace ExReaderPlus.View {
     public sealed partial class RichWordView : UserControl {
@@ -24,6 +22,10 @@ namespace ExReaderPlus.View {
         private Timer _autohidetimer;
 
         private Rect _controlbartap;
+
+        private Rect _nextpagearea;
+
+        private Rect _lastpagearea;
 
         private Point _rectpoint;
 
@@ -52,51 +54,86 @@ namespace ExReaderPlus.View {
         #endregion
 
         #region Methods
+        #region Overrides
         protected override void OnTapped(TappedRoutedEventArgs e) {
             base.OnTapped(e);
             if (_controlbartap.Contains(e.GetPosition(this)) && TextView.IsReadOnly)
             {
                 ControlLayer.Visibility = ControlLayer.Visibility.Equals(Visibility.Visible) ? Visibility.Collapsed : Visibility.Visible;
             }
+            else if (_lastpagearea.Contains(e.GetPosition(this)) && TextView.IsReadOnly)
+                TextView.PageDown();
+            else if (_nextpagearea.Contains(e.GetPosition(this)) && TextView.IsReadOnly) 
+                TextView.PageUp();
+
         }
 
         #endregion
 
-        #region Methods
-        private void InitTimer() {
-            _autohidetimer = new Timer { Interval = 3000 };
-            _autohidetimer.Elapsed += _autohidetimer_Elapsed;
-        }
-
-        private async void _autohidetimer_Elapsed(object sender, ElapsedEventArgs e) {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,()=>{
-
-            });
-        }
-
-        private void RIchWordView_Unloaded(object sender, RoutedEventArgs e) {
+        #region Eventhandel
+        private void RichWordView_Unloaded(object sender, RoutedEventArgs e) {
             _viewModel.PassageLoaded -= EssayPage_PassageLoaded;
+            _viewModel.ControlCommand -= _viewModel_ControlCommand;
         }
 
-        private void RichWordView_SizeChanged(object sender, SizeChangedEventArgs e) {
-            TextView.ViewPortHeight = e.NewSize.Height
-                - Rootgrid.Margin.Bottom - Rootgrid.Margin.Top - Rootgrid.Padding.Bottom - Rootgrid.Padding.Top;
-            _controlbartap = new Rect(ActualWidth / 3, ActualHeight / 3, ActualWidth / 3, ActualHeight / 3);
-        }
-
-        private void RIchWordView_Loaded(object sender, RoutedEventArgs e) {
+        private void RichWordView_Loaded(object sender, RoutedEventArgs e) {
             _viewModel = (EssayPageViewModel)DataContext;
             _viewModel.PassageLoaded += EssayPage_PassageLoaded;
+            _viewModel.ControlCommand += _viewModel_ControlCommand;
             TextView.ElementSorted += TextView_ElementSorted;
             TextView.RenderBegin += TextView_RenderBegin;
             ControlLayer.PointerEntered += GridBg_PointerEntered;
             ControlLayer.PointerExited += ControlLayer_PointerExited;
         }
 
+        /// <summary>
+        /// 按钮命令回调
+        /// </summary>
+        private void _viewModel_ControlCommand(object sender, CommandArgs args) {
+            switch (args.command)
+            {
+                case "TurnPage":
+                    if (args.parameter is null)
+                        TextView.PageUp();
+                    else
+                        TextView.PageDown();
+                    break;
+                case "SizeText":
+                    if (args.parameter is null)
+                        TextView.FontSize += 0.5;
+                    else
+                        TextView.FontSize -= 0.5;
+                    break;
+                case "ChangeMode":
+                    if (!TextView.IsReadOnly)
+                        TextView.IsReadOnly = true;
+                    else
+                    {
+                        TextView.IsReadOnly = false;
+                        RenderLayer.Visibility = Visibility.Collapsed;
+                    }
+                    break;
+            }
+        }
+
+        private void RichWordView_SizeChanged(object sender, SizeChangedEventArgs e) {
+            TextView.ViewPortHeight = e.NewSize.Height
+                - Rootgrid.Margin.Bottom - Rootgrid.Margin.Top - Rootgrid.Padding.Bottom - Rootgrid.Padding.Top;
+            _controlbartap = new Rect(ActualWidth / 3, ActualHeight / 3, ActualWidth / 3, ActualHeight / 3);
+            _nextpagearea = new Rect(ActualWidth * 5 / 6, 0, ActualWidth / 6, ActualHeight);
+            _lastpagearea = new Rect(0, 0, ActualWidth / 6, ActualHeight);
+        }
+
+        /// <summary>
+        /// 文本处理开始回调
+        /// </summary>
         private void TextView_RenderBegin(object sender, EventArgs e) {
             RenderLayer.Visibility = Visibility.Collapsed;
         }
 
+        /// <summary>
+        /// 控制面板控制
+        /// </summary>
         private void ControlLayer_PointerExited(object sender, PointerRoutedEventArgs e) {
             (sender as Grid).Opacity = 0.3;
         }
@@ -112,7 +149,7 @@ namespace ExReaderPlus.View {
             RichTextBox rtb = sender as RichTextBox;
             foreach (var cot in ControlDic)
                 foreach (var loc in cot.Value)
-                        (loc as HitHolder).PointerEntered -= Rect_PointerEntered;
+                    (loc as HitHolder).PointerEntered -= Rect_PointerEntered;
             KeyWords.Clear();
             ControlDic.Clear();
             RenderLayer.Children.Clear();
@@ -170,64 +207,23 @@ namespace ExReaderPlus.View {
             TextView.ContentString = str;
         }
 
-        private void Enable(object sender, RoutedEventArgs e) {
-            if (!TextView.IsReadOnly)
-            {
-                TextView.IsReadOnly = true;
-            }
-            else
-            {
-                TextView.IsReadOnly = false;
-                RenderLayer.Visibility = Visibility.Collapsed;
-            }
-        }
-
-        private void WithinEdge() {
-           
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e) {
-
-        }
         #endregion
 
-        public RichWordView() {
-            InitTimer();
-            ControlDic = new Dictionary<string, List<Control>>();
-            KeyWords = new HashSet<string>();
-            SizeChanged += RichWordView_SizeChanged;
-            Loaded += RIchWordView_Loaded;
-            Unloaded += RIchWordView_Unloaded;
-            InitializeComponent();
+        #region PrivateMethods
+        private void InitTimer() {
+            _autohidetimer = new Timer { Interval = 3000 };
+            _autohidetimer.Elapsed += _autohidetimer_Elapsed;
         }
 
+        private async void _autohidetimer_Elapsed(object sender, ElapsedEventArgs e) {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,()=>{
 
-        private void Button_Click_1(object sender, RoutedEventArgs e) {
-            TextView.PageDown();
+            });
         }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e) {
-            TextView.PageUp();
+        #endregion
 
-        }
-
-        private void Button_Click_3(object sender, RoutedEventArgs e) {
-            TextView.FontSize += 0.5;
-        }
-
-        private void Button_Click_4(object sender, RoutedEventArgs e) {
-            TextView.FontSize -= 0.5;
-        }
-
-        private void Rootgrid_DragLeave(object sender, DragEventArgs e) {
-            if (_controlbarmove)
-            {
-                _rectpoint = e.GetPosition(this);
-                if (_rectpoint.Y < 0)
-                    _rectpoint.Y = _oripoint.Y;
-            }
-        }
-
+        #region draganddrop
         private void ControlLayer_DragStarting(UIElement sender, DragStartingEventArgs args) {
             _controlbarmove = true;
             _oripoint = args.GetPosition(this);
@@ -236,8 +232,37 @@ namespace ExReaderPlus.View {
         private void ControlLayer_DropCompleted(UIElement sender, DropCompletedEventArgs args) {
             _controlbarmove = false;
             Thickness tic = ControlLayer.Margin;
-            tic.Bottom = tic.Bottom < 0 ? 0 : tic.Bottom + _oripoint.Y - _rectpoint.Y;
+            tic.Bottom = tic.Bottom + _oripoint.Y - _rectpoint.Y < 0 ? 0 : tic.Bottom + _oripoint.Y - _rectpoint.Y;
             ControlLayer.Margin = tic;
         }
+
+        private void ControlLayer_DragOver(object sender, DragEventArgs e) {
+            e.DragUIOverride.IsGlyphVisible = false;
+        }
+
+        private void Rootgrid_DragLeave(object sender, DragEventArgs e) {
+            if (_controlbarmove)
+            {
+                _rectpoint = e.GetPosition(this);
+                if (_rectpoint.Y < 0)
+                    _rectpoint = _oripoint;
+            }
+        }
+        #endregion
+
+        #endregion
+
+        #region Constructor
+        public RichWordView() {
+            InitTimer();
+            ControlDic = new Dictionary<string, List<Control>>();
+            KeyWords = new HashSet<string>();
+            SizeChanged += RichWordView_SizeChanged;
+            Loaded += RichWordView_Loaded;
+            Unloaded += RichWordView_Unloaded;
+            InitializeComponent();
+        }
+        #endregion
+
     }
 }

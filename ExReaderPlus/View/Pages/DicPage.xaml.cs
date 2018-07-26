@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExReaderPlus.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,8 +20,10 @@ namespace ExReaderPlus.View.Pages {
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
     public sealed partial class DicPage : Page {
+        DicPageViewModel _viewModel;
         public DicPage() {
-            this.InitializeComponent();
+            InitializeComponent();
+            ((DicPageViewModel)DataContext).window = Window.Current;
         }
     }
 }

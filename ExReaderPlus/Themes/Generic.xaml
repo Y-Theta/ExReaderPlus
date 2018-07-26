@@ -241,7 +241,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:CustomeNavigationView">
-                    <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                    <Grid x:Name="RootGrid"
+                          Background="{TemplateBinding Background}">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CollapseMode" >
                                 <VisualStateGroup.Transitions>
@@ -444,96 +445,101 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                       
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition x:Name="Colum1"
-                                              Width="{Binding CollapseWidth,RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay,Converter={StaticResource GRIDLtoDOUBLE},FallbackValue=0}" />
-                            <ColumnDefinition x:Name="Colum2"
-                                              Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid x:Name="PaneRoot"
-                              HorizontalAlignment="Left"
-                              Visibility="Visible"
-                              Background="{TemplateBinding PaneBackground}"
-                              Width="{Binding OpenWidth, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                              Canvas.ZIndex="1">
-                            <Grid.Clip>
-                                <RectangleGeometry x:Name="PaneClipRectangle"
-                                                   Rect="{Binding PaneClip,RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}">
-                                    <RectangleGeometry.Transform>
-                                        <CompositeTransform  x:Name="PaneClipRectangleTransform"
-                                                             TranslateX="{Binding ClipOffset ,RelativeSource={RelativeSource Mode=TemplatedParent},
+                        <Grid x:Name="ContentRoot">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="{Binding CollapseWidth,RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay,Converter={StaticResource GRIDLtoDOUBLE},FallbackValue=0}" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="1"
+                                    Child="{TemplateBinding Content}" />
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition x:Name="Colum1"
+                                                  Width="{Binding CollapseWidth,RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay,Converter={StaticResource GRIDLtoDOUBLE},FallbackValue=0}" />
+                                <ColumnDefinition x:Name="Colum2"
+                                                  Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid x:Name="PaneRoot"
+                                  HorizontalAlignment="Left"
+                                  Visibility="Visible"
+                                  Background="{TemplateBinding PaneBackground}"
+                                  Width="{Binding OpenWidth, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                  Canvas.ZIndex="1">
+                                <Grid.Clip>
+                                    <RectangleGeometry x:Name="PaneClipRectangle"
+                                                       Rect="{Binding PaneClip,RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}">
+                                        <RectangleGeometry.Transform>
+                                            <CompositeTransform  x:Name="PaneClipRectangleTransform"
+                                                                 TranslateX="{Binding ClipOffset ,RelativeSource={RelativeSource Mode=TemplatedParent},
                                                                           Converter={StaticResource NegativeConverter}}" />
-                                    </RectangleGeometry.Transform>
-                                </RectangleGeometry>
-                            </Grid.Clip>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto" />
-                                <RowDefinition x:Name="Header"
-                                               Height="auto" />
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="auto" />
-                                <RowDefinition Height="8" />
-                            </Grid.RowDefinitions>
-                            <Button x:Name="TogglePaneButton"
-                                    Content="&#xE700;"
-                                    Command="{Binding OpenPaneCommand,RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                    Style="{StaticResource PaneToggleButtonStyle}"
-                                    VerticalAlignment="Top" />
-                            <Grid x:Name="HeadArea"
-                                  Grid.Row="1"
-                                  Opacity="0"
-                                  Visibility="Collapsed">
+                                        </RectangleGeometry.Transform>
+                                    </RectangleGeometry>
+                                </Grid.Clip>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="auto" />
+                                    <RowDefinition x:Name="Header"
+                                                   Height="auto" />
+                                    <RowDefinition Height="*" />
                                     <RowDefinition Height="auto" />
+                                    <RowDefinition Height="8" />
                                 </Grid.RowDefinitions>
-                                <Border x:Name="IconBoxRound"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Width="{StaticResource BigUserIconSize}"
-                                        Height="{StaticResource BigUserIconSize}"
-                                        Margin="0,12,0,12">
-                                    <TextBlock FontFamily="{Binding SelectedIconfont, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}"
-                                               Text="{Binding SelectedIcon, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}"
-                                               Foreground="{TemplateBinding Foreground}"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontSize="64"/>
+                                <Button x:Name="TogglePaneButton"
+                                        Content="&#xE700;"
+                                        Command="{Binding OpenPaneCommand,RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                        Style="{StaticResource PaneToggleButtonStyle}"
+                                        VerticalAlignment="Top" />
+                                <Grid x:Name="HeadArea"
+                                      Grid.Row="1"
+                                      Opacity="0"
+                                      Visibility="Collapsed">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                    </Grid.RowDefinitions>
+                                    <Border x:Name="IconBoxRound"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Width="{StaticResource BigUserIconSize}"
+                                            Height="{StaticResource BigUserIconSize}"
+                                            Margin="0,12,0,12">
+                                        <TextBlock FontFamily="{Binding SelectedIconfont, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}"
+                                                   Text="{Binding SelectedIcon, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}"
+                                                   Foreground="{TemplateBinding Foreground}"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="64" />
+                                    </Border>
+                                </Grid>
+                                <Border x:Name="FunctionArea"
+                                        Grid.Row="1"
+                                        Grid.RowSpan="2"
+                                        Child="{TemplateBinding FunctionArea}">
+                                    <Border.RenderTransform>
+                                        <CompositeTransform x:Name="FunctionAreaTransform" />
+                                    </Border.RenderTransform>
                                 </Border>
+                                <StackPanel x:Name="FootArea"
+                                            Opacity="1"
+                                            Orientation="Vertical"
+                                            HorizontalAlignment="Left"
+                                            Grid.Row="3">
+                                    <local:IconViewItem x:Name="About"
+                                                        IconFormat="Icon"
+                                                        Icon="&#xEC26;"
+                                                        Tooltip="关于"
+                                                        Foreground="{TemplateBinding Foreground}"
+                                                        Visibility="{TemplateBinding AboutButton}"
+                                                        Width="{TemplateBinding CollapseWidth}" />
+                                    <local:IconViewItem x:Name="Setting"
+                                                        IconFormat="Icon"
+                                                        Icon="&#xE713;"
+                                                        Tooltip="设置"
+                                                        Foreground="{TemplateBinding Foreground}"
+                                                        Visibility="{TemplateBinding SettingButton}"
+                                                        Width="{TemplateBinding CollapseWidth}" />
+                                </StackPanel>
                             </Grid>
-                            <Border x:Name="FunctionArea"
-                                    Grid.Row="1"
-                                    Grid.RowSpan="2"
-                                    Child="{TemplateBinding FunctionArea}">
-                                <Border.RenderTransform>
-                                    <CompositeTransform x:Name="FunctionAreaTransform" />
-                                </Border.RenderTransform>
-                            </Border>
-                            <StackPanel x:Name="FootArea"
-                                        Opacity="1"
-                                        Orientation="Vertical"
-                                        HorizontalAlignment="Left"
-                                        Grid.Row="3">
-                                <local:IconViewItem x:Name="About"
-                                                    IconFormat="Icon"
-                                                    Icon="&#xEC26;"
-                                                    Tooltip="关于"
-                                                    Foreground="{TemplateBinding Foreground}"
-                                                    Visibility="{TemplateBinding AboutButton}"
-                                                    Width="{TemplateBinding CollapseWidth}" />
-                                <local:IconViewItem x:Name="Setting"
-                                                    IconFormat="Icon"
-                                                    Icon="&#xE713;"
-                                                    Tooltip="设置"
-                                                    Foreground="{TemplateBinding Foreground}"
-                                                    Visibility="{TemplateBinding SettingButton}"
-                                                    Width="{TemplateBinding CollapseWidth}" />
-                            </StackPanel>
-                        </Grid>
-                        <Grid x:Name="ContentRoot"
-                              Grid.Column="1">
-                            <Border Child="{TemplateBinding Content}" />
                         </Grid>
                     </Grid>
                 </ControlTemplate>
@@ -569,18 +575,18 @@
                         <Grid x:Name="BackHolder"
                               Background="{TemplateBinding Background}">
                             <ToolTipService.ToolTip>
-                                    <ToolTip Padding="-1"
-                                             Visibility="{Binding Tooltip, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay,Converter={StaticResource NULLnoVIS}}"
-                                             HorizontalOffset="12"
-                                             VerticalOffset="12"
-                                             Placement="Mouse">
-                                        <Border BorderBrush="{ThemeResource DefaultToolTipBd}"
-                                                BorderThickness="1">
-                                            <TextBlock Style="{StaticResource WordToolTipstyle}"
+                                <ToolTip Padding="-1"
+                                         Visibility="{Binding Tooltip, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay,Converter={StaticResource NULLnoVIS}}"
+                                         HorizontalOffset="12"
+                                         VerticalOffset="12"
+                                         Placement="Mouse">
+                                    <Border BorderBrush="{ThemeResource DefaultToolTipBd}"
+                                            BorderThickness="1">
+                                        <TextBlock Style="{StaticResource WordToolTipstyle}"
                                                    Text="{Binding Tooltip, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}" />
-                                        </Border>
-                                    </ToolTip>
-                                </ToolTipService.ToolTip>
+                                    </Border>
+                                </ToolTip>
+                            </ToolTipService.ToolTip>
                         </Grid>
                     </Border>
                 </ControlTemplate>

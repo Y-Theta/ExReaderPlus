@@ -1,4 +1,5 @@
 ﻿using ExReaderPlus.DatabaseManager;
+using ExReaderPlus.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,7 +26,21 @@ namespace ExReaderPlus.WordsManager {
 
         public bool IsSystem { get; set; }
 
+        public int Dicname { get; set; }
+
         public Dictionary<string, Vocabulary> Wordlist { get; set; }
+
+        public bool HasWord(string str) {
+            return Wordlist.ContainsKey(str);
+        }
+
+        public EngDictionary() {
+            Wordlist = new Dictionary<string, Vocabulary>();
+        }
+
+        public BriefDic GetBriefDic() {
+            return new BriefDic { Name = Name, IsSys = IsSystem, DicName = Dicname, WordsCount = Wordlist.Count };
+        }
 
     }
 
@@ -40,6 +55,7 @@ namespace ExReaderPlus.WordsManager {
             get;
             set;
         }
+
         /// <summary>
         /// 词汇
         /// </summary>
@@ -83,7 +99,9 @@ namespace ExReaderPlus.WordsManager {
     /// </summary>
     public class WordBook {
 
-        public static int SelectedDic = 0;
+        public static bool Initdicready = false;
+
+        public static int SelectedDic;
 
         public static EngDictionary GaoKao { get; set; }
 
@@ -121,23 +139,17 @@ namespace ExReaderPlus.WordsManager {
         /// 初始化词典，将数据读入到每个词典内
         /// </summary>
         public static void InitDictionaries() {
-            GaoKao = new EngDictionary { Name = "高考词汇", IsSystem = true };
-            GaoKao.Wordlist = new Dictionary<string, Vocabulary>();
+            GaoKao = new EngDictionary { Name = "高考词汇", IsSystem = true,Dicname = 0 };
 
-            CET4 = new EngDictionary { Name = "大学四级", IsSystem = true };
-            CET4.Wordlist = new Dictionary<string, Vocabulary>();
+            CET4 = new EngDictionary { Name = "大学四级", IsSystem = true, Dicname = 1};
 
-            CET6 = new EngDictionary { Name = "大学六级", IsSystem = true };
-            CET6.Wordlist = new Dictionary<string, Vocabulary>();
+            CET6 = new EngDictionary { Name = "大学六级", IsSystem = true, Dicname = 2};
 
-            KaoYan = new EngDictionary { Name = "考研词汇", IsSystem = true };
-            KaoYan.Wordlist = new Dictionary<string, Vocabulary>();
+            KaoYan = new EngDictionary { Name = "考研词汇", IsSystem = true, Dicname = 3 };
 
-            TOEFL = new EngDictionary { Name = "托福词汇", IsSystem = true };
-            TOEFL.Wordlist = new Dictionary<string, Vocabulary>();
+            TOEFL = new EngDictionary { Name = "托福词汇", IsSystem = true, Dicname = 4};
 
-            IELTS = new EngDictionary { Name = "雅思词汇", IsSystem = true };
-            IELTS.Wordlist = new Dictionary<string, Vocabulary>();
+            IELTS = new EngDictionary { Name = "雅思词汇", IsSystem = true, Dicname = 5 };
 
         }
 

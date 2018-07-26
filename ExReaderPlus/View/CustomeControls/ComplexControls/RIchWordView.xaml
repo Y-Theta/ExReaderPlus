@@ -8,26 +8,11 @@
              DataContext="{StaticResource EssayPageViewModel}">
     <Grid x:Name="Rootgrid"
           AllowDrop="True"
+          DragOver="ControlLayer_DragOver"
           DragLeave="Rootgrid_DragLeave"
           Margin="8,0,8,8">
         <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="ControlLayerState">
-                <VisualStateGroup.Transitions>
-                </VisualStateGroup.Transitions>
-                <VisualState x:Name="ControlLayerShow">
-                    <VisualState.Setters>
-                        <Setter Target="ControlLayer.Visibility"
-                                Value="Visible" />
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState x:Name="ControlLayerHide">
-                    <VisualState.Setters>
-                        <Setter Target="ControlLayer.Visibility"
-                                Value="Collapsed" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-            
+
         </VisualStateManager.VisualStateGroups>
         <ScrollViewer Style="{StaticResource DefaultScrollViewer}"
                       Grid.Row="1"
@@ -65,35 +50,41 @@
             </Grid.ColumnDefinitions>
             <Button Content="&#xE948;"
                     Grid.Column="0"
+                    Tag="打开文章"
                     Command="{Binding LoadPassage}"
                     Style="{StaticResource IconButtonStyle}" />
             <Button Content="&#xA000;"
                     Grid.Column="1"
+                    Tag="阅读模式"
+                    Command="{Binding ChangeMode}"
                     FontFamily="{StaticResource IconY}"
-                    Click="Enable"
                     Style="{StaticResource IconButtonStyle}" />
             <Button Content="&#xA000;"
                     Grid.Column="2"
                     FontFamily="{StaticResource IconY}"
-                    Click="Button_Click"
                     Style="{StaticResource IconButtonStyle}" />
             <Button Content="&#xF0D3;"
+                    Tag="上一页"
                     Grid.Column="5"
-                    Click="Button_Click_1"
+                    Command="{Binding TurnPage}"
+                    CommandParameter="1"
                     Style="{StaticResource IconButtonStyle}" />
             <Button Content="&#xF0D2;"
+                    Tag="下一页"
+                    Command="{Binding TurnPage}"
                     Grid.Column="6"
-                    Click="Button_Click_2"
                     Style="{StaticResource IconButtonStyle}" />
             <Button Content="&#xE8E8;"
+                    Tag="放大字号"
+                    Command="{Binding SizeText}"
                     Grid.Column="7"
-                    Click="Button_Click_3"
                     Style="{StaticResource IconButtonStyle}" />
             <Button Content="&#xE8E7;"
+                    Tag="减小字号"
+                    Command="{Binding SizeText}"
+                    CommandParameter="1"
                     Grid.Column="8"
-                    Click="Button_Click_4"
                     Style="{StaticResource IconButtonStyle}" />
         </Grid>
-
     </Grid>
 </UserControl>

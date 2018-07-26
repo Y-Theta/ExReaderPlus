@@ -1,33 +1,19 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    x:Class="ExReaderPlus.CollectionViews"
                     xmlns:manage="using:ExReaderPlus.WordsManager"
+                    xmlns:layout="using:ExReaderPlus.View.Layout"
                     xmlns:local="using:ExReaderPlus.View">
 
     <!--DicGridView-->
-    <Style x:Key="DicGridView" TargetType="GridView">
+    <Style x:Key="DicGridView"
+           TargetType="GridView">
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility"
+                Value="Disabled" />
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <VariableSizedWrapGrid x:Name="RootGrid" MaximumRowsOrColumns="3">
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="WindowSize">
-                                <VisualState x:Name="WindowW">
-                                    <VisualState.StateTriggers>
-                                        <AdaptiveTrigger MinWindowWidth="720" />
-                                    </VisualState.StateTriggers>
-                                </VisualState>
-                                <VisualState x:Name="WindowN">
-                                    <VisualState.StateTriggers>
-                                        <AdaptiveTrigger MinWindowWidth="0" />
-                                    </VisualState.StateTriggers>
-                                    <VisualState.Setters>
-                                        <Setter Target="RootGrid.MaximumRowsOrColumns"
-                                                Value="1" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-                    </VariableSizedWrapGrid>
+                    <layout:FlowLayout />
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
@@ -38,7 +24,10 @@
                         <Setter.Value>
                             <ControlTemplate TargetType="GridViewItem">
                                 <Border>
-                                    
+                                    <ContentPresenter x:Name="Content"
+                                                      VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                                      HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                                      Margin="0" />
                                 </Border>
                             </ControlTemplate>
                         </Setter.Value>
@@ -48,21 +37,62 @@
         </Setter>
         <Setter Property="ItemTemplate">
             <Setter.Value>
-                <DataTemplate >
-                    <Grid  >
+                <DataTemplate x:DataType="manage:EngDictionary">
+                    <Grid MinWidth="240">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto" />
                             <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock x:Name="DicName" />
+                        <TextBlock Grid.ColumnSpan="2"
+                                   Grid.RowSpan="2"
+                                   Text="{Binding Name}" />
                     </Grid>
                 </DataTemplate>
             </Setter.Value>
         </Setter>
     </Style>
     
+    <!--KeyWordListView-->
+    <Style x:Key="KeyWordListView"
+           TargetType="ListView">
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsStackPanel />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListViewItem">
+                                <Border>
+                                    <ContentPresenter x:Name="Content"
+                                                      VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                                      HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                                      Margin="0" />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate x:DataType="manage:Vocabulary">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

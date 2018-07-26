@@ -103,7 +103,9 @@
     <Compile Include="Manage\fileDatabaseManage.cs" />
     <Compile Include="Manage\PassageManager.cs" />
     <Compile Include="Manage\ReaderManager\ReadManage.cs" />
+    <Compile Include="Manage\WordManager\WordBook.cs" />
     <Compile Include="Tile\TileService.cs" />
+    <Compile Include="ViewModels\DIcPageViewModel.cs" />
     <Compile Include="ViewModels\EssayPageViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBasse.cs" />
     <Compile Include="View\Commands\CommandBase.cs" />
@@ -118,7 +120,7 @@
     <Compile Include="View\CustomeControls\NewControls\IconViewItem.cs" />
     <Compile Include="View\CustomeControls\NewControls\RichTextBox.cs" />
     <Compile Include="Manage\DataManage\UserDataDB.cs" />
-    <Compile Include="View\Event\WordSelectArgs.cs" />
+    <Compile Include="View\Event\EventHandlerandArgs.cs" />
     <Compile Include="View\Layout\FlowLayout.cs" />
     <Compile Include="View\OverallViewSettings.cs" />
     <Compile Include="View\Pages\DicPage.xaml.cs">
@@ -136,7 +138,6 @@
     <Compile Include="Models\TextRender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
-    <Compile Include="Manage\WordManager\WordBook.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

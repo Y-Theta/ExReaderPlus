@@ -57,5 +57,15 @@ namespace ExReaderPlus.Models {
         }
     }
 
+    public class BriefDic {
+        public string Name { get; set; }
 
+        public bool IsSys { get; set; }
+
+        public int DicName { get; set; } 
+
+        public int WordsCount { get; set; }
+
+        public BriefDic() {}
+    }
 }

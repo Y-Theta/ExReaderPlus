@@ -5,18 +5,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace ExReaderPlus.View.Layout {
     public class FlowLayout : Panel{
         #region Properties
 
+
         #endregion
 
         #region Methods
         protected override Size MeasureOverride(Size availableSize) {
             double height = 0;
-            Debug.WriteLine(availableSize);
 
             foreach (var child in Children)
             {
@@ -34,6 +35,7 @@ namespace ExReaderPlus.View.Layout {
             {
                 t = (divideWidth - child.DesiredSize.Width) / 2;
                 child.Arrange(new Rect(t + d, 0, child.DesiredSize.Width, child.DesiredSize.Height));
+                Debug.WriteLine(new Rect(t + d, 0, child.DesiredSize.Width, child.DesiredSize.Height));
                 d += divideWidth;
             }
             return finalSize;
@@ -42,13 +44,9 @@ namespace ExReaderPlus.View.Layout {
 
         #region Constructors
         public FlowLayout() {
-            this.SizeChanged += CircleLayout_SizeChanged;
+
         }
 
-        private void CircleLayout_SizeChanged(object sender, Windows.UI.Xaml.SizeChangedEventArgs e) {
-           // Debug.WriteLine(e.NewSize);
-            
-        }
         #endregion
     }
 

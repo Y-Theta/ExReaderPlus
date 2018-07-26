@@ -53,11 +53,11 @@
     <SolidColorBrush x:Key="DefaultControlBarButtonBG_P"
                      Color="Transparent" />
     <SolidColorBrush x:Key="DefaultControlBarButtonFG_N"
-                     Color="#C0C0C0" />
+                     Color="#E0E0E0" />
     <SolidColorBrush x:Key="DefaultControlBarButtonFG_R"
-                     Color="#E0E0E0" />
+                     Color="#FFFFFF" />
     <SolidColorBrush x:Key="DefaultControlBarButtonFG_P"
-                     Color="#E0E0E0" />
+                     Color="#FFFFFF" />
 
     <!--RichTextBox-->
     <SolidColorBrush x:Key="ControlBarBg_N"

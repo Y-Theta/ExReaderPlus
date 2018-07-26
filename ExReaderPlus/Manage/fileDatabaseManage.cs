@@ -96,6 +96,7 @@ namespace ExReaderPlus.Manage
                 WordBook.InsertWordsToDictionary(vocabulary);
 
             }
+            WordBook.Initdicready = true;
             _reader.Close();
         }
        

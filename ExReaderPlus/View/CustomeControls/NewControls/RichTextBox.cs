@@ -399,7 +399,7 @@ namespace ExReaderPlus.View {
         }
 
         private string PrintDicItem(List<Rect> ranges) {
-            // throw new NotImplementedException();
+            throw new NotImplementedException();
             string s = "";
             foreach (var r in ranges)
             {
