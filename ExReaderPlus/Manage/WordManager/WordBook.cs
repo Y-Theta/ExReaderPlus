@@ -1,4 +1,4 @@
-﻿using ExReaderPlus.DatabaseManager;
+﻿
 using ExReaderPlus.Models;
 using ExReaderPlus.View;
 using ExReaderPlus.View.Commands;
