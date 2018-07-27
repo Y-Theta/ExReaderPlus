@@ -117,6 +117,7 @@
     <Compile Include="View\CustomeControls\NewControls\CustomeNavigationView.cs" />
     <Compile Include="View\CustomeControls\Enums.cs" />
     <Compile Include="View\CustomeControls\NewControls\HitHolder.cs" />
+    <Compile Include="View\CustomeControls\NewControls\IconToggelButton.cs" />
     <Compile Include="View\CustomeControls\NewControls\IconViewItem.cs" />
     <Compile Include="View\CustomeControls\NewControls\RichTextBox.cs" />
     <Compile Include="Manage\DataManage\UserDataDB.cs" />
@@ -145,6 +146,7 @@
     </AppxManifest>
     <Content Include="Assets\IconY.ttf" />
     <Content Include="DB\dic.db" />
+    <Content Include="Assets\Rect.ttf" />
     <None Include="ExReaderPlus_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

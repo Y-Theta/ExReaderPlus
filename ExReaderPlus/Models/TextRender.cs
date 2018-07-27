@@ -1,4 +1,7 @@
-﻿using System;
+﻿using ExReaderPlus.View;
+using ExReaderPlus.View.Commands;
+using ExReaderPlus.WordsManager;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -53,7 +56,7 @@ namespace ExReaderPlus.Models {
         public ITextCharacterFormat OldFormat { get; set; }
 
         public Rendergroup() {
-            
+
         }
     }
 
@@ -62,10 +65,28 @@ namespace ExReaderPlus.Models {
 
         public bool IsSys { get; set; }
 
-        public int DicName { get; set; } 
+        public int DicName { get; set; }
 
         public int WordsCount { get; set; }
 
-        public BriefDic() {}
+        public BriefDic() { }
+    }
+
+    public class ActionVocabulary : Vocabulary {
+        public event CommandActionEventHandler RemCommandAction;
+        public CommandBase RemCommand { get; set; }
+
+
+        public void InitCommands() {
+            RemCommand = new CommandBase(obj => { RemCommandAction?.Invoke(this, new CommandArgs(obj, Word)); });
+        }
+
+        public ActionVocabulary() {
+            InitCommands();
+        }
+
+        public static ActionVocabulary FromVocabulary(Vocabulary v) {
+            return new ActionVocabulary { Phonetic = v.Phonetic, Word = v.Word, Translation = v.Translation, Tag = v.Tag, YesorNo = v.YesorNo };
+        }
     }
 }

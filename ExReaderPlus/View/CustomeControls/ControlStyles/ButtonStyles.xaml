@@ -73,6 +73,29 @@
         </Setter>
     </Style>
 
+    
+    <!--TextToggelButton-->
+    <Style x:Key="TextToggelButton"
+           TargetType="local:IconToggelButton">
+        <Setter Property="ToogelIdVis"
+                Value="Visible" />
+        <Setter Property="FontFamily"
+                Value="{StaticResource RECT}" />
+        <Setter Property="FontSize"
+                Value="12" />
+        <Setter Property="VerticalAlignment"
+                Value="Center" />
+        <Setter Property="FontWeight"
+                Value="Light" />
+        <Setter Property="Foreground"
+                Value="{ThemeResource WordListWordFg}" />
+        <Setter Property="PointBrush"
+                Value="{ThemeResource WordListWordFg}" />
+        <Setter Property="PressBrush"
+                Value="{ThemeResource WordListWordFg}" />
+        <Setter Property="CheckedBrush"
+                Value="{ThemeResource WordListWordFg}" />
+    </Style>
     <!--BoundButtonStyle-->
 
 </ResourceDictionary>

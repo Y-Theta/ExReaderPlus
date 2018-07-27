@@ -4,6 +4,7 @@
                     xmlns:local="using:ExReaderPlus.View">
     <!--Fontfamily-->
     <FontFamily x:Key="IconY">ms-appx:///Assets/IconY.ttf#IconY</FontFamily>
+    <FontFamily x:Key="RECT">ms-appx:///Assets/Rect.ttf#RectNum</FontFamily>
     
     <!--Enums-->
     <local:IconKind x:Key="ICONF.Round">Round</local:IconKind>
@@ -16,6 +17,7 @@
     <Converter:GRIDLtoDOUBLE x:Key="GRIDLtoDOUBLE" />
     <Converter:NegativeConverter x:Key="NegativeConverter" />
     <Converter:NULLnoVIS x:Key="NULLnoVIS" />
+    <Converter:PhoneticCON x:Key="PhoneticCON" />
 
     <!--Styles-->
     <ResourceDictionary.MergedDictionaries>

@@ -44,24 +44,33 @@
                      Color="#EFEFEF"/>
     <SolidColorBrush x:Key="DefaultToolTipBd"
                      Color="#080808" />
-
+    
+    <SolidColorBrush x:Key="WordListMoreBg"
+                     Color="#323232" />
+    <SolidColorBrush x:Key="WordListMoreFg"
+                     Color="#EFEFEF" />
+    
     <!--DefaultControlBarButton-->
     <SolidColorBrush x:Key="DefaultControlBarButtonBG_N"
                      Color="Transparent" />
     <SolidColorBrush x:Key="DefaultControlBarButtonBG_R"
-                     Color="Transparent" />
+                     Color="#10000000" />
     <SolidColorBrush x:Key="DefaultControlBarButtonBG_P"
-                     Color="Transparent" />
+                     Color="#40000000" />
     <SolidColorBrush x:Key="DefaultControlBarButtonFG_N"
                      Color="#E0E0E0" />
     <SolidColorBrush x:Key="DefaultControlBarButtonFG_R"
                      Color="#FFFFFF" />
     <SolidColorBrush x:Key="DefaultControlBarButtonFG_P"
                      Color="#FFFFFF" />
+    <SolidColorBrush x:Key="DefaultControlBarSeperatorBg"
+                     Color="#EFEFEF" />
 
     <!--RichTextBox-->
     <SolidColorBrush x:Key="ControlBarBg_N"
                      Color="#477FBF" />
+    <SolidColorBrush x:Key="RichTextBg"
+                     Color="#EFEFEF" />
 
     <!--PaneToggleButton-->
     <SolidColorBrush x:Key="PaneToggleButtonBG_N"
@@ -131,8 +140,10 @@
     <SolidColorBrush x:Key="WordListItemBg_N"
                      Color="Transparent" />
     <SolidColorBrush x:Key="WordListItemBg_R"
-                     Color="#40000000" />
+                     Color="#10000000" />
     <SolidColorBrush x:Key="WordListItemBg_P"
-                     Color="#80000000" />
-    
+                     Color="#40000000" />
+    <SolidColorBrush x:Key="WordListSelectionHC"
+                     Color="#336F96" />
+
 </ResourceDictionary>

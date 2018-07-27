@@ -144,6 +144,7 @@ namespace ExReaderPlus.View {
                 if (!_fontchange)
                 {
                     _fontchange = true;
+                    OnWordChanged();
                     SetValue(FontSizeProperty, value);
                 }
             }
@@ -205,7 +206,7 @@ namespace ExReaderPlus.View {
         /// 用计时器异步降低开销
         /// </summary>
         private void InitTimer() {
-            _refreshdic = new Timer { Interval = 2000 };
+            _refreshdic = new Timer { Interval = 1200 };
             _refreshdic.Elapsed += _refreshdic_Elapsed;
         }
 
@@ -392,15 +393,16 @@ namespace ExReaderPlus.View {
         }
 
         private void SetDefaultFormat() {
-            FontSize = OverallViewSettings.Instence.RichTextBoxSize;
+            OverallViewSettings _instence = App.Current.Resources["OverallViewSettings"] as OverallViewSettings;
+            FontSize = _instence.RichTextBoxSize;
 
             ITextCharacterFormat defaultformat = Document.GetDefaultCharacterFormat();
-            defaultformat.ForegroundColor = OverallViewSettings.Instence.RichTextBoxFg;
-            defaultformat.BackgroundColor = OverallViewSettings.Instence.RichTextBoxBg;
-            defaultformat.Weight = OverallViewSettings.Instence.RichTextBoxWeight;
+            defaultformat.ForegroundColor = _instence.RichTextBoxFg;
+            defaultformat.BackgroundColor = _instence.RichTextBoxBg;
+            defaultformat.Weight = _instence.RichTextBoxWeight;
 
             ITextParagraphFormat defaultformatp = Document.GetDefaultParagraphFormat();
-            defaultformatp.SetLineSpacing(LineSpacingRule.AtLeast, OverallViewSettings.Instence.RichTextBoxSpace);
+            defaultformatp.SetLineSpacing(LineSpacingRule.AtLeast, _instence.RichTextBoxSpace);
 
             Document.SetDefaultCharacterFormat(defaultformat);
             Document.SetDefaultParagraphFormat(defaultformatp);

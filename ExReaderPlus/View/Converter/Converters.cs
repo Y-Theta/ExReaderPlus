@@ -63,4 +63,14 @@ namespace ExReaderPlus.View.Converter {
         }
     }
 
+    public class PhoneticCON : IValueConverter {
+        public object Convert(object value, Type targetType, object parameter, string language) {
+            return "[" + value.ToString().Split(',')[0] + "]";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language) {
+            throw new NotImplementedException();
+        }
+    }
+
 }

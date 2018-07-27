@@ -72,34 +72,6 @@ namespace ExReaderPlus.Manage
             _dbFile = null;
         }
 
-
-        /// <summary>
-        ///从数据库读入到WordBook
-        /// </summary>
-        public void GetDictionaries()
-        {
-            //可能出现的问题：查询string用“=”；缺少空格，缺少引号，缺少转义字符
-            var commandText = "SELECT word,phonetic,translation,tag FROM stardict";
-
-            this._command.CommandText = commandText;               
-            var vocabularies = new List<Vocabulary>();
-            _reader = this._command.ExecuteReader();    
-            
-            while (_reader.Read())
-            {
-                var vocabulary = new Vocabulary();
-                vocabulary.Word = _reader.GetString(0);
-                vocabulary.Phonetic = _reader.GetString(1);
-                vocabulary.Translation = _reader.GetString(2);
-                vocabulary.Tag = _reader.GetString(3);
-                //可能出现问题，返回列名错误
-                WordBook.InsertWordsToDictionary(vocabulary);
-
-            }
-            WordBook.Initdicready = true;
-            _reader.Close();
-        }
-
         public Dictionary<string, Vocabulary> GetAllWords()
         {
             var commandText = "SELECT word,phonetic,translation,tag FROM stardict";
@@ -118,6 +90,37 @@ namespace ExReaderPlus.Manage
             }
             _reader.Close();
             return vocabularies.ToDictionary(v => v.Word, v => v);
+        }
+
+        /// <summary>
+        /// 本地查找生词
+        /// 查询为空或则失败则返回为空
+        /// </summary>
+        /// <param name="word"></param>
+        /// <returns></returns>
+        public Vocabulary SearchVocabulary(string word)
+        {
+            var commandText = "SELECT word,phonetic,translation FROM newdic where word = " + "\"" + word + "\"";
+            this._command.CommandText = commandText;
+            var vocabulary = new Vocabulary();
+            try
+            {
+                if ((_reader = this._command.ExecuteReader()) == null)
+                    return null;//如果结果为空，则返回为空
+                _reader.Read();
+                vocabulary.Word = _reader.GetString(0);
+                vocabulary.Phonetic = _reader.GetString(1);
+                vocabulary.Translation = _reader.GetString(2);              
+                return vocabulary;
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                _reader.Close();
+            }
         }
     }
 }

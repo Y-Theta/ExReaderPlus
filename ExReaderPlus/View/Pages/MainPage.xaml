@@ -1,8 +1,6 @@
 ﻿<Page x:Class="ExReaderPlus.View.Pages.MainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:ExReaderPlus.View.Pages"
-      xmlns:Graphics="using:Microsoft.Graphics.Canvas.UI.Xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:Custome="using:ExReaderPlus.View"
@@ -11,14 +9,24 @@
       DataContext="{StaticResource MainPageViewModel}"
       mc:Ignorable="d">
     <Grid x:Name="RootGrid">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="32" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Rectangle x:Name="TitleBarTouch"
-                   Fill="Transparent" />
-        <Custome:CustomeNavigationView Grid.RowSpan="2"
-                                       Background="{Binding FrameBg}"
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="48" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Frame x:Name="MainFrame"
+                   Grid.Column="1"
+                   Grid.RowSpan="2" />
+            <Rectangle x:Name="TitleBarTouch"
+                       Grid.ColumnSpan="2"
+                       Fill="Transparent" />
+
+        </Grid>
+        <Custome:CustomeNavigationView Background="{Binding FrameBg}"
                                        Foreground="{ThemeResource DefaultNavigationViewPaneFG}"
                                        IconStroke="{ThemeResource ContrastMask_D0}"
                                        PaneBackground="{ThemeResource DefaultNavigationViewPaneBG}">
@@ -59,9 +67,6 @@
                                           Icon="&#xE7BC;" />
                 </Grid>
             </Custome:CustomeNavigationView.FunctionArea>
-
-            <Frame x:Name="MainFrame"/>
         </Custome:CustomeNavigationView>
-
     </Grid>
 </Page>

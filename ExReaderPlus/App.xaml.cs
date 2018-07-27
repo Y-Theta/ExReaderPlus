@@ -12,6 +12,7 @@ using ExReaderPlus.View.Pages;
 using ExReaderPlus.Manage;
 using ExReaderPlus.WordsManager;
 using System.Threading.Tasks;
+using ExReaderPlus.View;
 
 namespace ExReaderPlus {
     /// <summary>
@@ -119,15 +120,9 @@ namespace ExReaderPlus {
 
         protected override async void OnWindowCreated(WindowCreatedEventArgs args) {
             base.OnWindowCreated(args);
-            await InitDicAsync();
+            WordBook.InitDictionaries();
+            await WordBook.InitDicCollectionAsync();
         }
 
-        private async Task InitDicAsync() {
-            Task s = new Task(() => {
-               CustomDicManage.DumpWordsFromFileDataBaseToTheDiconaryForTest();
-            });
-            s.Start();
-            await s;
-        }
     }
 }
