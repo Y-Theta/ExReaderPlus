@@ -13,7 +13,6 @@ namespace ExReaderPlus.ViewModels {
         #region Properties
         public Passage TempPassage { get; set; }
 
-
         /// <summary>
         /// 关键字，需要渲染的关键字组
         /// </summary>
@@ -23,7 +22,7 @@ namespace ExReaderPlus.ViewModels {
             set => _keyWords = value;
         }
 
-        
+        private HashSet<string> _keywordnotlet;
 
         /// <summary>
         /// 侧边栏列表
@@ -34,6 +33,9 @@ namespace ExReaderPlus.ViewModels {
             set => _keywordlist = value;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private bool _wordsLearned = true;
         public bool WordsLearned {
             get => _wordsLearned;
@@ -45,6 +47,7 @@ namespace ExReaderPlus.ViewModels {
                     RemoveWordLearned();
             }
         }
+
 
         private bool _wordsUnLearned = true;
         public bool WordsUnLearned {

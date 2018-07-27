@@ -1,4 +1,6 @@
-﻿using ExReaderPlus.Models;
+﻿using ExReaderPlus.Manage;
+using ExReaderPlus.Models;
+using ExReaderPlus.Tile;
 using ExReaderPlus.ViewModels;
 using ExReaderPlus.WordsManager;
 using System;
@@ -106,6 +108,7 @@ namespace ExReaderPlus.View {
                 case "SizeTextLarge": TextView.FontSize += 0.5; break;
                 case "SizeTextLittle": TextView.FontSize -= 0.5; break;
                 case "HideWordList": WordPanelSwitch(); break;
+                case "Pin": TileService.PinTile();break;
                 case "ChangeMode":
                     if (_viewModel.TempPassage != null)
                         if (!TextView.IsReadOnly)
@@ -206,11 +209,11 @@ namespace ExReaderPlus.View {
         }
 
         private void Rect_PointerEntered(object sender, PointerRoutedEventArgs e) {
-            //var control = (HitHolder)sender;
-            //var t = new Translate();
-            //t.Text = control.Name;
-            //var s = t.GetResult();
-            //control.Tooltip = s;
+            var sb = sender as HitHolder;
+            var v1 = fileDatabaseManage.instance.SearchVocabulary(sb.Name.ToLower());
+            if (v1 != null)
+                sb.Tooltip = v1.Translation;
+
         }
 
         private void AddtoControlDic(string key, Control value) {

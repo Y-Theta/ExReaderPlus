@@ -71,11 +71,11 @@ namespace UnitTest.Manage
         [TestMethod]
         public void DumpWordsFromWordBookToCustomDictionaryTest()
         {
-            fileDatabaseManage.instance = new fileDatabaseManage();
-            WordBook.InitDictionaries();
-            fileDatabaseManage.instance.GetDictionaries();
-            CustomDicManage.AddACustomDictionary("dumpWordsTest");
-            CustomDicManage.DumpWordsFromWordBookToCustomDictionary("dumpWordsTest",WordBook.CET6.Wordlist);
+            //fileDatabaseManage.instance = new fileDatabaseManage();
+            //WordBook.InitDictionaries();
+            //fileDatabaseManage.instance.GetDictionaries();
+            //CustomDicManage.AddACustomDictionary("dumpWordsTest");
+            //CustomDicManage.DumpWordsFromWordBookToCustomDictionary("dumpWordsTest",WordBook.CET6.Wordlist);
 
         }
 

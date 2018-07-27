@@ -114,6 +114,7 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto" />
                                 <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="auto" />
                                 <ColumnDefinition Width="40" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
@@ -147,8 +148,29 @@
                                     </ToolTip>
                                 </ToolTipService.ToolTip>
                             </TextBlock>
+                            <!--<Ellipse Grid.Column="2"
+                                     Width="5"
+                                     Height="5"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Center"
+                                     Fill="{Binding YesorNo,Converter={StaticResource PhoneticCON}}">
+                                <ToolTipService.ToolTip>
+                                    <ToolTip Padding="0"
+                                             Visibility="{Binding YesorNo,Mode=OneWay,Converter={StaticResource NULLnoVIS}}"
+                                             Background="{ThemeResource WordListMoreBg}"
+                                             BorderThickness="0"
+                                             HorizontalOffset="12"
+                                             VerticalOffset="12"
+                                             Placement="Mouse">
+                                         <Border Padding="2">
+                                             <TextBlock Style="{StaticResource WordListMoreToolTip_P}"
+                                                       Text="{Binding YesorNo,Mode=OneWay}" />
+                                         </Border>
+                                    </ToolTip>
+                                </ToolTipService.ToolTip>
+                            </Ellipse>-->
                             <TextBlock Grid.Row="1"
-                                       Grid.ColumnSpan="2"
+                                       Grid.ColumnSpan="3"
                                        Style="{StaticResource WordListTranslation}"
                                        Text="{Binding Translation}">
                                 <ToolTipService.ToolTip>
@@ -170,7 +192,7 @@
                                     Content="&#xE73E;"
                                     Tag="已掌握"
                                     Margin="0,8,0,0"
-                                    Grid.Column="2"
+                                    Grid.Column="3"
                                     Grid.RowSpan="2"
                                     VerticalAlignment="Center"
                                     Command="{Binding RemCommand}"
