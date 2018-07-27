@@ -173,6 +173,13 @@
                        Grid.Column="10" />
             <Button Content="&#xA000;"
                     Tag="分享"
+                    Grid.Column="11"
+                    Command="{Binding ControlBarCommand}"
+                    CommandParameter="Pin"
+                    FontFamily="{StaticResource IconY}"
+                    Style="{StaticResource IconButtonStyle}" />
+            <Button Content="&#xA000;"
+                    Tag="分享"
                     Grid.Column="12"
                     Command="{Binding ControlBarCommand}"
                     FontFamily="{StaticResource IconY}"
