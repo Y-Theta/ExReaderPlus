@@ -77,6 +77,16 @@ namespace ExReaderPlus.View {
             set => SetValue<Color>(out _richTextSelectBoxBg, value, nameof(RichTextSelectBoxBg));
         }
 
+
+        ///// <summary>
+        ///// 富文本框选中背景色
+        ///// </summary>
+        //private Color _richTextSelectBoxBg = Color.FromArgb(64, 49, 135, 82);
+        //public Color RichTextSelectBoxBg {
+        //    get => _richTextSelectBoxBg;
+        //    set => SetValue<Color>(out _richTextSelectBoxBg, value, nameof(RichTextSelectBoxBg));
+        //}
+
         /// <summary>
         /// 阅读界面控制条位置
         /// </summary>

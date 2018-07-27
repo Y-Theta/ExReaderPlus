@@ -120,6 +120,7 @@ namespace ExReaderPlus {
 
         protected override async void OnWindowCreated(WindowCreatedEventArgs args) {
             base.OnWindowCreated(args);
+            CustomDicManage.DumpWordsFromFileDataBaseToTheDiconaryForTest();
             WordBook.InitDictionaries();
             await WordBook.InitDicCollectionAsync();
         }

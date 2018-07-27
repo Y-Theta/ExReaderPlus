@@ -569,7 +569,7 @@
                                      HorizontalOffset="12"
                                      VerticalOffset="12"
                                      Placement="Mouse">
-                                <Border MinWidth="120"
+                                <Border MaxWidth="160"
                                         MinHeight="24">
                                     <TextBlock Style="{StaticResource WordToolTipstyle}"
                                                Text="{Binding Tooltip, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}" />

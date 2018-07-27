@@ -1,4 +1,5 @@
-﻿using ExReaderPlus.Models;
+﻿using ExReaderPlus.Manage;
+using ExReaderPlus.Models;
 using ExReaderPlus.View;
 using ExReaderPlus.View.Commands;
 using Microsoft.EntityFrameworkCore;
