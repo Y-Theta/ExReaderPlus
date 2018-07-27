@@ -19,9 +19,13 @@
     <Style x:Key="WordToolTipstyle"
            TargetType="TextBlock">
         <Setter Property="FontSize"
-                Value="18" />
+                Value="14" />
+        <Setter Property="TextWrapping"
+                Value="Wrap" />
+        <Setter Property="VerticalAlignment"
+                Value="Center" />
         <Setter Property="Foreground"
-                Value="{ThemeResource DefaultToolTipFg}" />
+                Value="{ThemeResource WordSearchToolTipFg}" />
         <Setter Property="FontWeight"
                 Value="ExtraLight" />
         <Setter Property="Margin"

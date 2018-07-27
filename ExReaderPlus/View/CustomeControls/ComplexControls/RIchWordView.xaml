@@ -208,7 +208,7 @@
                        VerticalAlignment="Center"
                        FontFamily="{StaticResource RECT}"
                        Foreground="{ThemeResource WordListWordFg}"
-                       Text="Wordlist" />
+                       Text="word" />
             <Grid x:Name="WordPanelTitle"
                   Margin="0,8,0,16"
                   Grid.Row="1">

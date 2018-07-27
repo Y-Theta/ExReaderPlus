@@ -30,10 +30,7 @@ namespace UnitTest.Manage
         [TestMethod]
         public void testWordBook()
         {
-            fileDatabaseManage.instance = new fileDatabaseManage();
-            WordBook.InitDictionaries();
-            fileDatabaseManage.instance.GetDictionaries();
-            Assert.AreEqual(5407,WordBook.CET6.Wordlist.Count());
+           
         }
 
         [TestMethod]

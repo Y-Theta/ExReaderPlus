@@ -562,13 +562,15 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                         <ToolTipService.ToolTip>
-                            <ToolTip Padding="-1"
+                            <ToolTip Padding="0"
+                                     Background="{ThemeResource WordSearchToolTipBg}"
+                                     BorderThickness="0"
                                      Visibility="{Binding Tooltip, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay,Converter={StaticResource NULLnoVIS}}"
                                      HorizontalOffset="12"
                                      VerticalOffset="12"
                                      Placement="Mouse">
-                                <Border BorderBrush="{ThemeResource DefaultToolTipBd}"
-                                        BorderThickness="1">
+                                <Border MinWidth="120"
+                                        MinHeight="24">
                                     <TextBlock Style="{StaticResource WordToolTipstyle}"
                                                Text="{Binding Tooltip, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}" />
                                 </Border>

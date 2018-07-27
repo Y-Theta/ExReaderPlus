@@ -36,8 +36,13 @@
                      Color="#efefef" />
     <SolidColorBrush x:Key="DefaultNavigationViewUserIconStroke"
                      Color="#080808" />
-    
+
     <!--Tooltip-->
+    <SolidColorBrush x:Key="WordSearchToolTipFg"
+                     Color="#EFEFEF" />
+    <SolidColorBrush x:Key="WordSearchToolTipBg"
+                     Color="#477FBF" />
+    
     <SolidColorBrush x:Key="DefaultToolTipFg"
                      Color="#080808" />
     <SolidColorBrush x:Key="DefaultToolTipBg"
@@ -70,7 +75,7 @@
     <SolidColorBrush x:Key="ControlBarBg_N"
                      Color="#477FBF" />
     <SolidColorBrush x:Key="RichTextBg"
-                     Color="#EFEFEF" />
+                     Color="#C0C0C0" />
 
     <!--PaneToggleButton-->
     <SolidColorBrush x:Key="PaneToggleButtonBG_N"

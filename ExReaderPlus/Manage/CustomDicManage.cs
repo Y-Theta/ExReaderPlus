@@ -284,7 +284,6 @@ namespace ExReaderPlus.Manage
                         );
                 }//添加词典到dictionary表             
 
-                fileDatabaseManage.instance = new fileDatabaseManage();
                 var dic = fileDatabaseManage.instance.GetAllWords();//返回所有单词
 
                 foreach(var w in dic)

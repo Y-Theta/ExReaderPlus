@@ -206,7 +206,7 @@ namespace ExReaderPlus.View {
         /// 用计时器异步降低开销
         /// </summary>
         private void InitTimer() {
-            _refreshdic = new Timer { Interval = 1200 };
+            _refreshdic = new Timer { Interval = 200 };
             _refreshdic.Elapsed += _refreshdic_Elapsed;
         }
 

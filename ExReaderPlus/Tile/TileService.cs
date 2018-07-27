@@ -20,10 +20,8 @@ namespace ExReaderPlus.Tile
         /// <summary>
         /// 固定到开始屏幕
         /// </summary>
-        public async void PinTile()
+        public static async void PinTile()
         {
-
-            
             SecondaryTile tile = new SecondaryTile(DateTime.Now.Ticks.ToString())
             {
                 DisplayName = "Exreader",
@@ -35,13 +33,10 @@ namespace ExReaderPlus.Tile
             tile.VisualElements.ShowNameOnSquare150x150Logo = true;
             tile.VisualElements.ShowNameOnSquare310x310Logo = true;
             tile.VisualElements.ShowNameOnWide310x150Logo = true;
-
-
             if (!await tile.RequestCreateAsync())
             {
                 return;
             }
-
             // Generate the tile notification content and update the tile
             TileContent content = GenerateTileContent("Friend", "Assets/Square44x44Logo.scale-200.png");
             TileUpdateManager.CreateTileUpdaterForSecondaryTile(tile.TileId).Update(new TileNotification(content.GetXml()));
