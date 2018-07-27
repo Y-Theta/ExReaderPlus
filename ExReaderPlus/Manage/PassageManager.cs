@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage;
 using ExReaderPlus.DatabaseManager;
 using ExReaderPlus.WordsManager;
 
@@ -123,7 +125,19 @@ namespace ExReaderPlus.Manage.PassageManager
             return WordInfo;
         }
 
+        public async void getLastPassageInfo()
+        {
+            string Name = "LastOpen" + ".txt";
+            var p=new UserDictionary.Passage();
+            StorageFolder applicationFolder = ApplicationData.Current.LocalFolder;
+            //            Debug.WriteLine(applicationFolder.Path);
 
+            StorageFile saveFile = await applicationFolder.CreateFileAsync(Name, CreationCollisionOption.GenerateUniqueName);
+            await FileIO.WriteTextAsync(saveFile, "xxx");
+            p.Url =
+                "C:\\Users\\dell-01\\AppData\\Local\\Packages\\f54ff59d-f02c-4eef-9c9b-c2c651e5e15b_5hn9s7jcnknw8\\LocalState\\LastOpen";
+
+        }
     }
 
 }
