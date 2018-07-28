@@ -12,7 +12,6 @@ using Windows.Storage.Pickers;
 using Windows.System;
 using Windows.UI;
 using Windows.UI.Core;
-using ExReaderPlus.Manage.ReaderManager;
 using Windows.UI.Notifications;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -44,9 +43,9 @@ namespace ExReaderPlus.FileManage {
         }
 
         //序列化
-        public async void SerializeFile(ReaderManage reader)
+        public async void SerializeFile(Passage passage)
         {
-            DataContractSerializer serializer = new DataContractSerializer(typeof(ReaderManage));
+            DataContractSerializer serializer = new DataContractSerializer(typeof(Passage));
             var savePicker = new FileSavePicker();
             savePicker.SuggestedStartLocation = PickerLocationId.MusicLibrary;
             // Dropdown of file types the user can save the file as
@@ -62,7 +61,7 @@ namespace ExReaderPlus.FileManage {
                 // write to file
                 var stream = await file.OpenStreamForWriteAsync();
                 Debug.WriteLine("write stream: " + stream.ToString());
-                serializer.WriteObject(stream, reader);
+                serializer.WriteObject(stream, passage);
 
                 Windows.Storage.Provider.FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
                 ShowToastNotification("exReader提示", "成功导出工程文件!");
@@ -85,7 +84,7 @@ namespace ExReaderPlus.FileManage {
         public async Task<Passage> DeSerializeFile()
         {
 
-            DataContractSerializer deserializer = new DataContractSerializer(typeof(ReaderManage));
+            DataContractSerializer deserializer = new DataContractSerializer(typeof(Passage));
             
             Passage passage = new Passage();
             var picker = new FileOpenPicker();

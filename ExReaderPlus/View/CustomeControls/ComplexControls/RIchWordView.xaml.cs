@@ -212,7 +212,12 @@ namespace ExReaderPlus.View {
             var sb = sender as HitHolder;
             var v1 = fileDatabaseManage.instance.SearchVocabulary(sb.Name.ToLower());
             if (v1 != null)
-                sb.Tooltip = v1.Translation;
+            {
+                var text = v1.Translation.Replace("\\n", "\n");
+                sb.Tooltip = text;
+
+            }
+                
 
         }
 

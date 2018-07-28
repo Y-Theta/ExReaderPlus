@@ -337,7 +337,6 @@ namespace ExReaderPlus.Manage
                 {
                     db.Database.CloseConnection();
                 }
-               
             }
         }
 
