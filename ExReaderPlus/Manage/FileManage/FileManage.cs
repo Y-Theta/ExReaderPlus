@@ -12,7 +12,6 @@ using Windows.Storage.Pickers;
 using Windows.System;
 using Windows.UI;
 using Windows.UI.Core;
-
 using Windows.UI.Notifications;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -46,7 +45,7 @@ namespace ExReaderPlus.FileManage {
         //序列化
         public async void SerializeFile(UserDictionary.Passage passage)
         {
-            DataContractSerializer serializer = new DataContractSerializer(typeof(Passage));
+            DataContractSerializer serializer = new DataContractSerializer(typeof(UserDictionary.Passage));
             StorageFolder applicationFolder = ApplicationData.Current.LocalFolder;
             StorageFile file = await applicationFolder.CreateFileAsync("Save", CreationCollisionOption.GenerateUniqueName);
             if (file != null)
@@ -74,14 +73,16 @@ namespace ExReaderPlus.FileManage {
             {
                 //this.textBlock.Text = "Operation cancelled.";
             }
+            
         }
 
         //反序列化
-        public async Task<Passage> DeSerializeFile()
+        public async Task<Passage> DeSerializeFile(UserDictionary.Passage passage1)
         {
 
-            DataContractSerializer deserializer = new DataContractSerializer(typeof(Passage));
-            
+            DataContractSerializer deserializer = new DataContractSerializer(typeof(UserDictionary.Passage));
+            StorageFolder applicationFolder = ApplicationData.Current.LocalFolder;
+           
             Passage passage = new Passage();
             var picker = new FileOpenPicker();
             picker.ViewMode = PickerViewMode.Thumbnail;
@@ -106,6 +107,33 @@ namespace ExReaderPlus.FileManage {
                 return null;
             }
 
+        }
+
+        public async Task<Passage> OpenFile()
+        {
+            Passage passage = new Passage();
+            var picker = new FileOpenPicker();
+            picker.ViewMode = PickerViewMode.Thumbnail;
+            picker.SuggestedStartLocation = PickerLocationId.MusicLibrary;
+            picker.FileTypeFilter.Add(".txt");
+
+            // TODO:
+            //picker.FileTypeFilter.Add(".pdf");
+
+            StorageFile storageFile = await picker.PickSingleFileAsync();
+            if (storageFile != null)
+            {
+                var stream = await storageFile.OpenStreamForReadAsync();
+
+                passage.Content = await FileIO.ReadTextAsync(storageFile);
+                passage.HeadName = storageFile.DisplayName;
+
+                return passage;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         //显示Toast通知
@@ -193,6 +221,7 @@ namespace ExReaderPlus.FileManage {
             //            Debug.WriteLine(applicationFolder.Path);
 
             StorageFile saveFile = await applicationFolder.CreateFileAsync(desiredName, CreationCollisionOption.GenerateUniqueName);
+
             await canvasRenderTarget.SaveAsync(await saveFile.OpenAsync(FileAccessMode.ReadWrite), CanvasBitmapFileFormat.Png);
             // 把图片展现出来
             var fileStream = await saveFile.OpenReadAsync();
