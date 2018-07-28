@@ -11,6 +11,8 @@
     <local:IconKind x:Key="ICONF.Rect">Rect</local:IconKind>
     <local:IconKind x:Key="ICONF.Icon">Icon</local:IconKind>
 
+    <x:String x:Key="WordLearnedTooltip">未掌握,掌握</x:String>
+
     <!--Converter-->
     <Converter:BOOLC x:Key="BOOLC" />
     <Converter:BOOLtoICONF x:Key="BOOLtoICONF" />
@@ -18,6 +20,8 @@
     <Converter:NegativeConverter x:Key="NegativeConverter" />
     <Converter:NULLnoVIS x:Key="NULLnoVIS" />
     <Converter:PhoneticCON x:Key="PhoneticCON" />
+    <Converter:INTtoSTR x:Key="INTtoSTR" />
+    <Converter:ObjToString x:Key="ObjToString" />
 
     <!--Styles-->
     <ResourceDictionary.MergedDictionaries>

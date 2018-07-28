@@ -7,7 +7,20 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 
 namespace ExReaderPlus.View {
+    /// <summary>
+    /// 命令回调
+    /// </summary>
     public delegate void CommandActionEventHandler(object sender, CommandArgs args);
+
+    /// <summary>
+    /// 着色变更回调
+    /// </summary>
+    public delegate void RenderChangeEventHandler(object sender, string name, bool value);
+
+    /// <summary>
+    /// 点击内容控件鼠标进入回调
+    /// </summary>
+    public delegate void HCHPointHandel(object sender);
 
     public class CommandArgs : EventArgs {
         #region Properties

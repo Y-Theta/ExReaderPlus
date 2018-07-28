@@ -109,9 +109,12 @@
                 <DataTemplate x:DataType="model:ActionVocabulary">
                     <local:HitContentholder Background="{ThemeResource WordListItemBg_N}"
                                             PointBrush="{ThemeResource WordListItemBg_R}"
-                                            PressBrush="{ThemeResource WordListItemBg_P}">
-                        <Grid Margin="12,0,0,8">
+                                            PressBrush="{ThemeResource WordListItemBg_P}"
+                                            OnPointEnter="{Binding PointEnter}"
+                                            OnPointExit="{Binding PointExit}">
+                        <Grid Margin="0,0,0,8">
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
                                 <ColumnDefinition Width="auto" />
                                 <ColumnDefinition Width="auto" />
                                 <ColumnDefinition Width="auto" />
@@ -121,16 +124,17 @@
                                 <RowDefinition Height="auto" />
                                 <RowDefinition Height="auto" />
                             </Grid.RowDefinitions>
-                            <Rectangle Fill="{ThemeResource WordListWordFg}" 
+                            <Rectangle Fill="{ThemeResource WordListWordFg}"
                                        Width="2"
                                        Grid.RowSpan="2"
                                        VerticalAlignment="Stretch"
                                        HorizontalAlignment="Left"
-                                       Margin="-8,4,0,-4" />
+                                       Margin="4,8,8,0" />
                             <TextBox Grid.Row="0"
+                                     Grid.Column="1"
                                      Style="{StaticResource WordListCaption}"
                                      Text="{Binding Word}" />
-                            <TextBlock Grid.Column="1"
+                            <TextBlock Grid.Column="2"
                                        Style="{StaticResource WordListPhonetic}"
                                        Text="{Binding Phonetic,Converter={StaticResource PhoneticCON}}">
                                 <ToolTipService.ToolTip>
@@ -148,39 +152,41 @@
                                     </ToolTip>
                                 </ToolTipService.ToolTip>
                             </TextBlock>
-                            <!--<Ellipse Grid.Column="2"
-                                     Width="5"
-                                     Height="5"
-                                     HorizontalAlignment="Center"
+                            <Ellipse Grid.Column="2"
+                                     Grid.Row="1"
+                                     Width="10"
+                                     Height="10"
+                                     HorizontalAlignment="Left"
                                      VerticalAlignment="Center"
-                                     Fill="{Binding YesorNo,Converter={StaticResource PhoneticCON}}">
+                                     Margin="0,6,0,0"
+                                     Visibility="{Binding YesorNo,Converter={StaticResource NULLnoVIS},ConverterParameter=1,Mode=OneWay}"
+                                     Fill="{ThemeResource WordListWordFg}">
                                 <ToolTipService.ToolTip>
                                     <ToolTip Padding="0"
-                                             Visibility="{Binding YesorNo,Mode=OneWay,Converter={StaticResource NULLnoVIS}}"
                                              Background="{ThemeResource WordListMoreBg}"
                                              BorderThickness="0"
                                              HorizontalOffset="12"
                                              VerticalOffset="12"
                                              Placement="Mouse">
-                                         <Border Padding="2">
-                                             <TextBlock Style="{StaticResource WordListMoreToolTip_P}"
-                                                       Text="{Binding YesorNo,Mode=OneWay}" />
-                                         </Border>
+                                        <Border Padding="2">
+                                            <TextBlock Style="{StaticResource WordListMoreToolTip_P}"
+                                                       Text="{Binding YesorNo,Mode=OneWay,Converter={StaticResource INTtoSTR},ConverterParameter={StaticResource WordLearnedTooltip}}" />
+                                        </Border>
                                     </ToolTip>
                                 </ToolTipService.ToolTip>
-                            </Ellipse>-->
+                            </Ellipse>
                             <TextBlock Grid.Row="1"
-                                       Grid.ColumnSpan="3"
+                                       Grid.Column="1"
                                        Style="{StaticResource WordListTranslation}"
                                        Text="{Binding Translation}">
                                 <ToolTipService.ToolTip>
                                     <ToolTip Padding="0"
-                                         Visibility="{Binding Translation,Mode=OneWay,Converter={StaticResource NULLnoVIS}}"
-                                         Background="{ThemeResource WordListMoreBg}"
-                                         BorderThickness="0"
-                                         HorizontalOffset="12"
-                                         VerticalOffset="12"
-                                         Placement="Mouse">
+                                             Visibility="{Binding Translation,Mode=OneWay,Converter={StaticResource NULLnoVIS}}"
+                                             Background="{ThemeResource WordListMoreBg}"
+                                             BorderThickness="0"
+                                             HorizontalOffset="12"
+                                             VerticalOffset="12"
+                                             Placement="Mouse">
                                          <Border Padding="2">
                                              <TextBlock Style="{StaticResource WordListMoreToolTip}"
                                                         Text="{Binding Translation,Mode=OneWay}" />
@@ -192,9 +198,20 @@
                                     Content="&#xE73E;"
                                     Tag="已掌握"
                                     Margin="0,8,0,0"
-                                    Grid.Column="3"
+                                    Grid.Column="4"
                                     Grid.RowSpan="2"
                                     VerticalAlignment="Center"
+                                    Visibility="{Binding YesorNo,Converter={StaticResource NULLnoVIS},ConverterParameter=0,Mode=OneWay}"
+                                    Command="{Binding RemCommand}"
+                                    CommandParameter="{Binding}" />
+                            <Button Style="{StaticResource IconButtonStyle}"
+                                    Content="&#xE711;"
+                                    Tag="忘记了"
+                                    Margin="0,8,0,0"
+                                    Grid.Column="4"
+                                    Grid.RowSpan="2"
+                                    VerticalAlignment="Center"
+                                    Visibility="{Binding YesorNo,Converter={StaticResource NULLnoVIS},ConverterParameter=1,Mode=OneWay}"
                                     Command="{Binding RemCommand}"
                                     CommandParameter="{Binding}" />
                         </Grid>
@@ -238,5 +255,319 @@
 
     </Style>
 
+    <!--WordListCombBox-->
+    <Style x:Key="WordListCombBox"
+           TargetType="ComboBox">
+        <Setter Property="BorderThickness"
+                Value="0" />
+        <Setter Property="Background"
+                Value="Transparent" />
+        <Setter Property="PlaceholderForeground"
+                Value="{ThemeResource WordListWordFg}" />
+        <Setter Property="Foreground"
+                Value="{ThemeResource WordListWordFg}" />
+        <Setter Property="FontSize"
+                Value="15" />
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <CarouselPanel Margin="0" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBox">
+                    <Grid x:Name="LayoutRoot">
+                        <Grid.Resources>
+                            <Storyboard x:Key="OverlayOpeningAnimation">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
+                                    <DiscreteDoubleKeyFrame KeyTime="0:0:0"
+                                                            Value="0.0" />
+                                    <SplineDoubleKeyFrame KeyTime="0:0:0.383"
+                                                          KeySpline="0.1,0.9 0.2,1.0"
+                                                          Value="1.0" />
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                            <Storyboard x:Key="OverlayClosingAnimation">
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
+                                    <DiscreteDoubleKeyFrame KeyTime="0:0:0"
+                                                            Value="1.0" />
+                                    <SplineDoubleKeyFrame KeyTime="0:0:0.216"
+                                                          KeySpline="0.1,0.9 0.2,1.0"
+                                                          Value="0.0" />
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </Grid.Resources>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="32" />
+                        </Grid.ColumnDefinitions>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="PointerOver">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PointId"
+                                                                       Storyboard.TargetProperty="Opacity">
+                                            <DiscreteDoubleKeyFrame KeyTime="0"
+                                                                    Value="0" />
+                                            <SplineDoubleKeyFrame KeyTime="0:0:0.25"
+                                                                  KeySpline="0.3,0 1,0.5"
+                                                                  Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed" />
+                                <VisualState x:Name="Disabled" />
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="FocusStates">
+                                <VisualState x:Name="Focused">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                       Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource ComboBoxForegroundFocused}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderTextBlock"
+                                                                       Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{Binding PlaceholderForeground, RelativeSource={RelativeSource TemplatedParent}, TargetNullValue={ThemeResource ComboBoxForegroundFocused}}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DropDownGlyph"
+                                                                       Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource ComboBoxDropDownGlyphForegroundFocused}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="FocusedPressed">
+
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                       Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource ComboBoxForegroundFocusedPressed}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderTextBlock"
+                                                                       Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{Binding PlaceholderForeground, RelativeSource={RelativeSource TemplatedParent}, TargetNullValue={ThemeResource ComboBoxPlaceHolderForegroundFocusedPressed}}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DropDownGlyph"
+                                                                       Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource ComboBoxDropDownGlyphForegroundFocusedPressed}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Unfocused" />
+                                <VisualState x:Name="PointerFocused" />
+                                <VisualState x:Name="FocusedDropDown">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PopupBorder"
+                                                                       Storyboard.TargetProperty="Visibility"
+                                                                       Duration="0">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="DropDownStates">
+                                <VisualState x:Name="Opened">
+                                    <Storyboard>
+                                        <SplitOpenThemeAnimation OpenedTargetName="PopupBorder"
+                                                                 ClosedTargetName="ContentPresenter"
+                                                                 OffsetFromCenter="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.DropDownOffset}"
+                                                                 OpenedLength="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.DropDownOpenedHeight}" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Closed">
+                                    <Storyboard>
+                                        <SplitCloseThemeAnimation OpenedTargetName="PopupBorder"
+                                                                  ClosedTargetName="ContentPresenter"
+                                                                  OffsetFromCenter="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.DropDownOffset}"
+                                                                  OpenedLength="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.DropDownOpenedHeight}" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Rectangle x:Name="PointId" 
+                                   Grid.RowSpan="2"
+                                   Grid.ColumnSpan="2"
+                                   Fill="{ThemeResource WordListComboBoxHoldBg}"
+                                   HorizontalAlignment="Stretch"
+                                   Margin="0,0,0,0"
+                                   Opacity="0" />
+                        <ContentPresenter x:Name="HeaderContentPresenter"
+                                          x:DeferLoadStrategy="Lazy"
+                                          Margin="{ThemeResource ComboBoxHeaderThemeMargin}"
+                                          FlowDirection="{TemplateBinding FlowDirection}"
+                                          FontWeight="{ThemeResource ComboBoxHeaderThemeFontWeight}"
+                                          Visibility="Collapsed"
+                                          Content="{TemplateBinding Header}"
+                                          ContentTemplate="{TemplateBinding HeaderTemplate}" />
+                        <Border x:Name="Background"
+                                Grid.Row="1"
+                                Grid.ColumnSpan="2"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Control.IsTemplateFocusTarget="True" />
+                        <ContentPresenter x:Name="ContentPresenter"
+                                          Grid.Row="1"
+                                          FontSize="17"
+                                          Margin="8,0,0,0"
+                                          TextLineBounds="Tight"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                            <TextBlock x:Name="PlaceholderTextBlock"
+                                       Text="{TemplateBinding PlaceholderText}"
+                                       Foreground="{Binding PlaceholderForeground, RelativeSource={RelativeSource TemplatedParent}, TargetNullValue={ThemeResource ComboBoxPlaceHolderForeground}}" />
+                        </ContentPresenter>
+                        <FontIcon x:Name="DropDownGlyph"
+                                  Grid.Row="1"
+                                  Grid.Column="1"
+                                  IsHitTestVisible="False"
+                                  Margin="0,10,10,10"
+                                  Foreground="{ThemeResource WordListComboBoxButtonFg}"
+                                  FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                  FontSize="12"
+                                  Glyph="&#xE0E5;"
+                                  HorizontalAlignment="Right"
+                                  VerticalAlignment="Center"
+                                  AutomationProperties.AccessibilityView="Raw" />
+                        <Popup x:Name="Popup" >
+                            <Border x:Name="PopupBorder"
+                                    Background="{ThemeResource WordListComboBoxPopupBg}"
+                                    Margin="0,0,0,-1"
+                                    HorizontalAlignment="Stretch">
+                                <ScrollViewer x:Name="ScrollViewer"
+                                              Style="{StaticResource DefaultScrollViewer}"
+                                              MinWidth="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.DropDownContentMinWidth}"
+                                              VerticalSnapPointsType="OptionalSingle"
+                                              VerticalSnapPointsAlignment="Near"
+                                              HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                                              HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                              VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                                              VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                                              IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+                                              IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
+                                              IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+                                              BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
+                                              ZoomMode="Disabled"
+                                              AutomationProperties.AccessibilityView="Raw">
+                                    <ItemsPresenter />
+                                </ScrollViewer>
+                            </Border>
+                        </Popup>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--WordListCombBoxItem-->
+    <Style x:Key="WordListCombBoxItem"
+           TargetType="ComboBoxItem">
+        <Setter Property="Foreground"
+                Value="{ThemeResource WordListWordFg}" />
+        <Setter Property="FontFamily"
+                Value="{ThemeResource PhoneFontFamilySemiLight}" />
+        <Setter Property="FontStretch"
+                Value="ExtraExpanded" />
+        <Setter Property="TabNavigation"
+                Value="Local" />
+        <Setter Property="VerticalContentAlignment"
+                Value="Bottom" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBoxItem">
+                    <Grid x:Name="LayoutRoot"
+                          Background="{TemplateBinding Background}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          Control.IsTemplateFocusTarget="True">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <Storyboard>
+                                        <PointerUpThemeAnimation Storyboard.TargetName="LayoutRoot" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="PointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Target="LayoutRoot.Background"
+                                                Value="{ThemeResource WordListComboBoxPopupBg_R}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter Target="LayoutRoot.Background"
+                                                Value="{ThemeResource WordListComboBoxPopupBg_P}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Target="LayoutRoot.Background"
+                                                Value="{ThemeResource WordListComboBoxPopupBg_S}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="SelectedPointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Target="LayoutRoot.Background"
+                                                Value="{ThemeResource WordListComboBoxPopupBg_SR}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="SelectedPressed">
+                                    <VisualState.Setters>
+                                        <Setter Target="LayoutRoot.Background"
+                                                Value="{ThemeResource WordListComboBoxPopupBg_SP}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="InputModeStates">
+                                <VisualState x:Name="InputModeDefault" />
+                                <VisualState x:Name="TouchInputMode">
+                                    <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.Margin"
+                                                Value="10" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="GameControllerInputMode">
+                                    <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.Margin"
+                                                Value="10" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+
+                        </VisualStateManager.VisualStateGroups>
+                        <Rectangle Width="1"
+                                   Fill="{ThemeResource WordListWordFg}"
+                                   HorizontalAlignment="Left"
+                                   Margin="4,4,0,4" />
+                        <ContentPresenter x:Name="ContentPresenter"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTransitions="{TemplateBinding ContentTransitions}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          Foreground="{TemplateBinding Foreground}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          Margin="16,5,0,5" />
+
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 </ResourceDictionary>

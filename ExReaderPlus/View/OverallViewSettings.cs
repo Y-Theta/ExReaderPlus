@@ -11,7 +11,7 @@ using Windows.UI.ViewManagement;
 
 namespace ExReaderPlus.View {
     [Serializable]
-    public class OverallViewSettings : ViewModelBasse {
+    public class OverallViewSettings {
 
         #region Properties
         /// <summary>
@@ -20,7 +20,7 @@ namespace ExReaderPlus.View {
         private Color _richTextBoxFg = Color.FromArgb(255, 8, 8, 8);
         public Color RichTextBoxFg {
             get => _richTextBoxFg;
-            set => SetValue<Color>(out _richTextBoxFg, value, nameof(RichTextBoxFg));
+            set => _richTextBoxFg = value;
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace ExReaderPlus.View {
         private Color _richTextBoxBg = Colors.Transparent;
         public Color RichTextBoxBg {
             get => _richTextBoxBg;
-            set => SetValue<Color>(out _richTextBoxBg, value, nameof(RichTextBoxBg));
+            set => _richTextBoxBg = value;
         }
 
         /// <summary>
@@ -38,16 +38,7 @@ namespace ExReaderPlus.View {
         private float _richTextBoxSize = 18;
         public float RichTextBoxSize {
             get => _richTextBoxSize;
-            set => SetValue<float>(out _richTextBoxSize, value, nameof(RichTextBoxSize));
-        }
-
-        /// <summary>
-        /// 富文本框文字水平间距
-        /// </summary>
-        private float _richTextBoxSpace = 2;
-        public float RichTextBoxSpace {
-            get => _richTextBoxSpace;
-            set => SetValue<float>(out _richTextBoxSpace, value, nameof(RichTextBoxSpace));
+            set => _richTextBoxSize = value;
         }
 
         /// <summary>
@@ -56,36 +47,36 @@ namespace ExReaderPlus.View {
         private int _richTextBoxWeight = 400;
         public int RichTextBoxWeight {
             get => _richTextBoxWeight;
-            set => SetValue<int>(out _richTextBoxWeight, value, nameof(RichTextBoxWeight));
+            set => _richTextBoxWeight = value;
         }
 
         /// <summary>
-        /// 富文本框选中前景色
+        /// 富文本框关键字背景
         /// </summary>
-        private Color _richTextSelectBoxFg = Color.FromArgb(64, 5, 96, 240);
-        public Color RichTextSelectBoxFg {
-            get => _richTextSelectBoxFg;
-            set { SetValue<Color>(out _richTextSelectBoxFg, value, nameof(RichTextSelectBoxFg)); Debug.WriteLine(ReadingPageControlBar); }
-        }
-
-        /// <summary>
-        /// 富文本框选中背景色
-        /// </summary>
-        private Color _richTextSelectBoxBg = Color.FromArgb(64, 49, 135, 82);
+        private Color _richTextSelectBoxBg = Color.FromArgb(64, 5, 96, 240);
         public Color RichTextSelectBoxBg {
             get => _richTextSelectBoxBg;
-            set => SetValue<Color>(out _richTextSelectBoxBg, value, nameof(RichTextSelectBoxBg));
+            set => _richTextSelectBoxBg = value;
+        }
+
+        /// <summary>
+        /// 富文本框已掌握单词背景
+        /// </summary>
+        private Color _richTextLearned = Color.FromArgb(64, 49, 135, 82);
+        public Color RichTextLearned {
+            get => _richTextLearned;
+            set => _richTextLearned = value;
         }
 
 
-        ///// <summary>
-        ///// 富文本框选中背景色
-        ///// </summary>
-        //private Color _richTextSelectBoxBg = Color.FromArgb(64, 49, 135, 82);
-        //public Color RichTextSelectBoxBg {
-        //    get => _richTextSelectBoxBg;
-        //    set => SetValue<Color>(out _richTextSelectBoxBg, value, nameof(RichTextSelectBoxBg));
-        //}
+        /// <summary>
+        /// 富文本框未学习背景色
+        /// </summary>
+        private Color _richTextnotLearn = Color.FromArgb(64, 204, 62, 75);
+        public Color RichTextNotLearn {
+            get => _richTextnotLearn;
+            set => _richTextnotLearn = value;
+        }
 
         /// <summary>
         /// 阅读界面控制条位置
@@ -93,24 +84,39 @@ namespace ExReaderPlus.View {
         private Thickness _readingPageControlBar = new Thickness(8, 0, 8, 32);
         public Thickness ReadingPageControlBar {
             get => _readingPageControlBar;
-            set => SetValue<Thickness>(out _readingPageControlBar, value, nameof(ReadingPageControlBar));
+            set => _readingPageControlBar = value;
+        }
+
+        /// <summary>
+        /// 是否为单词着色
+        /// </summary>
+        private bool _isRenderOn = true;
+        public bool IsRenderOn {
+            get => _isRenderOn;
+            set => _isRenderOn = value;
+        }
+
+        /// <summary>
+        /// 是否为已掌握单词着色
+        /// </summary>
+        private bool _isLearnedRender = true;
+        public bool IsLearnedRender {
+            get => _isLearnedRender;
+            set => _isLearnedRender = value;
+        }
+
+        /// <summary>
+        /// 是否为未掌握单词着色
+        /// </summary>
+        private bool _isNotlearnRender = true;
+        public bool IsNotlearnRender {
+            get => _isNotlearnRender;
+            set => _isNotlearnRender = value;
         }
         #endregion
 
 
         #region Methods
-        public void StateBarButtonWhite(bool black) {
-            var TitleBar = ApplicationView.GetForCurrentView().TitleBar;
-            if (black)
-                TitleBar.ButtonForegroundColor = Color.FromArgb(255, 0, 0, 0);
-            else
-                TitleBar.ButtonForegroundColor = Color.FromArgb(255, 255, 255, 255);
-        }
-
-        private void InitProperties() {
-
-        }
-
         #endregion
 
         #region Constructors

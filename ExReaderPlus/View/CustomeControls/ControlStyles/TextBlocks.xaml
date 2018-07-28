@@ -164,11 +164,11 @@
         <Setter Property="VerticalAlignment"
                 Value="Top" />
         <Setter Property="MaxWidth"
-                Value="200" />
+                Value="120" />
         <Setter Property="TextWrapping"
                 Value="NoWrap" />
         <Setter Property="TextTrimming"
-                Value="CharacterEllipsis" />
+                Value="WordEllipsis" />
         <Setter Property="Height"
                 Value="16" />
         <Setter Property="Margin"
