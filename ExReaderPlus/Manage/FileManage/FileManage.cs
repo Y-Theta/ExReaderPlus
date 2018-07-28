@@ -12,6 +12,7 @@ using Windows.Storage.Pickers;
 using Windows.System;
 using Windows.UI;
 using Windows.UI.Core;
+
 using Windows.UI.Notifications;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -43,16 +44,11 @@ namespace ExReaderPlus.FileManage {
         }
 
         //序列化
-        public async void SerializeFile(Passage passage)
+        public async void SerializeFile(UserDictionary.Passage passage)
         {
             DataContractSerializer serializer = new DataContractSerializer(typeof(Passage));
-            var savePicker = new FileSavePicker();
-            savePicker.SuggestedStartLocation = PickerLocationId.MusicLibrary;
-            // Dropdown of file types the user can save the file as
-            savePicker.FileTypeChoices.Add("exReader文件", new List<string>() { ".xread" });
-            // Default file name if the user does not type one in or select a file to replace
-            savePicker.SuggestedFileName = "xPassage";
-            StorageFile file = await savePicker.PickSaveFileAsync();
+            StorageFolder applicationFolder = ApplicationData.Current.LocalFolder;
+            StorageFile file = await applicationFolder.CreateFileAsync("Save", CreationCollisionOption.GenerateUniqueName);
             if (file != null)
             {
                 // Prevent updates to the remote version of the file until
@@ -64,7 +60,7 @@ namespace ExReaderPlus.FileManage {
                 serializer.WriteObject(stream, passage);
 
                 Windows.Storage.Provider.FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
-                ShowToastNotification("exReader提示", "成功导出工程文件!");
+               
                 if (status == Windows.Storage.Provider.FileUpdateStatus.Complete)
                 {
                     //.textBlock.Text = "File " + file.Name + " was saved.";
