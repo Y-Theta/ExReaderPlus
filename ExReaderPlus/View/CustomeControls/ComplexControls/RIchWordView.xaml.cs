@@ -21,8 +21,6 @@ using Windows.UI.Xaml.Media.Imaging;
 namespace ExReaderPlus.View {
     public sealed partial class RichWordView : UserControl {
         #region Properties
-        private OverallViewSettings _instence;
-
         private EssayPageViewModel _viewModel;
 
         private Timer _autohidetimer;
@@ -80,21 +78,30 @@ namespace ExReaderPlus.View {
         private void RichWordView_Unloaded(object sender, RoutedEventArgs e) {
             _viewModel.PassageLoaded -= EssayPage_PassageLoaded;
             _viewModel.ControlCommand -= _viewModel_ControlCommand;
+            _viewModel.WordStateChanged -= _viewModel_WordStateChanged;
+            _viewModel.ShownStateChanged -= _viewModel_ShownStateChanged;
+
         }
 
         private void RichWordView_Loaded(object sender, RoutedEventArgs e) {
             _viewModel = (EssayPageViewModel)DataContext;
             _viewModel.PassageLoaded += EssayPage_PassageLoaded;
             _viewModel.ControlCommand += _viewModel_ControlCommand;
+            _viewModel.WordStateChanged += _viewModel_WordStateChanged;
+            _viewModel.ShownStateChanged += _viewModel_ShownStateChanged;
             TextView.ElementSorted += TextView_ElementSorted;
             TextView.RenderBegin += TextView_RenderBegin;
             ControlLayer.PointerEntered += GridBg_PointerEntered;
             ControlLayer.PointerExited += ControlLayer_PointerExited;
         }
 
-        private void _viewModel_WordCommand(object sender, CommandArgs args) {
-            var tgb = args.parameter as IconToggelButton;
-            Debug.WriteLine(tgb.Name);
+        private void _viewModel_ShownStateChanged(object sender) {
+            _viewModel.LoadKeywordList(Avb_RemCommandAction, PointedItem, ReSetPointedItem);
+        }
+
+        private void _viewModel_WordStateChanged(object sender) {
+            ActionVocabulary avb = sender as ActionVocabulary;
+            ChangControlColor(avb.Word, avb.YesorNo == 0 ? _viewModel.NotLearnBg : _viewModel.LearnedBg);
         }
 
         /// <summary>
@@ -107,7 +114,7 @@ namespace ExReaderPlus.View {
                 case "TurnPageBack": TextView.PageDown(); break;
                 case "SizeTextLarge": TextView.FontSize += 0.5; break;
                 case "SizeTextLittle": TextView.FontSize -= 0.5; break;
-                case "HideWordList": WordPanelSwitch(); break;
+                case "OpenWordList": WordPanelSwitch(); break;
                 case "Pin": TileService.PinTile();break;
                 case "ChangeMode":
                     if (_viewModel.TempPassage != null)
@@ -159,8 +166,7 @@ namespace ExReaderPlus.View {
         /// </summary>
         private void TextView_ElementSorted(object sender, EventArgs e) {
             RichTextBox rtb = sender as RichTextBox;
-            _viewModel.KeyWords.Clear();
-            _viewModel.Keywordlist.Clear();
+            _viewModel.ClearKeyWordHashSet();
             ControlDic.Clear();
             RenderLayer.Children.Clear();
             RenderLayer.UpdateLayout();
@@ -170,7 +176,7 @@ namespace ExReaderPlus.View {
                     {
                         HitHolder rect = new HitHolder
                         {
-                            PointBrush = new SolidColorBrush(_instence.RichTextSelectBoxFg),
+                            PointBrush = _viewModel.NormalBg,
                             Margin = new Thickness(loc.Left, loc.Top + 2, 0, 0),
                             Width = loc.Width,
                             Height = loc.Height - 2,
@@ -178,47 +184,67 @@ namespace ExReaderPlus.View {
                         };
                         if (WordBook.GetDicNow().Wordlist.ContainsKey(kp.Key))
                         {
-                            rect.Background = new SolidColorBrush(_instence.RichTextSelectBoxBg);
-                            _viewModel.KeyWords.Add(kp.Key);
+                            Vocabulary vc = WordBook.GetDicNow().Wordlist[kp.Key];
+                            if (vc.YesorNo == 0)
+                            {
+                                rect.Background = _viewModel.NotLearnBg;
+                                _viewModel.KeyWordNotLearn.Add(kp.Key);
+                            }
+                            else {
+                                rect.Background = _viewModel.LearnedBg;
+                                _viewModel.KeyWordLearn.Add(kp.Key);
+                            }
                         }
                         rect.PointerEntered += Rect_PointerEntered;
                         AddtoControlDic(kp.Key, rect);
                         RenderLayer.Children.Add(rect);
                     }
-            
             RenderLayer.UpdateLayout();
             TextView.IsEnabled = true;
             if (TextView.IsReadOnly)
             {
                 RenderLayer.Visibility = Visibility.Visible;
-                foreach (var k in _viewModel.KeyWords)
-                {
-                    ActionVocabulary avb = ActionVocabulary.FromVocabulary(WordBook.GetDicNow().Wordlist[k]);
-                    avb.RemCommandAction += Avb_RemCommandAction;
-                    _viewModel.Keywordlist.Add(avb);
-                }
+                if (WordPanel.Visibility.Equals(Visibility.Visible))
+                    _viewModel.LoadKeywordList(Avb_RemCommandAction, PointedItem, ReSetPointedItem);
             }
         }
 
-        private void Avb_RemCommandAction(object sender, CommandArgs args) {
-            var s = sender as ActionVocabulary;
+        private void PointedItem(object sender) {
+            ActionVocabulary s = (ActionVocabulary)sender;
+            ChangControlColor(s.Word, _viewModel.NormalBg);
+        }
+
+        private void ReSetPointedItem(object sender) {
+            ActionVocabulary s = (ActionVocabulary)sender;
             foreach (var hithold in ControlDic[s.Word])
-                (hithold as HitHolder).Background = new SolidColorBrush(Colors.Transparent);
-            _viewModel.KeyWords.Remove(s.Word);
-            _viewModel.Keywordlist.Remove(s);
+                if (s.YesorNo == 0)
+                    (hithold as HitHolder).Background = _viewModel.NotLearnBg;
+                else
+                    (hithold as HitHolder).Background = _viewModel.LearnedBg;
+        }
+
+        private void Avb_RemCommandAction(object sender, CommandArgs args) {
+            ActionVocabulary s = (ActionVocabulary)sender;
+            ChangControlColor(s.Word, _viewModel.LearnedBg);
+            if (s.YesorNo == 0)
+            {
+                _viewModel.KeyWordNotLearn.Remove(s.Word);
+                _viewModel.KeyWordLearn.Add(s.Word);
+                _viewModel.UpdateKeywordList(s);
+            }
+            else
+            {
+                _viewModel.KeyWordLearn.Remove(s.Word);
+                _viewModel.KeyWordNotLearn.Add(s.Word);
+                _viewModel.UpdateKeywordList(s);
+            }
         }
 
         private void Rect_PointerEntered(object sender, PointerRoutedEventArgs e) {
             var sb = sender as HitHolder;
             var v1 = fileDatabaseManage.instance.SearchVocabulary(sb.Name.ToLower());
             if (v1 != null)
-            {
-                var text = v1.Translation.Replace("\\n", "\n");
-                sb.Tooltip = text;
-
-            }
-                
-
+                sb.Tooltip = v1.Translation.Replace(@"\n", "\n");
         }
 
         private void AddtoControlDic(string key, Control value) {
@@ -235,23 +261,28 @@ namespace ExReaderPlus.View {
             });
         }
 
+        #endregion
+
+        #region PrivateMethods
         public void SetText(string str) {
             TextView.ContentString = str;
         }
 
-        #endregion
+        private void ChangControlColor(string str, Brush color) {
+            foreach (var hithold in ControlDic[str])
+                (hithold as HitHolder).Background = color;
+        }
 
-        #region PrivateMethods
         private void WordPanelSwitch() {
             if (WordPanel.Visibility.Equals(Visibility.Visible))
             {
                 VisualStateManager.GoToState(this, "WordPanelCollapsed", true);
-                _instence.StateBarButtonWhite(true);
+                _viewModel.SetStateBarButtonFg(Color.FromArgb(255, 8, 8, 8));
             }
             else
             {
                 VisualStateManager.GoToState(this, "WordPanelShow", true);
-                _instence.StateBarButtonWhite(false);
+                _viewModel.SetStateBarButtonFg(Color.FromArgb(255, 225, 225, 225));
             }
         }
 
@@ -261,7 +292,6 @@ namespace ExReaderPlus.View {
         }
 
         private void InitVisualStates() {
-            _instence = App.Current.Resources["OverallViewSettings"] as OverallViewSettings;
             VisualStateManager.GoToState(this, "WordPanelCollapsed", false);
         }
 

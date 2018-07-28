@@ -73,9 +73,14 @@ namespace ExReaderPlus.Models {
     }
 
     public class ActionVocabulary : Vocabulary {
-        public event CommandActionEventHandler RemCommandAction;
-        public CommandBase RemCommand { get; set; }
+        public HCHPointHandel PointEnter { get; set; }
 
+        public HCHPointHandel PointExit { get; set; }
+
+
+        public event CommandActionEventHandler RemCommandAction;
+
+        public CommandBase RemCommand { get; set; }
 
         public void InitCommands() {
             RemCommand = new CommandBase(obj => { RemCommandAction?.Invoke(this, new CommandArgs(obj, Word)); });

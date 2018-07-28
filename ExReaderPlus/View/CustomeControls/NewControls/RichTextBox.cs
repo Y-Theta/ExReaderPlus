@@ -42,6 +42,8 @@ namespace ExReaderPlus.View {
 
         private bool _fontchange = false;
 
+        private bool _attachTextChange = true;
+
 
         private double _viewPortHeight;
         public double ViewPortHeight {
@@ -108,6 +110,9 @@ namespace ExReaderPlus.View {
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private string _temppagecontent;
         public string Temppagecontent {
             get => _temppagecontent;
@@ -206,7 +211,7 @@ namespace ExReaderPlus.View {
         /// 用计时器异步降低开销
         /// </summary>
         private void InitTimer() {
-            _refreshdic = new Timer { Interval = 200 };
+            _refreshdic = new Timer { Interval = 600 };
             _refreshdic.Elapsed += _refreshdic_Elapsed;
         }
 
@@ -225,7 +230,10 @@ namespace ExReaderPlus.View {
         private void RichTextBox_IsReadOnlyChanged(object sender, EventArgs e) {
             IsEnabled = false;
             if (_contentString != null)
-                TransformComplete = false;
+                if (!IsReadOnly)
+                    TransformComplete = true;
+                else
+                    UpdateDic(Pages[TempPage]);
         }
 
         /// <summary>
@@ -291,10 +299,15 @@ namespace ExReaderPlus.View {
                 {
                     _switchPage = true;
                     IsEnabled = false;
+                    if (TempPage >= Pages.Count)
+                        TempPage = Pages.Count - 1;
                     string str = _contentString.Substring(Pages[TempPage].Start, Pages[TempPage].End);
                     _temppagecontent = str;
                     Document.SetText(TextSetOptions.None, str);
-                    TransformComplete = false;
+                    if (!IsReadOnly)
+                        TransformComplete = true;
+                    else
+                        UpdateDic(Pages[TempPage]);
                 });
         }
 
@@ -319,13 +332,8 @@ namespace ExReaderPlus.View {
                             AddtoLocDic(m.Value, outrect);
                         }
                         Document.Selection.StartPosition = Document.Selection.EndPosition = 0;
-                        //foreach (var pk in ElementsLoc)
-                        //{
-                        //    Debug.WriteLine(pk.Key + "        " + PrintDicItem(pk.Value));
-                        //}
                     });
                 ElementSorted?.Invoke(this, EventArgs.Empty);
-                //Switch
                 _fontchange = false;
                 _allowSwitch = true;
                 _switchPage = false;
@@ -367,15 +375,23 @@ namespace ExReaderPlus.View {
         /// </summary>
         /// <param name="action">设置格式的操作</param>
         private void SetContentFormat(Action action) {
-            TextChanged -= RichTextBox_TextChanged;
+            if (_attachTextChange)
+            {
+                TextChanged -= RichTextBox_TextChanged;
+                _attachTextChange = false;
+            }
             SetIgnoreReadonly(action);
-            TextChanged += RichTextBox_TextChanged;
+            if (!_attachTextChange)
+            {
+                TextChanged += RichTextBox_TextChanged;
+                _attachTextChange = true;
+            }
         }
 
         private void SetIgnoreReadonly(Action action) {
-            IsReadOnlyChanged -= RichTextBox_IsReadOnlyChanged;
             if (IsReadOnly)
             {
+                IsReadOnlyChanged -= RichTextBox_IsReadOnlyChanged;
                 _oldReadonly = true;
                 IsReadOnly = false;
             }
@@ -384,8 +400,8 @@ namespace ExReaderPlus.View {
             {
                 _oldReadonly = false;
                 IsReadOnly = true;
+                IsReadOnlyChanged += RichTextBox_IsReadOnlyChanged;
             }
-            IsReadOnlyChanged += RichTextBox_IsReadOnlyChanged;
         }
 
         private void RichTextBox_Loaded(object sender, RoutedEventArgs e) {
@@ -393,19 +409,15 @@ namespace ExReaderPlus.View {
         }
 
         private void SetDefaultFormat() {
-            OverallViewSettings _instence = App.Current.Resources["OverallViewSettings"] as OverallViewSettings;
-            FontSize = _instence.RichTextBoxSize;
+            var _instence = App.Current.Resources["OverSettingService"] as OverSettingService;
+            FontSize = (float)_instence.GetValue(ViewSettingConfigs.RichTextBoxSize);
 
             ITextCharacterFormat defaultformat = Document.GetDefaultCharacterFormat();
-            defaultformat.ForegroundColor = _instence.RichTextBoxFg;
-            defaultformat.BackgroundColor = _instence.RichTextBoxBg;
-            defaultformat.Weight = _instence.RichTextBoxWeight;
-
-            ITextParagraphFormat defaultformatp = Document.GetDefaultParagraphFormat();
-            defaultformatp.SetLineSpacing(LineSpacingRule.AtLeast, _instence.RichTextBoxSpace);
+            defaultformat.ForegroundColor = (Color)_instence.GetValue(ViewSettingConfigs.RichTextBoxFg);
+            defaultformat.BackgroundColor = (Color)_instence.GetValue(ViewSettingConfigs.RichTextBoxBg);
+            defaultformat.Weight = (int)_instence.GetValue(ViewSettingConfigs.RichTextBoxWeight);
 
             Document.SetDefaultCharacterFormat(defaultformat);
-            Document.SetDefaultParagraphFormat(defaultformatp);
         }
 
         private void Updatalayout() {
@@ -426,7 +438,7 @@ namespace ExReaderPlus.View {
 
         #region InterfaceFun
         public void FreshLayout() {
-            _refrash = false;
+            _refrash = true;
             OnWordChanged();
         }
 

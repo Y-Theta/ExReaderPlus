@@ -24,7 +24,7 @@
             <FontFamily x:Key="LineNumber">Assets/LineNumber.ttf#LineNumber</FontFamily>
 
             <!--ViewModels-->
-            <view:OverallViewSettings x:Key="OverallViewSettings" />
+            <view:OverSettingService x:Key="OverSettingService" />
 
             <viewmodels:MainPageViewModel x:Key="MainPageViewModel" />
             <viewmodels:EssayPageViewModel x:Key="EssayPageViewModel" />

@@ -20,9 +20,10 @@ namespace ExReaderPlus.ViewModels {
         #region InterfaceCompletion
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void SetValue<T>(out T newValue, T value, string propname) {
+        protected void SetValue<T>(out T newValue, T value, string propname, Action action = null) {
             newValue = value;
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propname));
+            action?.Invoke();
         }
         #endregion
     }

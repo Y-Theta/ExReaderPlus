@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Media;
 
 namespace ExReaderPlus.View.Converter {
 
@@ -55,7 +59,13 @@ namespace ExReaderPlus.View.Converter {
 
     public class NULLnoVIS : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, string language) {
-            return (value is null) ? Visibility.Collapsed : Visibility.Visible;
+            if (parameter is null)
+                return (value is null) ? Visibility.Collapsed : Visibility.Visible;
+            else if (parameter.Equals("1"))
+                return System.Convert.ToInt32(value).Equals(0) ? Visibility.Collapsed : Visibility.Visible;
+            else if (parameter.Equals("0"))
+                return System.Convert.ToInt32(value).Equals(1) ? Visibility.Collapsed : Visibility.Visible;
+            else return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language) {
@@ -73,13 +83,26 @@ namespace ExReaderPlus.View.Converter {
         }
     }
 
-    public class INTtoCOLOR : IValueConverter {
+    public class INTtoSTR : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, string language) {
-            throw new NotImplementedException();
+            int k = System.Convert.ToInt32(value);
+            return parameter.ToString().Split(',')[k];
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language) {
             throw new NotImplementedException();
+        }
+    }
+
+    public class ObjToString : IValueConverter {
+        public object Convert(object value, Type targetType, object parameter, string language) {
+            return value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language) {
+            ComboBoxItem cbi = value as ComboBoxItem;
+            
+            return cbi.Content.ToString();
         }
     }
 

@@ -90,7 +90,7 @@
                       HorizontalScrollBarVisibility="Disabled">
             <Grid x:Name="TextLayer">
                 <local:RichTextBox x:Name="TextView"
-                                   FontSize="{Binding RichTextBoxSize, Source={StaticResource OverallViewSettings},Mode=TwoWay}"
+                                   FontSize="{Binding RichTextSize, Mode=TwoWay}"
                                    TextWrapping="Wrap" />
                 <Canvas x:Name="RenderLayer"
                         Visibility="Collapsed" />
@@ -107,8 +107,9 @@
               Height="36"
               Opacity="0.3"
               Padding="4,0,4,0"
-              Margin="{Binding ReadingPageControlBar,Source={StaticResource OverallViewSettings},Mode=TwoWay}">
+              Margin="{Binding ControlBarThickness,Mode=TwoWay}">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="auto" />
@@ -135,15 +136,22 @@
                     CommandParameter="ChangeMode"
                     FontFamily="{StaticResource IconY}"
                     Style="{StaticResource IconButtonStyle}" />
+            <Button Content="&#xA000;"
+                    Grid.Column="2"
+                    Tag="打开单词表"
+                    Command="{Binding ControlBarCommand}"
+                    CommandParameter="OpenWordList"
+                    FontFamily="{StaticResource IconY}"
+                    Style="{StaticResource IconButtonStyle}" />
             <Rectangle Width="1"
                        HorizontalAlignment="Center"
                        Fill="{ThemeResource DefaultControlBarSeperatorBg}"
                        VerticalAlignment="Stretch"
                        Margin="4,6,4,6"
-                       Grid.Column="2" />
+                       Grid.Column="3" />
             <Button Content="&#xF0D3;"
                     Tag="上一页"
-                    Grid.Column="3"
+                    Grid.Column="4"
                     Command="{Binding ControlBarCommand}"
                     CommandParameter="TurnPageBack"
                     Style="{StaticResource IconButtonStyle}" />
@@ -151,19 +159,19 @@
                     Tag="下一页"
                     Command="{Binding ControlBarCommand}"
                     CommandParameter="TurnPageNext"
-                    Grid.Column="4"
+                    Grid.Column="5"
                     Style="{StaticResource IconButtonStyle}" />
             <Button Content="&#xE8E8;"
                     Tag="放大字号"
                     Command="{Binding ControlBarCommand}"
                     CommandParameter="SizeTextLarge"
-                    Grid.Column="5"
+                    Grid.Column="6"
                     Style="{StaticResource IconButtonStyle}" />
             <Button Content="&#xE8E7;"
                     Tag="减小字号"
                     Command="{Binding ControlBarCommand}"
                     CommandParameter="SizeTextLittle"
-                    Grid.Column="6"
+                    Grid.Column="7"
                     Style="{StaticResource IconButtonStyle}" />
             <Rectangle Width="1"
                        HorizontalAlignment="Center"
@@ -172,7 +180,7 @@
                        Margin="4,6,4,6"
                        Grid.Column="10" />
             <Button Content="&#xA000;"
-                    Tag="分享"
+                    Tag="磁贴"
                     Grid.Column="11"
                     Command="{Binding ControlBarCommand}"
                     CommandParameter="Pin"
@@ -223,35 +231,34 @@
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
-                <local:IconToggelButton x:Name="EN"
-                                        Style="{StaticResource TextToggelButton}"
-                                        IsChecked="{Binding WordsLearned ,Mode=TwoWay}"
-                                        Margin="4,0,4,0"
-                                        ForeIcon="Learned"
-                                        BackIcon="Learned"
-                                        ForeToolTip="显示已掌握单词"
-                                        BackToolTip="隐藏已掌握单词" />
-                <local:IconToggelButton x:Name="DB"
-                                        Style="{StaticResource TextToggelButton}"
-                                        IsChecked="{Binding WordsUnLearned,Mode=TwoWay}"
-                                        Grid.Column="1"
-                                        Margin="16,0,4,0"
-                                        ForeIcon="tolearn"
-                                        BackIcon="tolearn"
-                                        ForeToolTip="显示未掌握单词"
-                                        BackToolTip="隐藏未掌握单词" />
                 <Button Style="{StaticResource IconButtonStyle}"
-                        Grid.Column="3"
-                        Content="&#xE72A;"
+                        FontFamily="{StaticResource IconY}"
+                        FontWeight="Light"
+                        Content="&#xA005;"
                         Tag="收起侧边栏"
                         Command="{Binding ControlBarCommand}"
-                        CommandParameter="HideWordList" />
+                        CommandParameter="OpenWordList" />
+                <Rectangle Width="1"
+                           Fill="{ThemeResource WordListWordFg}"
+                           Margin="8,4,8,4"
+                           Grid.Column="1" />
+                <ComboBox Grid.Column="2"
+                          Margin="0,0,16,0"
+                          HorizontalAlignment="Stretch"
+                          SelectedIndex="{Binding ShownState,Mode=TwoWay}"
+                          Style="{StaticResource WordListCombBox}">
+                    <ComboBoxItem Style="{StaticResource WordListCombBoxItem}"
+                                  Content="全    部" />
+                    <ComboBoxItem Style="{StaticResource WordListCombBoxItem}"
+                                  Content="已掌握" />
+                    <ComboBoxItem Style="{StaticResource WordListCombBoxItem}"
+                                  Content="未掌握" />
+                </ComboBox>
             </Grid>
             <ListView Grid.Row="2"
                       Style="{StaticResource KeyWordListView}"
-                      ItemsSource="{Binding Keywordlist,Mode=OneWay}" />
+                      ItemsSource="{Binding KeywordList,Mode=OneWay}" />
         </Grid>
     </Grid>
 </UserControl>
