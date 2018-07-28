@@ -9,68 +9,55 @@ using Windows.Storage;
 using ExReaderPlus.Manage.PassageManager;
 using ExReaderPlus.FileManage;
 
-namespace ExReaderPlus.Serializer
+namespace ExReaderPlus.PassageIO
 {
+
     /// <summary>
-/// 书架
-/// </summary>
-    public class Serializer
+    /// 文章增删读
+    /// </summary>
+    public class PassageIO
     {
         FileManage.FileManage fileManage=new FileManage.FileManage();
         /// <summary>
-        /// 存
+        /// 存一篇文章
+        /// 传入参数，文章类和文章序列
         /// </summary>
         /// <param name="passage"></param>
         /// <param name="str1"></param>
         /// <returns></returns>
-        public  async Task<bool> serializer(Passage passage,string str1)
+        public  async Task<bool> SavaPassage(Passage passage,UserDictionary.Passage passageInfo)
         {
-            
-//            BinaryFormatter binaryFormatter = new BinaryFormatter();
+           
             StorageFolder applicationFolder = ApplicationData.Current.LocalFolder;
-            //            Debug.WriteLine(applicationFolder.Path);
-
-
             try
             {
                 StorageFile saveFile =
-                    await applicationFolder.CreateFileAsync(str1);
-                FileIO.WriteTextAsync(saveFile, passage.Content);
+                    await applicationFolder.CreateFileAsync(passageInfo.Id.ToString());
+                await FileIO.WriteTextAsync(saveFile, passage.Content);
                 return true;
             }
             catch
             {
                 return false;
             }
-
-            
-               
-            
-            //            FileStream stream = new FileStream("./file", FileMode.Create);
-            //            binaryFormatter.Serialize(stream, passage);
         }
         
         /// <summary>
-        /// 读
+        /// 读一篇文章内容
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-       public async Task<Passage> deserializer(string str)
+       public async Task<Passage> ReadPassage(UserDictionary.Passage passage)
         {
 
-            Passage passage = new Passage();
+            Passage p = new Passage();
             StorageFolder folder = ApplicationData.Current.RoamingFolder;
-                StorageFile file = await folder.TryGetItemAsync(str) as StorageFile;
+                StorageFile file = await folder.TryGetItemAsync(passage.Id.ToString()) as StorageFile;
             if (file != null)
             {
-                passage.Content = await FileIO.ReadTextAsync(file);
-                //                BinaryFormatter binaryFormatter = new BinaryFormatter();
-
-                //                passage1 = (Passage)binaryFormatter.Deserialize(stream);
-                //                Console.WriteLine(people.Name);
-//                Directory.Delete();
-                passage.HeadName = "xxxx";
-                return passage;
+                p.Content = await FileIO.ReadTextAsync(file);
+                p.HeadName = passage.Name;
+                return p;
                 
             }
             else
@@ -79,15 +66,15 @@ namespace ExReaderPlus.Serializer
             }
         }
         /// <summary>
-        /// 删
+        /// 删除一篇文章
         /// </summary>
         /// <param name="str"></param>
-        public async Task<bool> Delete(string str)
+        public async Task<bool> DeletePassage(UserDictionary.Passage passage)
         {
             try
             {
                 StorageFolder folder = ApplicationData.Current.RoamingFolder;
-                StorageFile file = await folder.TryGetItemAsync(str) as StorageFile;
+                StorageFile file = await folder.TryGetItemAsync(passage.Id.ToString()) as StorageFile;
                 await file.DeleteAsync();
                 return true;
             }
