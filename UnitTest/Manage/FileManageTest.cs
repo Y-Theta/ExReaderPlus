@@ -16,6 +16,7 @@ namespace UnitTest.Manage
         [TestMethod]
         public async void OpenFileTest()
         {
+
             Passage passage=new Passage();
             Serializer serializer=new Serializer();
             passage= await serializer.deserializer("Save");

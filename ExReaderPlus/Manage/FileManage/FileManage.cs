@@ -77,37 +77,7 @@ namespace ExReaderPlus.FileManage {
         }
 
         //反序列化
-        public async Task<Passage> DeSerializeFile(UserDictionary.Passage passage1)
-        {
-
-            DataContractSerializer deserializer = new DataContractSerializer(typeof(UserDictionary.Passage));
-            StorageFolder applicationFolder = ApplicationData.Current.LocalFolder;
-           
-            Passage passage = new Passage();
-            var picker = new FileOpenPicker();
-            picker.ViewMode = PickerViewMode.Thumbnail;
-            picker.SuggestedStartLocation = PickerLocationId.MusicLibrary;
-            picker.FileTypeFilter.Add(".txt");
-            
-            // TODO:
-            //picker.FileTypeFilter.Add(".pdf");
-
-            StorageFile storageFile = await picker.PickSingleFileAsync();
-            if (storageFile != null)
-            {
-                var stream = await storageFile.OpenStreamForReadAsync();
-
-                passage.Content = await FileIO.ReadTextAsync(storageFile);
-                passage.HeadName = storageFile.DisplayName;
-
-                return passage;
-            }
-            else
-            {
-                return null;
-            }
-
-        }
+        
 
         public async Task<Passage> OpenFile()
         {
@@ -137,7 +107,7 @@ namespace ExReaderPlus.FileManage {
         }
 
         //显示Toast通知
-        private void ShowToastNotification(string title, string stringContent)
+        public void ShowToastNotification(string title, string stringContent)
         {
             ToastNotifier ToastNotifier = ToastNotificationManager.CreateToastNotifier();
             Windows.Data.Xml.Dom.XmlDocument toastXml = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastText02);

@@ -7,25 +7,54 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using ExReaderPlus.Manage.PassageManager;
-
+using ExReaderPlus.FileManage;
 
 namespace ExReaderPlus.Serializer
 {
+    /// <summary>
+/// 书架
+/// </summary>
     public class Serializer
     {
-        public async void serializer(Passage passage)
+        FileManage.FileManage fileManage=new FileManage.FileManage();
+        /// <summary>
+        /// 存
+        /// </summary>
+        /// <param name="passage"></param>
+        /// <param name="str1"></param>
+        /// <returns></returns>
+        public  async Task<bool> serializer(Passage passage,string str1)
         {
-            string name = "Save" + ".txt";
+            
 //            BinaryFormatter binaryFormatter = new BinaryFormatter();
             StorageFolder applicationFolder = ApplicationData.Current.LocalFolder;
             //            Debug.WriteLine(applicationFolder.Path);
+
+
+            try
+            {
+                StorageFile saveFile =
+                    await applicationFolder.CreateFileAsync(str1);
+                FileIO.WriteTextAsync(saveFile, passage.Content);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
             
-            StorageFile saveFile = await applicationFolder.CreateFileAsync(name, CreationCollisionOption.GenerateUniqueName);
-            FileIO.WriteTextAsync(saveFile, passage.Content);
+               
+            
             //            FileStream stream = new FileStream("./file", FileMode.Create);
             //            binaryFormatter.Serialize(stream, passage);
         }
-
+        
+        /// <summary>
+        /// 读
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
        public async Task<Passage> deserializer(string str)
         {
 
@@ -39,14 +68,34 @@ namespace ExReaderPlus.Serializer
 
                 //                passage1 = (Passage)binaryFormatter.Deserialize(stream);
                 //                Console.WriteLine(people.Name);
+//                Directory.Delete();
                 passage.HeadName = "xxxx";
                 return passage;
+                
             }
             else
             {
                 return null;
             }
         }
-
+        /// <summary>
+        /// 删
+        /// </summary>
+        /// <param name="str"></param>
+        public async Task<bool> Delete(string str)
+        {
+            try
+            {
+                StorageFolder folder = ApplicationData.Current.RoamingFolder;
+                StorageFile file = await folder.TryGetItemAsync(str) as StorageFile;
+                await file.DeleteAsync();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            } 
+            
+        }
     }
 }
