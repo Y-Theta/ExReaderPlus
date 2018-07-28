@@ -102,8 +102,8 @@
     <Compile Include="Manage\FileManage\FileManage.cs" />
     <Compile Include="Manage\fileDatabaseManage.cs" />
     <Compile Include="Manage\PassageManager.cs" />
-    <Compile Include="Manage\ReaderManager\ReadManage.cs" />
     <Compile Include="Manage\WordManager\WordBook.cs" />
+    <Compile Include="Serializer\Serializer.cs" />
     <Compile Include="Tile\TileService.cs" />
     <Compile Include="ViewModels\DIcPageViewModel.cs" />
     <Compile Include="ViewModels\EssayPageViewModel.cs" />

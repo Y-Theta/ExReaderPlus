@@ -12,7 +12,6 @@ using Windows.Storage.Pickers;
 using Windows.System;
 using Windows.UI;
 using Windows.UI.Core;
-using ExReaderPlus.Manage.ReaderManager;
 using Windows.UI.Notifications;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -44,16 +43,11 @@ namespace ExReaderPlus.FileManage {
         }
 
         //序列化
-        public async void SerializeFile(ReaderManage reader)
+        public async void SerializeFile(UserDictionary.Passage passage)
         {
-            DataContractSerializer serializer = new DataContractSerializer(typeof(ReaderManage));
-            var savePicker = new FileSavePicker();
-            savePicker.SuggestedStartLocation = PickerLocationId.MusicLibrary;
-            // Dropdown of file types the user can save the file as
-            savePicker.FileTypeChoices.Add("exReader文件", new List<string>() { ".xread" });
-            // Default file name if the user does not type one in or select a file to replace
-            savePicker.SuggestedFileName = "xPassage";
-            StorageFile file = await savePicker.PickSaveFileAsync();
+            DataContractSerializer serializer = new DataContractSerializer(typeof(UserDictionary.Passage));
+            StorageFolder applicationFolder = ApplicationData.Current.LocalFolder;
+            StorageFile file = await applicationFolder.CreateFileAsync("Save", CreationCollisionOption.GenerateUniqueName);
             if (file != null)
             {
                 // Prevent updates to the remote version of the file until
@@ -62,10 +56,10 @@ namespace ExReaderPlus.FileManage {
                 // write to file
                 var stream = await file.OpenStreamForWriteAsync();
                 Debug.WriteLine("write stream: " + stream.ToString());
-                serializer.WriteObject(stream, reader);
+                serializer.WriteObject(stream, passage);
 
                 Windows.Storage.Provider.FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
-                ShowToastNotification("exReader提示", "成功导出工程文件!");
+               
                 if (status == Windows.Storage.Provider.FileUpdateStatus.Complete)
                 {
                     //.textBlock.Text = "File " + file.Name + " was saved.";
@@ -79,14 +73,16 @@ namespace ExReaderPlus.FileManage {
             {
                 //this.textBlock.Text = "Operation cancelled.";
             }
+            
         }
 
         //反序列化
-        public async Task<Passage> DeSerializeFile()
+        public async Task<Passage> DeSerializeFile(UserDictionary.Passage passage1)
         {
 
-            DataContractSerializer deserializer = new DataContractSerializer(typeof(ReaderManage));
-            
+            DataContractSerializer deserializer = new DataContractSerializer(typeof(UserDictionary.Passage));
+            StorageFolder applicationFolder = ApplicationData.Current.LocalFolder;
+           
             Passage passage = new Passage();
             var picker = new FileOpenPicker();
             picker.ViewMode = PickerViewMode.Thumbnail;
@@ -111,6 +107,33 @@ namespace ExReaderPlus.FileManage {
                 return null;
             }
 
+        }
+
+        public async Task<Passage> OpenFile()
+        {
+            Passage passage = new Passage();
+            var picker = new FileOpenPicker();
+            picker.ViewMode = PickerViewMode.Thumbnail;
+            picker.SuggestedStartLocation = PickerLocationId.MusicLibrary;
+            picker.FileTypeFilter.Add(".txt");
+
+            // TODO:
+            //picker.FileTypeFilter.Add(".pdf");
+
+            StorageFile storageFile = await picker.PickSingleFileAsync();
+            if (storageFile != null)
+            {
+                var stream = await storageFile.OpenStreamForReadAsync();
+
+                passage.Content = await FileIO.ReadTextAsync(storageFile);
+                passage.HeadName = storageFile.DisplayName;
+
+                return passage;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         //显示Toast通知
@@ -198,6 +221,7 @@ namespace ExReaderPlus.FileManage {
             //            Debug.WriteLine(applicationFolder.Path);
 
             StorageFile saveFile = await applicationFolder.CreateFileAsync(desiredName, CreationCollisionOption.GenerateUniqueName);
+
             await canvasRenderTarget.SaveAsync(await saveFile.OpenAsync(FileAccessMode.ReadWrite), CanvasBitmapFileFormat.Png);
             // 把图片展现出来
             var fileStream = await saveFile.OpenReadAsync();
