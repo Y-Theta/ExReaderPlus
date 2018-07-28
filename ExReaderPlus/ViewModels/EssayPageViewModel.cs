@@ -197,7 +197,7 @@ namespace ExReaderPlus.ViewModels {
             LoadPassage = new CommandBase(async obj =>
             {
                 TempPassage = null;
-                TempPassage = await FileManage.FileManage.Instence.DeSerializeFile();
+                TempPassage = await FileManage.FileManage.Instence.OpenFile();
                 if (TempPassage is null)
                     return;
                 PassageLoaded?.Invoke(this, EventArgs.Empty);
