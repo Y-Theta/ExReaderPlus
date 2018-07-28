@@ -12,7 +12,7 @@ using Windows.Storage.Pickers;
 using Windows.System;
 using Windows.UI;
 using Windows.UI.Core;
-using ExReaderPlus.Manage.ReaderManager;
+
 using Windows.UI.Notifications;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -44,7 +44,7 @@ namespace ExReaderPlus.FileManage {
         }
 
         //序列化
-        public async void SerializeFile(Passage passage)
+        public async void SerializeFile(UserDictionary.Passage passage)
         {
             DataContractSerializer serializer = new DataContractSerializer(typeof(Passage));
             StorageFolder applicationFolder = ApplicationData.Current.LocalFolder;
@@ -80,7 +80,7 @@ namespace ExReaderPlus.FileManage {
         public async Task<Passage> DeSerializeFile()
         {
 
-            DataContractSerializer deserializer = new DataContractSerializer(typeof(ReaderManage));
+            DataContractSerializer deserializer = new DataContractSerializer(typeof(Passage));
             
             Passage passage = new Passage();
             var picker = new FileOpenPicker();
