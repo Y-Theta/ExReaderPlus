@@ -134,7 +134,16 @@
                      Color="Transparent" />
     <SolidColorBrush x:Key="ScrollBarBg_D"
                      Color="Transparent" />
-    
+
+    <SolidColorBrush x:Key="ScrollBarThumbDark_N"
+                     Color="#80000000" />
+    <SolidColorBrush x:Key="ScrollBarThumbDark_R"
+                     Color="#40000000" />
+    <SolidColorBrush x:Key="ScrollBarThumbDark_P"
+                     Color="#A0000000" />
+    <SolidColorBrush x:Key="ScrollBarThumbDark_D"
+                     Color="#808080" />
+
     <!--WordList-->
     <SolidColorBrush x:Key="WordListWordFg"
                      Color="#EFEFEF" />
@@ -150,7 +159,14 @@
                      Color="#40000000" />
     <SolidColorBrush x:Key="WordListSelectionHC"
                      Color="#336F96" />
-    
+
+    <SolidColorBrush x:Key="WordViewStateBarBg"
+                     Color="#477FBF" />
+    <SolidColorBrush x:Key="WordViewStateBarFg"
+                     Color="#EFEFEF" />
+    <SolidColorBrush x:Key="WordViewStateBarId"
+                     Color="#336F96" />
+
     <!--Combobox-->
     <SolidColorBrush x:Key="WordListComboBoxPopupBg"
                      Color="#354F6E" />
@@ -167,6 +183,22 @@
     <SolidColorBrush x:Key="WordListComboBoxHoldBg"
                      Color="#20000000" />
     <SolidColorBrush x:Key="WordListComboBoxButtonFg"
+                     Color="#EFEFEF" />
+    
+    <!--FlyoutButton-->
+    <SolidColorBrush x:Key="FlyoutButtonBg"
+                     Color="#EFEFEF" />
+    <SolidColorBrush x:Key="FlyoutButtonBg_N"
+                     Color="Transparent" />
+    <SolidColorBrush x:Key="FlyoutButtonBg_R"
+                     Color="#40000000" />
+    <SolidColorBrush x:Key="FlyoutButtonBg_P"
+                     Color="#80000000" />
+    <SolidColorBrush x:Key="FlyoutButtonFg_N"
+                     Color="#080808" />
+    <SolidColorBrush x:Key="FlyoutButtonFg_R"
+                     Color="#EFEFEF" />
+    <SolidColorBrush x:Key="FlyoutButtonFg_P"
                      Color="#EFEFEF" />
 
 </ResourceDictionary>

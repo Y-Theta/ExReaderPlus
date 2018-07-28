@@ -73,20 +73,23 @@
         </Setter>
     </Style>
 
-    
-    <!--TextToggelButton-->
-    <Style x:Key="TextToggelButton"
+    <!--CheckToggelButton-->
+    <Style x:Key="CheckToggelButton"
            TargetType="local:IconToggelButton">
-        <Setter Property="ToogelIdVis"
-                Value="Visible" />
-        <Setter Property="FontFamily"
-                Value="{StaticResource RECT}" />
+        <Setter Property="ForeIcon"
+                Value="&#xE739;" />
+        <Setter Property="BackIcon"
+                Value="&#xE73A;" />
         <Setter Property="FontSize"
                 Value="12" />
+        <Setter Property="HorizontalAlignment"
+                Value="Left" />
         <Setter Property="VerticalAlignment"
                 Value="Center" />
         <Setter Property="FontWeight"
                 Value="Light" />
+        <Setter Property="Margin"
+                Value="0,6,0,4" />
         <Setter Property="Foreground"
                 Value="{ThemeResource WordListWordFg}" />
         <Setter Property="PointBrush"
@@ -96,6 +99,58 @@
         <Setter Property="CheckedBrush"
                 Value="{ThemeResource WordListWordFg}" />
     </Style>
+    
+    <!--TextButtonStyle-->
+    <Style x:Key="TextButtonStyle"
+           TargetType="Button">
+        <Setter Property="Foreground"
+                Value="{ThemeResource FlyoutButtonFg_N}" />
+        <Setter Property="Background"
+                Value="{ThemeResource FlyoutButtonBg_N}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="RootBorder" Background="{TemplateBinding Background}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="PointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Target="RootBorder.Background"
+                                                Value="{ThemeResource FlyoutButtonBg_R}" />
+                                        <Setter Target="TextHolder.Foreground"
+                                                Value="{ThemeResource FlyoutButtonFg_R}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter Target="RootBorder.Background"
+                                                Value="{ThemeResource FlyoutButtonBg_P}" />
+                                        <Setter Target="TextHolder.Foreground"
+                                                Value="{ThemeResource FlyoutButtonFg_P}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid x:Name="RootGrid">
+                            <TextBlock x:Name="TextHolder"
+                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                       Margin="{TemplateBinding Padding}"
+                                       Foreground="{TemplateBinding Foreground}"
+                                       FontFamily="{TemplateBinding FontFamily}"
+                                       Text="{TemplateBinding Content}"
+                                       FontWeight="{TemplateBinding FontWeight}"
+                                       FontSize="{TemplateBinding FontSize}" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+   
+    
     <!--BoundButtonStyle-->
 
 </ResourceDictionary>

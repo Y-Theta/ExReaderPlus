@@ -12,10 +12,10 @@ namespace ExReaderPlus.ViewModels {
         #region Properties
         public Window window;
 
-        private ObservableCollection<BriefDic> _diclist;
-        public ObservableCollection<BriefDic> Diclist {
+        private ObservableCollection<ActionDictionary> _diclist;
+        public ObservableCollection<ActionDictionary> Diclist {
             get => _diclist;
-            set => SetValue<ObservableCollection<BriefDic>>(out _diclist, value, nameof(Diclist));
+            set => SetValue(out _diclist, value, nameof(Diclist));
         }
         #endregion
 
@@ -26,13 +26,13 @@ namespace ExReaderPlus.ViewModels {
                 while (!WordBook.Initdicready) ;
                 await window.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    Diclist = new ObservableCollection<BriefDic>();
-                    Diclist.Add(WordBook.GaoKao.GetBriefDic());
-                    Diclist.Add(WordBook.CET4.GetBriefDic());
-                    Diclist.Add(WordBook.CET6.GetBriefDic());
-                    Diclist.Add(WordBook.TOEFL.GetBriefDic());
-                    Diclist.Add(WordBook.KaoYan.GetBriefDic());
-                    Diclist.Add(WordBook.IELTS.GetBriefDic());
+                    Diclist = new ObservableCollection<ActionDictionary>();
+                    Diclist.Add(WordBook.GaoKao.GetActionDictionary());
+                    Diclist.Add(WordBook.CET4.GetActionDictionary());
+                    Diclist.Add(WordBook.CET6.GetActionDictionary());
+                    Diclist.Add(WordBook.TOEFL.GetActionDictionary());
+                    Diclist.Add(WordBook.KaoYan.GetActionDictionary());
+                    Diclist.Add(WordBook.IELTS.GetActionDictionary());
                 });
             });
             s.Start();

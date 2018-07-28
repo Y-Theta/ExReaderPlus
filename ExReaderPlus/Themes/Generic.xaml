@@ -617,12 +617,13 @@
 
     <!--IconToggelButton-->
     <Style TargetType="local:IconToggelButton">
+        <Setter Property="FontFamily"
+                Value="{ThemeResource SymbolThemeFontFamily}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:IconToggelButton">
                     <Grid x:Name="RootGrid"
                           Background="{TemplateBinding Background}">
-
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />

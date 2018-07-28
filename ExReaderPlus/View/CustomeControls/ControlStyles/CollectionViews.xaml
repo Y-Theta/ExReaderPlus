@@ -14,8 +14,20 @@
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <layout:FlowLayout />
+                    <layout:FlowLayout CellWidth="480"
+                                       CellHeight="160" />
                 </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerTransitions">
+            <Setter.Value>
+                <TransitionCollection>
+                    <PaneThemeTransition Edge="Bottom" />
+                    <AddDeleteThemeTransition />
+                    <ContentThemeTransition />
+                    <ReorderThemeTransition />
+                    <EntranceThemeTransition IsStaggeringEnabled="False" />
+                </TransitionCollection>
             </Setter.Value>
         </Setter>
         <Setter Property="ItemContainerStyle">
@@ -38,21 +50,81 @@
         </Setter>
         <Setter Property="ItemTemplate">
             <Setter.Value>
-                <DataTemplate x:DataType="manage:EngDictionary">
-                    <Grid MinWidth="240">
+                <DataTemplate x:DataType="model:ActionDictionary">
+                    <Grid  Background="#477FBF"
+                           Margin="8,8,8,8"
+                           MinWidth="240">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="auto" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="*" />
                             <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.ColumnSpan="2"
+                        <Rectangle Stroke="#60a0c0"
+                                   StrokeThickness="1"
                                    Grid.RowSpan="2"
+                                   Grid.ColumnSpan="2" />
+                        <TextBlock Grid.ColumnSpan="2"
+                                   FontSize="48"
+                                   Foreground="#EFEFEF"
+                                   Margin="16,16,0,0"
+                                   FontFamily="{StaticResource PhoneFontFamilySemiLight}"
                                    Text="{Binding Name}" />
+                        <TextBlock Text="{Binding WordsCount}"
+                                   Margin="16,0,0,16"
+                                   Foreground="#EFEFEF"
+                                   FontSize="14"
+                                   Grid.ColumnSpan="2"
+                                   Grid.Row="1" />
+                        <Grid x:Name="SysIcon"
+                              Grid.ColumnSpan="2"
+                              Grid.RowSpan="2">
+                            <TextBlock Style="{StaticResource DicIconHolder}"
+                                       Text="&#xE713;" />
+                            <TextBlock Style="{StaticResource DicIconHolder}"
+                                       FontSize="60"
+                                       Margin="0,0,96,60"
+                                       Text="&#xE713;" />
+                        </Grid>
+
                     </Grid>
                 </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="GridView">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            Background="{TemplateBinding Background}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <ScrollViewer x:Name="ScrollViewer"
+                                      Padding="0,8,4,0"
+                                      Style="{StaticResource DarkScrollViewer}"
+                                      TabNavigation="{TemplateBinding TabNavigation}"
+                                      HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                                      HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                      IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
+                                      VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                                      VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                                      IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
+                                      IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+                                      IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
+                                      ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}"
+                                      IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+                                      BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
+                                      AutomationProperties.AccessibilityView="Raw">
+                            <ItemsPresenter Header="{TemplateBinding Header}"
+                                            HeaderTemplate="{TemplateBinding HeaderTemplate}"
+                                            HeaderTransitions="{TemplateBinding HeaderTransitions}"
+                                            Footer="{TemplateBinding Footer}"
+                                            FooterTemplate="{TemplateBinding FooterTemplate}"
+                                            FooterTransitions="{TemplateBinding FooterTransitions}"
+                                            Padding="{TemplateBinding Padding}" />
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>

@@ -23,8 +23,6 @@ namespace ExReaderPlus.View {
         #region Properties
         private EssayPageViewModel _viewModel;
 
-        private Timer _autohidetimer;
-
         private Rect _controlbararea;
 
         private Rect _nextpagearea;
@@ -59,6 +57,7 @@ namespace ExReaderPlus.View {
         #endregion
 
         #region Methods
+
         #region Overrides
         protected override void OnTapped(TappedRoutedEventArgs e) {
             base.OnTapped(e);
@@ -71,7 +70,6 @@ namespace ExReaderPlus.View {
             else if(_wordlistarea.Contains(e.GetPosition(this)) && TextView.IsReadOnly)
                 WordPanelSwitch();
         }
-
         #endregion
 
         #region Eventhandel
@@ -80,7 +78,7 @@ namespace ExReaderPlus.View {
             _viewModel.ControlCommand -= _viewModel_ControlCommand;
             _viewModel.WordStateChanged -= _viewModel_WordStateChanged;
             _viewModel.ShownStateChanged -= _viewModel_ShownStateChanged;
-
+            _viewModel.OnRenderChange -= _viewModel_OnRenderChange;
         }
 
         private void RichWordView_Loaded(object sender, RoutedEventArgs e) {
@@ -89,10 +87,28 @@ namespace ExReaderPlus.View {
             _viewModel.ControlCommand += _viewModel_ControlCommand;
             _viewModel.WordStateChanged += _viewModel_WordStateChanged;
             _viewModel.ShownStateChanged += _viewModel_ShownStateChanged;
+            _viewModel.OnRenderChange += _viewModel_OnRenderChange;
             TextView.ElementSorted += TextView_ElementSorted;
             TextView.RenderBegin += TextView_RenderBegin;
             ControlLayer.PointerEntered += GridBg_PointerEntered;
             ControlLayer.PointerExited += ControlLayer_PointerExited;
+        }
+
+        private void _viewModel_OnRenderChange(object sender, string name, bool value) {
+            if (name.Equals("Lea"))
+            {
+                if (value)
+                    ShowText(1);
+                else
+                    HideText(1);
+            }
+            else
+            {
+                if (value)
+                    ShowText(0);
+                else
+                    HideText(0);
+            }
         }
 
         private void _viewModel_ShownStateChanged(object sender) {
@@ -101,7 +117,7 @@ namespace ExReaderPlus.View {
 
         private void _viewModel_WordStateChanged(object sender) {
             ActionVocabulary avb = sender as ActionVocabulary;
-            ChangControlColor(avb.Word, avb.YesorNo == 0 ? _viewModel.NotLearnBg : _viewModel.LearnedBg);
+            ChangControlColor(avb, avb.YesorNo == 0 ? _viewModel.NotLearnBg : _viewModel.LearnedBg);
         }
 
         /// <summary>
@@ -116,6 +132,7 @@ namespace ExReaderPlus.View {
                 case "SizeTextLittle": TextView.FontSize -= 0.5; break;
                 case "OpenWordList": WordPanelSwitch(); break;
                 case "Pin": TileService.PinTile();break;
+                case "AddToDic": MenuPop.Hide(); break;
                 case "ChangeMode":
                     if (_viewModel.TempPassage != null)
                         if (!TextView.IsReadOnly)
@@ -131,7 +148,7 @@ namespace ExReaderPlus.View {
 
         private void RichWordView_SizeChanged(object sender, SizeChangedEventArgs e) {
             TextView.ViewPortHeight = e.NewSize.Height
-                - TextScroll.Margin.Bottom - TextScroll.Margin.Top - TextScroll.Padding.Bottom - TextScroll.Padding.Top;
+                - TextScroll.Margin.Bottom - TextScroll.Margin.Top - TextScroll.Padding.Bottom - TextScroll.Padding.Top - 24;
             ArrangeRect();
         }
 
@@ -165,13 +182,14 @@ namespace ExReaderPlus.View {
         /// 富文本框的字典构建完毕,转换到阅读模式
         /// </summary>
         private void TextView_ElementSorted(object sender, EventArgs e) {
-            RichTextBox rtb = sender as RichTextBox;
             _viewModel.ClearKeyWordHashSet();
+            _viewModel.WordCount = TextView.WordCount.ToString();
+            _viewModel.PageInfo = string.Format("{0}  /  {1}", TextView.TempPage + 1, TextView.SumPage);
             ControlDic.Clear();
             RenderLayer.Children.Clear();
             RenderLayer.UpdateLayout();
-            if (rtb.ElementsLoc != null && rtb.ElementsLoc.Count > 0)
-                foreach (var kp in rtb.ElementsLoc)
+            if (TextView.ElementsLoc != null && TextView.ElementsLoc.Count > 0)
+                foreach (var kp in TextView.ElementsLoc)
                     foreach (var loc in kp.Value)
                     {
                         HitHolder rect = new HitHolder
@@ -180,18 +198,19 @@ namespace ExReaderPlus.View {
                             Margin = new Thickness(loc.Left, loc.Top + 2, 0, 0),
                             Width = loc.Width,
                             Height = loc.Height - 2,
-                            Name = kp.Key
+                            Name = kp.Key,
                         };
+                        rect.MouseRightTap += Rect_MouseRightTap;
                         if (WordBook.GetDicNow().Wordlist.ContainsKey(kp.Key))
                         {
                             Vocabulary vc = WordBook.GetDicNow().Wordlist[kp.Key];
                             if (vc.YesorNo == 0)
                             {
-                                rect.Background = _viewModel.NotLearnBg;
+                                RenderWithCheck(rect, 0);
                                 _viewModel.KeyWordNotLearn.Add(kp.Key);
                             }
                             else {
-                                rect.Background = _viewModel.LearnedBg;
+                                RenderWithCheck(rect, 1);
                                 _viewModel.KeyWordLearn.Add(kp.Key);
                             }
                         }
@@ -209,23 +228,25 @@ namespace ExReaderPlus.View {
             }
         }
 
+        private void Rect_MouseRightTap(object sender) {
+            MenuPop.ShowAt(sender as HitHolder);
+        }
+
         private void PointedItem(object sender) {
             ActionVocabulary s = (ActionVocabulary)sender;
-            ChangControlColor(s.Word, _viewModel.NormalBg);
+            ChangControlColor(s, _viewModel.NormalBg);
         }
 
         private void ReSetPointedItem(object sender) {
             ActionVocabulary s = (ActionVocabulary)sender;
             foreach (var hithold in ControlDic[s.Word])
-                if (s.YesorNo == 0)
-                    (hithold as HitHolder).Background = _viewModel.NotLearnBg;
-                else
-                    (hithold as HitHolder).Background = _viewModel.LearnedBg;
+                RenderWithCheck((HitHolder)hithold, s.YesorNo);
         }
 
         private void Avb_RemCommandAction(object sender, CommandArgs args) {
             ActionVocabulary s = (ActionVocabulary)sender;
-            ChangControlColor(s.Word, _viewModel.LearnedBg);
+            foreach (var hithold in ControlDic[s.Word])
+                RenderWithCheck((HitHolder)hithold, s.YesorNo == 1 ? 0 : 1);
             if (s.YesorNo == 0)
             {
                 _viewModel.KeyWordNotLearn.Remove(s.Word);
@@ -268,9 +289,55 @@ namespace ExReaderPlus.View {
             TextView.ContentString = str;
         }
 
-        private void ChangControlColor(string str, Brush color) {
-            foreach (var hithold in ControlDic[str])
-                (hithold as HitHolder).Background = color;
+        private void ShowText(int learned) {
+            if (learned == 1)
+            {
+                foreach (var s in _viewModel.KeyWordLearn)
+                    foreach (var hitc in ControlDic[s])
+                        ((HitHolder)hitc).Background = _viewModel.LearnedBg;
+            }
+            else
+                foreach (var s in _viewModel.KeyWordNotLearn)
+                    foreach (var hitc in ControlDic[s])
+                        ((HitHolder)hitc).Background = _viewModel.NotLearnBg;
+        }
+
+        private void HideText(int learned) {
+            if (learned == 1) {
+                foreach (var s in _viewModel.KeyWordLearn)
+                    foreach (var hitc in ControlDic[s])
+                        ((HitHolder)hitc).Background = new SolidColorBrush(Colors.Transparent);
+            }
+            else
+                foreach (var s in _viewModel.KeyWordNotLearn)
+                    foreach (var hitc in ControlDic[s])
+                        ((HitHolder)hitc).Background = new SolidColorBrush(Colors.Transparent);
+        }
+
+        private void ChangControlColor(ActionVocabulary avb, Brush color) {
+            if (color.Equals(_viewModel.NotLearnBg) || color.Equals(_viewModel.LearnedBg))
+                foreach (var hithold in ControlDic[avb.Word])
+                    RenderWithCheck((HitHolder)hithold, avb.YesorNo);
+            else
+                foreach (var hithold in ControlDic[avb.Word])
+                    ((HitHolder)hithold).Background = color;
+        }
+
+        private void RenderWithCheck(HitHolder hit, int learn) {
+            if (learn == 1)
+            {
+                if (_viewModel.LearnedColor)
+                    hit.Background = _viewModel.LearnedBg;
+                else
+                    hit.Background = new SolidColorBrush(Colors.Transparent);
+            }
+            else
+            {
+                if (_viewModel.NotlearnColor)
+                    hit.Background = _viewModel.NotLearnBg;
+                else
+                    hit.Background = new SolidColorBrush(Colors.Transparent);
+            }
         }
 
         private void WordPanelSwitch() {
@@ -306,14 +373,7 @@ namespace ExReaderPlus.View {
         }
 
         private void InitTimer() {
-            _autohidetimer = new Timer { Interval = 3000 };
-            _autohidetimer.Elapsed += _autohidetimer_Elapsed;
-        }
-
-        private async void _autohidetimer_Elapsed(object sender, ElapsedEventArgs e) {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,()=>{
-
-            });
+      
         }
 
         #endregion
@@ -363,6 +423,5 @@ namespace ExReaderPlus.View {
 //            FileManage.FileManage fileManage= new FileManage.FileManage();
 //            fileManage.NewPage();
         }
-
     }
 }

@@ -42,36 +42,6 @@ namespace ExReaderPlus.Models {
         #endregion
     }
 
-    /// <summary>
-    /// 文字渲染组,用于记录需要着色的文本
-    /// </summary>
-    public class Rendergroup {
-
-        public HashSet<String> Words { get; set; }
-
-        public Color TextFg { get; set; }
-
-        public Color TextBg { get; set; }
-
-        public ITextCharacterFormat OldFormat { get; set; }
-
-        public Rendergroup() {
-
-        }
-    }
-
-    public class BriefDic {
-        public string Name { get; set; }
-
-        public bool IsSys { get; set; }
-
-        public int DicName { get; set; }
-
-        public int WordsCount { get; set; }
-
-        public BriefDic() { }
-    }
-
     public class ActionVocabulary : Vocabulary {
         public HCHPointHandel PointEnter { get; set; }
 
@@ -93,5 +63,44 @@ namespace ExReaderPlus.Models {
         public static ActionVocabulary FromVocabulary(Vocabulary v) {
             return new ActionVocabulary { Phonetic = v.Phonetic, Word = v.Word, Translation = v.Translation, Tag = v.Tag, YesorNo = v.YesorNo };
         }
+    }
+
+    public class ActionDictionary {
+
+        #region Properties
+        public string Name { get; set; }
+
+        public int WordsCount { get; set; }
+
+        public int DBName { get; set; }
+
+        public bool IsSys { get; set; }
+
+        public CommandBase Open { get; set; }
+
+        public CommandBase ReName { get; set; }
+
+        public CommandBase ReMove { get; set; }
+
+        #endregion
+
+        #region Events
+
+        public CommandActionEventHandler DictionaryOperation;
+        #endregion
+
+        #region Methods
+        private void InitCommand() {
+            Open = new CommandBase(obj => { DictionaryOperation?.Invoke(this, new CommandArgs(obj, nameof(Open))); });
+            ReName = new CommandBase(obj => { DictionaryOperation?.Invoke(this, new CommandArgs(obj, nameof(ReName))); });
+            ReMove = new CommandBase(obj => { DictionaryOperation?.Invoke(this, new CommandArgs(obj, nameof(ReMove))); });
+        }
+        #endregion
+
+        public ActionDictionary() {
+            InitCommand();
+        }
+
+
     }
 }
