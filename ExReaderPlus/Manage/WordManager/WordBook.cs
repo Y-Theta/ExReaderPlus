@@ -195,6 +195,11 @@ namespace ExReaderPlus.WordsManager {
             }
             
         }
+
+        public static async Task<bool> ChangeWordStatePenetrateAsync(string str,int state) {
+            GetDicNow().Wordlist[str].YesorNo = state;
+            return await CustomDicManage.ChangeTheStateOfAWord(str, state);
+        }
     }
 
 }//命名空间

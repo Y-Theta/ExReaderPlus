@@ -109,6 +109,26 @@ namespace ExReaderPlus.View
         public static readonly DependencyProperty ContentProperty =
             DependencyProperty.Register("Content", typeof(UIElement),
                 typeof(HitContentholder), new PropertyMetadata(null));
+
+        /// <summary>
+        /// 鼠标悬浮事件
+        /// </summary>
+        public HCHPointHandel OnPointEnter {
+            get { return (HCHPointHandel)GetValue(OnPointEnterrProperty); }
+            set { SetValue(OnPointEnterrProperty, value); }
+        }
+        public static readonly DependencyProperty OnPointEnterrProperty =
+            DependencyProperty.Register("OnPointEnter", typeof(HCHPointHandel), 
+                typeof(HitContentholder), new PropertyMetadata(null));
+
+
+        public HCHPointHandel OnPointExit {
+            get { return (HCHPointHandel)GetValue(OnPointExitProperty); }
+            set { SetValue(OnPointExitProperty, value); }
+        }
+        public static readonly DependencyProperty OnPointExitProperty =
+            DependencyProperty.Register("OnPointExit", typeof(HCHPointHandel),
+                typeof(HitContentholder), new PropertyMetadata(null));
         #endregion
 
         #region Override
@@ -125,11 +145,13 @@ namespace ExReaderPlus.View
         protected override void OnPointerEntered(PointerRoutedEventArgs e) {
             base.OnPointerEntered(e);
             VisualStateManager.GoToState(this, "PointerOver", false);
+            OnPointEnter?.Invoke(DataContext);
         }
 
         protected override void OnPointerExited(PointerRoutedEventArgs e) {
             base.OnPointerExited(e);
             VisualStateManager.GoToState(this, "Normal", false);
+            OnPointExit?.Invoke(DataContext);
         }
 
         private void HitHolder_Loaded(object sender, RoutedEventArgs e) {

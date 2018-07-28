@@ -5,7 +5,7 @@
 
     <!--MainTheme-->
     <SolidColorBrush x:Key="MainThemeColor"
-                     Color="#EFEFEF" />
+                     Color="#C0C0C0" />
     <SolidColorBrush x:Key="MainThemeFG"
                      Color="#080808" />
     <SolidColorBrush x:Key="ContrastMask_D0"
@@ -150,5 +150,23 @@
                      Color="#40000000" />
     <SolidColorBrush x:Key="WordListSelectionHC"
                      Color="#336F96" />
+    
+    <!--Combobox-->
+    <SolidColorBrush x:Key="WordListComboBoxPopupBg"
+                     Color="#354F6E" />
+    <SolidColorBrush x:Key="WordListComboBoxPopupBg_R"
+                     Color="#20000000" />
+    <SolidColorBrush x:Key="WordListComboBoxPopupBg_P"
+                     Color="#40000000" />
+    <SolidColorBrush x:Key="WordListComboBoxPopupBg_S"
+                     Color="#40000000" />
+    <SolidColorBrush x:Key="WordListComboBoxPopupBg_SR"
+                     Color="#40000000" />
+    <SolidColorBrush x:Key="WordListComboBoxPopupBg_SP"
+                     Color="#60000000" />
+    <SolidColorBrush x:Key="WordListComboBoxHoldBg"
+                     Color="#20000000" />
+    <SolidColorBrush x:Key="WordListComboBoxButtonFg"
+                     Color="#EFEFEF" />
 
 </ResourceDictionary>

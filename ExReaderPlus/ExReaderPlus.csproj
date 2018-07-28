@@ -103,6 +103,7 @@
     <Compile Include="Manage\fileDatabaseManage.cs" />
     <Compile Include="Manage\PassageManager.cs" />
     <Compile Include="Manage\WordManager\WordBook.cs" />
+    <Compile Include="Models\PassageCollection.cs" />
     <Compile Include="Serializer\Serializer.cs" />
     <Compile Include="Tile\TileService.cs" />
     <Compile Include="ViewModels\DIcPageViewModel.cs" />
@@ -115,7 +116,7 @@
       <DependentUpon>RichWordView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\CustomeControls\NewControls\CustomeNavigationView.cs" />
-    <Compile Include="View\CustomeControls\Enums.cs" />
+    <Compile Include="View\Enums.cs" />
     <Compile Include="View\CustomeControls\NewControls\HitHolder.cs" />
     <Compile Include="View\CustomeControls\NewControls\IconToggelButton.cs" />
     <Compile Include="View\CustomeControls\NewControls\IconViewItem.cs" />
@@ -139,6 +140,7 @@
     <Compile Include="Models\TextRender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
+    <Compile Include="View\Service\OverSettingService.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

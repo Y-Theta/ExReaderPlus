@@ -98,4 +98,5 @@ namespace ExReaderPlus.Serializer
             
         }
     }
+
 }

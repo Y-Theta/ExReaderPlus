@@ -76,9 +76,6 @@ namespace ExReaderPlus.FileManage {
             
         }
 
-        //反序列化
-        
-
         public async Task<Passage> OpenFile()
         {
             Passage passage = new Passage();
@@ -107,7 +104,7 @@ namespace ExReaderPlus.FileManage {
         }
 
         //显示Toast通知
-        public void ShowToastNotification(string title, string stringContent)
+        private void ShowToastNotification(string title, string stringContent)
         {
             ToastNotifier ToastNotifier = ToastNotificationManager.CreateToastNotifier();
             Windows.Data.Xml.Dom.XmlDocument toastXml = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastText02);

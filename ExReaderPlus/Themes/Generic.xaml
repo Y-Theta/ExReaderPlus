@@ -570,6 +570,7 @@
                                      VerticalOffset="12"
                                      Placement="Mouse">
                                 <Border MaxWidth="160"
+                                        Padding="4"
                                         MinHeight="24">
                                     <TextBlock Style="{StaticResource WordToolTipstyle}"
                                                Text="{Binding Tooltip, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}" />
