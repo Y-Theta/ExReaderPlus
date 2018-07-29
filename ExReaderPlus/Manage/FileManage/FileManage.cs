@@ -13,9 +13,11 @@ using Windows.System;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Notifications;
+using Windows.UI.Text;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using ExReaderPlus.View;
 using ExReaderPlus.ViewModels;
@@ -161,7 +163,7 @@ namespace ExReaderPlus.FileManage {
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public async Task Win2DTask(string str)
+        public async Task Win2DTask(string str, string strTime, string strNum)
         {
             var pick = new FileOpenPicker();
             pick.FileTypeFilter.Add(".jpg");
@@ -171,6 +173,19 @@ namespace ExReaderPlus.FileManage {
             var duvDbecdgiu =
                 await CanvasBitmap.LoadAsync(new CanvasDevice(true), await file.OpenAsync(FileAccessMode.Read));
             var canvasRenderTarget = new CanvasRenderTarget(duvDbecdgiu, duvDbecdgiu.Size);
+            var str1 = str.Substring(0, str.Length / 2);
+            char c = str1[str1.Length - 1];
+            if (c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z')
+            {
+                str1.Insert(str1.Length, "-");
+            }
+            else
+            {
+
+            }
+            var str2 = str.Substring(str.Length / 2);
+            //            char[]strLast = str1.Substring(str1.Length).ToCharArray();
+
 
             using (var dc = canvasRenderTarget.CreateDrawingSession())//用后则需撤销
             {
@@ -178,21 +193,36 @@ namespace ExReaderPlus.FileManage {
                 ///先将图片读取
                 dc.DrawImage(duvDbecdgiu);
                 ///写图片
-                dc.DrawText(str,
-                    100, 150, 520, 50,
-                    Colors.Black, new CanvasTextFormat()
+                dc.DrawText("Total Words :" + strNum,
+                    760, 278, 330, 60,
+                    Colors.Blue, new CanvasTextFormat()
                     {
                         FontSize = 30
+
+
                     });
-                dc.DrawText("分享自 Exreader", 300, 1000, Color.FromArgb(255, 25, 25, 112), new CanvasTextFormat()
+                dc.DrawText("Time To Read :" + strTime,
+                    760, 338, 330, 60,
+                    Colors.Blue, new CanvasTextFormat()
+                    {
+                        FontSize = 30
+
+
+                    });
+
+
+                dc.DrawText(str1, 26, 408, 538, 1358, Colors.Black, new CanvasTextFormat()
                 {
-                    FontSize = 50
+                    FontSize = 24
                 });
-                dc.DrawText("我在Exreader上发现了一篇不错的文章", 30, 50, Colors.Gray, new CanvasTextFormat()
+
+                dc.DrawText(str2, 626, 458, 544, 1080, Colors.Black, new CanvasTextFormat()
                 {
-                    FontSize = 40
+                    FontSize = 24
                 });
             }
+
+
             string desiredName = "Share" + ".png";
             StorageFolder applicationFolder = ApplicationData.Current.LocalFolder;
             //            Debug.WriteLine(applicationFolder.Path);
