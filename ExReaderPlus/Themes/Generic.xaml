@@ -1018,12 +1018,12 @@
                                         </Grid>
                                     </ScrollViewer>
                                     <Grid x:Name="CommandSpace"
-                                          HorizontalAlignment="Stretch"
-                                          VerticalAlignment="Bottom"
                                           XYFocusKeyboardNavigation="Enabled"
-                                          Background="{x:Null}"
-                                          Margin="{ThemeResource ContentDialogCommandSpaceMargin}">
-                                        <Button x:Name="PrimaryButton" />
+                                          Background="{x:Null}">
+                                        <Button x:Name="PrimaryButton" 
+                                                Style="{TemplateBinding PrimaryButtonStyle}"
+                                                Content="{TemplateBinding PrimaryButtonText}"
+                                                Command="{TemplateBinding PrimaryButtonCommand}"/>
                                         <Button x:Name="SecondaryButton" />
                                         <Button x:Name="CloseButton"/>
                                     </Grid>

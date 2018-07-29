@@ -20,6 +20,14 @@ namespace ExReaderPlus.View.Layout {
                 typeof(FlowLayout), new PropertyMetadata(360.0));
 
 
+        public double MinCellWidth {
+            get { return (double)GetValue(MinCellWidthProperty); }
+            set { SetValue(MinCellWidthProperty, value); }
+        }
+        public static readonly DependencyProperty MinCellWidthProperty =
+            DependencyProperty.Register("MinCellWidth",
+                typeof(double), typeof(FlowLayout), new PropertyMetadata(240.0));
+
         public double CellHeight {
             get { return (double)GetValue(CellHeightProperty); }
             set { SetValue(CellHeightProperty, value); }
@@ -27,31 +35,47 @@ namespace ExReaderPlus.View.Layout {
         public static readonly DependencyProperty CellHeightProperty =
             DependencyProperty.Register("CellHeight", typeof(double), 
                 typeof(FlowLayout), new PropertyMetadata(120.0));
+
+        public double CellScale {
+            get { return (double)GetValue(CellScaleProperty); }
+            set { SetValue(CellScaleProperty, value); }
+        }
+        public static readonly DependencyProperty CellScaleProperty =
+            DependencyProperty.Register("CellScale", typeof(double), 
+                typeof(FlowLayout), new PropertyMetadata(3.0));
         #endregion
 
         #region Methods
         protected override Size MeasureOverride(Size availableSize) {
             _panelcells.Clear();
-            if ((int)(availableSize.Width /  CellWidth) != _cellcounts) 
-                _cellcounts = (int)(availableSize.Width / CellWidth);
+            if ((int)(availableSize.Width / CellWidth) + 1 != _cellcounts )
+                _cellcounts = (int)(availableSize.Width / CellWidth) + 1;
+            if ((availableSize.Width / _cellcounts) < MinCellWidth)
+                _cellcounts -= 1;
 
-            int k = 0;
+            int k = 1;
             List<UIElement> cellline = null;
             foreach (var child in Children)
             {
-                if (k == 0)
+                if (k == 1)
                     cellline = new List<UIElement>();
                 child.Measure(availableSize);
                 cellline.Add(child);
-                k = k + 1 > _cellcounts ? 0 : k + 1;
-                if (k == 0)
+                k = k + 1 > _cellcounts ? 1 : k + 1;
+                if (k == 1)
                     _panelcells.Add(cellline);
             }
 
-            if (_panelcells.Count * _cellcounts < Children.Count)
+            if (cellline != null && cellline[0].DesiredSize.Height > CellHeight)
+                CellHeight = cellline[0].DesiredSize.Height;
+
+            if ( _panelcells.Count * _cellcounts < Children.Count) 
                 _panelcells.Add(cellline);
 
-            return new Size(availableSize.Width, CellHeight * _panelcells.Count);
+            if (availableSize.Width / _cellcounts > CellScale * CellHeight)
+                return new Size(availableSize.Width, availableSize.Width / (_cellcounts * CellScale) * _panelcells.Count);
+            else
+                return new Size(availableSize.Width, CellHeight * _panelcells.Count);
         }
 
         protected override Size ArrangeOverride(Size finalSize) {
@@ -61,12 +85,18 @@ namespace ExReaderPlus.View.Layout {
                 int line = _panelcells.IndexOf(child);
                 double start = 0.0;
                 foreach (var ui in child) {
-                    ui.Arrange(new Rect(start, line * CellHeight, finalSize.Width / (_cellcounts + 1), CellHeight));
-                    start += (finalSize.Width / (_cellcounts + 1));
+                    if (finalSize.Width / _cellcounts > CellScale * CellHeight)
+                        ui.Arrange(new Rect(start, line * (finalSize.Width / (_cellcounts * CellScale)), finalSize.Width / _cellcounts, (finalSize.Width / (_cellcounts * CellScale))));
+                    else
+                        ui.Arrange(new Rect(start, line * CellHeight, finalSize.Width / _cellcounts, CellHeight));
+                    start += (finalSize.Width / _cellcounts);
                 }
             }
 
-            return finalSize;
+            if (finalSize.Width / _cellcounts > CellScale * CellHeight)
+                return new Size(finalSize.Width, finalSize.Width / CellScale * _panelcells.Count);
+            else
+                return new Size(finalSize.Width, CellHeight * _panelcells.Count);
         }
         #endregion
 
@@ -74,8 +104,6 @@ namespace ExReaderPlus.View.Layout {
         public FlowLayout() {
             _panelcells = new List<List<UIElement>>();
         }
-
         #endregion
     }
-
 }

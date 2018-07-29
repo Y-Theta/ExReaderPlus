@@ -1,10 +1,12 @@
-﻿using ExReaderPlus.ViewModels;
+﻿using ExReaderPlus.View.Commands;
+using ExReaderPlus.ViewModels;
 using System;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace ExReaderPlus.View.Pages {
     /// <summary>
@@ -17,13 +19,15 @@ namespace ExReaderPlus.View.Pages {
         #region Methods
         private async void _viewModel_CommandActions(object sender, CommandArgs args) {
             DefaultDialog dia = new DefaultDialog();
-            Grid s = new Grid();
-            s.Width = 480;
-            s.Height = 240;
-            s.Background = new SolidColorBrush(Color.FromArgb(180, 0, 0, 0));
+            ContentControl s = new ContentControl();
+            s.Style = App.Current.Resources["AddDicContent"] as Style;
             dia.Content = s;
+            dia.PrimaryButtonText = "\uE701";
+            dia.PrimaryButtonCommand = new CommandBase(obj => {
+
+            });
+            dia.PrimaryButtonStyle = App.Current.Resources["IconButtonStyle"] as Style;
             var dd = await dia.ShowAsync(ContentDialogPlacement.Popup);
-           
         }
         #endregion
 

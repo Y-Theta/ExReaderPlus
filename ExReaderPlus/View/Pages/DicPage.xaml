@@ -13,6 +13,7 @@
                   Style="{StaticResource DicGridView}" />
 
         <Button Style="{StaticResource AddDicButton}"
+                Tag="创建词库"
                 Content="&#xE710;"
                 Command="{Binding AddDicCommand}"
                 HorizontalAlignment="Right"

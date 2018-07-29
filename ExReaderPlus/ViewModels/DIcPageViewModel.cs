@@ -41,12 +41,8 @@ namespace ExReaderPlus.ViewModels {
                     Diclist.Add(WordBook.TOEFL.GetActionDictionary());
                     Diclist.Add(WordBook.KaoYan.GetActionDictionary());
                     Diclist.Add(WordBook.IELTS.GetActionDictionary());
-                              
-                    
                     foreach(var customDic in WordBook.Custom)
-                    {
                         Diclist.Add(customDic.GetActionDictionary());
-                    }
                 });
             });
             s.Start();

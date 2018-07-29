@@ -110,4 +110,21 @@ namespace ExReaderPlus.View.Converter {
         }
     }
 
+    public class WidthTrigger : IValueConverter {
+        public object Convert(object value, Type targetType, object parameter, string language) {
+            string[] width = parameter.ToString().Split('|');
+            double x = System.Convert.ToDouble(value);
+            double y = System.Convert.ToDouble(width[0]);
+            double z = System.Convert.ToDouble(width[1]);
+            if (x >= y && x < z)
+                return true;
+            else
+                return false;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language) {
+            return null;
+        }
+    }
+
 }
