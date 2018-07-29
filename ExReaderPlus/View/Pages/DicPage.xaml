@@ -11,6 +11,5 @@
                   MinWidth="120"
                   ItemsSource="{Binding Diclist}"
                   Style="{StaticResource DicGridView}" />
-
     </Grid>
 </Page>

@@ -80,15 +80,24 @@
                                    Grid.Row="1" />
                         <Grid x:Name="SysIcon"
                               Grid.ColumnSpan="2"
-                              Grid.RowSpan="2">
+                              Grid.RowSpan="2"
+                              Visibility="{Binding IsSys, Converter={StaticResource NULLnoVIS},ConverterParameter=bool}">
                             <TextBlock Style="{StaticResource DicIconHolder}"
+                                       Margin="0,0,16,16"
                                        Text="&#xE713;" />
                             <TextBlock Style="{StaticResource DicIconHolder}"
                                        FontSize="60"
                                        Margin="0,0,96,60"
                                        Text="&#xE713;" />
                         </Grid>
-
+                        <Grid x:Name="UserIcon"
+                              Grid.ColumnSpan="2"
+                              Grid.RowSpan="2"
+                              Visibility="{Binding IsSys, Converter={StaticResource NULLnoVIS},ConverterParameter=bool}">
+                            <TextBlock Style="{StaticResource DicIconHolder}"
+                                       Margin="0,0,16,16"
+                                       Text="&#xE716;"/>
+                        </Grid>
                     </Grid>
                 </DataTemplate>
             </Setter.Value>

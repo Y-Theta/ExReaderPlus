@@ -52,7 +52,7 @@ namespace ExReaderPlus.View {
             set { SetValue(WordPanelRectProperty, value); }
         }
         public static readonly DependencyProperty WordPanelRectProperty =
-            DependencyProperty.Register("WordPanelRect", typeof(Rect), 
+            DependencyProperty.Register("WordPanelRect", typeof(Rect),
                 typeof(RichWordView), new PropertyMetadata(null));
         #endregion
 
@@ -65,9 +65,9 @@ namespace ExReaderPlus.View {
                 ControlLayer.Visibility = ControlLayer.Visibility.Equals(Visibility.Visible) ? Visibility.Collapsed : Visibility.Visible;
             else if (_lastpagearea.Contains(e.GetPosition(this)) && TextView.IsReadOnly)
                 TextView.PageDown();
-            else if (_nextpagearea.Contains(e.GetPosition(this)) && TextView.IsReadOnly) 
+            else if (_nextpagearea.Contains(e.GetPosition(this)) && TextView.IsReadOnly)
                 TextView.PageUp();
-            else if(_wordlistarea.Contains(e.GetPosition(this)) && TextView.IsReadOnly)
+            else if (_wordlistarea.Contains(e.GetPosition(this)) && TextView.IsReadOnly)
                 WordPanelSwitch();
         }
         #endregion
@@ -131,8 +131,9 @@ namespace ExReaderPlus.View {
                 case "SizeTextLarge": TextView.FontSize += 0.5; break;
                 case "SizeTextLittle": TextView.FontSize -= 0.5; break;
                 case "OpenWordList": WordPanelSwitch(); break;
-                case "Pin": TileService.PinTile();break;
                 case "AddToDic": MenuPop.Hide(); break;
+                case "LineIn": _viewModel.RichTextBoxLineSpace += 1; break;
+                case "LineDe": _viewModel.RichTextBoxLineSpace -= 1; break;
                 case "ChangeMode":
                     if (_viewModel.TempPassage != null)
                         if (!TextView.IsReadOnly)
@@ -195,9 +196,9 @@ namespace ExReaderPlus.View {
                         HitHolder rect = new HitHolder
                         {
                             PointBrush = _viewModel.NormalBg,
-                            Margin = new Thickness(loc.Left, loc.Top + 2, 0, 0),
+                            Margin = new Thickness(loc.Left, loc.Top + TextView.LineTop, 0, 0),
                             Width = loc.Width,
-                            Height = loc.Height - 2,
+                            Height = loc.Height - 2 * TextView.LineTop,
                             Name = kp.Key,
                         };
                         rect.MouseRightTap += Rect_MouseRightTap;
@@ -209,7 +210,8 @@ namespace ExReaderPlus.View {
                                 RenderWithCheck(rect, 0);
                                 _viewModel.KeyWordNotLearn.Add(kp.Key);
                             }
-                            else {
+                            else
+                            {
                                 RenderWithCheck(rect, 1);
                                 _viewModel.KeyWordLearn.Add(kp.Key);
                             }
@@ -303,7 +305,8 @@ namespace ExReaderPlus.View {
         }
 
         private void HideText(int learned) {
-            if (learned == 1) {
+            if (learned == 1)
+            {
                 foreach (var s in _viewModel.KeyWordLearn)
                     foreach (var hitc in ControlDic[s])
                         ((HitHolder)hitc).Background = new SolidColorBrush(Colors.Transparent);
@@ -373,7 +376,7 @@ namespace ExReaderPlus.View {
         }
 
         private void InitTimer() {
-      
+
         }
 
         #endregion
@@ -417,11 +420,10 @@ namespace ExReaderPlus.View {
         }
         #endregion
 
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-        {
-            
-//            FileManage.FileManage fileManage= new FileManage.FileManage();
-//            fileManage.NewPage();
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e) {
+
+            //            FileManage.FileManage fileManage= new FileManage.FileManage();
+            //            fileManage.NewPage();
         }
     }
 }
