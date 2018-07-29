@@ -1,5 +1,4 @@
 ﻿using System;
-using ExReaderPlus.Serializer;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,42 +7,49 @@ using ExReaderPlus.Manage.PassageManager;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using ExReaderPlus.FileManage;
+using ExReaderPlus.PassageIO;
+using UserDictionary;
+
 namespace UnitTest.Manage
 {
     [TestClass]
     public class FileManageTest
     {
         /// <summary>
-        /// 
+        /// OpenFileTest
         /// </summary>
         /// <returns></returns>
         [TestMethod]
         public async Task OpenFileTest()
         {
-            
-            Passage passage= null;
-            Serializer serializer=new Serializer();
-            passage= await serializer.deserializer("Save.txt");
-            while (passage is null) ;
-       
-            Assert.AreEqual(passage.Content,"Hello world");
+
+           var passageIO=new PassageIO();
+           var passageInfo=new UserDictionary.Passage();
+            var passage = new ExReaderPlus.Manage.PassageManager.Passage();
+            passageInfo.Id = 1;
+            passage.Content = "Hello world";
+                            
+            Assert.AreEqual(true, await passageIO.SavaPassage(passage, passageInfo));
         }
 
         /// <summary>
-        /// 
+        /// ContentTest & SaveTest
         /// </summary>
         /// <returns></returns>
         [TestMethod]
         
         public async Task SaveFileTask()
         {
-            Passage passage=new Passage();
-            Passage passage1 = new Passage();
+            var passageIO = new PassageIO();
+            var passageInfo = new UserDictionary.Passage();
+            passageInfo.Id = 1;
+            
+            
+            var passage = new ExReaderPlus.Manage.PassageManager.Passage();
             passage.Content = "Hello world";
-            Serializer serializer = new Serializer();
-            await serializer.serializer(passage, "Hi.txt");
-            passage1 = await serializer.deserializer("Hi.txt");
-            while (passage1 is null) ;
+            await passageIO.SavaPassage(passage, passageInfo);
+            var passage1=new ExReaderPlus.Manage.PassageManager.Passage();
+             passage1 = await passageIO.ReadPassage(passageInfo);
 
             Assert.AreEqual(passage1.Content, "Hello world");
 

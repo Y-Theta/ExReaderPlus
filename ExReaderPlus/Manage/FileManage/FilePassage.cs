@@ -6,8 +6,10 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
-using ExReaderPlus.Manage.PassageManager;
+using ExReaderPlus.Manage;
 using ExReaderPlus.FileManage;
+using UserDictionary;
+
 
 namespace ExReaderPlus.PassageIO
 {
@@ -25,7 +27,7 @@ namespace ExReaderPlus.PassageIO
         /// <param name="passage"></param>
         /// <param name="str1"></param>
         /// <returns></returns>
-        public  async Task<bool> SavaPassage(Passage passage,UserDictionary.Passage passageInfo)
+        public  async Task<bool> SavaPassage(Manage.PassageManager.Passage passage,UserDictionary.Passage passageInfo)
         {
            
             StorageFolder applicationFolder = ApplicationData.Current.LocalFolder;
@@ -47,10 +49,10 @@ namespace ExReaderPlus.PassageIO
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-       public async Task<Passage> ReadPassage(UserDictionary.Passage passage)
+       public async Task<Manage.PassageManager.Passage> ReadPassage(UserDictionary.Passage passage)
         {
 
-            Passage p = new Passage();
+            Manage.PassageManager.Passage p = new Manage.PassageManager.Passage();
             StorageFolder folder = ApplicationData.Current.LocalFolder;
                 StorageFile file = await folder.TryGetItemAsync(passage.Id.ToString()) as StorageFile;
             if (file != null)
