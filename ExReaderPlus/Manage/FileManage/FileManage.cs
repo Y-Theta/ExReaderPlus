@@ -42,7 +42,10 @@ namespace ExReaderPlus.FileManage {
             }
         }
 
-        //序列化
+        /// <summary>
+        /// 序列化
+        /// </summary>
+        /// <param name="passage"></param>
         public async void SerializeFile(UserDictionary.Passage passage)
         {
             DataContractSerializer serializer = new DataContractSerializer(typeof(UserDictionary.Passage));
@@ -75,7 +78,10 @@ namespace ExReaderPlus.FileManage {
             }
             
         }
-
+        /// <summary>
+        /// *new 导入文件
+        /// </summary>
+        /// <returns></returns>
         public async Task<Passage> OpenFile()
         {
             Passage passage = new Passage();
@@ -103,7 +109,11 @@ namespace ExReaderPlus.FileManage {
             }
         }
 
-        //显示Toast通知
+        /// <summary>
+        /// toast通知
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="stringContent"></param>
         private void ShowToastNotification(string title, string stringContent)
         {
             ToastNotifier ToastNotifier = ToastNotificationManager.CreateToastNotifier();

@@ -1,7 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
   <!--<PropertyGroup>
     <TargetFrameworks>netcoreapp2.0;netstandard2.0</TargetFrameworks>  
@@ -11,5 +15,4 @@
     <PackageReference Include="Microsoft.EntityFrameWorkCore.Sqlite" Version="2.1.1" />
     <PackageReference Include="Microsoft.EntityFrameWorkCore.tools" Version="2.1.1" />
   </ItemGroup>
-
 </Project>
