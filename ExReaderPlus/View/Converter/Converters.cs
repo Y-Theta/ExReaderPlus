@@ -65,6 +65,8 @@ namespace ExReaderPlus.View.Converter {
                 return System.Convert.ToInt32(value).Equals(0) ? Visibility.Collapsed : Visibility.Visible;
             else if (parameter.Equals("0"))
                 return System.Convert.ToInt32(value).Equals(1) ? Visibility.Collapsed : Visibility.Visible;
+            else if(parameter.Equals("bool"))
+                return System.Convert.ToBoolean(value) ? Visibility.Visible : Visibility.Visible;
             else return null;
         }
 

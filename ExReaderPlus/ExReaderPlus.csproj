@@ -106,7 +106,7 @@
     <Compile Include="Models\PassageCollection.cs" />
     <Compile Include="Serializer\Serializer.cs" />
     <Compile Include="Tile\TileService.cs" />
-    <Compile Include="ViewModels\DIcPageViewModel.cs" />
+    <Compile Include="ViewModels\DicPageViewModel.cs" />
     <Compile Include="ViewModels\EssayPageViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBasse.cs" />
     <Compile Include="View\Commands\CommandBase.cs" />
@@ -149,6 +149,7 @@
     <Content Include="Assets\IconY.ttf" />
     <Content Include="DB\dic.db" />
     <Content Include="Assets\Rect.ttf" />
+    <Content Include="Assets\Questrial-Regular.ttf" />
     <None Include="ExReaderPlus_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

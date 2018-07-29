@@ -35,7 +35,6 @@ namespace ExReaderPlus.View.Layout {
             if ((int)(availableSize.Width / CellWidth) != _cellcounts) 
                 _cellcounts = (int)(availableSize.Width / CellWidth);
 
-            double height = 0;
             int k = 0;
             List<UIElement> cellline = null;
             foreach (var child in Children)

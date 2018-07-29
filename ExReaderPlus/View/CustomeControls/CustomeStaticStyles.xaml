@@ -5,6 +5,7 @@
     <!--Fontfamily-->
     <FontFamily x:Key="IconY">ms-appx:///Assets/IconY.ttf#IconY</FontFamily>
     <FontFamily x:Key="RECT">ms-appx:///Assets/Rect.ttf#RectNum</FontFamily>
+    <FontFamily x:Key="Questrial">ms-appx:///Assets/Questrial-Regular.ttf#Questrial</FontFamily>
     
     <!--Enums-->
     <local:IconKind x:Key="ICONF.Round">Round</local:IconKind>

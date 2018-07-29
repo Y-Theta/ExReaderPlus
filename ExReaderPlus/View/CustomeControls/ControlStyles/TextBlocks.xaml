@@ -209,8 +209,6 @@
                 Value="Right" />
         <Setter Property="VerticalAlignment"
                 Value="Bottom" />
-        <Setter Property="Margin"
-                Value="0,0,16,16" />
     </Style>
     
 
