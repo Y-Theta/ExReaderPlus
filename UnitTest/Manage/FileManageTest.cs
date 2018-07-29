@@ -13,14 +13,41 @@ namespace UnitTest.Manage
     [TestClass]
     public class FileManageTest
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [TestMethod]
-        public async void OpenFileTest()
+        public async Task OpenFileTest()
         {
-
-            Passage passage=new Passage();
+            
+            Passage passage= null;
             Serializer serializer=new Serializer();
-            passage= await serializer.deserializer("Save");
+            passage= await serializer.deserializer("Save.txt");
+            while (passage is null) ;
+       
             Assert.AreEqual(passage.Content,"Hello world");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        
+        public async Task SaveFileTask()
+        {
+            Passage passage=new Passage();
+            Passage passage1 = new Passage();
+            passage.Content = "Hello world";
+            Serializer serializer = new Serializer();
+            await serializer.serializer(passage, "Hi.txt");
+            passage1 = await serializer.deserializer("Hi.txt");
+            while (passage1 is null) ;
+
+            Assert.AreEqual(passage1.Content, "Hello world");
+
+
         }
     }
 }

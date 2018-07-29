@@ -104,7 +104,6 @@
     <Compile Include="Manage\PassageManager.cs" />
     <Compile Include="Manage\WordManager\WordBook.cs" />
     <Compile Include="Models\PassageCollection.cs" />
-    <Compile Include="Serializer\Serializer.cs" />
     <Compile Include="Tile\TileService.cs" />
     <Compile Include="ViewModels\DIcPageViewModel.cs" />
     <Compile Include="ViewModels\EssayPageViewModel.cs" />
