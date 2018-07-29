@@ -156,6 +156,28 @@ namespace ExReaderPlus.View {
             }
         }
 
+        /// <summary>
+        /// 行距
+        /// </summary>
+        public float LineSpace {
+            get { return (float)GetValue(LineSpaceProperty); }
+            set {
+                SetValue(LineSpaceProperty, value);
+                SetDefaultFormat();
+            }
+        }
+        public static readonly DependencyProperty LineSpaceProperty =
+            DependencyProperty.Register("LineSpace", typeof(float),
+                typeof(RichTextBox), new PropertyMetadata(24.0f,OnLineSpaceChanged));
+        private static void OnLineSpaceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+            RichTextBox rtb = (RichTextBox)d;
+            rtb.LineSpace = (float)e.NewValue;
+        }
+
+        public double LineTop { get; set; }
+
+        public double LineBottom { get; set; }
+
         #endregion
 
         #region Events
@@ -404,13 +426,19 @@ namespace ExReaderPlus.View {
         private void SetDefaultFormat() {
             var _instence = App.Current.Resources["OverSettingService"] as OverSettingService;
             FontSize = (float)_instence.GetValue(ViewSettingConfigs.RichTextBoxSize);
-
+            
             ITextCharacterFormat defaultformat = Document.GetDefaultCharacterFormat();
             defaultformat.ForegroundColor = (Color)_instence.GetValue(ViewSettingConfigs.RichTextBoxFg);
-            defaultformat.BackgroundColor = (Color)_instence.GetValue(ViewSettingConfigs.RichTextBoxBg);
             defaultformat.Weight = (int)_instence.GetValue(ViewSettingConfigs.RichTextBoxWeight);
+            defaultformat.Position = (float)((float)_instence.GetValue(ViewSettingConfigs.RichTextBoxLineSpace) - 1.09 * FontSize) / 2;
+
+            ITextParagraphFormat textParagraph = Document.GetDefaultParagraphFormat();
+            textParagraph.SetLineSpacing(LineSpacingRule.AtLeast, (float)_instence.GetValue(ViewSettingConfigs.RichTextBoxLineSpace));
+
+            LineTop = defaultformat.Position;
 
             Document.SetDefaultCharacterFormat(defaultformat);
+            Document.SetDefaultParagraphFormat(textParagraph);
         }
 
         private void Updatalayout() {

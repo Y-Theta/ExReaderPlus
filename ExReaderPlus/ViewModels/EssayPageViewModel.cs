@@ -23,6 +23,9 @@ namespace ExReaderPlus.ViewModels {
         public OverSettingService _settingService;
 
         private float _richTextSize;
+        /// <summary>
+        /// 字体大小
+        /// </summary>
         public float RichTextSize {
             get => _richTextSize;
             set {
@@ -31,7 +34,22 @@ namespace ExReaderPlus.ViewModels {
             }
         }
 
+        private float _richTextBoxLineSpace;
+        /// <summary>
+        /// 行间距
+        /// </summary>
+        public float RichTextBoxLineSpace {
+            get => _richTextBoxLineSpace;
+            set {
+                SetValue(out _richTextBoxLineSpace, value, nameof(RichTextBoxLineSpace));
+                _settingService.SetValue(ViewSettingConfigs.RichTextBoxLineSpace, value);
+            }
+        }
+
         private Thickness _controlBarThickness;
+        /// <summary>
+        /// 控制条位置
+        /// </summary>
         public Thickness ControlBarThickness {
             get => _controlBarThickness;
             set {
@@ -133,6 +151,9 @@ namespace ExReaderPlus.ViewModels {
             }
         }
 
+        /// <summary>
+        /// 是否渲染已掌握单词
+        /// </summary>
         private bool _learnedColor;
         public bool LearnedColor {
             get => _learnedColor;
@@ -145,7 +166,9 @@ namespace ExReaderPlus.ViewModels {
             OnRenderChange.Invoke(this, "Lea", _learnedColor);
         }
 
-
+        /// <summary>
+        /// 是否渲未掌握单词
+        /// </summary>
         private bool _notlearnColor;
         public bool NotlearnColor {
             get => _notlearnColor;
@@ -263,6 +286,9 @@ namespace ExReaderPlus.ViewModels {
             _normalBg = new SolidColorBrush((Color)_settingService.GetValue(ViewSettingConfigs.RichTextSelectBoxBg));
             _learned = new SolidColorBrush((Color)_settingService.GetValue(ViewSettingConfigs.RichTextLearned));
             _notLearn = new SolidColorBrush((Color)_settingService.GetValue(ViewSettingConfigs.RichTextNotLearn));
+            _richTextBoxLineSpace = (float)_settingService.GetValue(ViewSettingConfigs.RichTextBoxLineSpace);
+            _notlearnColor = (bool)_settingService.GetValue(ViewSettingConfigs.IsNotlearnRender);
+            _learnedColor = (bool)_settingService.GetValue(ViewSettingConfigs.IsLearnedRender);
 
             ShownState = 0;
         }

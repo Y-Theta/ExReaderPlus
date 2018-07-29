@@ -42,6 +42,15 @@ namespace ExReaderPlus.View {
         }
 
         /// <summary>
+        /// 富文本框段间距
+        /// </summary>
+        private float _richTextBoxLineSpace = 24;
+        public float RichTextBoxLineSpace {
+            get => _richTextBoxLineSpace;
+            set => _richTextBoxLineSpace = value;
+        }
+
+        /// <summary>
         /// 富文本框文字字重
         /// </summary>
         private int _richTextBoxWeight = 400;

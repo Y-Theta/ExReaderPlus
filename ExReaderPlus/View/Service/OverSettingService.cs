@@ -35,6 +35,8 @@ namespace ExReaderPlus.View {
                     return _viewSettings.IsNotlearnRender;
                 case ViewSettingConfigs.ReadingPageControlBar:
                     return _viewSettings.ReadingPageControlBar;
+                case ViewSettingConfigs.RichTextBoxLineSpace:
+                    return _viewSettings.RichTextBoxLineSpace;
                 default:return null;
             }
         }
@@ -74,6 +76,9 @@ namespace ExReaderPlus.View {
                     break;
                 case ViewSettingConfigs.ReadingPageControlBar:
                     _viewSettings.ReadingPageControlBar = (Thickness)value;
+                    break;
+                case ViewSettingConfigs.RichTextBoxLineSpace:
+                    _viewSettings.RichTextBoxLineSpace = (float)value;
                     break;
                 default:
                     value = null;
