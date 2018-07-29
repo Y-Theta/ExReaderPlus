@@ -41,6 +41,10 @@ namespace ExReaderPlus.ViewModels {
         public float RichTextBoxLineSpace {
             get => _richTextBoxLineSpace;
             set {
+                if (value > 45)
+                    value = 45;
+                if (value < 24)
+                    value = 24;
                 SetValue(out _richTextBoxLineSpace, value, nameof(RichTextBoxLineSpace));
                 _settingService.SetValue(ViewSettingConfigs.RichTextBoxLineSpace, value);
             }

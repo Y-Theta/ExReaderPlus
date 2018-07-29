@@ -32,7 +32,7 @@ namespace ExReaderPlus.View.Layout {
         #region Methods
         protected override Size MeasureOverride(Size availableSize) {
             _panelcells.Clear();
-            if ((int)(availableSize.Width / CellWidth) != _cellcounts) 
+            if ((int)(availableSize.Width /  CellWidth) != _cellcounts) 
                 _cellcounts = (int)(availableSize.Width / CellWidth);
 
             int k = 0;

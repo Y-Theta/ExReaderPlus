@@ -14,8 +14,8 @@
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <layout:FlowLayout CellWidth="480"
-                                       CellHeight="160" />
+                    <layout:FlowLayout CellWidth="640"
+                                       CellHeight="180" />
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
@@ -53,7 +53,7 @@
                 <DataTemplate x:DataType="model:ActionDictionary">
                     <Grid  Background="#477FBF"
                            Margin="8,8,8,8"
-                           MinWidth="240">
+                           MinWidth="360">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="auto" />
@@ -81,7 +81,7 @@
                         <Grid x:Name="SysIcon"
                               Grid.ColumnSpan="2"
                               Grid.RowSpan="2"
-                              Visibility="{Binding IsSys, Converter={StaticResource NULLnoVIS},ConverterParameter=bool}">
+                              Visibility="{Binding IsSys, Converter={StaticResource NULLnoVIS},ConverterParameter=true}">
                             <TextBlock Style="{StaticResource DicIconHolder}"
                                        Margin="0,0,16,16"
                                        Text="&#xE713;" />
@@ -93,11 +93,13 @@
                         <Grid x:Name="UserIcon"
                               Grid.ColumnSpan="2"
                               Grid.RowSpan="2"
-                              Visibility="{Binding IsSys, Converter={StaticResource NULLnoVIS},ConverterParameter=bool}">
+                              Visibility="{Binding IsSys, Converter={StaticResource NULLnoVIS},ConverterParameter=false}">
                             <TextBlock Style="{StaticResource DicIconHolder}"
                                        Margin="0,0,16,16"
                                        Text="&#xE716;"/>
                         </Grid>
+                        <Button Command="{Binding Open}" />
+                        <Button Command="{Binding  ReName}" />
                     </Grid>
                 </DataTemplate>
             </Setter.Value>

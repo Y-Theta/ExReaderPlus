@@ -11,5 +11,13 @@
                   MinWidth="120"
                   ItemsSource="{Binding Diclist}"
                   Style="{StaticResource DicGridView}" />
+
+        <Button Style="{StaticResource AddDicButton}"
+                Content="&#xE710;"
+                Command="{Binding AddDicCommand}"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Margin="0,0,16,16" />
     </Grid>
+    
 </Page>

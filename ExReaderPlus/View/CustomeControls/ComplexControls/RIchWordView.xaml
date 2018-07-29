@@ -8,7 +8,7 @@
              DataContext="{StaticResource EssayPageViewModel}">
     <Grid x:Name="Rootgrid"
           AllowDrop="True"
-          DragOver="ControlLayer_DragOver"
+          DragOver="Rootgrid_DragOver"
           DragLeave="Rootgrid_DragLeave"
           Background="{ThemeResource RichTextBg}">
         <VisualStateManager.VisualStateGroups>
@@ -95,7 +95,6 @@
                   Margin="0,0,8,0">
                 <local:RichTextBox x:Name="TextView"
                                    SelectionHighlightColor="{ThemeResource RichTextBg}"
-                                   LineSpace="{Binding RichTextBoxLineSpace,Mode=TwoWay}"
                                    FontFamily="{ThemeResource Questrial}"
                                    FontSize="{Binding RichTextSize, Mode=TwoWay}"
                                    TextWrapping="Wrap" />
@@ -181,20 +180,6 @@
                     CommandParameter="SizeTextLittle"
                     Grid.Column="7"
                     Style="{StaticResource IconButtonStyle}" />
-            <Button Content="&#xA000;"
-                    Tag="增大行距"
-                    Grid.Column="9"
-                    Command="{Binding ControlBarCommand}"
-                    CommandParameter="LineIn"
-                    FontFamily="{StaticResource IconY}"
-                    Style="{StaticResource IconButtonStyle}" />
-            <Button Content="&#xA000;"
-                    Tag="减小行距"
-                    Grid.Column="10"
-                    Command="{Binding ControlBarCommand}"
-                    CommandParameter="LineDe"
-                    FontFamily="{StaticResource IconY}"
-                    Style="{StaticResource IconButtonStyle}" />
             <Rectangle Width="1"
                        HorizontalAlignment="Center"
                        Fill="{ThemeResource DefaultControlBarSeperatorBg}"
@@ -231,17 +216,6 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
-            <TextBlock x:Name="Title"
-                       FontSize="16"
-                       Margin="4,0,0,0"
-                       FontWeight="Light"
-                       Width="160"
-                       FontStretch="Expanded"
-                       HorizontalAlignment="Left"
-                       VerticalAlignment="Center"
-                       FontFamily="{StaticResource RECT}"
-                       Foreground="{ThemeResource WordListWordFg}"
-                       Text="word" />
             <Grid x:Name="WordPanelTitle"
                   Margin="0,8,0,16"
                   Grid.Row="1">

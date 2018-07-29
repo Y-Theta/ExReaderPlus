@@ -116,6 +116,7 @@
       <DependentUpon>RichWordView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\CustomeControls\NewControls\CustomeNavigationView.cs" />
+    <Compile Include="View\CustomeControls\NewControls\DefaultDialog.cs" />
     <Compile Include="View\Enums.cs" />
     <Compile Include="View\CustomeControls\NewControls\HitHolder.cs" />
     <Compile Include="View\CustomeControls\NewControls\IconToggelButton.cs" />

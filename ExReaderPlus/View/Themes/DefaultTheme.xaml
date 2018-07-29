@@ -20,6 +20,8 @@
                      Color="#40000000" />
     <SolidColorBrush x:Key="ContrastMask_20"
                      Color="#20000000" />
+    <SolidColorBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush"
+                     Color="#99000000" />
 
     <!--TitleBarButton-->
     <Color x:Key="TitleBarButtonBG_N">Transparent</Color>

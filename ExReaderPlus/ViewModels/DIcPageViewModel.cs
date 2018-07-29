@@ -2,9 +2,13 @@
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using ExReaderPlus.Models;
+using ExReaderPlus.View;
+using ExReaderPlus.View.Commands;
 using ExReaderPlus.WordsManager;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace ExReaderPlus.ViewModels {
     public class DicPageViewModel : ViewModelBasse {
@@ -17,6 +21,10 @@ namespace ExReaderPlus.ViewModels {
             get => _diclist;
             set => SetValue(out _diclist, value, nameof(Diclist));
         }
+
+        public CommandBase AddDicCommand { get; set; }
+
+        public event CommandActionEventHandler CommandActions;
         #endregion
 
         #region Methods
@@ -38,11 +46,16 @@ namespace ExReaderPlus.ViewModels {
             s.Start();
             await s;
         }
+
+        private void InitCommands() {
+            AddDicCommand = new CommandBase(obj => { CommandActions?.Invoke(this, new CommandArgs(obj)); });
+        }
         #endregion
 
         #region Constructors
         public DicPageViewModel() {
             InitDiclist();
+            InitCommands();
         }
         #endregion
     }

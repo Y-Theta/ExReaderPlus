@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Timers;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
@@ -21,6 +22,8 @@ using Windows.UI.Xaml.Media.Imaging;
 namespace ExReaderPlus.View {
     public sealed partial class RichWordView : UserControl {
         #region Properties
+        private Timer _enSure;
+
         private EssayPageViewModel _viewModel;
 
         private Rect _controlbararea;
@@ -132,8 +135,6 @@ namespace ExReaderPlus.View {
                 case "SizeTextLittle": TextView.FontSize -= 0.5; break;
                 case "OpenWordList": WordPanelSwitch(); break;
                 case "AddToDic": MenuPop.Hide(); break;
-                case "LineIn": _viewModel.RichTextBoxLineSpace += 1; break;
-                case "LineDe": _viewModel.RichTextBoxLineSpace -= 1; break;
                 case "ChangeMode":
                     if (_viewModel.TempPassage != null)
                         if (!TextView.IsReadOnly)
@@ -196,9 +197,9 @@ namespace ExReaderPlus.View {
                         HitHolder rect = new HitHolder
                         {
                             PointBrush = _viewModel.NormalBg,
-                            Margin = new Thickness(loc.Left, loc.Top + TextView.LineTop, 0, 0),
-                            Width = loc.Width,
-                            Height = loc.Height - 2 * TextView.LineTop,
+                            Margin = new Thickness(loc.Left - 1, loc.Top + 4, 0, 0),
+                            Width = loc.Width + 2,
+                            Height = loc.Height - 8,
                             Name = kp.Key,
                         };
                         rect.MouseRightTap += Rect_MouseRightTap;
@@ -376,7 +377,12 @@ namespace ExReaderPlus.View {
         }
 
         private void InitTimer() {
+            _enSure = new Timer { Interval = 1000 };
+            _enSure.Elapsed += _enSure_Elapsed;
+        }
 
+        private void _enSure_Elapsed(object sender, ElapsedEventArgs e) {
+            _enSure.Enabled = false;
         }
 
         #endregion
@@ -394,7 +400,7 @@ namespace ExReaderPlus.View {
             ControlLayer.Margin = tic;
         }
 
-        private void ControlLayer_DragOver(object sender, DragEventArgs e) {
+        private void Rootgrid_DragOver(object sender, DragEventArgs e) {
             e.DragUIOverride.IsGlyphVisible = false;
         }
 

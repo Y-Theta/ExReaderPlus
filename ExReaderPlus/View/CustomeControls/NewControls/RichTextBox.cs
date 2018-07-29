@@ -168,7 +168,7 @@ namespace ExReaderPlus.View {
         }
         public static readonly DependencyProperty LineSpaceProperty =
             DependencyProperty.Register("LineSpace", typeof(float),
-                typeof(RichTextBox), new PropertyMetadata(24.0f,OnLineSpaceChanged));
+                typeof(RichTextBox), new PropertyMetadata(24.0f, OnLineSpaceChanged));
         private static void OnLineSpaceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             RichTextBox rtb = (RichTextBox)d;
             rtb.LineSpace = (float)e.NewValue;
@@ -425,12 +425,11 @@ namespace ExReaderPlus.View {
 
         private void SetDefaultFormat() {
             var _instence = App.Current.Resources["OverSettingService"] as OverSettingService;
-            FontSize = (float)_instence.GetValue(ViewSettingConfigs.RichTextBoxSize);
             
             ITextCharacterFormat defaultformat = Document.GetDefaultCharacterFormat();
             defaultformat.ForegroundColor = (Color)_instence.GetValue(ViewSettingConfigs.RichTextBoxFg);
             defaultformat.Weight = (int)_instence.GetValue(ViewSettingConfigs.RichTextBoxWeight);
-            defaultformat.Position = (float)((float)_instence.GetValue(ViewSettingConfigs.RichTextBoxLineSpace) - 1.09 * FontSize) / 2;
+            defaultformat.Position = (float)((float)_instence.GetValue(ViewSettingConfigs.RichTextBoxLineSpace) * 1.16 - 1.09 * FontSize) / 2;
 
             ITextParagraphFormat textParagraph = Document.GetDefaultParagraphFormat();
             textParagraph.SetLineSpacing(LineSpacingRule.AtLeast, (float)_instence.GetValue(ViewSettingConfigs.RichTextBoxLineSpace));
@@ -444,16 +443,7 @@ namespace ExReaderPlus.View {
         private void Updatalayout() {
 
         }
-
-        private string PrintDicItem(List<Rect> ranges) {
-            throw new NotImplementedException();
-            string s = "";
-            foreach (var r in ranges)
-            {
-                s += "    " + r.ToString();
-            }
-            return s.ToString();
-        }
+       
         #endregion
 
 

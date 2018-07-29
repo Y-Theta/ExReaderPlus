@@ -28,9 +28,9 @@
     <ResourceDictionary.MergedDictionaries>
         <!--ButtonStyles-->
         <ResourceDictionary Source="ControlStyles/ButtonStyles.xaml" />
-        
+        <!--TextBlocks-->
         <ResourceDictionary Source="ControlStyles/TextBlocks.xaml" />
-
+        <!--CollectionViews-->
         <ResourceDictionary Source="ControlStyles/CollectionViews.xaml" />
         <!--ScrollViewerAndSlider-->
         <ResourceDictionary Source="ControlStyles/ScrollViewerAndSlider.xaml" />
