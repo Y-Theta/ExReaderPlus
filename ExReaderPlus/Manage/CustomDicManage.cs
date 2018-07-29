@@ -112,6 +112,7 @@ namespace ExReaderPlus.Manage {
 
             }
         }
+
         /// <summary>
         /// 把Vocabulary转化为Word
         /// </summary>
@@ -243,7 +244,7 @@ namespace ExReaderPlus.Manage {
         }
 
         /// <summary>
-        /// 把数据导入C盘考纲词汇
+        /// 把数据导入C盘考纲词汇表
         /// 成功返回 1
         /// 失败返回 0
         /// 已经导入 -1
@@ -355,6 +356,32 @@ namespace ExReaderPlus.Manage {
             return await ts;
         }
 
-
+        /// <summary>
+        /// 返回所有用户的生词本名字，除了系统词库
+        /// </summary>
+        /// <returns></returns>
+        public static List<string> GetAllCustomDictionariesName()
+        {
+            using(var db=new DataContext())
+            {
+                db.Database.Migrate();
+                var result= db.Dictionaries.Select(d => d.Id).ToList();
+                db.Database.CloseConnection();
+                var systemDics = new string[]
+                {
+                    "gk",
+                    "cet4",
+                    "cet6",
+                    "ky",
+                    "toefl",
+                    "ielts"
+                };
+                foreach(var dicName in systemDics)
+                {
+                    result.Remove(dicName);
+                }               
+                return result;
+            }
+        }
     }
 }

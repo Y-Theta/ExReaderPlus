@@ -101,7 +101,7 @@ namespace ExReaderPlus.FileManage {
                 var stream = await storageFile.OpenStreamForReadAsync();
 
                 passage.Content = await FileIO.ReadTextAsync(storageFile);
-                passage.HeadName = storageFile.DisplayName;
+                passage.HeadName = storageFile.Name.Replace(".txt","");//获取文章标题,去除扩展名
 
                 return passage;
             }

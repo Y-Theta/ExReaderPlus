@@ -124,5 +124,13 @@ namespace UnitTest.Manage
                 db.Database.CloseConnection();
             }
         }
+
+        [TestMethod]
+        public void GetAllDictionariesNameTest()
+        {
+            CustomDicManage.AddACustomDictionary("GetAllDictionaryNameTest");
+            var re= CustomDicManage.GetAllCustomDictionariesName();
+            Assert.AreEqual(1,re.Count());
+        }
     }
 }
