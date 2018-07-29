@@ -5,6 +5,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
@@ -49,9 +50,24 @@ namespace ExReaderPlus.View
         public static readonly DependencyProperty TooltipProperty =
             DependencyProperty.Register("Tooltip", typeof(string), 
                 typeof(HitHolder), new PropertyMetadata(null));
+
+        public event HCHPointHandel MouseRightTap;
         #endregion
 
         #region Methods
+        protected override void OnApplyTemplate() {
+            base.OnApplyTemplate();
+        }
+
+        protected override void OnLostFocus(RoutedEventArgs e) {
+            base.OnLostFocus(e);
+        }
+
+        protected override void OnRightTapped(RightTappedRoutedEventArgs e) {
+            base.OnRightTapped(e);
+            MouseRightTap?.Invoke(this);
+        }
+
         protected override void OnPointerEntered(PointerRoutedEventArgs e) {
             base.OnPointerEntered(e);
             VisualStateManager.GoToState(this, "PointerOver", false);

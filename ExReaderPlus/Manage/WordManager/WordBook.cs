@@ -43,8 +43,8 @@ namespace ExReaderPlus.WordsManager {
             Wordlist = new Dictionary<string, Vocabulary>();
         }
 
-        public BriefDic GetBriefDic() {
-            return new BriefDic { Name = Name, IsSys = IsSystem, DicName = Dicname, WordsCount = Wordlist.Count };
+        public ActionDictionary GetActionDictionary() {
+            return new ActionDictionary { Name = Name, IsSys = IsSystem, DBName = Dicname, WordsCount = Wordlist.Count };
         }
 
     }
@@ -172,7 +172,7 @@ namespace ExReaderPlus.WordsManager {
         public static Dictionary<string, Vocabulary> GetDictionaryByName(string dictionaryName)
         {
             Dictionary<string, Vocabulary> keyValues = new Dictionary<string, Vocabulary>();
-            using (var db=new DataContext())
+            using (var db = new DataContext())
             {
                 db.Database.Migrate();
                 var result = db.DictionaryWords
@@ -184,7 +184,7 @@ namespace ExReaderPlus.WordsManager {
                 {
                     var v = new Vocabulary();
                     v.Word = r.Word.Id;
-                    v.YesorNo= r.Word.YesorNo;
+                    v.YesorNo = r.Word.YesorNo;
                     v.Translation = r.Word.Translation;
                     v.Phonetic = r.Word.Phonetic;
                     keyValues.Add(v.Word, v);
@@ -193,7 +193,6 @@ namespace ExReaderPlus.WordsManager {
                 db.Database.CloseConnection();
                 return keyValues;
             }
-            
         }
 
         public static async Task<bool> ChangeWordStatePenetrateAsync(string str,int state) {

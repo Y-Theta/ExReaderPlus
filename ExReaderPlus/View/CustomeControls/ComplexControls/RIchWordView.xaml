@@ -78,6 +78,10 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="auto" />
@@ -86,10 +90,10 @@
         <ScrollViewer x:Name="TextScroll"
                       Margin="8,32,0,8"
                       Style="{StaticResource DefaultScrollViewer}"
-                      Grid.Row="1"
                       HorizontalScrollBarVisibility="Disabled">
             <Grid x:Name="TextLayer">
                 <local:RichTextBox x:Name="TextView"
+                                   FontFamily="{ThemeResource PhoneFontFamilySemiLight}"
                                    FontSize="{Binding RichTextSize, Mode=TwoWay}"
                                    TextWrapping="Wrap" />
                 <Canvas x:Name="RenderLayer"
@@ -200,11 +204,13 @@
               Background="{ThemeResource WordListBg}"
               Padding="8,0,0,8"
               Width="280"
-              Grid.Column="1">
+              Grid.Column="1"
+              Grid.RowSpan="2">
             <Grid.Clip>
                 <RectangleGeometry Rect="{x:Bind WordPanelRect,Mode=OneWay}">
                     <RectangleGeometry.Transform>
-                        <TranslateTransform x:Name="WordPanelMaskTranslate" X="280"/>
+                        <TranslateTransform x:Name="WordPanelMaskTranslate"
+                                            X="280" />
                     </RectangleGeometry.Transform>
                 </RectangleGeometry>
             </Grid.Clip>
@@ -212,6 +218,7 @@
                 <RowDefinition Height="32" />
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <TextBlock x:Name="Title"
                        FontSize="16"
@@ -259,6 +266,106 @@
             <ListView Grid.Row="2"
                       Style="{StaticResource KeyWordListView}"
                       ItemsSource="{Binding KeywordList,Mode=OneWay}" />
+            <Grid x:Name="WordPanelFoot"
+                  Margin="0,4,0,0"
+                  Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <local:IconToggelButton Style="{StaticResource CheckToggelButton}"
+                                        IsChecked="{Binding LearnedColor,Mode=TwoWay}"
+                                        Margin="4,0,0,0"
+                                        ForeToolTip="为已掌握单词着色"
+                                        BackToolTip="清除已掌握单词的颜色" />
+                <TextBlock Text="已掌握"
+                           FontSize="12"
+                           Margin="24,0,48,0"
+                           Style="{StaticResource WordListLabel}" />
+                <local:IconToggelButton Grid.Column="1"
+                                        Style="{StaticResource CheckToggelButton}"
+                                        IsChecked="{Binding NotlearnColor,Mode=TwoWay}"
+                                        ForeToolTip="为未掌握单词着色"
+                                        BackToolTip="清除未掌握单词的颜色" />
+                <TextBlock Text="未掌握"
+                           Grid.Column="1"
+                           FontSize="12"
+                           Margin="24,0,0,0"
+                           Style="{StaticResource WordListLabel}" />
+            </Grid>
         </Grid>
+
+        <Grid x:Name="StateBar"
+              Background="{ThemeResource WordViewStateBarBg}"
+              Height="20"
+              Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+            <local:HitContentholder Background="Transparent"
+                                    PointBrush="#20000000"
+                                    PressBrush="#40000000"
+                                    Grid.ColumnSpan="3" />
+            <Rectangle Width="2"
+                       HorizontalAlignment="Left"
+                       Fill="{ThemeResource WordViewStateBarId}" />
+            <Grid Grid.Column="1"
+                  VerticalAlignment="Center"
+                  IsHitTestVisible="False">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="当前页 :"
+                           Width="80"
+                           Margin="4,0,0,0"
+                           Style="{StaticResource StatusBarText}" />
+                <TextBlock Text="{Binding PageInfo}"
+                           Width="180"
+                           Grid.Column="1"
+                           Style="{StaticResource StatusBarText}" />
+                <TextBlock Text="当前页面总词数 :"
+                           Width="100"
+                           Grid.Column="3"
+                           Style="{StaticResource StatusBarText}" />
+                <TextBlock Text="{Binding WordCount}"
+                           Width="40"
+                           Grid.Column="4"
+                           Style="{StaticResource StatusBarText}" />
+            </Grid>
+            <Rectangle Width="2"
+                       Grid.Column="2"
+                       HorizontalAlignment="Left"
+                       Fill="{ThemeResource WordViewStateBarId}" />
+        </Grid>
+
+        <FlyoutBase.AttachedFlyout>
+            <Flyout x:Name="MenuPop"
+                    Placement="Right">
+                <Flyout.FlyoutPresenterStyle>
+                    <Style TargetType="FlyoutPresenter">
+                        <Setter Property="BorderThickness"
+                                Value="0" />
+                        <Setter Property="Background"
+                                Value="Transparent" />
+                    </Style>
+                </Flyout.FlyoutPresenterStyle>
+                <Border Background="#E0E0E0"
+                        BorderBrush="#080808"
+                        Margin="-12,0,0,0"
+                        BorderThickness="1">
+                    <Button Style="{StaticResource TextButtonStyle}"
+                            Command="{Binding ControlBarCommand}"
+                            CommandParameter="AddToDic"
+                            Padding="4,2,4,2"
+                            Content="将单词添加到词库" />
+                </Border>
+            </Flyout>
+        </FlyoutBase.AttachedFlyout>
     </Grid>
 </UserControl>

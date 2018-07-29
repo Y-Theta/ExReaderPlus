@@ -44,6 +44,7 @@ namespace ExReaderPlus.View {
 
         private bool _attachTextChange = true;
 
+        public int WordCount { get; set; }
 
         private double _viewPortHeight;
         public double ViewPortHeight {
@@ -155,16 +156,6 @@ namespace ExReaderPlus.View {
             }
         }
 
-        /// <summary>
-        /// 文字预渲染，默认关闭
-        /// </summary>
-        public bool TextPrerender {
-            get { return (bool)GetValue(TextPrerenderProperty); }
-            set { SetValue(TextPrerenderProperty, value); }
-        }
-        public static readonly DependencyProperty TextPrerenderProperty =
-            DependencyProperty.Register("TextPrerender", typeof(bool),
-                typeof(RichTextBox), new PropertyMetadata(false));
         #endregion
 
         #region Events
@@ -318,6 +309,7 @@ namespace ExReaderPlus.View {
             if (range != null)
             {
                 if (_refrash)
+                    WordCount = 0;
                     SetContentFormat(() =>
                     {
                         ElementsLoc.Clear();
@@ -349,6 +341,7 @@ namespace ExReaderPlus.View {
         /// 由于文章中会有重复的单词，所以用这种方式添加到字典
         /// </summary>
         private void AddtoLocDic(string key, Rect value) {
+            WordCount++;
             if (_lastHeight > 0 && value.Height > _lastHeight * 1.5)
             {
                 Rect top = new Rect(value.Right, value.Top, ActualWidth - value.Right - Padding.Right - Margin.Right, value.Height / 2);

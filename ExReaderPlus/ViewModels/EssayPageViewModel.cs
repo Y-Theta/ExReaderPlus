@@ -26,7 +26,7 @@ namespace ExReaderPlus.ViewModels {
         public float RichTextSize {
             get => _richTextSize;
             set {
-                SetValue<float>(out _richTextSize, value, nameof(RichTextSize));
+                SetValue(out _richTextSize, value, nameof(RichTextSize));
                 _settingService.SetValue(ViewSettingConfigs.RichTextBoxSize, value);
             }
         }
@@ -35,7 +35,7 @@ namespace ExReaderPlus.ViewModels {
         public Thickness ControlBarThickness {
             get => _controlBarThickness;
             set {
-                SetValue<Thickness>(out _controlBarThickness, value, nameof(ControlBarThickness));
+                SetValue(out _controlBarThickness, value, nameof(ControlBarThickness));
                 _settingService.SetValue(ViewSettingConfigs.ReadingPageControlBar, value);
             }
         }
@@ -47,7 +47,7 @@ namespace ExReaderPlus.ViewModels {
         public SolidColorBrush NormalBg {
             get => _normalBg;
             set {
-                SetValue<SolidColorBrush>(out _normalBg, value, nameof(NormalBg));
+                SetValue(out _normalBg, value, nameof(NormalBg));
                 _settingService.SetValue(ViewSettingConfigs.RichTextSelectBoxBg, value.Color);
             }
         }
@@ -59,7 +59,7 @@ namespace ExReaderPlus.ViewModels {
         public SolidColorBrush LearnedBg {
             get => _learned;
             set {
-                SetValue<SolidColorBrush>(out _learned, value, nameof(LearnedBg));
+                SetValue(out _learned, value, nameof(LearnedBg));
                 _settingService.SetValue(ViewSettingConfigs.RichTextLearned, value.Color);
             }
         }
@@ -71,9 +71,27 @@ namespace ExReaderPlus.ViewModels {
         public SolidColorBrush NotLearnBg {
             get => _notLearn;
             set {
-                SetValue<SolidColorBrush>(out _notLearn, value, nameof(NotLearnBg));
+                SetValue(out _notLearn, value, nameof(NotLearnBg));
                 _settingService.SetValue(ViewSettingConfigs.RichTextNotLearn, value.Color);
             }
+        }
+
+        /// <summary>
+        /// 当前页面情况
+        /// </summary>
+        private string _pageinfo;
+        public string PageInfo {
+            get => _pageinfo;
+            set => SetValue(out _pageinfo, value, nameof(PageInfo));
+        }
+
+        /// <summary>
+        /// 当前词数
+        /// </summary>
+        private string _wordcount;
+        public string WordCount {
+            get => _wordcount;
+            set => SetValue(out _wordcount, value, nameof(WordCount));
         }
 
         /// <summary>
@@ -113,6 +131,31 @@ namespace ExReaderPlus.ViewModels {
                 SetValue(out _shownState, value, nameof(ShownState));
                 ShownStateChanged?.Invoke(null);
             }
+        }
+
+        private bool _learnedColor;
+        public bool LearnedColor {
+            get => _learnedColor;
+            set {
+                SetValue(out _learnedColor, value, nameof(LearnedColor), LearnedColorChnage);
+                _settingService.SetValue(ViewSettingConfigs.IsLearnedRender, value);
+            }
+        }
+        private void LearnedColorChnage() {
+            OnRenderChange.Invoke(this, "Lea", _learnedColor);
+        }
+
+
+        private bool _notlearnColor;
+        public bool NotlearnColor {
+            get => _notlearnColor;
+            set {
+                SetValue(out _notlearnColor, value, nameof(NotlearnColor), NotlearnColorChange);
+                _settingService.SetValue(ViewSettingConfigs.IsNotlearnRender, value);
+            }
+        }
+        private void NotlearnColorChange() {
+            OnRenderChange.Invoke(this, "Not", _notlearnColor);
         }
 
         #endregion
@@ -156,9 +199,10 @@ namespace ExReaderPlus.ViewModels {
             avb.YesorNo = voc.YesorNo == 0 ? 1 : 0;
             await WordBook.ChangeWordStatePenetrateAsync(avb.Word, avb.YesorNo);
             WordStateChanged?.Invoke(avb);
+            int index = KeywordList.IndexOf(voc);
             KeywordList.Remove(voc);
             if (ShownState.Equals(0))
-                KeywordList.Add(avb);
+                KeywordList.Insert(index, avb);
         }
 
         public void LoadKeywordList(CommandActionEventHandler action = null, HCHPointHandel pointact = null, HCHPointHandel pointexit = null) {
