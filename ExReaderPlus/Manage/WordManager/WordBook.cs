@@ -117,6 +117,8 @@ namespace ExReaderPlus.WordsManager {
 
         public static EngDictionary IELTS { get; set; }
 
+        public static List<EngDictionary> Custom = new List<EngDictionary>();
+
         /// <summary>
         /// 
         /// </summary>
@@ -147,6 +149,17 @@ namespace ExReaderPlus.WordsManager {
             KaoYan = new EngDictionary { Name = "考研词汇", IsSystem = true, Dicname = 3 };
             TOEFL = new EngDictionary { Name = "托福词汇", IsSystem = true, Dicname = 4 };
             IELTS = new EngDictionary { Name = "雅思词汇", IsSystem = true, Dicname = 5 };
+
+            var customDicNameList = CustomDicManage.GetAllCustomDictionariesName();
+
+            if (customDicNameList.Count!=0)
+            {
+                foreach (var re in customDicNameList)
+                {
+                    var i = customDicNameList.IndexOf(re);
+                    Custom.Add(new EngDictionary { Name = re, IsSystem = false, Dicname = i + 10 });//用户词典的DicName=i+10
+                }
+            }
         }
 
         public static async Task InitDicCollectionAsync() {
@@ -157,6 +170,11 @@ namespace ExReaderPlus.WordsManager {
                 KaoYan.Wordlist = GetDictionaryByName("ky");
                 TOEFL.Wordlist = GetDictionaryByName("toefl");
                 IELTS.Wordlist = GetDictionaryByName("ielts");
+
+                foreach(var dic in Custom)
+                {
+                    dic.Wordlist = GetDictionaryByName(dic.Name);
+                }
                 Initdicready = true;
             });
             tk.Start();
