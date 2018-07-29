@@ -13,7 +13,6 @@ namespace ExReaderPlus.Manage.PassageManager
     /// <summary>
     /// 文章类
     /// </summary>
-    [DataContract]
     public class Passage
     {
         public string HeadName { get; set; }
