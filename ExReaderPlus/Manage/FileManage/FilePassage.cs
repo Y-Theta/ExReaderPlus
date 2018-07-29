@@ -51,7 +51,7 @@ namespace ExReaderPlus.PassageIO
         {
 
             Passage p = new Passage();
-            StorageFolder folder = ApplicationData.Current.RoamingFolder;
+            StorageFolder folder = ApplicationData.Current.LocalFolder;
                 StorageFile file = await folder.TryGetItemAsync(passage.Id.ToString()) as StorageFile;
             if (file != null)
             {
@@ -73,7 +73,7 @@ namespace ExReaderPlus.PassageIO
         {
             try
             {
-                StorageFolder folder = ApplicationData.Current.RoamingFolder;
+                StorageFolder folder = ApplicationData.Current.LocalFolder;
                 StorageFile file = await folder.TryGetItemAsync(passage.Id.ToString()) as StorageFile;
                 await file.DeleteAsync();
                 return true;
