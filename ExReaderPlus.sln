@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
+# Blend for Visual Studio 15
 VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExReaderPlus", "ExReaderPlus\ExReaderPlus.csproj", "{A0DB6AFC-D5A3-4E04-88B5-7D260CABCAC1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{93F964CD-E329-449D-870D-285204B33109}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserDictionary", "UserDictionary\UserDictionary.csproj", "{B9C63224-0819-4885-BEA8-E20BE3CAFA8A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserDictionary", "UserDictionary\UserDictionary.csproj", "{B9C63224-0819-4885-BEA8-E20BE3CAFA8A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

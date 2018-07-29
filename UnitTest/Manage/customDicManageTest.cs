@@ -68,14 +68,17 @@ namespace UnitTest.Manage
             Assert.AreEqual(1, CustomDicManage.DeleteDictionary("DeleteTestDic"));
         }
 
+        /// <summary>
+        /// 导入功能测试
+        /// </summary>
         [TestMethod]
         public void DumpWordsFromWordBookToCustomDictionaryTest()
         {
-            //fileDatabaseManage.instance = new fileDatabaseManage();
-            //WordBook.InitDictionaries();
+            fileDatabaseManage.instance = new fileDatabaseManage();
+            WordBook.InitDictionaries();
             //fileDatabaseManage.instance.GetDictionaries();
-            //CustomDicManage.AddACustomDictionary("dumpWordsTest");
-            //CustomDicManage.DumpWordsFromWordBookToCustomDictionary("dumpWordsTest",WordBook.CET6.Wordlist);
+            CustomDicManage.AddACustomDictionary("dumpWordsTest");
+            CustomDicManage.DumpWordsFromWordBookToCustomDictionary("dumpWordsTest", WordBook.CET6.Wordlist);
 
         }
 
