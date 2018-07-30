@@ -1,7 +1,9 @@
-﻿using System;
+﻿using ExReaderPlus.View.Commands;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Windows.Input;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -145,12 +147,31 @@ namespace ExReaderPlus.View
         public static readonly DependencyProperty OnPointExitProperty =
             DependencyProperty.Register("OnPointExit", typeof(HCHPointHandel),
                 typeof(HitContentholder), new PropertyMetadata(null));
+
+
+        public ICommand Command {
+            get { return (ICommand)GetValue(CommandProperty); }
+            set { SetValue(CommandProperty, value); }
+        }
+        public static readonly DependencyProperty CommandProperty =
+            DependencyProperty.Register("Command", typeof(ICommand),
+                typeof(HitContentholder), new PropertyMetadata(null));
+
+        public object CommandPara {
+            get { return (object)GetValue(CommandParaProperty); }
+            set { SetValue(CommandParaProperty, value); }
+        }
+        public static readonly DependencyProperty CommandParaProperty =
+            DependencyProperty.Register("CommandPara", typeof(object),
+                typeof(HitContentholder), new PropertyMetadata(null));
         #endregion
 
         #region Override
+
         protected override void OnPointerPressed(PointerRoutedEventArgs e) {
             base.OnPointerPressed(e);
             VisualStateManager.GoToState(this, "Pressed", false);
+            Command?.Execute(CommandPara);
         }
 
         protected override void OnPointerReleased(PointerRoutedEventArgs e) {

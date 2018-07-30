@@ -960,7 +960,7 @@
                             <Border x:Name="BackgroundElement"
                                     Background="{TemplateBinding Background}"
                                     FlowDirection="{TemplateBinding FlowDirection}"
-                                    BorderThickness="{ThemeResource ContentDialogBorderWidth}"
+                                    BorderThickness="1"
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     MinWidth="{ThemeResource ContentDialogMinWidth}"
                                     MaxWidth="{ThemeResource ContentDialogMaxWidth}"
@@ -975,8 +975,7 @@
                                 <Grid x:Name="DialogSpace"
                                       Padding="{ThemeResource ContentDialogPadding}">
                                     <ScrollViewer x:Name="ContentScrollViewer"
-                                                  Style="{StaticResource DarkScrollViewer}"
-                                                  Margin="{ThemeResource ContentDialogContentScrollViewerMargin}">
+                                                  Style="{StaticResource DarkScrollViewer}">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto" />
@@ -1006,34 +1005,48 @@
                                                     </ControlTemplate>
                                                 </ContentControl.Template>
                                             </ContentControl>
-                                            <ContentPresenter x:Name="Content"
-                                                              ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                              Content="{TemplateBinding Content}"
-                                                              FontSize="{ThemeResource ControlContentThemeFontSize}"
-                                                              FontFamily="{ThemeResource ContentControlThemeFontFamily}"
-                                                              Margin="{ThemeResource ContentDialogContentMargin}"
-                                                              Foreground="{TemplateBinding Foreground}"
-                                                              Grid.Row="1"
-                                                              TextWrapping="Wrap" />
+                                            <Grid Grid.Row="1">
+                                                <ContentPresenter x:Name="Content"
+                                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                                  Content="{TemplateBinding Content}"
+                                                                  FontSize="{ThemeResource ControlContentThemeFontSize}"
+                                                                  FontFamily="{ThemeResource ContentControlThemeFontFamily}"
+                                                                  Margin="{ThemeResource ContentDialogContentMargin}"
+                                                                  Foreground="{TemplateBinding Foreground}"
+                                                                  HorizontalAlignment="Stretch"
+                                                                  VerticalAlignment="Stretch"
+                                                                  TextWrapping="Wrap"/>
+                                                <Grid x:Name="CommandSpace"
+                                                      XYFocusKeyboardNavigation="Enabled"
+                                                      HorizontalAlignment="Stretch"
+                                                      VerticalAlignment="Stretch"
+                                                      Background="{x:Null}">
+                                                    <Button x:Name="PrimaryButton"
+                                                            Margin="{TemplateBinding PrimaryButtonMargin}"
+                                                            Style="{TemplateBinding PrimaryButtonStyle}"
+                                                            Content="{TemplateBinding PrimaryButtonText}"
+                                                            Command="{TemplateBinding PrimaryButtonCommand}" />
+                                                    <Button x:Name="SecondaryButton"
+                                                            Margin="{TemplateBinding SecondaryButtonMargin}"
+                                                            Style="{TemplateBinding SecondaryButtonStyle}"
+                                                            Content="{TemplateBinding SecondaryButtonText}"
+                                                            Command="{TemplateBinding SecondaryButtonCommand}" />
+                                                    <Button x:Name="CloseButton"
+                                                            Margin="{TemplateBinding CloseButtonMargin}"
+                                                            Style="{TemplateBinding CloseButtonStyle}"
+                                                            Content="{TemplateBinding CloseButtonText}"
+                                                            Command="{TemplateBinding CloseButtonCommand}" />
+                                                </Grid>
+                                            </Grid>
                                         </Grid>
                                     </ScrollViewer>
-                                    <Grid x:Name="CommandSpace"
-                                          HorizontalAlignment="Stretch"
-                                          VerticalAlignment="Bottom"
-                                          XYFocusKeyboardNavigation="Enabled"
-                                          Background="{x:Null}"
-                                          Margin="{ThemeResource ContentDialogCommandSpaceMargin}">
-                                        <Button x:Name="PrimaryButton" />
-                                        <Button x:Name="SecondaryButton" />
-                                        <Button x:Name="CloseButton"/>
-                                    </Grid>
                                 </Grid>
                             </Border>
                         </Grid>
                     </Border>
-                    </ControlTemplate>
+                </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    
+
 </ResourceDictionary>

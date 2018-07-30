@@ -271,7 +271,8 @@ namespace ExReaderPlus.ViewModels {
                 TempPassage = await FileManage.FileManage.Instence.OpenFile();
                 if (TempPassage is null)
                     return;
-                PassageLoaded?.Invoke(this, EventArgs.Empty);
+                else
+                    PassageLoaded?.Invoke(this, EventArgs.Empty);
             });
             ControlBarCommand = new CommandBase(obj => { ControlCommand?.Invoke(this, new CommandArgs(obj, nameof(ControlBarCommand))); });
         }

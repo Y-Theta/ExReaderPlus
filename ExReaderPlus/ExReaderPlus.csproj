@@ -112,6 +112,9 @@
     <Compile Include="View\Commands\CommandBase.cs" />
     <Compile Include="View\Converter\Converters.cs" />
     <Compile Include="View\Converter\StateTriggers.cs" />
+    <Compile Include="View\CustomeControls\ComplexControls\DicItem.xaml.cs">
+      <DependentUpon>DicItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\CustomeControls\ComplexControls\RichWordView.xaml.cs">
       <DependentUpon>RichWordView.xaml</DependentUpon>
     </Compile>
@@ -173,11 +176,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\CustomeControls\ComplexControls\DicItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\CustomeControls\ComplexControls\RichWordView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\CustomeControls\ControlStyles\CollectionViews.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CustomeControls\ControlStyles\ContentControls.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

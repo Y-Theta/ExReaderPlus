@@ -3,21 +3,44 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:local="using:ExReaderPlus.View"
       DataContext="{StaticResource DicPageViewModel}"
-      mc:Ignorable="d"
-      Margin="0,32,0,0">
-    <Grid x:Name="Rootgrid">
+      mc:Ignorable="d">
+    <Grid x:Name="Rootgrid"
+          Background="{ThemeResource DicPageBg}">
         <GridView x:Name="DicLabel"
+                  Margin="0,32,0,0"
                   MinWidth="120"
                   ItemsSource="{Binding Diclist}"
                   Style="{StaticResource DicGridView}" />
 
         <Button Style="{StaticResource AddDicButton}"
+                Tag="创建词库"
                 Content="&#xE710;"
                 Command="{Binding AddDicCommand}"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom"
                 Margin="0,0,16,16" />
+
+        <local:DefaultDialog x:Name="NewDialog"
+                             PrimaryButtonStyle="{StaticResource DialogButtonStyle}"
+                             PrimaryButtonText="&#xE701;">
+            <local:DefaultDialog.ContentTemplate>
+                <DataTemplate>
+                    <Grid Background="{ThemeResource AddDicContentBg}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="48" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Style="{StaticResource WordListCaption}"
+                                 Foreground="{ThemeResource AddDicContentTextFg}"
+                                 PlaceholderForeground="{ThemeResource AddDicContentTextFg}"
+                                 IsReadOnly="False"
+                                 PlaceholderText="请输入" />
+                    </Grid>
+                </DataTemplate>
+            </local:DefaultDialog.ContentTemplate>
+        </local:DefaultDialog>
     </Grid>
     
 </Page>

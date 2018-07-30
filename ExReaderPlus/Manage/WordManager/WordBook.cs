@@ -33,6 +33,8 @@ namespace ExReaderPlus.WordsManager {
 
         public int Dicname { get; set; }
 
+        public int LearneedWords { get; set; }
+
         public Dictionary<string, Vocabulary> Wordlist { get; set; }
 
         public bool HasWord(string str) {
@@ -44,7 +46,7 @@ namespace ExReaderPlus.WordsManager {
         }
 
         public ActionDictionary GetActionDictionary() {
-            return new ActionDictionary { Name = Name, IsSys = IsSystem, DBName = Dicname, WordsCount = Wordlist.Count };
+            return new ActionDictionary { Name = Name, IsSys = IsSystem, DBName = Dicname, WordsCount = Wordlist.Count, LearnedWords = LearneedWords };
         }
 
     }
@@ -164,16 +166,23 @@ namespace ExReaderPlus.WordsManager {
 
         public static async Task InitDicCollectionAsync() {
             Task tk = new Task(() => {
-                GaoKao.Wordlist = GetDictionaryByName("gk");
-                CET4.Wordlist = GetDictionaryByName("cet4");
-                CET6.Wordlist = GetDictionaryByName("cet6");
-                KaoYan.Wordlist = GetDictionaryByName("ky");
-                TOEFL.Wordlist = GetDictionaryByName("toefl");
-                IELTS.Wordlist = GetDictionaryByName("ielts");
-
-                foreach(var dic in Custom)
+                int k = 0;
+                GaoKao.Wordlist = GetDictionaryByName("gk",out k);
+                GaoKao.LearneedWords = k;
+                CET4.Wordlist = GetDictionaryByName("cet4", out k);
+                CET4.LearneedWords = k;
+                CET6.Wordlist = GetDictionaryByName("cet6", out k);
+                CET6.LearneedWords = k;
+                KaoYan.Wordlist = GetDictionaryByName("ky", out k);
+                KaoYan.LearneedWords = k;
+                TOEFL.Wordlist = GetDictionaryByName("toefl", out k);
+                TOEFL.LearneedWords = k;
+                IELTS.Wordlist = GetDictionaryByName("ielts", out k);
+                IELTS.LearneedWords = k;
+                foreach (var dic in Custom)
                 {
-                    dic.Wordlist = GetDictionaryByName(dic.Name);
+                    dic.Wordlist = GetDictionaryByName(dic.Name,out k);
+                    dic.LearneedWords = k;
                 }
                 Initdicready = true;
             });
@@ -187,9 +196,10 @@ namespace ExReaderPlus.WordsManager {
         /// 默认词典参数 gk cet4 cet6 ky ielts toefl
         /// </summary>
         /// <param name="dictionaryName"></param>
-        public static Dictionary<string, Vocabulary> GetDictionaryByName(string dictionaryName)
+        public static Dictionary<string, Vocabulary> GetDictionaryByName(string dictionaryName,out int learned)
         {
             Dictionary<string, Vocabulary> keyValues = new Dictionary<string, Vocabulary>();
+            learned = 0;
             using (var db = new DataContext())
             {
                 db.Database.Migrate();
@@ -205,6 +215,8 @@ namespace ExReaderPlus.WordsManager {
                     v.YesorNo = r.Word.YesorNo;
                     v.Translation = r.Word.Translation;
                     v.Phonetic = r.Word.Phonetic;
+                    if (v.YesorNo == 1)
+                        learned++;
                     keyValues.Add(v.Word, v);
                 }
 

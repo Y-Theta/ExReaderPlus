@@ -76,6 +76,8 @@ namespace ExReaderPlus.Models {
 
         public bool IsSys { get; set; }
 
+        public int LearnedWords { get; set; }
+
         public CommandBase Open { get; set; }
 
         public CommandBase ReName { get; set; }

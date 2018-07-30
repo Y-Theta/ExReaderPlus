@@ -111,14 +111,43 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TextBox">
-                    <Border Background="{TemplateBinding Background}">
-                        <ContentPresenter x:Name="ContentElement"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          Foreground="{TemplateBinding Foreground}"
-                                          TextWrapping="{TemplateBinding TextWrapping}"
-                                          Margin="{TemplateBinding Padding}"
-                                          AutomationProperties.AccessibilityView="Raw" />
+                    <Border x:Name="RootBorder"
+                            Background="{TemplateBinding Background}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Disabled">
+                                    <VisualState.Setters>
+                                        <Setter Target="RootBorder.Background"
+                                                Value="Transparent" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="PointerOver">
+                                    
+                                </VisualState>
+                                <VisualState x:Name="Focused">
+                          
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid>
+                            <ContentPresenter x:Name="ContentElement"
+                                              Background="{TemplateBinding Background}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              Foreground="{TemplateBinding Foreground}"
+                                              TextWrapping="{TemplateBinding TextWrapping}"
+                                              Margin="{TemplateBinding Padding}"
+                                              AutomationProperties.AccessibilityView="Raw" />
+                            <TextBlock x:Name="PlaceholderTextContentPresenter"
+                                       Foreground="{Binding PlaceholderForeground, RelativeSource={RelativeSource TemplatedParent}}"
+                                       Margin="{TemplateBinding BorderThickness}"
+                                       Padding="{TemplateBinding Padding}"
+                                       Text="{TemplateBinding PlaceholderText}"
+                                       TextWrapping="{TemplateBinding TextWrapping}"
+                                       TextAlignment="{TemplateBinding TextAlignment}"
+                                       IsHitTestVisible="False" />
+                        </Grid>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -199,10 +228,8 @@
            TargetType="TextBlock">
         <Setter Property="FontFamily"
                 Value="{ThemeResource SymbolThemeFontFamily}" />
-        <Setter Property="FontSize"
-                Value="80" />
         <Setter Property="Foreground"
-                Value="#40efefef" />
+                Value="{ThemeResource DicIconHolderFg}" />
         <Setter Property="FontWeight"
                 Value="Light" />
         <Setter Property="HorizontalAlignment"
@@ -210,6 +237,83 @@
         <Setter Property="VerticalAlignment"
                 Value="Bottom" />
     </Style>
+
+    <!--DicItemName-->
+    <Style x:Key="DicItemName"
+           TargetType="TextBox">
+        <Setter Property="Padding"
+                Value="0" />
+        <Setter Property="TextWrapping"
+                Value="NoWrap" />
+        <Setter Property="FontSize"
+                Value="42" />
+        <Setter Property="BorderThickness"
+                Value="0" />
+        <Setter Property="FontFamily"
+                Value="{StaticResource PhoneFontFamilySemiLight}" />
+        <Setter Property="Background"
+                Value="Transparent" />
+        <Setter Property="Width"
+                Value="220" />
+        <Setter Property="HorizontalAlignment"
+                Value="Left" />
+        <Setter Property="HorizontalContentAlignment"
+                Value="Left" />
+        <Setter Property="VerticalAlignment"
+                Value="Center" />
+        <Setter Property="VerticalContentAlignment"
+                Value="Center" />
+        <Setter Property="FontWeight"
+                Value="Light" />
+        <Setter Property="Foreground"
+                Value="{ThemeResource DicItemCaptionBg}" />
+        <Setter Property="SelectionHighlightColor"
+                Value="{ThemeResource DicItemCaptionSelectBg}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="PointerOver">
+                                    <Storyboard>
+                                        
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    
+                                </VisualState>
+                                <VisualState x:Name="Disabled" />
+                            </VisualStateGroup>
+
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid x:Name="ContentHolder"
+                              Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="ContentElement"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              Foreground="{TemplateBinding Foreground}"
+                                              TextWrapping="{TemplateBinding TextWrapping}"
+                                              Margin="{TemplateBinding Padding}"
+                                              AutomationProperties.AccessibilityView="Raw" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     
+    <!--DicSubItem-->
+    <Style x:Key="DicSubItem"
+           TargetType="TextBlock">
+        <Setter Property="FontSize"
+                Value="14" />
+        <Setter Property="Foreground"
+                Value="{ThemeResource DicItemCaptionBg}" />
+        <Setter Property="Margin"
+                Value="0,0,12,0" />
+    </Style>
+
 
 </ResourceDictionary>

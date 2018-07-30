@@ -23,6 +23,7 @@
     <Converter:PhoneticCON x:Key="PhoneticCON" />
     <Converter:INTtoSTR x:Key="INTtoSTR" />
     <Converter:ObjToString x:Key="ObjToString" />
+    <Converter:WidthTrigger x:Key="WidthTrigger" />
 
     <!--Styles-->
     <ResourceDictionary.MergedDictionaries>
@@ -36,7 +37,7 @@
         <ResourceDictionary Source="ControlStyles/ScrollViewerAndSlider.xaml" />
         <!--CustomeNavigationView-->
         <ResourceDictionary Source="ControlStyles/CustomeNavigationView.xaml" />
-        
     </ResourceDictionary.MergedDictionaries>
+    
 
 </ResourceDictionary>

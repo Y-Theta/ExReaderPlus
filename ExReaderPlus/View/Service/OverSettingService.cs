@@ -1,4 +1,5 @@
 ﻿using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 
 namespace ExReaderPlus.View {
@@ -90,6 +91,10 @@ namespace ExReaderPlus.View {
             _viewSettings = new OverallViewSettings();
         }
 
+        public void SetStateBarButtonFg(Color color) {
+            var TitleBar = ApplicationView.GetForCurrentView().TitleBar;
+            TitleBar.ButtonForegroundColor = color;
+        }
         #endregion
 
         #region Constructors
