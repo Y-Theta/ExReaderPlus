@@ -231,6 +231,9 @@
     <!--DicPage-->
     <SolidColorBrush x:Key="DicPageBg"
                      Color="#EFEFEF" />
+    <Color x:Key="DicPageBg_N">#EFEFEF</Color>
+    <Color x:Key="DicPageBg_R">#C0C0C0</Color>
+    <Color x:Key="DicPageBg_P">#A0A0A0</Color>
     <SolidColorBrush x:Key="AddDicButtonBg_N"
                      Color="#477FBF" />
     <SolidColorBrush x:Key="AddDicButtonBg_R"

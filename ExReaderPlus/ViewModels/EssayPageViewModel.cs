@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Security.AccessControl;
 using System.Timers;
 using ExReaderPlus.Manage;
@@ -193,6 +194,8 @@ namespace ExReaderPlus.ViewModels {
 
         public CommandBase ControlBarCommand { get; set; }
 
+        public CommandBase ShareCommand { get; set; }
+
 
         /// <summary>
         /// 着色需求变换
@@ -274,6 +277,13 @@ namespace ExReaderPlus.ViewModels {
                     return;
                 else
                     PassageLoaded?.Invoke(this, EventArgs.Empty);
+            });
+            ShareCommand = new CommandBase( obj =>
+            {
+                if (obj.Equals("0"))
+                    Debug.WriteLine("sss");
+                else
+                    Debug.WriteLine("aaa");
             });
             ControlBarCommand = new CommandBase(obj => { ControlCommand?.Invoke(this, new CommandArgs(obj, nameof(ControlBarCommand))); });
         }

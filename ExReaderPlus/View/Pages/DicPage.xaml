@@ -22,7 +22,10 @@
                 VerticalAlignment="Bottom"
                 Margin="0,0,16,16" />
 
+        <!--Dialogs-->
         <local:DefaultDialog x:Name="NewDialog"
+                             MinWidth="240"
+                             MinHeight="80"
                              PrimaryButtonStyle="{StaticResource DialogButtonStyle}"
                              PrimaryButtonText="&#xE701;">
             <local:DefaultDialog.ContentTemplate>
@@ -33,10 +36,11 @@
                             <ColumnDefinition Width="48" />
                         </Grid.ColumnDefinitions>
                         <TextBox Style="{StaticResource WordListCaption}"
+                                 Height="24"
                                  Foreground="{ThemeResource AddDicContentTextFg}"
                                  PlaceholderForeground="{ThemeResource AddDicContentTextFg}"
                                  IsReadOnly="False"
-                                 PlaceholderText="请输入" />
+                                 PlaceholderText="请输入词库名称" />
                     </Grid>
                 </DataTemplate>
             </local:DefaultDialog.ContentTemplate>

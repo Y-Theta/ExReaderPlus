@@ -57,7 +57,8 @@
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate x:DataType="model:ActionDictionary">
-                    <local:DicItem />
+                    <local:DicItem Command="{Binding Open}"
+                                   CommandPara="{Binding}" />
                 </DataTemplate>
             </Setter.Value>
         </Setter>
