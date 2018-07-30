@@ -193,6 +193,7 @@ namespace ExReaderPlus.ViewModels {
 
         public CommandBase ControlBarCommand { get; set; }
 
+
         /// <summary>
         /// 着色需求变换
         /// </summary>

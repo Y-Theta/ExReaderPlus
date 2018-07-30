@@ -26,7 +26,7 @@ namespace UnitTest.Manage
            var passageIO=new PassageIO();
            var passageInfo=new UserDictionary.Passage();
             var passage = new ExReaderPlus.Manage.PassageManager.Passage();
-            passageInfo.Id = 1;
+            passageInfo.Id = 2;
             passage.Content = "Hello world";
                             
             Assert.AreEqual(true, await passageIO.SavaPassage(passage, passageInfo));

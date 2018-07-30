@@ -333,6 +333,29 @@
 
         <Grid x:Name="Share"
               Visibility="Collapsed">
+            <TextBox Text="预览图片" IsReadOnly="True"
+                     FontFamily="Arial" FontSize="24" FontStyle="Italic"
+                     CharacterSpacing="200" Foreground="CornflowerBlue" />
+            <Image x:Name="Image" />
+           <TextBox Text="请选择模板" FontSize="24" FontFamily="Arial" 
+                    Foreground="Chocolate" Margin="750,100,10,200"></TextBox>
+            
+                <FlipView MaxWidth="200" Height="300" HorizontalAlignment="Right" VerticalAlignment="Center" >
+
+                    <local:HitContentholder  PointBrush="BlueViolet" Command="{}" >
+                    <Image Source="ms-appx:///Assets/new1.jpg"></Image>
+                    
+                </local:HitContentholder>
+                <local:HitContentholder   >
+                    <Image Source="ms-appx:///Assets/new2.jpg"></Image>
+            
+            </local:HitContentholder>
+                    <FlipView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </FlipView.ItemsPanel>
+            </FlipView>
             
         </Grid>
 

@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using System.Timers;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
+using Windows.Storage;
+using Windows.Storage.Pickers;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -18,6 +20,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.Text;
 
 namespace ExReaderPlus.View {
     public sealed partial class RichWordView : UserControl {
@@ -431,6 +435,82 @@ namespace ExReaderPlus.View {
 
             //            FileManage.FileManage fileManage= new FileManage.FileManage();
             //            fileManage.NewPage();
+        }
+
+        private async void Choose_OnClick(object sender, RoutedEventArgs e)
+        {
+
+            string str =
+                "Uyghurs in Xinjiang and elsewhere in China face systematic persecution. \r\nWith Islam a fundamental part of the Uyghur identity, so-called counter-terrorism campaigns which have cracked down hard on Muslim practices and increasingly criminalized Islam, are tantamount to the criminalization of being Uyghur.\r\nThis has reportedly included the banning dozens of Uyghur names, with violators at risk of not having their children\'s births registered; to forcing Uyghurs to denounce core tenets of their religion. Parents caught teaching their children about Islam risk detention or having their offspring taken away. \r\nAccording to new research by New York-based Chinese Human Rights Defenders, in 2017 criminal arrests in Xinjiang accounted for a shocking 21% of all national arrests, even though the region\'s population is only 1.5% of China\'s total. In prison, according to state media, so-called \"religious extremists\" euphemistically undergo thought rectification.\r\nAs in apartheid South Africa, checkpoints and restrictions on movement are a fact of daily life for Uyghurs. \r\nArmed police scan IDs, checking biometric and personal data. Religiosity, having relatives abroad, or simply being Uyghur increase the chances of being detained, as do the contents of a person\'s phone or computer. \r\nSince 2015, as I have reported for the London-based Minority Rights Group, Uyghurs have had to obtain permission to visit relatives or seek medical treatment outside their hometowns, and passports started being recalled. Increasingly, the threat of detention and concerns over surveillance make contact between distant family members impossible. \r\nNowhere are the signs of crimes against humanity more alarming than in the expanding system of concentration camps which observers have said are springing up across Xinjiang. \r\nWhile the government officially denies the camps exist, in July state media reported authorities admitted to having transferred some 460,000 Uyghurs for \"vocational training,\" as part of a bid to \"to improve social stability and alleviate poverty.\" \r\nEvidence suggests as many as one million Uyghurs and other Muslims are interned across Xinjiang in \"re-education centers,\" around 10% of the population. \r\nWhat little is known about what happens inside points to systematic physical and psychological torture, and indoctrination. One former detainee said she was not allowed to wear underwear and her head was shaved, while another described having tried to commit suicide by bashing his skull against a wall. Many simply disappear. \r\nMeanwhile, so-called \"becoming family\" and \"home stay\" policies force Uyghur families to accept Communist Party officials into their homes to observe and report on their behavior. Imagine a family member has been taken away and now you are forced to host their abductor, quite possibly in the same room left empty by their disappearance.\r\nChildren whose parents have been detained are transferred to state custody, where, by some accounts, \"they are locked up like farm animals\" in so-called orphanages.";
+            var pick = new FileOpenPicker();
+            pick.FileTypeFilter.Add(".jpg");
+            pick.FileTypeFilter.Add(".png");
+
+            var file = await pick.PickSingleFileAsync();
+            var duvDbecdgiu =
+                await CanvasBitmap.LoadAsync(new CanvasDevice(true), await file.OpenAsync(FileAccessMode.Read));
+            var canvasRenderTarget = new CanvasRenderTarget(duvDbecdgiu, duvDbecdgiu.Size);
+            var str1 = str.Substring(0, str.Length / 2);
+            char c = str1[str1.Length - 1];
+            if (c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z')
+            {
+                str1 += str1 + "-";
+            }
+            else
+            {
+
+            }
+            var str2 = str.Substring(str.Length / 2);
+            //            char[]strLast = str1.Substring(str1.Length).ToCharArray();
+
+
+            using (var dc = canvasRenderTarget.CreateDrawingSession())//用后则需撤销
+            {
+
+                ///先将图片读取
+                dc.DrawImage(duvDbecdgiu);
+                ///写图片
+                dc.DrawText("Total Words :",
+                    760, 278, 330, 60,
+                    Colors.Blue, new CanvasTextFormat()
+                    {
+                        FontSize = 30
+
+
+                    });
+                dc.DrawText("Time To Read :",
+                    760, 338, 330, 60,
+                    Colors.Blue, new CanvasTextFormat()
+                    {
+                        FontSize = 30
+
+
+
+                    });
+
+                var strs1 = str1.Replace("\n", "\n\n");
+                var strs2 = str2.Replace("\n", "\n\n");
+                dc.DrawText(strs1, 26, 408, 538, 1080, Colors.Black, new CanvasTextFormat()
+                {
+                    FontSize = 24
+                });
+                dc.DrawText(strs2, 626, 458, 544, 1080, Colors.Black, new CanvasTextFormat()
+                {
+                    FontSize = 24
+                });
+            }
+            string desiredName = "Share" + ".png";
+            StorageFolder applicationFolder = ApplicationData.Current.LocalFolder;
+            //            Debug.WriteLine(applicationFolder.Path);
+
+            StorageFile saveFile = await applicationFolder.CreateFileAsync(desiredName, CreationCollisionOption.GenerateUniqueName);
+            await canvasRenderTarget.SaveAsync(await saveFile.OpenAsync(FileAccessMode.ReadWrite), CanvasBitmapFileFormat.Png);
+            // 把图片展现出来
+            var fileStream = await saveFile.OpenReadAsync();
+            var bitmap = new BitmapImage();
+            await bitmap.SetSourceAsync(fileStream);
+
+            Image.Source = bitmap;
         }
     }
 }
