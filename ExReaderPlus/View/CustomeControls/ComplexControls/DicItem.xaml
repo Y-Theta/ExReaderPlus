@@ -7,7 +7,7 @@
              x:Name="Item"
              mc:Ignorable="d">
     <Grid  x:Name="RootGrid"
-          Background="#DADADA"
+           Background="#EFEFEF"
           Margin="8,4,8,4">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
@@ -101,32 +101,27 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Rectangle Fill="#477FBF"
+        <Rectangle Fill="{ThemeResource DicItemIdBg}"
                    Width="12"
-                   Grid.RowSpan="2"
                    HorizontalAlignment="Left" />
+        <Rectangle Stroke="{ThemeResource DicItemIdBg}"
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Stretch"
+                   Margin="12,0,0,0" />
+        <local:HitContentholder Background="Transparent"
+                                PointBrush="#2000A7e1"
+                                PressBrush="#4000A7e1"
+                                Command="{Binding Open}"
+                                CommandPara="{Binding}" />
         <Grid x:Name="Caption"
               HorizontalAlignment="Left"
               VerticalAlignment="Top"
               Margin="32,16,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="auto" />
-            </Grid.ColumnDefinitions>
             <TextBox x:Name="DicName"
                      Style="{StaticResource DicItemName}"
-                     IsEnabled="{Binding IsSys,Converter={StaticResource NegativeConverter},ConverterParameter=bool}"
+                     IsEnabled="False"
                      FontFamily="{StaticResource PhoneFontFamilySemiLight}"
                      Text="{Binding Name,Mode=TwoWay,UpdateSourceTrigger=Explicit}" />
-            <Button Style="{StaticResource DicItemButtonStyle}"
-                    Grid.Column="1"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    Tag="重命名"
-                    Content="&#xE70F;"
-                    Command="{Binding ReName}"
-                    CommandParameter="{Binding ElementName=DicName}" />
-            <!--Visibility="{Binding IsSys,Converter={StaticResource NULLnoVIS},ConverterParameter=false}"-->
         </Grid>
         <Grid x:Name="Footer"
               IsHitTestVisible="False"
@@ -180,11 +175,5 @@
                            Text="&#xE716;" />
             </Grid>
         </Grid>
-        <Button Style="{StaticResource DicItemButtonStyle}"
-                Visibility="{Binding IsSys, Converter={StaticResource NULLnoVIS},ConverterParameter=false}"
-                Tag="删除"
-                Command="{Binding ReMove}" />
-        <Button Style="{StaticResource DicItemButtonStyle}"
-                Command="{Binding Open}" />
     </Grid>
 </UserControl>

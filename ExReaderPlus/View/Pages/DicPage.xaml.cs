@@ -1,6 +1,7 @@
 ﻿using ExReaderPlus.View.Commands;
 using ExReaderPlus.ViewModels;
 using System;
+using System.Diagnostics;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -18,16 +19,23 @@ namespace ExReaderPlus.View.Pages {
 
         #region Methods
         private async void _viewModel_CommandActions(object sender, CommandArgs args) {
-            DefaultDialog dia = new DefaultDialog();
-            ContentControl s = new ContentControl();
-            s.Style = App.Current.Resources["AddDicContent"] as Style;
-            dia.Content = s;
-            dia.PrimaryButtonText = "\uE701";
-            dia.PrimaryButtonCommand = new CommandBase(obj => {
+            //DefaultDialog dia = new DefaultDialog();
+            //ContentControl s = new ContentControl();
+            //dia.Background = new SolidColorBrush(Color.FromArgb(255, 0, 60, 180));
+            //s.Style = Resources["AddDicContent"] as Style;
+            //dia.Content = s;
+            //dia.PrimaryButtonText = "\uE701";
+            //dia.PrimaryButtonCommand = new CommandBase(obj => {
 
-            });
-            dia.PrimaryButtonStyle = App.Current.Resources["IconButtonStyle"] as Style;
-            var dd = await dia.ShowAsync(ContentDialogPlacement.Popup);
+            //});
+            //dia.PrimaryButtonStyle = App.Current.Resources["DialogButtonStyle"] as Style;
+            //dia.PrimaryButtonMargin = new Thickness(0, 0, 0, 0);
+
+            //var dd = await dia.ShowAsync(ContentDialogPlacement.Popup);
+            //Debug.WriteLine(dia.ActualHeight);
+            custom
+            var res = await NewDialog.ShowAsync();
+            
         }
         #endregion
 
@@ -35,9 +43,11 @@ namespace ExReaderPlus.View.Pages {
         private void DicPage_Loaded(object sender, RoutedEventArgs e) {
             _viewModel = DataContext as DicPageViewModel;
             _viewModel.CommandActions += _viewModel_CommandActions;
+          //  (App.Current.Resources["OverSettingService"] as OverSettingService).SetStateBarButtonFg(Color.FromArgb(255, 255, 255, 255));
         }
 
         private void DicPage_Unloaded(object sender, RoutedEventArgs e) {
+            _viewModel.CommandActions -= _viewModel_CommandActions;
 
         }
         #endregion

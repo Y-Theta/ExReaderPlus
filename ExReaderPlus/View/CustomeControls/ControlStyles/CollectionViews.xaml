@@ -13,6 +13,8 @@
                 Value="Disabled" />
         <Setter Property="VerticalAlignment"
                 Value="Top" />
+        <Setter Property="SelectionMode"
+                Value="None" />
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>

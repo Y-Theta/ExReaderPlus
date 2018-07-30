@@ -136,7 +136,7 @@ namespace ExReaderPlus.View {
                 case "OpenWordList": WordPanelSwitch(); break;
                 case "AddToDic": MenuPop.Hide(); break;
                 case "ChangeMode":
-                    if (_viewModel.TempPassage != null)
+                    if (TextView.ContentString != null)
                         if (!TextView.IsReadOnly)
                             TextView.IsReadOnly = true;
                         else

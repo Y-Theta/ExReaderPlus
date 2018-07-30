@@ -37,8 +37,6 @@
         <ResourceDictionary Source="ControlStyles/ScrollViewerAndSlider.xaml" />
         <!--CustomeNavigationView-->
         <ResourceDictionary Source="ControlStyles/CustomeNavigationView.xaml" />
-        <!--ContentStyles-->
-        <ResourceDictionary Source="ControlStyles/ContentControls.xaml" />
     </ResourceDictionary.MergedDictionaries>
     
 

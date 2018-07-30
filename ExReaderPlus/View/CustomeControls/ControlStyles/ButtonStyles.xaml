@@ -79,9 +79,9 @@
         <Setter Property="FontSize"
                 Value="24" />
         <Setter Property="Width"
-                Value="32" />
+                Value="48" />
         <Setter Property="Height"
-                Value="32" />
+                Value="48" />
         <Setter Property="FontFamily"
                 Value="{StaticResource SymbolThemeFontFamily}" />
         <Setter Property="Background"
@@ -287,6 +287,78 @@
         </Setter>
     </Style>
 
-    <!--BoundButtonStyle-->
+    <!--DialogButtonStyle-->
+    <Style x:Key="DialogButtonStyle"
+           TargetType="Button">
+        <Setter Property="HorizontalAlignment"
+                Value="Center" />
+        <Setter Property="VerticalAlignment"
+                Value="Top" />
+        <Setter Property="FontSize"
+                Value="{StaticResource DefaultButtonIconSize}" />
+        <Setter Property="Width"
+                Value="{StaticResource DefaultButtonSize}" />
+        <Setter Property="Height"
+                Value="{StaticResource DefaultButtonSize}" />
+        <Setter Property="FontFamily"
+                Value="{StaticResource SymbolThemeFontFamily}" />
+        <Setter Property="Background"
+                Value="{ThemeResource DefaultControlBarButtonBG_N}" />
+        <Setter Property="Foreground"
+                Value="{ThemeResource DefaultControlBarButtonFG_N}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid x:Name="RootGrid"
+                          Background="{TemplateBinding Background}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="PointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Target="RootGrid.Background"
+                                                Value="{ThemeResource DefaultControlBarButtonBG_R}" />
+                                        <Setter Target="IconHolder.Foreground"
+                                                Value="{ThemeResource DefaultControlBarButtonFG_R}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter Target="RootGrid.Background"
+                                                Value="{ThemeResource DefaultControlBarButtonBG_P}" />
+                                        <Setter Target="IconHolder.Foreground"
+                                                Value="{ThemeResource DefaultControlBarButtonFG_P}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                        <TextBlock x:Name="IconHolder"
+                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                   Foreground="{TemplateBinding Foreground}"
+                                   FontFamily="{TemplateBinding FontFamily}"
+                                   Text="{TemplateBinding Content}"
+                                   FontSize="{TemplateBinding FontSize}">
+                            <ToolTipService.ToolTip>
+                                <ToolTip Padding="-1"
+                                         Visibility="{Binding Tag, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay,Converter={StaticResource NULLnoVIS}}"
+                                         HorizontalOffset="12"
+                                         VerticalOffset="12"
+                                         Placement="Mouse">
+                                    <Border BorderBrush="{ThemeResource DefaultToolTipBd}"
+                                            BorderThickness="1">
+                                        <TextBlock Style="{StaticResource ToolTipTextStyle}"
+                                                   Text="{Binding Tag, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}" />
+                                    </Border>
+                                </ToolTip>
+                            </ToolTipService.ToolTip>
+                        </TextBlock>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 
 </ResourceDictionary>

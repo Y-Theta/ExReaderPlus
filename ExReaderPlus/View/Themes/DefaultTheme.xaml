@@ -117,7 +117,7 @@
     <SolidColorBrush x:Key="NavigationViewItemFG_CN"
                      Color="#080808" />
     <SolidColorBrush x:Key="NavigationViewSelectionID"
-                     Color="#080808" />
+                     Color="#EFEFEF" />
 
     <!--ScrollViewer-->
     <SolidColorBrush x:Key="ScrollBarThumb_N"
@@ -204,6 +204,10 @@
                      Color="#EFEFEF" />
     
     <!--DicItem-->
+    <SolidColorBrush x:Key="DicItemBg"
+                     Color="#4675C2" />
+    <SolidColorBrush x:Key="DicItemIdBg"
+                     Color="#477FBF" />
     <SolidColorBrush x:Key="DicItemCaptionBg"
                      Color="#2284B5" />
     <SolidColorBrush x:Key="DicItemCaptionSelectBg"
@@ -225,6 +229,8 @@
                      Color="#C0000000" />
     
     <!--DicPage-->
+    <SolidColorBrush x:Key="DicPageBg"
+                     Color="#EFEFEF" />
     <SolidColorBrush x:Key="AddDicButtonBg_N"
                      Color="#477FBF" />
     <SolidColorBrush x:Key="AddDicButtonBg_R"
@@ -237,5 +243,11 @@
                      Color="#FFFFFF" />
     <SolidColorBrush x:Key="AddDicButtonFg_P"
                      Color="#FFFFFF" />
+    
+    
+    <SolidColorBrush x:Key="AddDicContentBg"
+                     Color="#477FBF" />
+    <SolidColorBrush x:Key="AddDicContentTextFg"
+                     Color="#EFEFEF" />
 
 </ResourceDictionary>
