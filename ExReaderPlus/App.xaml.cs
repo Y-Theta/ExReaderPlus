@@ -13,6 +13,7 @@ using ExReaderPlus.Manage;
 using ExReaderPlus.WordsManager;
 using System.Threading.Tasks;
 using ExReaderPlus.View;
+using ExReaderPlus.Manage.PassageManager;
 
 namespace ExReaderPlus {
     /// <summary>
