@@ -33,7 +33,7 @@ namespace ExReaderPlus.View.Pages {
 
             //var dd = await dia.ShowAsync(ContentDialogPlacement.Popup);
             //Debug.WriteLine(dia.ActualHeight);
-            custom
+            
             var res = await NewDialog.ShowAsync();
             
         }
