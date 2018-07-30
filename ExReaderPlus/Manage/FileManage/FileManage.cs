@@ -177,11 +177,12 @@ namespace ExReaderPlus.FileManage {
             char c = str1[str1.Length - 1];
             if (c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z')
             {
-                str1.Insert(str1.Length, "-");
+                str1+=str1+"-";
+                
             }
             else
             {
-
+                ///
             }
             var str2 = str.Substring(str.Length / 2);
             //            char[]strLast = str1.Substring(str1.Length).ToCharArray();
@@ -201,7 +202,7 @@ namespace ExReaderPlus.FileManage {
 
 
                     });
-                dc.DrawText("Time To Read :" + strTime,
+                dc.DrawText("Time To Read :" + strTime+"min",
                     760, 338, 330, 60,
                     Colors.Blue, new CanvasTextFormat()
                     {
@@ -210,13 +211,14 @@ namespace ExReaderPlus.FileManage {
 
                     });
 
-
-                dc.DrawText(str1, 26, 408, 538, 1358, Colors.Black, new CanvasTextFormat()
+                var strs1 = str1.Replace("\n", "\n\n");
+                var strs2 = str2.Replace("\n", "\n\n");
+                dc.DrawText(strs1, 26, 408, 538, 1358, Colors.Black, new CanvasTextFormat()
                 {
                     FontSize = 24
                 });
 
-                dc.DrawText(str2, 626, 458, 544, 1080, Colors.Black, new CanvasTextFormat()
+                dc.DrawText(strs2, 626, 458, 544, 1080, Colors.Black, new CanvasTextFormat()
                 {
                     FontSize = 24
                 });
