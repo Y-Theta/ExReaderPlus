@@ -11,10 +11,16 @@
            TargetType="GridView">
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility"
                 Value="Disabled" />
+        <Setter Property="VerticalAlignment"
+                Value="Top" />
+        <Setter Property="SelectionMode"
+                Value="None" />
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <layout:FlowLayout CellWidth="480"
+                    <layout:FlowLayout CellWidth="640"
+                                       MinCellWidth="360"
+                                       CellScale="3.6"
                                        CellHeight="160" />
                 </ItemsPanelTemplate>
             </Setter.Value>
@@ -51,54 +57,8 @@
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate x:DataType="model:ActionDictionary">
-                    <Grid  Background="#477FBF"
-                           Margin="8,8,8,8"
-                           MinWidth="240">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="auto" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="auto" />
-                        </Grid.RowDefinitions>
-                        <Rectangle Stroke="#60a0c0"
-                                   StrokeThickness="1"
-                                   Grid.RowSpan="2"
-                                   Grid.ColumnSpan="2" />
-                        <TextBlock Grid.ColumnSpan="2"
-                                   FontSize="48"
-                                   Foreground="#EFEFEF"
-                                   Margin="16,16,0,0"
-                                   FontFamily="{StaticResource PhoneFontFamilySemiLight}"
-                                   Text="{Binding Name}" />
-                        <TextBlock Text="{Binding WordsCount}"
-                                   Margin="16,0,0,16"
-                                   Foreground="#EFEFEF"
-                                   FontSize="14"
-                                   Grid.ColumnSpan="2"
-                                   Grid.Row="1" />
-                        <Grid x:Name="SysIcon"
-                              Grid.ColumnSpan="2"
-                              Grid.RowSpan="2"
-                              Visibility="{Binding IsSys, Converter={StaticResource NULLnoVIS},ConverterParameter=bool}">
-                            <TextBlock Style="{StaticResource DicIconHolder}"
-                                       Margin="0,0,16,16"
-                                       Text="&#xE713;" />
-                            <TextBlock Style="{StaticResource DicIconHolder}"
-                                       FontSize="60"
-                                       Margin="0,0,96,60"
-                                       Text="&#xE713;" />
-                        </Grid>
-                        <Grid x:Name="UserIcon"
-                              Grid.ColumnSpan="2"
-                              Grid.RowSpan="2"
-                              Visibility="{Binding IsSys, Converter={StaticResource NULLnoVIS},ConverterParameter=bool}">
-                            <TextBlock Style="{StaticResource DicIconHolder}"
-                                       Margin="0,0,16,16"
-                                       Text="&#xE716;"/>
-                        </Grid>
-                    </Grid>
+                    <local:DicItem Command="{Binding Open}"
+                                   CommandPara="{Binding}" />
                 </DataTemplate>
             </Setter.Value>
         </Setter>

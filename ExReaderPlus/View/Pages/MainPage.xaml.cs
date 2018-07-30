@@ -25,15 +25,13 @@ namespace ExReaderPlus.View.Pages {
             Window.Current.SetTitleBar(TitleBarTouch);
             var viewmodel = (MainPageViewModel)DataContext;
             viewmodel.OnNavigate += Viewmodel_OnNavigate;
-            MainFrame.Navigate(typeof(EssayPage));
             MainFrame.Navigating += MainFrame_Navigating;
             MainFrame.Navigated += MainFrame_Navigated;
           //  await _frameclip.RenderAsync(MainFrame);
         }
 
         private void MainFrame_Navigated(object sender, NavigationEventArgs e) {
-            var viewmodel = (MainPageViewModel)DataContext;
-            var s = ((sender as Frame).Content as Page).GetType();
+            
         }
 
         private void Viewmodel_OnNavigate(object sender, EventArgs e) {
@@ -41,8 +39,7 @@ namespace ExReaderPlus.View.Pages {
         }
 
         private void MainFrame_Navigating(object sender, NavigatingCancelEventArgs e) {
-            var viewmodel = (MainPageViewModel)DataContext;
-            var s= ((sender as Frame).Content as Page).GetType();
+       
         }
 
     }

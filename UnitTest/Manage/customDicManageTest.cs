@@ -34,7 +34,7 @@ namespace UnitTest.Manage
         {
             CustomDicManage.AddACustomDictionary("InsertTestDic");
             Assert.AreEqual(1, CustomDicManage.InsertAVocabularyToCustomDictionary("InsertTestDic",
-              new ExReaderPlus.WordsManager.Vocabulary
+              new Vocabulary
               {
                   Word = "01Test", Translation = "单词关联词典插入测试"
               }));

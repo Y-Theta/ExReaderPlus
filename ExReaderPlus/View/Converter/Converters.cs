@@ -65,8 +65,10 @@ namespace ExReaderPlus.View.Converter {
                 return System.Convert.ToInt32(value).Equals(0) ? Visibility.Collapsed : Visibility.Visible;
             else if (parameter.Equals("0"))
                 return System.Convert.ToInt32(value).Equals(1) ? Visibility.Collapsed : Visibility.Visible;
-            else if(parameter.Equals("bool"))
-                return System.Convert.ToBoolean(value) ? Visibility.Visible : Visibility.Visible;
+            else if(parameter.Equals("true"))
+                return System.Convert.ToBoolean(value) ? Visibility.Visible : Visibility.Collapsed;
+            else if (parameter.Equals("false"))
+                return System.Convert.ToBoolean(value) ? Visibility.Collapsed : Visibility.Visible;
             else return null;
         }
 
@@ -105,6 +107,23 @@ namespace ExReaderPlus.View.Converter {
             ComboBoxItem cbi = value as ComboBoxItem;
             
             return cbi.Content.ToString();
+        }
+    }
+
+    public class WidthTrigger : IValueConverter {
+        public object Convert(object value, Type targetType, object parameter, string language) {
+            string[] width = parameter.ToString().Split('|');
+            double x = System.Convert.ToDouble(value);
+            double y = System.Convert.ToDouble(width[0]);
+            double z = System.Convert.ToDouble(width[1]);
+            if (x >= y && x < z)
+                return true;
+            else
+                return false;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language) {
+            return null;
         }
     }
 

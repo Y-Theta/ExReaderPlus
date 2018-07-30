@@ -112,10 +112,14 @@
     <Compile Include="View\Commands\CommandBase.cs" />
     <Compile Include="View\Converter\Converters.cs" />
     <Compile Include="View\Converter\StateTriggers.cs" />
+    <Compile Include="View\CustomeControls\ComplexControls\DicItem.xaml.cs">
+      <DependentUpon>DicItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\CustomeControls\ComplexControls\RichWordView.xaml.cs">
       <DependentUpon>RichWordView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\CustomeControls\NewControls\CustomeNavigationView.cs" />
+    <Compile Include="View\CustomeControls\NewControls\DefaultDialog.cs" />
     <Compile Include="View\Enums.cs" />
     <Compile Include="View\CustomeControls\NewControls\HitHolder.cs" />
     <Compile Include="View\CustomeControls\NewControls\IconToggelButton.cs" />
@@ -146,6 +150,8 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <Content Include="Assets\IconY.ttf" />
+    <Content Include="Assets\new1.jpg" />
+    <Content Include="Assets\new2.jpg" />
     <Content Include="DB\dic.db" />
     <Content Include="Assets\Rect.ttf" />
     <Content Include="Assets\Questrial-Regular.ttf" />
@@ -172,11 +178,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\CustomeControls\ComplexControls\DicItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\CustomeControls\ComplexControls\RichWordView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\CustomeControls\ControlStyles\CollectionViews.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CustomeControls\ControlStyles\ContentControls.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

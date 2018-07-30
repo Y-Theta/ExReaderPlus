@@ -5,7 +5,7 @@
 
     <!--MainTheme-->
     <SolidColorBrush x:Key="MainThemeColor"
-                     Color="#C0C0C0" />
+                     Color="#EFEFEF" />
     <SolidColorBrush x:Key="MainThemeFG"
                      Color="#080808" />
     <SolidColorBrush x:Key="ContrastMask_D0"
@@ -20,6 +20,8 @@
                      Color="#40000000" />
     <SolidColorBrush x:Key="ContrastMask_20"
                      Color="#20000000" />
+    <SolidColorBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush"
+                     Color="#99000000" />
 
     <!--TitleBarButton-->
     <Color x:Key="TitleBarButtonBG_N">Transparent</Color>
@@ -115,7 +117,7 @@
     <SolidColorBrush x:Key="NavigationViewItemFG_CN"
                      Color="#080808" />
     <SolidColorBrush x:Key="NavigationViewSelectionID"
-                     Color="#080808" />
+                     Color="#EFEFEF" />
 
     <!--ScrollViewer-->
     <SolidColorBrush x:Key="ScrollBarThumb_N"
@@ -199,6 +201,56 @@
     <SolidColorBrush x:Key="FlyoutButtonFg_R"
                      Color="#EFEFEF" />
     <SolidColorBrush x:Key="FlyoutButtonFg_P"
+                     Color="#EFEFEF" />
+    
+    <!--DicItem-->
+    <SolidColorBrush x:Key="DicItemBg"
+                     Color="#4675C2" />
+    <SolidColorBrush x:Key="DicItemIdBg"
+                     Color="#477FBF" />
+    <SolidColorBrush x:Key="DicItemCaptionBg"
+                     Color="#2284B5" />
+    <SolidColorBrush x:Key="DicItemCaptionSelectBg"
+                     Color="Transparent" />
+    <SolidColorBrush x:Key="DicIconHolderFg"
+                     Color="#405395E0" />
+
+    <SolidColorBrush x:Key="DicItemButtonBg_N"
+                     Color="Transparent" />
+    <SolidColorBrush x:Key="DicItemButtonBg_R"
+                     Color="Transparent" />
+    <SolidColorBrush x:Key="DicItemButtonBg_P"
+                     Color="Transparent" />
+    <SolidColorBrush x:Key="DicItemButtonFg_N"
+                     Color="#2284B5" />
+    <SolidColorBrush x:Key="DicItemButtonFg_R"
+                     Color="#80000000" />
+    <SolidColorBrush x:Key="DicItemButtonFg_P"
+                     Color="#C0000000" />
+    
+    <!--DicPage-->
+    <SolidColorBrush x:Key="DicPageBg"
+                     Color="#EFEFEF" />
+    <Color x:Key="DicPageBg_N">#EFEFEF</Color>
+    <Color x:Key="DicPageBg_R">#C0C0C0</Color>
+    <Color x:Key="DicPageBg_P">#A0A0A0</Color>
+    <SolidColorBrush x:Key="AddDicButtonBg_N"
+                     Color="#477FBF" />
+    <SolidColorBrush x:Key="AddDicButtonBg_R"
+                     Color="#477FBF" />
+    <SolidColorBrush x:Key="AddDicButtonBg_P"
+                     Color="#336F96" />
+    <SolidColorBrush x:Key="AddDicButtonFg_N"
+                     Color="#EFEFEF" />
+    <SolidColorBrush x:Key="AddDicButtonFg_R"
+                     Color="#FFFFFF" />
+    <SolidColorBrush x:Key="AddDicButtonFg_P"
+                     Color="#FFFFFF" />
+    
+    
+    <SolidColorBrush x:Key="AddDicContentBg"
+                     Color="#477FBF" />
+    <SolidColorBrush x:Key="AddDicContentTextFg"
                      Color="#EFEFEF" />
 
 </ResourceDictionary>
