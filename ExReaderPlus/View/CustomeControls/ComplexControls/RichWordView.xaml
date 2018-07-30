@@ -190,6 +190,7 @@
             <Button Content="&#xA000;"
                     Tag="分享"
                     Grid.Column="12"
+                    CommandParameter="Share"
                     Command="{Binding ControlBarCommand}"
                     FontFamily="{StaticResource IconY}"
                     Style="{StaticResource IconButtonStyle}" />
@@ -328,6 +329,11 @@
                        Grid.Column="2"
                        HorizontalAlignment="Left"
                        Fill="{ThemeResource WordViewStateBarId}" />
+        </Grid>
+
+        <Grid x:Name="Share"
+              Visibility="Collapsed">
+
         </Grid>
 
         <FlyoutBase.AttachedFlyout>
