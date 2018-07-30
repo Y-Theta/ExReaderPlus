@@ -342,11 +342,14 @@
             
                 <FlipView MaxWidth="200" Height="300" HorizontalAlignment="Right" VerticalAlignment="Center" >
 
-                    <local:HitContentholder  PointBrush="BlueViolet" Command="{}" >
+                <local:HitContentholder  PointBrush="BlueViolet"
+                                         Command="{Binding ShareCommand}"
+                                         CommandPara="0">
                     <Image Source="ms-appx:///Assets/new1.jpg"></Image>
                     
                 </local:HitContentholder>
-                <local:HitContentholder   >
+                <local:HitContentholder  Command="{Binding ShareCommand}"
+                                         CommandPara="1">
                     <Image Source="ms-appx:///Assets/new2.jpg"></Image>
             
             </local:HitContentholder>
