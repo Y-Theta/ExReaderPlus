@@ -333,7 +333,7 @@
 
         <Grid x:Name="Share"
               Visibility="Collapsed">
-
+            
         </Grid>
 
         <FlyoutBase.AttachedFlyout>

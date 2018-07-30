@@ -88,7 +88,7 @@ namespace ExReaderPlus.Models {
 
         #region Events
 
-        public CommandActionEventHandler DictionaryOperation;
+        public event CommandActionEventHandler DictionaryOperation;
         #endregion
 
         #region Methods

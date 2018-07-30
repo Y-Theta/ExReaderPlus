@@ -32,25 +32,57 @@ namespace ExReaderPlus.ViewModels {
             Task s = new Task(async () =>
             {
                 while (!WordBook.Initdicready) ;
+                ActionDictionary ad;
                 await window.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     Diclist = new ObservableCollection<ActionDictionary>();
-                    Diclist.Add(WordBook.GaoKao.GetActionDictionary());
-                    Diclist.Add(WordBook.CET4.GetActionDictionary());
-                    Diclist.Add(WordBook.CET6.GetActionDictionary());
-                    Diclist.Add(WordBook.TOEFL.GetActionDictionary());
-                    Diclist.Add(WordBook.KaoYan.GetActionDictionary());
-                    Diclist.Add(WordBook.IELTS.GetActionDictionary());
-                    foreach(var customDic in WordBook.Custom)
-                        Diclist.Add(customDic.GetActionDictionary());
+                    ad = WordBook.GaoKao.GetActionDictionary();
+                    ad.DictionaryOperation += Ad_DictionaryOperation;
+                    Diclist.Add(ad);
+                    ad = WordBook.CET4.GetActionDictionary();
+                    ad.DictionaryOperation += Ad_DictionaryOperation;
+                    Diclist.Add(ad);
+                    ad = WordBook.CET6.GetActionDictionary();
+                    ad.DictionaryOperation += Ad_DictionaryOperation;
+                    Diclist.Add(ad);
+                    ad = WordBook.TOEFL.GetActionDictionary();
+                    ad.DictionaryOperation += Ad_DictionaryOperation;
+                    Diclist.Add(ad);
+                    ad = WordBook.KaoYan.GetActionDictionary();
+                    ad.DictionaryOperation += Ad_DictionaryOperation;
+                    Diclist.Add(ad);
+                    ad = WordBook.IELTS.GetActionDictionary();
+                    ad.DictionaryOperation += Ad_DictionaryOperation;
+                    Diclist.Add(ad);
+                    foreach (var customDic in WordBook.Custom) {
+                        ad = customDic.GetActionDictionary();
+                        ad.DictionaryOperation += Ad_DictionaryOperation;
+                        Diclist.Add(ad);
+                    }
                 });
             });
             s.Start();
             await s;
         }
 
+        private void Ad_DictionaryOperation(object sender, CommandArgs args) {
+            switch (args.command)
+            {
+                case "Open":
+                    break;
+                case "ReName":
+                    break;
+                case "ReMove":
+                    break;
+                default: break;
+            }
+        }
+
         private void InitCommands() {
-            AddDicCommand = new CommandBase(obj => { CommandActions?.Invoke(this, new CommandArgs(obj)); });
+            AddDicCommand = new CommandBase(obj => {
+                // TODO:
+                CommandActions?.Invoke(this, new CommandArgs(obj));
+            });
         }
         #endregion
 
