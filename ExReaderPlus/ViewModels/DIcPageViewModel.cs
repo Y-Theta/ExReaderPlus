@@ -23,6 +23,7 @@ namespace ExReaderPlus.ViewModels {
         }
 
         public CommandBase AddDicCommand { get; set; }
+        
 
         public event CommandActionEventHandler CommandActions;
         #endregion
