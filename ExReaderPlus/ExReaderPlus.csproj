@@ -115,11 +115,18 @@
     <Compile Include="View\CustomeControls\ComplexControls\DicItem.xaml.cs">
       <DependentUpon>DicItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\CustomeControls\ComplexControls\PassageItem.xaml.cs">
+      <DependentUpon>PassageItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\CustomeControls\ComplexControls\RichWordView.xaml.cs">
       <DependentUpon>RichWordView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\CustomeControls\ComplexControls\VocabularyItem.xaml.cs">
+      <DependentUpon>VocabularyItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\CustomeControls\NewControls\CustomeNavigationView.cs" />
     <Compile Include="View\CustomeControls\NewControls\DefaultDialog.cs" />
+    <Compile Include="View\CustomeControls\NewControls\IconBottun.cs" />
     <Compile Include="View\Enums.cs" />
     <Compile Include="View\CustomeControls\NewControls\HitHolder.cs" />
     <Compile Include="View\CustomeControls\NewControls\IconToggelButton.cs" />
@@ -182,7 +189,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\CustomeControls\ComplexControls\PassageItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\CustomeControls\ComplexControls\RichWordView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CustomeControls\ComplexControls\VocabularyItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

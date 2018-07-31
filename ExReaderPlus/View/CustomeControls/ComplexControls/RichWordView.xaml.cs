@@ -99,6 +99,7 @@ namespace ExReaderPlus.View {
             TextView.RenderBegin += TextView_RenderBegin;
             ControlLayer.PointerEntered += GridBg_PointerEntered;
             ControlLayer.PointerExited += ControlLayer_PointerExited;
+            TextView.IsReadOnly = _viewModel.ReadOnlyState;
         }
 
         private void _viewModel_OnRenderChange(object sender, string name, bool value) {
@@ -143,10 +144,14 @@ namespace ExReaderPlus.View {
                 case "ChangeMode":
                     if (TextView.ContentString != null)
                         if (!TextView.IsReadOnly)
+                        {
                             TextView.IsReadOnly = true;
+                            _viewModel.ReadOnlyState = true;
+                        }
                         else
                         {
                             TextView.IsReadOnly = false;
+                            _viewModel.ReadOnlyState = false;
                             RenderLayer.Visibility = Visibility.Collapsed;
                         }
                     break;

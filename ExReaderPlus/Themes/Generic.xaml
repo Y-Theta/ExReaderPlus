@@ -729,6 +729,71 @@
         </Setter>
     </Style>
 
+    <!--IconBottun-->
+    <Style TargetType="local:IconBottun">
+        <Setter Property="FontFamily"
+                Value="{ThemeResource SymbolThemeFontFamily}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:IconBottun">
+                    <Grid x:Name="RootGrid"
+                          Background="{TemplateBinding Background}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="PointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.Foreground"
+                                                Value="{Binding PointBrush, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                        <Setter Target="Mask.Fill"
+                                                Value="{Binding PointMask ,RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter Target="ContentPresenter.Foreground"
+                                                Value="{Binding PressBrush, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                        <Setter Target="Mask.Fill"
+                                                Value="{Binding PressMask ,RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <TextBlock x:Name="ContentPresenter"
+                                   Tag="{Binding ToolTip, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                   FontFamily="{TemplateBinding FontFamily}"
+                                   FontSize="{TemplateBinding FontSize}"
+                                   Foreground="{TemplateBinding Foreground}"
+                                   Text="{Binding Icon,RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                   Margin="{TemplateBinding Padding}">
+                            <ToolTipService.ToolTip>
+                                <ToolTip Padding="-1"
+                                         Visibility="{Binding Tag, ElementName=ContentPresenter,Mode=OneWay,Converter={StaticResource NULLnoVIS}}"
+                                         HorizontalOffset="12"
+                                         VerticalOffset="12"
+                                         Placement="Mouse">
+                                <Border BorderBrush="{ThemeResource DefaultToolTipBd}"
+                                        BorderThickness="1">
+                                    <TextBlock x:Name="ToolTipText"
+                                               Style="{StaticResource ToolTipTextStyle}"
+                                               Text="{Binding Tag, ElementName=ContentPresenter,Mode=OneWay}" />
+                                </Border>
+                            </ToolTip>
+                            </ToolTipService.ToolTip>
+                        </TextBlock>
+                        <Rectangle x:Name="Mask"
+                                   Fill="Transparent"
+                                   VerticalAlignment="Stretch"
+                                   HorizontalAlignment="Stretch"
+                                   IsHitTestVisible="False" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!--DefaultDialog-->
     <Style TargetType="local:DefaultDialog">
         <Setter Property="Template">
@@ -1013,33 +1078,30 @@
                                                                   FontFamily="{ThemeResource ContentControlThemeFontFamily}"
                                                                   Margin="{ThemeResource ContentDialogContentMargin}"
                                                                   Foreground="{TemplateBinding Foreground}"
-                                                                  HorizontalAlignment="Stretch"
-                                                                  VerticalAlignment="Stretch"
-                                                                  TextWrapping="Wrap"/>
-                                                <Grid x:Name="CommandSpace"
-                                                      XYFocusKeyboardNavigation="Enabled"
-                                                      HorizontalAlignment="Stretch"
-                                                      VerticalAlignment="Stretch"
-                                                      Background="{x:Null}">
-                                                    <Button x:Name="PrimaryButton"
-                                                            Margin="{TemplateBinding PrimaryButtonMargin}"
-                                                            Style="{TemplateBinding PrimaryButtonStyle}"
-                                                            Content="{TemplateBinding PrimaryButtonText}"
-                                                            Command="{TemplateBinding PrimaryButtonCommand}" />
-                                                    <Button x:Name="SecondaryButton"
-                                                            Margin="{TemplateBinding SecondaryButtonMargin}"
-                                                            Style="{TemplateBinding SecondaryButtonStyle}"
-                                                            Content="{TemplateBinding SecondaryButtonText}"
-                                                            Command="{TemplateBinding SecondaryButtonCommand}" />
-                                                    <Button x:Name="CloseButton"
-                                                            Margin="{TemplateBinding CloseButtonMargin}"
-                                                            Style="{TemplateBinding CloseButtonStyle}"
-                                                            Content="{TemplateBinding CloseButtonText}"
-                                                            Command="{TemplateBinding CloseButtonCommand}" />
-                                                </Grid>
+                                                                  TextWrapping="NoWrap"/>
                                             </Grid>
                                         </Grid>
                                     </ScrollViewer>
+                                    <Grid x:Name="CommandSpace"
+                                          XYFocusKeyboardNavigation="Enabled"
+                                          Background="{x:Null}">
+                                        <Button x:Name="PrimaryButton"
+                                                Margin="{TemplateBinding PrimaryButtonMargin}"
+                                                Style="{TemplateBinding PrimaryButtonStyle}"
+                                                Content="{TemplateBinding PrimaryButtonText}"
+                                                Command="{TemplateBinding PrimaryButtonCommand}" />
+                                        <Button x:Name="SecondaryButton"
+                                                Margin="{TemplateBinding SecondaryButtonMargin}"
+                                                Style="{TemplateBinding SecondaryButtonStyle}"
+                                                Content="{TemplateBinding SecondaryButtonText}"
+                                                Command="{TemplateBinding SecondaryButtonCommand}" />
+                                        <Button x:Name="CloseButton"
+                                                Margin="{TemplateBinding CloseButtonMargin}"
+                                                Style="{TemplateBinding CloseButtonStyle}"
+                                                Content="{TemplateBinding CloseButtonText}"
+                                                Command="{TemplateBinding CloseButtonCommand}" />
+                                    </Grid>
+
                                 </Grid>
                             </Border>
                         </Grid>

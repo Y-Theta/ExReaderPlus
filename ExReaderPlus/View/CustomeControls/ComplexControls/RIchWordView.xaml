@@ -6,7 +6,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              DataContext="{StaticResource EssayPageViewModel}">
-    
+
     <Grid x:Name="Rootgrid"
           AllowDrop="True"
           DragOver="Rootgrid_DragOver"
@@ -132,68 +132,68 @@
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
-            <Button Content="&#xE948;"
-                    Grid.Column="0"
-                    Tag="打开文章"
-                    Command="{Binding LoadPassage}"
-                    Style="{StaticResource IconButtonStyle}" />
-            <Button Content="&#xA000;"
-                    Grid.Column="1"
-                    Tag="阅读模式"
-                    Command="{Binding ControlBarCommand}"
-                    CommandParameter="ChangeMode"
-                    FontFamily="{StaticResource IconY}"
-                    Style="{StaticResource IconButtonStyle}" />
-            <Button Content="&#xA000;"
-                    Grid.Column="2"
-                    Tag="打开单词表"
-                    Command="{Binding ControlBarCommand}"
-                    CommandParameter="OpenWordList"
-                    FontFamily="{StaticResource IconY}"
-                    Style="{StaticResource IconButtonStyle}" />
+            <local:IconBottun Icon="&#xE948;"
+                              Grid.Column="0"
+                              ToolTip="打开文章"
+                              Command="{Binding LoadPassage}"
+                              Style="{StaticResource IconButtonStyle}" />
+            <local:IconBottun Icon="&#xA000;"
+                              Grid.Column="1"
+                              ToolTip="阅读模式"
+                              Command="{Binding ControlBarCommand}"
+                              CommandParameter="ChangeMode"
+                              FontFamily="{StaticResource IconY}"
+                              Style="{StaticResource IconButtonStyle}" />
+            <local:IconBottun Icon="&#xA000;"
+                              Grid.Column="2"
+                              ToolTip="打开单词表"
+                              Command="{Binding ControlBarCommand}"
+                              CommandParameter="OpenWordList"
+                              FontFamily="{StaticResource IconY}"
+                              Style="{StaticResource IconButtonStyle}" />
             <Rectangle Width="1"
                        HorizontalAlignment="Center"
                        Fill="{ThemeResource DefaultControlBarSeperatorBg}"
                        VerticalAlignment="Stretch"
                        Margin="4,6,4,6"
                        Grid.Column="3" />
-            <Button Content="&#xF0D3;"
-                    Tag="上一页"
-                    Grid.Column="4"
-                    Command="{Binding ControlBarCommand}"
-                    CommandParameter="TurnPageBack"
-                    Style="{StaticResource IconButtonStyle}" />
-            <Button Content="&#xF0D2;"
-                    Tag="下一页"
-                    Command="{Binding ControlBarCommand}"
-                    CommandParameter="TurnPageNext"
-                    Grid.Column="5"
-                    Style="{StaticResource IconButtonStyle}" />
-            <Button Content="&#xE8E8;"
-                    Tag="放大字号"
-                    Command="{Binding ControlBarCommand}"
-                    CommandParameter="SizeTextLarge"
-                    Grid.Column="6"
-                    Style="{StaticResource IconButtonStyle}" />
-            <Button Content="&#xE8E7;"
-                    Tag="减小字号"
-                    Command="{Binding ControlBarCommand}"
-                    CommandParameter="SizeTextLittle"
-                    Grid.Column="7"
-                    Style="{StaticResource IconButtonStyle}" />
+            <local:IconBottun Icon="&#xF0D3;"
+                              ToolTip="上一页"
+                              Grid.Column="4"
+                              Command="{Binding ControlBarCommand}"
+                              CommandParameter="TurnPageBack"
+                              Style="{StaticResource IconButtonStyle}" />
+            <local:IconBottun Icon="&#xF0D2;"
+                              ToolTip="下一页"
+                              Command="{Binding ControlBarCommand}"
+                              CommandParameter="TurnPageNext"
+                              Grid.Column="5"
+                              Style="{StaticResource IconButtonStyle}" />
+            <local:IconBottun Icon="&#xE8E8;"
+                              ToolTip="放大字号"
+                              Command="{Binding ControlBarCommand}"
+                              CommandParameter="SizeTextLarge"
+                              Grid.Column="6"
+                              Style="{StaticResource IconButtonStyle}" />
+            <local:IconBottun Icon="&#xE8E7;"
+                              ToolTip="减小字号"
+                              Command="{Binding ControlBarCommand}"
+                              CommandParameter="SizeTextLittle"
+                              Grid.Column="7"
+                              Style="{StaticResource IconButtonStyle}" />
             <Rectangle Width="1"
                        HorizontalAlignment="Center"
                        Fill="{ThemeResource DefaultControlBarSeperatorBg}"
                        VerticalAlignment="Stretch"
                        Margin="4,6,4,6"
                        Grid.Column="11" />
-            <Button Content="&#xA000;"
-                    Tag="分享"
-                    Grid.Column="12"
-                    CommandParameter="Share"
-                    Command="{Binding ControlBarCommand}"
-                    FontFamily="{StaticResource IconY}"
-                    Style="{StaticResource IconButtonStyle}" />
+            <local:IconBottun Icon="&#xA000;"
+                              Tag="分享"
+                              Grid.Column="12"
+                              CommandParameter="Share"
+                              Command="{Binding ControlBarCommand}"
+                              FontFamily="{StaticResource IconY}"
+                              Style="{StaticResource IconButtonStyle}" />
         </Grid>
 
         <Grid x:Name="WordPanel"
@@ -226,13 +226,13 @@
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Button Style="{StaticResource IconButtonStyle}"
-                        FontFamily="{StaticResource IconY}"
-                        FontWeight="Light"
-                        Content="&#xA005;"
-                        Tag="收起侧边栏"
-                        Command="{Binding ControlBarCommand}"
-                        CommandParameter="OpenWordList" />
+                <local:IconBottun Style="{StaticResource IconButtonStyle}"
+                                  FontFamily="{StaticResource IconY}"
+                                  FontWeight="Light"
+                                  Icon="&#xA005;"
+                                  ToolTip="收起侧边栏"
+                                  Command="{Binding ControlBarCommand}"
+                                  CommandParameter="OpenWordList" />
                 <Rectangle Width="1"
                            Fill="{ThemeResource WordListWordFg}"
                            Margin="8,4,8,4"
@@ -333,34 +333,85 @@
 
         <Grid x:Name="Share"
               Visibility="Collapsed">
-            <TextBox Text="预览图片" IsReadOnly="True"
-                     FontFamily="Arial" FontSize="24" FontStyle="Italic"
-                     CharacterSpacing="200" Foreground="CornflowerBlue" />
+            <TextBox Text="预览图片"
+                     IsReadOnly="True"
+                     FontFamily="Arial"
+                     FontSize="24"
+                     FontStyle="Italic"
+                     CharacterSpacing="200"
+                     Foreground="CornflowerBlue" />
             <Image x:Name="Image" />
-           <TextBox Text="请选择模板" FontSize="24" FontFamily="Arial" 
-                    Foreground="Chocolate" Margin="750,100,10,200"></TextBox>
-            
-                <FlipView MaxWidth="200" Height="300" HorizontalAlignment="Right" VerticalAlignment="Center" >
+            <TextBox Text="请选择模板"
+                     FontSize="24"
+                     FontFamily="Arial"
+                     Foreground="Chocolate"
+                     Margin="750,100,10,200"></TextBox>
+
+            <FlipView MaxWidth="200"
+                      Height="300"
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Center">
 
                 <local:HitContentholder  PointBrush="BlueViolet"
                                          Command="{Binding ShareCommand}"
                                          CommandPara="0">
                     <Image Source="ms-appx:///Assets/new1.jpg"></Image>
-                    
+
                 </local:HitContentholder>
                 <local:HitContentholder  Command="{Binding ShareCommand}"
                                          CommandPara="1">
                     <Image Source="ms-appx:///Assets/new2.jpg"></Image>
-            
-            </local:HitContentholder>
-                    <FlipView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <VirtualizingStackPanel Orientation="Vertical"/>
-                        </ItemsPanelTemplate>
-                    </FlipView.ItemsPanel>
+
+                </local:HitContentholder>
+                <FlipView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </FlipView.ItemsPanel>
             </FlipView>
-            
+
         </Grid>
+
+        <local:DefaultDialog x:Name="AddToDicDialog"
+                             MinWidth="360">
+            <local:DefaultDialog.Content>
+                <Border Background="{ThemeResource AddDicContentBg}"
+                        BorderThickness="2"
+                        BorderBrush="{ThemeResource AddDicContentBorderC}"
+                        Padding="12,6,6,6">
+                    <Grid MinWidth="240">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="48" />
+                            <ColumnDefinition Width="48" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Height="24"
+                                 Margin="0,8,0,0"
+                                 Text="{Binding NewName,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                 HorizontalAlignment="Stretch"
+                                 BorderBrush="{ThemeResource AddDicContentBorderC}"
+                                 Style="{StaticResource DialogTextBox}"
+                                 VerticalAlignment="Center"
+                                 Foreground="{ThemeResource AddDicContentTextFg}"
+                                 PlaceholderForeground="{ThemeResource AddDicContentTextFg}"
+                                 PlaceholderText="请输入词库名称" />
+                        <local:IconBottun Style="{StaticResource DialogButton}"
+                                          Command="{Binding DialogCommand}"
+                                          HorizontalAlignment="Right"
+                                          CommandParameter="YES"
+                                          Icon="&#xE8FB;"
+                                          Grid.Column="1" />
+                        <local:IconBottun Style="{StaticResource DialogButton}"
+                                          Command="{Binding DialogCommand}"
+                                          HorizontalAlignment="Right"
+                                          CommandParameter="NO"
+                                          Icon="&#xE711;"
+                                          Grid.Column="2" />
+                    </Grid>
+                </Border>
+            </local:DefaultDialog.Content>
+        </local:DefaultDialog>
+
 
         <FlyoutBase.AttachedFlyout>
             <Flyout x:Name="MenuPop"
@@ -373,18 +424,19 @@
                                 Value="Transparent" />
                     </Style>
                 </Flyout.FlyoutPresenterStyle>
-                <Border Background="#E0E0E0"
-                        BorderBrush="#080808"
+                <Border Background="{ThemeResource EssayPageFlyoutBg}"
+                        BorderBrush="{ThemeResource EssayPageFlyoutFg}"
                         Margin="-12,0,0,0"
                         BorderThickness="1">
-                    <Button Style="{StaticResource TextButtonStyle}"
-                            Command="{Binding ControlBarCommand}"
-                            CommandParameter="AddToDic"
-                            Padding="4,2,4,2"
-                            Content="将单词添加到词库" />
+                    <local:IconBottun Style="{StaticResource TextButtonStyle}"
+                                      Command="{Binding ControlBarCommand}"
+                                      CommandParameter="AddToDic"
+                                      Padding="4,2,4,2"
+                                      FontFamily="{ThemeResource PhoneFontFamilyNormal}"
+                                      Icon="将单词添加到词库" />
                 </Border>
             </Flyout>
         </FlyoutBase.AttachedFlyout>
     </Grid>
-    
+
 </UserControl>

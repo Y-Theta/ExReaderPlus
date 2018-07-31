@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExReaderPlus.WordsManager;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -37,8 +38,10 @@ namespace ExReaderPlus.View.Converter {
         public object Convert(object value, Type targetType, object parameter, string language) {
             if (parameter is null)
                 return -System.Convert.ToDouble(value);
-            if (parameter.ToString().Equals("bool"))
+            else if (parameter.ToString().Equals("bool"))
                 return (bool)value ? false : true;
+            else if (parameter.ToString().Equals("Vis"))
+                return ((Visibility)value).Equals(Visibility.Visible) ? Visibility.Collapsed : Visibility.Visible;
             else return null;
         }
 
@@ -125,6 +128,17 @@ namespace ExReaderPlus.View.Converter {
         public object ConvertBack(object value, Type targetType, object parameter, string language) {
             return null;
         }
+    }
+
+    public class DICExist : IValueConverter {
+        public object Convert(object value, Type targetType, object parameter, string language) {
+            return WordBook.SelectedDic == System.Convert.ToInt32(value) ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language) {
+            throw new NotImplementedException();
+        }
+
     }
 
 }

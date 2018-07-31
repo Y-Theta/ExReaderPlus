@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.UI.Xaml;
@@ -41,9 +42,13 @@ namespace ExReaderPlus.View {
             base.OnApplyTemplate();
         }
 
-       
+        private void DefaultDialog_SizeChanged(object sender, SizeChangedEventArgs e) {
+            
+        }
+
         public DefaultDialog() {
-            this.DefaultStyleKey = typeof(DefaultDialog);
+            DefaultStyleKey = typeof(DefaultDialog);
+            SizeChanged += DefaultDialog_SizeChanged;
         }
     }
 }

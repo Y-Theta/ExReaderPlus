@@ -1,0 +1,133 @@
+﻿<UserControl x:Class="ExReaderPlus.View.VocabularyItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:ExReaderPlus.View"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+    <Grid x:Name="RootGrid"
+          Padding="0,0,0,8"
+          Background="{x:Bind Background}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="CommandStates">
+                <VisualState x:Name="Normal" />
+                <VisualState x:Name="PointOver">
+                    <VisualState.Setters>
+                        <Setter Target="RootGrid.Background"
+                                Value="{x:Bind PointBrush}" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Pressed">
+                    <VisualState.Setters>
+                        <Setter Target="RootGrid.Background"
+                                Value="{x:Bind PressBrush}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="40" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Rectangle x:Name="ColorID"
+                   Fill="{x:Bind MainForeground}"
+                   Width="2"
+                   Grid.RowSpan="2"
+                   VerticalAlignment="Stretch"
+                   HorizontalAlignment="Left"
+                   Margin="4,8,8,0" />
+        <TextBox Grid.Row="0"
+                 Grid.Column="1"
+                 Foreground="{x:Bind MainForeground}"
+                 Style="{StaticResource WordListCaption}"
+                 Text="{Binding Word}" />
+        <TextBlock Grid.Column="2"
+                   Foreground="{x:Bind MainForeground}"
+                   Style="{x:Bind PhoneticStyle}"
+                   Text="{Binding Phonetic,Converter={StaticResource PhoneticCON}}">
+                 <ToolTipService.ToolTip>
+                          <ToolTip Padding="0"
+                                   Visibility="{Binding Phonetic,Mode=OneWay,Converter={StaticResource NULLnoVIS}}"
+                                   Background="{ThemeResource WordListMoreBg}"
+                                   BorderThickness="0"
+                                   HorizontalOffset="12"
+                                   VerticalOffset="12"
+                                   Placement="Mouse">
+                                         <Border Padding="2">
+                                             <TextBlock Style="{StaticResource WordListMoreToolTip_P}"
+                                                        Text="{Binding Phonetic,Mode=OneWay}" />
+                                         </Border>
+                          </ToolTip>
+                 </ToolTipService.ToolTip>
+        </TextBlock>
+        <Ellipse Grid.Column="2"
+                 Grid.Row="1"
+                 Width="10"
+                 Height="10"
+                 HorizontalAlignment="Left"
+                 VerticalAlignment="Center"
+                 Margin="0,6,0,0"
+                 Visibility="{Binding YesorNo,Converter={StaticResource NULLnoVIS},ConverterParameter=1,Mode=OneWay}"
+                 Fill="{x:Bind MainForeground}">
+            <ToolTipService.ToolTip>
+                <ToolTip Padding="0"
+                         Background="{ThemeResource WordListMoreBg}"
+                         BorderThickness="0"
+                         HorizontalOffset="12"
+                         VerticalOffset="12"
+                         Placement="Mouse">
+                    <Border Padding="2">
+                        <TextBlock Style="{StaticResource WordListMoreToolTip_P}"
+                                   Text="{Binding YesorNo,Mode=OneWay,Converter={StaticResource INTtoSTR},ConverterParameter={StaticResource WordLearnedTooltip}}" />
+                    </Border>
+                </ToolTip>
+            </ToolTipService.ToolTip>
+        </Ellipse>
+        <TextBlock Grid.Row="1"
+                   Grid.Column="1"
+                   Foreground="{x:Bind MainForeground}"
+                   Style="{x:Bind TranslationStyle}"
+                   Text="{Binding Translation}">
+             <ToolTipService.ToolTip>
+                   <ToolTip Padding="0"
+                            Visibility="{Binding Translation,Mode=OneWay,Converter={StaticResource NULLnoVIS}}"
+                            Background="{ThemeResource WordListMoreBg}"
+                            BorderThickness="0"
+                            HorizontalOffset="12"
+                            VerticalOffset="12"
+                            Placement="Mouse">
+                          <Border Padding="2">
+                                 <TextBlock Style="{StaticResource WordListMoreToolTip}"
+                                            Text="{Binding Translation,Mode=OneWay}" />
+                                 </Border>
+                          </ToolTip>
+             </ToolTipService.ToolTip>
+         </TextBlock>
+        <Grid x:Name="ControlGrid"
+              Visibility="{x:Bind ReadOnly ,Converter={StaticResource NULLnoVIS},ConverterParameter=false}"
+              VerticalAlignment="Center"
+              Margin="0,8,0,0"
+              Grid.Column="4"
+              Grid.RowSpan="2">
+            <local:IconBottun Style="{x:Bind ButtonStyle}"
+                              Icon="&#xE73E;"
+                              ToolTip="已掌握"
+                              Visibility="{Binding YesorNo,Converter={StaticResource NULLnoVIS},ConverterParameter=0,Mode=OneWay}"
+                              Command="{Binding RemCommand}"
+                              CommandParameter="{Binding}" />
+            <local:IconBottun Style="{x:Bind ButtonStyle}"
+                              Icon="&#xE711;"
+                              ToolTip="忘记了"
+                              Visibility="{Binding YesorNo,Converter={StaticResource NULLnoVIS},ConverterParameter=1,Mode=OneWay}"
+                              Command="{Binding RemCommand}"
+                              CommandParameter="{Binding}" />
+        </Grid>
+    </Grid>
+</UserControl>

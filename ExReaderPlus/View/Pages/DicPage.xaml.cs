@@ -14,41 +14,61 @@ namespace ExReaderPlus.View.Pages {
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
     public sealed partial class DicPage : Page {
-        DicPageViewModel _viewModel;
 
+        DicPageViewModel _viewModel;
 
         #region Methods
         private async void _viewModel_CommandActions(object sender, CommandArgs args) {
-            //DefaultDialog dia = new DefaultDialog();
-            //ContentControl s = new ContentControl();
-            //dia.Background = new SolidColorBrush(Color.FromArgb(255, 0, 60, 180));
-            //s.Style = Resources["AddDicContent"] as Style;
-            //dia.Content = s;
-            //dia.PrimaryButtonText = "\uE701";
-            //dia.PrimaryButtonCommand = new CommandBase(obj => {
-
-            //});
-            //dia.PrimaryButtonStyle = App.Current.Resources["DialogButtonStyle"] as Style;
-            //dia.PrimaryButtonMargin = new Thickness(0, 0, 0, 0);
-
-            //var dd = await dia.ShowAsync(ContentDialogPlacement.Popup);
-            //Debug.WriteLine(dia.ActualHeight);
-            
+            _viewModel.NewName = null;
             var res = await NewDialog.ShowAsync();
-            
+        }
+
+
+        private void _viewModel_DicOpAction(object sender, CommandArgs args) {
+            switch (args.command)
+            {
+                case "Open":
+                    VisualStateManager.GoToState(this, "CompleteInfo", true);
+                    break;
+                case "Close":
+                    VisualStateManager.GoToState(this, "BrifeInfo", true);
+                    break;
+                case "ReName":
+                   
+                    break;
+                case "ReMove":
+                    
+                    break;
+
+            }
+        }
+
+        private void _viewModel_DialogActions(object sender, CommandArgs args) {
+            switch (args.parameter)
+            {
+                case "YES":
+                    Debug.WriteLine(_viewModel.NewName);
+                    break;
+                case "NO":
+                    Debug.WriteLine(_viewModel.NewName);
+                    break;
+            }
+            NewDialog.Hide();
         }
         #endregion
 
-        #region PrivateEvents
+        #region Private
         private void DicPage_Loaded(object sender, RoutedEventArgs e) {
             _viewModel = DataContext as DicPageViewModel;
             _viewModel.CommandActions += _viewModel_CommandActions;
-          //  (App.Current.Resources["OverSettingService"] as OverSettingService).SetStateBarButtonFg(Color.FromArgb(255, 255, 255, 255));
+            _viewModel.DialogActions += _viewModel_DialogActions;
+            _viewModel.DicOpAction += _viewModel_DicOpAction;
         }
 
         private void DicPage_Unloaded(object sender, RoutedEventArgs e) {
             _viewModel.CommandActions -= _viewModel_CommandActions;
-
+            _viewModel.DialogActions -= _viewModel_DialogActions;
+            _viewModel.DicOpAction -= _viewModel_DicOpAction;
         }
         #endregion
 
@@ -59,9 +79,6 @@ namespace ExReaderPlus.View.Pages {
             Unloaded += DicPage_Unloaded;
             ((DicPageViewModel)DataContext).window = Window.Current;
         }
-
-
-
         #endregion
 
         private void Page_DragOver(object sender, DragEventArgs e) {

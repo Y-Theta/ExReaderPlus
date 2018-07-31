@@ -172,6 +172,7 @@ namespace ExReaderPlus.View
             base.OnPointerPressed(e);
             VisualStateManager.GoToState(this, "Pressed", false);
             Command?.Execute(CommandPara);
+            e.Handled = true;
         }
 
         protected override void OnPointerReleased(PointerRoutedEventArgs e) {

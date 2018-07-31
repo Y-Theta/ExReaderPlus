@@ -28,7 +28,7 @@
         <Setter Property="ItemContainerTransitions">
             <Setter.Value>
                 <TransitionCollection>
-                    <PaneThemeTransition Edge="Bottom" />
+
                     <AddDeleteThemeTransition />
                     <ContentThemeTransition />
                     <ReorderThemeTransition />
@@ -147,116 +147,16 @@
         </Setter>
         <Setter Property="ItemTemplate">
             <Setter.Value>
-                <DataTemplate x:DataType="model:ActionVocabulary">
-                    <local:HitContentholder Background="{ThemeResource WordListItemBg_N}"
-                                            PointBrush="{ThemeResource WordListItemBg_R}"
-                                            PressBrush="{ThemeResource WordListItemBg_P}"
-                                            OnPointEnter="{Binding PointEnter}"
-                                            OnPointExit="{Binding PointExit}">
-                        <Grid Margin="0,0,0,8">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="40" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto" />
-                                <RowDefinition Height="auto" />
-                            </Grid.RowDefinitions>
-                            <Rectangle Fill="{ThemeResource WordListWordFg}"
-                                       Width="2"
-                                       Grid.RowSpan="2"
-                                       VerticalAlignment="Stretch"
-                                       HorizontalAlignment="Left"
-                                       Margin="4,8,8,0" />
-                            <TextBox Grid.Row="0"
-                                     Grid.Column="1"
-                                     Style="{StaticResource WordListCaption}"
-                                     Text="{Binding Word}" />
-                            <TextBlock Grid.Column="2"
-                                       Style="{StaticResource WordListPhonetic}"
-                                       Text="{Binding Phonetic,Converter={StaticResource PhoneticCON}}">
-                                <ToolTipService.ToolTip>
-                                    <ToolTip Padding="0"
-                                             Visibility="{Binding Phonetic,Mode=OneWay,Converter={StaticResource NULLnoVIS}}"
-                                             Background="{ThemeResource WordListMoreBg}"
-                                             BorderThickness="0"
-                                             HorizontalOffset="12"
-                                             VerticalOffset="12"
-                                             Placement="Mouse">
-                                         <Border Padding="2">
-                                             <TextBlock Style="{StaticResource WordListMoreToolTip_P}"
-                                                        Text="{Binding Phonetic,Mode=OneWay}" />
-                                         </Border>
-                                    </ToolTip>
-                                </ToolTipService.ToolTip>
-                            </TextBlock>
-                            <Ellipse Grid.Column="2"
-                                     Grid.Row="1"
-                                     Width="10"
-                                     Height="10"
-                                     HorizontalAlignment="Left"
-                                     VerticalAlignment="Center"
-                                     Margin="0,6,0,0"
-                                     Visibility="{Binding YesorNo,Converter={StaticResource NULLnoVIS},ConverterParameter=1,Mode=OneWay}"
-                                     Fill="{ThemeResource WordListWordFg}">
-                                <ToolTipService.ToolTip>
-                                    <ToolTip Padding="0"
-                                             Background="{ThemeResource WordListMoreBg}"
-                                             BorderThickness="0"
-                                             HorizontalOffset="12"
-                                             VerticalOffset="12"
-                                             Placement="Mouse">
-                                        <Border Padding="2">
-                                            <TextBlock Style="{StaticResource WordListMoreToolTip_P}"
-                                                       Text="{Binding YesorNo,Mode=OneWay,Converter={StaticResource INTtoSTR},ConverterParameter={StaticResource WordLearnedTooltip}}" />
-                                        </Border>
-                                    </ToolTip>
-                                </ToolTipService.ToolTip>
-                            </Ellipse>
-                            <TextBlock Grid.Row="1"
-                                       Grid.Column="1"
-                                       Style="{StaticResource WordListTranslation}"
-                                       Text="{Binding Translation}">
-                                <ToolTipService.ToolTip>
-                                    <ToolTip Padding="0"
-                                             Visibility="{Binding Translation,Mode=OneWay,Converter={StaticResource NULLnoVIS}}"
-                                             Background="{ThemeResource WordListMoreBg}"
-                                             BorderThickness="0"
-                                             HorizontalOffset="12"
-                                             VerticalOffset="12"
-                                             Placement="Mouse">
-                                         <Border Padding="2">
-                                             <TextBlock Style="{StaticResource WordListMoreToolTip}"
-                                                        Text="{Binding Translation,Mode=OneWay}" />
-                                         </Border>
-                                    </ToolTip>
-                                </ToolTipService.ToolTip>
-                            </TextBlock>
-                            <Button Style="{StaticResource IconButtonStyle}"
-                                    Content="&#xE73E;"
-                                    Tag="已掌握"
-                                    Margin="0,8,0,0"
-                                    Grid.Column="4"
-                                    Grid.RowSpan="2"
-                                    VerticalAlignment="Center"
-                                    Visibility="{Binding YesorNo,Converter={StaticResource NULLnoVIS},ConverterParameter=0,Mode=OneWay}"
-                                    Command="{Binding RemCommand}"
-                                    CommandParameter="{Binding}" />
-                            <Button Style="{StaticResource IconButtonStyle}"
-                                    Content="&#xE711;"
-                                    Tag="忘记了"
-                                    Margin="0,8,0,0"
-                                    Grid.Column="4"
-                                    Grid.RowSpan="2"
-                                    VerticalAlignment="Center"
-                                    Visibility="{Binding YesorNo,Converter={StaticResource NULLnoVIS},ConverterParameter=1,Mode=OneWay}"
-                                    Command="{Binding RemCommand}"
-                                    CommandParameter="{Binding}" />
-                        </Grid>
-                    </local:HitContentholder>
+                <DataTemplate  x:DataType="model:ActionVocabulary">
+                    <local:VocabularyItem Background="{ThemeResource WordListItemBg_N}"
+                                          PointBrush="{ThemeResource WordListItemBg_R}"
+                                          PressBrush="{ThemeResource WordListItemBg_P}"
+                                          MainForeground="{ThemeResource WordListWordFg}"
+                                          ButtonStyle="{StaticResource IconButtonStyle}"
+                                          PhoneticStyle="{StaticResource WordListPhonetic}"
+                                          TranslationStyle="{StaticResource WordListTranslation}"
+                                          OnPointEnter="{Binding PointEnter}"
+                                          OnPointExit="{Binding PointExit}" />
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -293,7 +193,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
     </Style>
 
     <!--WordListCombBox-->
@@ -610,5 +509,252 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <!--Vocabularies-->
+
+    <Style x:Key="VocabulariesZoomIn"
+           TargetType="ListView">
+        <Setter Property="ScrollViewer.VerticalScrollMode"
+                Value="Enabled" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility"
+                Value="Auto" />
+        <Setter Property="SelectionMode"
+                Value="None" />
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <ItemsStackPanel />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerTransitions">
+            <Setter.Value>
+                <TransitionCollection>
+                    <AddDeleteThemeTransition />
+                    <ContentThemeTransition />
+                    <ReorderThemeTransition />
+                    <EntranceThemeTransition IsStaggeringEnabled="False" />
+                </TransitionCollection>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="IsEnabled"
+                            Value="True" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListViewItem">
+                                <Border x:Name="ContentBorder"
+                                        Control.IsTemplateFocusTarget="True">
+                                    <ContentPresenter x:Name="Content"
+                                                      VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                                      HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                                      Margin="0" />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate  x:DataType="model:ActionVocabulary">
+                    <local:VocabularyItem Background="{ThemeResource WordListItemBg_N}"
+                                          PointBrush="{ThemeResource WordListItemBg_R}"
+                                          PressBrush="{ThemeResource WordListItemBg_P}"
+                                          MainForeground="{ThemeResource VocabularyItemFg}"
+                                          PhoneticStyle="{StaticResource WordListPhonetic}"
+                                          TranslationStyle="{StaticResource VocabularyListTranslation}"
+                                          ReadOnly="True"
+                                          OnPointEnter="{Binding PointEnter}"
+                                          OnPointExit="{Binding PointExit}" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListView">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            Background="{TemplateBinding Background}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <ScrollViewer x:Name="ScrollViewer"
+                                      TabNavigation="{TemplateBinding TabNavigation}"
+                                      HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                                      HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                      IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
+                                      VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                                      VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                                      IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
+                                      IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+                                      IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
+                                      ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}"
+                                      IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+                                      BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
+                                      Style="{StaticResource DefaultScrollViewer}"
+                                      AutomationProperties.AccessibilityView="Raw">
+                            <ItemsPresenter Header="{TemplateBinding Header}"
+                                            HeaderTemplate="{TemplateBinding HeaderTemplate}"
+                                            HeaderTransitions="{TemplateBinding HeaderTransitions}"
+                                            Footer="{TemplateBinding Footer}"
+                                            FooterTemplate="{TemplateBinding FooterTemplate}"
+                                            FooterTransitions="{TemplateBinding FooterTransitions}"
+                                            Padding="{TemplateBinding Padding}" />
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="VocabulariesAZ"
+           TargetType="SemanticZoom">
+        <Setter Property="Background"
+                Value="Transparent" />
+        <Setter Property="BorderThickness"
+                Value="0" />
+        <Setter Property="IsTabStop"
+                Value="False" />
+        <Setter Property="TabNavigation"
+                Value="Once" />
+        <Setter Property="ScrollViewer.HorizontalScrollMode"
+                Value="Disabled" />
+        <Setter Property="ScrollViewer.IsHorizontalRailEnabled"
+                Value="False" />
+        <Setter Property="ScrollViewer.VerticalScrollMode"
+                Value="Disabled" />
+        <Setter Property="ScrollViewer.IsVerticalRailEnabled"
+                Value="False" />
+        <Setter Property="IsZoomOutButtonEnabled"
+                Value="False" />
+        <Setter Property="ScrollViewer.ZoomMode"
+                Value="Disabled" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="SemanticZoom">
+                    <Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="SemanticZoomStates">
+                                <VisualState x:Name="ZoomInView">
+                                    <Storyboard>
+                                        <FadeOutThemeAnimation TargetName="ZoomedOutPresenter" />
+                                        <FadeInThemeAnimation TargetName="ZoomedInPresenter" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="ZoomOutView">
+                                    <Storyboard>
+                                        <FadeOutThemeAnimation TargetName="ZoomedInPresenter" />
+                                        <FadeInThemeAnimation TargetName="ZoomedOutPresenter" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="ZoomOutButtonStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition From="ZoomOutButtonVisible"
+                                                      To="ZoomOutButtonHidden">
+                                        <Storyboard BeginTime="0:0:3">
+                                            <FadeOutThemeAnimation TargetName="ZoomOutButton" />
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="IsHitTestVisible"
+                                                                           Storyboard.TargetName="ZoomOutButton">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <x:Boolean>False</x:Boolean>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualTransition>
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="ZoomOutButtonVisible">
+                                    <Storyboard>
+                                        <FadeInThemeAnimation TargetName="ZoomOutButton" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="ZoomOutButtonHidden">
+                                    <Storyboard>
+                                        <FadeOutThemeAnimation TargetName="ZoomOutButton" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="IsHitTestVisible"
+                                                                       Storyboard.TargetName="ZoomOutButton">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <x:Boolean>False</x:Boolean>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <ScrollViewer x:Name="ScrollViewer"
+                                      HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                                      HorizontalScrollBarVisibility="Hidden"
+                                      VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                                      VerticalScrollBarVisibility="Hidden"
+                                      IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+                                      IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
+                                      ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}"
+                                      IsZoomChainingEnabled="True"
+                                      IsZoomInertiaEnabled="False"
+                                      IsScrollInertiaEnabled="True"
+                                      HorizontalContentAlignment="Center"
+                                      VerticalContentAlignment="Center"
+                                      MinZoomFactor="0.5"
+                                      MaxZoomFactor="1.0"
+                                      AutomationProperties.AccessibilityView="Raw">
+                            <ScrollViewer.Template>
+                                <ControlTemplate TargetType="ScrollViewer">
+                                    <ScrollContentPresenter x:Name="ScrollContentPresenter"
+                                                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                            Margin="{TemplateBinding Padding}" />
+                                </ControlTemplate>
+                            </ScrollViewer.Template>
+                            <Grid Padding="{TemplateBinding Padding}"
+                                  RenderTransformOrigin="0, 0"
+                                  Background="{TemplateBinding Background}"
+                                  BorderBrush="{TemplateBinding BorderBrush}"
+                                  BorderThickness="{TemplateBinding BorderThickness}">
+                                <Grid.RenderTransform>
+                                    <CompositeTransform x:Name="ManipulatedElementTransform" />
+                                </Grid.RenderTransform>
+                                <ContentPresenter x:Name="ZoomedInPresenter"
+                                                  RenderTransformOrigin="0.5, 0.5"
+                                                  Visibility="Collapsed"
+                                                  IsHitTestVisible="False"
+                                                  Content="{TemplateBinding ZoomedInView}">
+                                    <ContentPresenter.RenderTransform>
+                                        <CompositeTransform x:Name="ZoomedInTransform" />
+                                    </ContentPresenter.RenderTransform>
+                                </ContentPresenter>
+                                <ContentPresenter x:Name="ZoomedOutPresenter"
+                                                  RenderTransformOrigin="0.5, 0.5"
+                                                  Content="{TemplateBinding ZoomedOutView}"
+                                                  IsHitTestVisible="False"
+                                                  Visibility="Collapsed">
+                                    <ContentPresenter.RenderTransform>
+                                        <CompositeTransform x:Name="ZoomedOutTransform" />
+                                    </ContentPresenter.RenderTransform>
+                                </ContentPresenter>
+                            </Grid>
+                        </ScrollViewer>
+                        <Button x:Name="ZoomOutButton"
+                                IsTabStop="False"
+                                Margin="0,0,19,19"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom"
+                                UseSystemFocusVisuals="{StaticResource UseSystemFocusVisuals}"
+                                FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                FontSize="4"
+                                Content="&#xE0B8;"
+                                Width="12"
+                                Height="12"
+                                Padding="0" />
+
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 
 </ResourceDictionary>

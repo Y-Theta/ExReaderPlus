@@ -2,6 +2,7 @@
 using ExReaderPlus.Models;
 using ExReaderPlus.View;
 using ExReaderPlus.View.Commands;
+using ExReaderPlus.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -104,8 +105,12 @@ namespace ExReaderPlus.WordsManager {
 
         public static bool Initdicready = false;
 
-
-        public static int SelectedDic = 2;
+        public static event EventHandler SelectedDicChanged;
+        private static int _selectedDic;
+        public static int SelectedDic {
+            get => _selectedDic;
+            set { _selectedDic = value; SelectedDicChanged?.Invoke(null, EventArgs.Empty); }
+        }
 
         public static EngDictionary GaoKao { get; set; }
 
@@ -119,22 +124,40 @@ namespace ExReaderPlus.WordsManager {
 
         public static EngDictionary IELTS { get; set; }
 
+
         public static List<EngDictionary> Custom = new List<EngDictionary>();
 
         /// <summary>
         /// 
         /// </summary>
         public static EngDictionary GetDic(int i) {
-            switch (i)
+            if (i < 10)
+                switch (i)
+                {
+                    case 0: return GaoKao;
+                    case 1: return CET4;
+                    case 2: return CET6;
+                    case 3: return KaoYan;
+                    case 4: return TOEFL;
+                    case 5: return IELTS;
+                    default: return null;
+                }
+            else
+                return Custom[i - 10];
+        }
+
+        public static List<ActionDictionary> GetCustomeDics() {
+            List<ActionDictionary> avl = new List<ActionDictionary>();
+            if (Custom.Count != 0)
             {
-                case 0: return GaoKao;
-                case 1: return CET4;
-                case 2: return CET6;
-                case 3: return KaoYan;
-                case 4: return TOEFL;
-                case 5: return IELTS;
-                default: return null;
+                foreach (var re in Custom)
+                {
+                    avl.Add(re.GetActionDictionary());
+                }
+                return avl;
             }
+            else
+                return null;
         }
 
         public static EngDictionary GetDicNow() {
@@ -225,8 +248,13 @@ namespace ExReaderPlus.WordsManager {
             }
         }
 
-        public static async Task<bool> ChangeWordStatePenetrateAsync(string str,int state) {
+        public static async Task<bool> ChangeWordStatePenetrateAsync(string str, int state) {
             GetDicNow().Wordlist[str].YesorNo = state;
+            if (state == 1)
+                GetDicNow().LearneedWords += 1;
+            else
+                GetDicNow().LearneedWords -= 1;
+            (App.Current.Resources["DicPageViewModel"] as DicPageViewModel).UpdateDicinfo();
             return await CustomDicManage.ChangeTheStateOfAWord(str, state);
         }
     }

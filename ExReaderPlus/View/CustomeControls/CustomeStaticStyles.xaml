@@ -24,6 +24,7 @@
     <Converter:INTtoSTR x:Key="INTtoSTR" />
     <Converter:ObjToString x:Key="ObjToString" />
     <Converter:WidthTrigger x:Key="WidthTrigger" />
+    <Converter:DICExist x:Name="DICExist" />
 
     <!--Styles-->
     <ResourceDictionary.MergedDictionaries>

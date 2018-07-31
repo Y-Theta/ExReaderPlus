@@ -6,7 +6,7 @@
     <x:Double x:Key="DefaultButtonIconSize">16</x:Double>
     <!--IconButtonStyle-->
     <Style x:Key="IconButtonStyle"
-           TargetType="Button">
+           TargetType="local:IconBottun">
         <Setter Property="FontSize"
                 Value="{StaticResource DefaultButtonIconSize}" />
         <Setter Property="Width"
@@ -19,63 +19,19 @@
                 Value="{ThemeResource DefaultControlBarButtonBG_N}" />
         <Setter Property="Foreground"
                 Value="{ThemeResource DefaultControlBarButtonFG_N}" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Grid x:Name="RootGrid"
-                          Background="{TemplateBinding Background}">
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal" />
-                                <VisualState x:Name="PointerOver">
-                                    <VisualState.Setters>
-                                        <Setter Target="RootGrid.Background"
-                                                Value="{ThemeResource DefaultControlBarButtonBG_R}" />
-                                        <Setter Target="IconHolder.Foreground"
-                                                Value="{ThemeResource DefaultControlBarButtonFG_R}" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState x:Name="Pressed">
-                                    <VisualState.Setters>
-                                        <Setter Target="RootGrid.Background"
-                                                Value="{ThemeResource DefaultControlBarButtonBG_P}" />
-                                        <Setter Target="IconHolder.Foreground"
-                                                Value="{ThemeResource DefaultControlBarButtonFG_P}" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-
-                        <TextBlock x:Name="IconHolder"
-                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                   Foreground="{TemplateBinding Foreground}"
-                                   FontFamily="{TemplateBinding FontFamily}"
-                                   Text="{TemplateBinding Content}"
-                                   FontSize="{TemplateBinding FontSize}">
-                            <ToolTipService.ToolTip>
-                                <ToolTip Padding="-1"
-                                         Visibility="{Binding Tag, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay,Converter={StaticResource NULLnoVIS}}"
-                                         HorizontalOffset="12"
-                                         VerticalOffset="12"
-                                         Placement="Mouse">
-                                    <Border BorderBrush="{ThemeResource DefaultToolTipBd}"
-                                            BorderThickness="1">
-                                        <TextBlock Style="{StaticResource ToolTipTextStyle}"
-                                                   Text="{Binding Tag, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}" />
-                                    </Border>
-                                </ToolTip>
-                            </ToolTipService.ToolTip>
-                        </TextBlock>
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="PointMask"
+                Value="{ThemeResource DefaultControlBarButtonBG_R}" />
+        <Setter Property="PointBrush"
+                Value="{ThemeResource DefaultControlBarButtonFG_R}" />
+        <Setter Property="PressMask"
+                Value="{ThemeResource DefaultControlBarButtonBG_P}" />
+        <Setter Property="PressBrush"
+                Value="{ThemeResource DefaultControlBarButtonFG_P}" />
     </Style>
 
     <!--AddDicButton-->
     <Style x:Key="AddDicButton"
-           TargetType="Button">
+           TargetType="local:IconBottun">
         <Setter Property="FontSize"
                 Value="24" />
         <Setter Property="Width"
@@ -88,58 +44,14 @@
                 Value="{ThemeResource AddDicButtonBg_N}" />
         <Setter Property="Foreground"
                 Value="{ThemeResource AddDicButtonFg_N}" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Grid x:Name="RootGrid"
-                          Background="{TemplateBinding Background}">
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal" />
-                                <VisualState x:Name="PointerOver">
-                                    <VisualState.Setters>
-                                        <Setter Target="RootGrid.Background"
-                                                Value="{ThemeResource AddDicButtonBg_R}" />
-                                        <Setter Target="IconHolder.Foreground"
-                                                Value="{ThemeResource AddDicButtonFg_R}" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState x:Name="Pressed">
-                                    <VisualState.Setters>
-                                        <Setter Target="RootGrid.Background"
-                                                Value="{ThemeResource AddDicButtonBg_P}" />
-                                        <Setter Target="IconHolder.Foreground"
-                                                Value="{ThemeResource AddDicButtonFg_P}" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-                        
-                        <TextBlock x:Name="IconHolder"
-                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                   Foreground="{TemplateBinding Foreground}"
-                                   FontFamily="{TemplateBinding FontFamily}"
-                                   Text="{TemplateBinding Content}"
-                                   FontSize="{TemplateBinding FontSize}">
-                            <ToolTipService.ToolTip>
-                                <ToolTip Padding="-1"
-                                         Visibility="{Binding Tag, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay,Converter={StaticResource NULLnoVIS}}"
-                                         HorizontalOffset="12"
-                                         VerticalOffset="12"
-                                         Placement="Mouse">
-                                    <Border BorderBrush="{ThemeResource DefaultToolTipBd}"
-                                            BorderThickness="1">
-                                        <TextBlock Style="{StaticResource ToolTipTextStyle}"
-                                                   Text="{Binding Tag, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}" />
-                                    </Border>
-                                </ToolTip>
-                            </ToolTipService.ToolTip>
-                        </TextBlock>
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="PointMask"
+                Value="{ThemeResource AddDicButtonBg_R}" />
+        <Setter Property="PointBrush"
+                Value="{ThemeResource AddDicButtonFg_R}" />
+        <Setter Property="PressMask"
+                Value="{ThemeResource AddDicButtonBg_P}" />
+        <Setter Property="PressBrush"
+                Value="{ThemeResource AddDicButtonFg_P}" />
     </Style>
 
     <!--CheckToggelButton-->
@@ -168,197 +80,72 @@
         <Setter Property="CheckedBrush"
                 Value="{ThemeResource WordListWordFg}" />
     </Style>
-    
+
     <!--TextButtonStyle-->
     <Style x:Key="TextButtonStyle"
-           TargetType="Button">
+           TargetType="local:IconBottun">
         <Setter Property="Foreground"
                 Value="{ThemeResource FlyoutButtonFg_N}" />
         <Setter Property="Background"
                 Value="{ThemeResource FlyoutButtonBg_N}" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Border x:Name="RootBorder" Background="{TemplateBinding Background}">
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal" />
-                                <VisualState x:Name="PointerOver">
-                                    <VisualState.Setters>
-                                        <Setter Target="RootBorder.Background"
-                                                Value="{ThemeResource FlyoutButtonBg_R}" />
-                                        <Setter Target="TextHolder.Foreground"
-                                                Value="{ThemeResource FlyoutButtonFg_R}" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState x:Name="Pressed">
-                                    <VisualState.Setters>
-                                        <Setter Target="RootBorder.Background"
-                                                Value="{ThemeResource FlyoutButtonBg_P}" />
-                                        <Setter Target="TextHolder.Foreground"
-                                                Value="{ThemeResource FlyoutButtonFg_P}" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-                        <Grid x:Name="RootGrid">
-                            <TextBlock x:Name="TextHolder"
-                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                       Margin="{TemplateBinding Padding}"
-                                       Foreground="{TemplateBinding Foreground}"
-                                       FontFamily="{TemplateBinding FontFamily}"
-                                       Text="{TemplateBinding Content}"
-                                       FontWeight="{TemplateBinding FontWeight}"
-                                       FontSize="{TemplateBinding FontSize}" />
-                        </Grid>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="PointBrush"
+                Value="{ThemeResource FlyoutButtonFg_R}" />
+        <Setter Property="PointMask"
+                Value="{ThemeResource FlyoutButtonBg_R}" />
+        <Setter Property="PressBrush"
+                Value="{ThemeResource FlyoutButtonFg_P}" />
+        <Setter Property="PressMask"
+                Value="{ThemeResource FlyoutButtonBg_P}" />
     </Style>
 
-    <!--DicItemButtonStyle-->
-    <Style x:Key="DicItemButtonStyle"
-           TargetType="Button">
+    <!--DicIdSelectStyle-->
+    <Style x:Key="DicIdSelectStyle"
+           TargetType="local:IconBottun">
         <Setter Property="FontSize"
                 Value="24" />
         <Setter Property="Width"
-                Value="48" />
+                Value="36" />
         <Setter Property="Height"
-                Value="48" />
-        <Setter Property="FontFamily"
-                Value="{StaticResource SymbolThemeFontFamily}" />
+                Value="36" />
         <Setter Property="Background"
-                Value="{ThemeResource DicItemButtonBg_N}" />
+                Value="{ThemeResource DicItemIDHolderBg_N}" />
         <Setter Property="Foreground"
-                Value="{ThemeResource DicItemButtonFg_N}" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Grid x:Name="RootGrid"
-                          Background="{TemplateBinding Background}">
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal" />
-                                <VisualState x:Name="PointerOver">
-                                    <VisualState.Setters>
-                                        <Setter Target="RootGrid.Background"
-                                                Value="{ThemeResource DicItemButtonBg_R}" />
-                                        <Setter Target="IconHolder.Foreground"
-                                                Value="{ThemeResource DicItemButtonFg_R}" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState x:Name="Pressed">
-                                    <VisualState.Setters>
-                                        <Setter Target="RootGrid.Background"
-                                                Value="{ThemeResource DicItemButtonBg_P}" />
-                                        <Setter Target="IconHolder.Foreground"
-                                                Value="{ThemeResource DicItemButtonFg_P}" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-
-                        <TextBlock x:Name="IconHolder"
-                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                   Foreground="{TemplateBinding Foreground}"
-                                   FontFamily="{TemplateBinding FontFamily}"
-                                   Text="{TemplateBinding Content}"
-                                   FontSize="{TemplateBinding FontSize}">
-                            <ToolTipService.ToolTip>
-                                <ToolTip Padding="-1"
-                                         Visibility="{Binding Tag, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay,Converter={StaticResource NULLnoVIS}}"
-                                         HorizontalOffset="12"
-                                         VerticalOffset="12"
-                                         Placement="Mouse">
-                                    <Border BorderBrush="{ThemeResource DefaultToolTipBd}"
-                                            BorderThickness="1">
-                                        <TextBlock Style="{StaticResource ToolTipTextStyle}"
-                                                   Text="{Binding Tag, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}" />
-                                    </Border>
-                                </ToolTip>
-                            </ToolTipService.ToolTip>
-                        </TextBlock>
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+                Value="{ThemeResource DicItemIDHolderFg_N}" />
+        <Setter Property="PointMask"
+                Value="{ThemeResource DicItemIDHolderBg_R}" />
+        <Setter Property="PointBrush"
+                Value="{ThemeResource DicItemIDHolderFg_R}" />
+        <Setter Property="PressMask"
+                Value="{ThemeResource DicItemIDHolderBg_P}" />
+        <Setter Property="PressBrush"
+                Value="{ThemeResource DicItemIDHolderFg_P}" />
     </Style>
 
-    <!--DialogButtonStyle-->
-    <Style x:Key="DialogButtonStyle"
-           TargetType="Button">
+    <!--DialogButton-->
+    <Style x:Key="DialogButton"
+           TargetType="local:IconBottun">
         <Setter Property="HorizontalAlignment"
-                Value="Center" />
+                Value="Right" />
         <Setter Property="VerticalAlignment"
-                Value="Top" />
-        <Setter Property="FontSize"
-                Value="{StaticResource DefaultButtonIconSize}" />
+                Value="Center" />
         <Setter Property="Width"
-                Value="{StaticResource DefaultButtonSize}" />
+                Value="32" />
         <Setter Property="Height"
-                Value="{StaticResource DefaultButtonSize}" />
-        <Setter Property="FontFamily"
-                Value="{StaticResource SymbolThemeFontFamily}" />
+                Value="32" />
+        <Setter Property="FontSize"
+                Value="24" />
         <Setter Property="Background"
-                Value="{ThemeResource DefaultControlBarButtonBG_N}" />
+                Value="{ThemeResource AddDicDialogButtonBg_N}" />
         <Setter Property="Foreground"
-                Value="{ThemeResource DefaultControlBarButtonFG_N}" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Grid x:Name="RootGrid"
-                          Background="{TemplateBinding Background}">
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal" />
-                                <VisualState x:Name="PointerOver">
-                                    <VisualState.Setters>
-                                        <Setter Target="RootGrid.Background"
-                                                Value="{ThemeResource DefaultControlBarButtonBG_R}" />
-                                        <Setter Target="IconHolder.Foreground"
-                                                Value="{ThemeResource DefaultControlBarButtonFG_R}" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState x:Name="Pressed">
-                                    <VisualState.Setters>
-                                        <Setter Target="RootGrid.Background"
-                                                Value="{ThemeResource DefaultControlBarButtonBG_P}" />
-                                        <Setter Target="IconHolder.Foreground"
-                                                Value="{ThemeResource DefaultControlBarButtonFG_P}" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-
-                        <TextBlock x:Name="IconHolder"
-                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                   Foreground="{TemplateBinding Foreground}"
-                                   FontFamily="{TemplateBinding FontFamily}"
-                                   Text="{TemplateBinding Content}"
-                                   FontSize="{TemplateBinding FontSize}">
-                            <ToolTipService.ToolTip>
-                                <ToolTip Padding="-1"
-                                         Visibility="{Binding Tag, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay,Converter={StaticResource NULLnoVIS}}"
-                                         HorizontalOffset="12"
-                                         VerticalOffset="12"
-                                         Placement="Mouse">
-                                    <Border BorderBrush="{ThemeResource DefaultToolTipBd}"
-                                            BorderThickness="1">
-                                        <TextBlock Style="{StaticResource ToolTipTextStyle}"
-                                                   Text="{Binding Tag, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}" />
-                                    </Border>
-                                </ToolTip>
-                            </ToolTipService.ToolTip>
-                        </TextBlock>
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+                Value="{ThemeResource AddDicDialogButtonFg_N}" />
+        <Setter Property="PointMask"
+                Value="{ThemeResource AddDicDialogButtonBg_R}" />
+        <Setter Property="PointBrush"
+                Value="{ThemeResource AddDicDialogButtonFg_R}" />
+        <Setter Property="PressMask"
+                Value="{ThemeResource AddDicDialogButtonBg_P}" />
+        <Setter Property="PressBrush"
+                Value="{ThemeResource AddDicDialogButtonFg_P}" />
     </Style>
-
 
 </ResourceDictionary>

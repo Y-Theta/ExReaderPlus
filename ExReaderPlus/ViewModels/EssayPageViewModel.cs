@@ -21,6 +21,9 @@ namespace ExReaderPlus.ViewModels {
         #region Properties
         public Passage TempPassage { get; set; }
 
+        public bool ReadOnlyState { get; set; }
+
+
         public OverSettingService _settingService;
 
         private float _richTextSize;
@@ -271,19 +274,22 @@ namespace ExReaderPlus.ViewModels {
         private void InitCommand() {
             LoadPassage = new CommandBase(async obj =>
             {
-                TempPassage = null;
-                TempPassage = await FileManage.FileManage.Instence.OpenFile();
-                if (TempPassage is null)
+                Passage pass = null;
+                pass = await FileManage.FileManage.Instence.OpenFile();
+                if (pass is null)
                     return;
                 else
+                {
+                    TempPassage = pass;
                     PassageLoaded?.Invoke(this, EventArgs.Empty);
+                }
             });
             ShareCommand = new CommandBase( obj =>
             {
                 if (obj.Equals("0"))
-                    Debug.WriteLine("sss");
+                    ;
                 else
-                    Debug.WriteLine("aaa");
+                    ;
             });
             ControlBarCommand = new CommandBase(obj => { ControlCommand?.Invoke(this, new CommandArgs(obj, nameof(ControlBarCommand))); });
         }

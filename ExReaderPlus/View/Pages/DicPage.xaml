@@ -4,47 +4,214 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:local="using:ExReaderPlus.View"
+      xmlns:models="using:ExReaderPlus.Models"
       DataContext="{StaticResource DicPageViewModel}"
       mc:Ignorable="d">
     <Grid x:Name="Rootgrid"
           Background="{ThemeResource DicPageBg}">
-        <GridView x:Name="DicLabel"
-                  Margin="0,32,0,0"
-                  MinWidth="120"
-                  ItemsSource="{Binding Diclist}"
-                  Style="{StaticResource DicGridView}" />
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="ModeSwitch">
+                <VisualStateGroup.Transitions>
+                    <VisualTransition From="CompleteInfo"
+                                      To="BrifeInfo">
+                        <Storyboard>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DicContentLayer"
+                                                           Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                        Value="Visible" />
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.4"
+                                                        Value="Visible" />
+                            </ObjectAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="DicContentLayer"
+                                                           Storyboard.TargetProperty="Opacity">
+                                <SplineDoubleKeyFrame KeyTime="0:0:0.4"
+                                                      KeySpline="0,0.4 1,0.6"
+                                                      Value="0" />
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="DicContentLayerComposite"
+                                                           Storyboard.TargetProperty="ScaleX">
+                                <SplineDoubleKeyFrame KeyTime="0:0:0.25"
+                                                      KeySpline="0,0.4 1,0.6"
+                                                      Value="0" />
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="DicContentLayerComposite"
+                                                           Storyboard.TargetProperty="ScaleY">
+                                <SplineDoubleKeyFrame KeyTime="0:0:0.25"
+                                                      KeySpline="0,0.4 1,0.6"
+                                                      Value="0" />
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualTransition>
+                </VisualStateGroup.Transitions>
+                <VisualState x:Name="BrifeInfo" />
+                <VisualState x:Name="CompleteInfo">
+                    <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DicContentLayer"
+                                                       Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0"
+                                                    Value="Visible" />
+                        </ObjectAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="DicContentLayer"
+                                                       Storyboard.TargetProperty="Opacity">
+                            <SplineDoubleKeyFrame KeyTime="0:0:0.4"
+                                                  KeySpline="0,0.4 1,0.6"
+                                                  Value="1" />
+                        </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="DicContentLayerComposite"
+                                                       Storyboard.TargetProperty="ScaleX">
+                            <SplineDoubleKeyFrame KeyTime="0:0:0.25"
+                                                  KeySpline="0,0.4 1,0.6"
+                                                  Value="1" />
+                        </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="DicContentLayerComposite"
+                                                       Storyboard.TargetProperty="ScaleY">
+                            <SplineDoubleKeyFrame KeyTime="0:0:0.25"
+                                                  KeySpline="0,0.4 1,0.6"
+                                                  Value="1" />
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid x:Name="DicLayer">
+            <GridView x:Name="DicLabel"
+                      Margin="0,32,0,0"
+                      MinWidth="120"
+                      ItemsSource="{Binding Diclist}"
+                      Style="{StaticResource DicGridView}" />
 
-        <Button Style="{StaticResource AddDicButton}"
-                Tag="创建词库"
-                Content="&#xE710;"
-                Command="{Binding AddDicCommand}"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Bottom"
-                Margin="0,0,16,16" />
+            <local:IconBottun Style="{StaticResource AddDicButton}"
+                              ToolTip="创建词库"
+                              Icon="&#xE710;"
+                              Command="{Binding AddDicCommand}"
+                              HorizontalAlignment="Right"
+                              VerticalAlignment="Bottom"
+                              Margin="0,0,16,16" />
+        </Grid>
+        <Grid x:Name="DicContentLayer"
+              RenderTransformOrigin=".5 .5"
+              Background="{ThemeResource DicPageBg}"
+              Visibility="0"
+              Opacity="0">
+            <Grid.RenderTransform>
+                <CompositeTransform x:Name="DicContentLayerComposite"
+                                    ScaleX="0"
+                                    ScaleY="0" />
+            </Grid.RenderTransform>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid x:Name="TitleArea">
+                <TextBlock Style="{StaticResource DicSecPageTitle}"
+                           Text="{Binding OpenedDic.Name}" />
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <Grid.Resources>
+                    <CollectionViewSource x:Key="ItemsGrouped"
+                                          IsSourceGrouped="True"
+                                          ItemsPath="InternalList"
+                                          Source="{Binding Vocabularies}" />
+                </Grid.Resources>
+                <SemanticZoom Style="{StaticResource VocabulariesAZ}">
+                    <SemanticZoom.ZoomedInView>
+                        <ListView ItemsSource="{Binding Source={StaticResource ItemsGrouped}}"
+                                  Style="{StaticResource VocabulariesZoomIn}">
+                            <ListView.GroupStyle>
+                                <GroupStyle HidesIfEmpty="True">
+                                    <GroupStyle.HeaderTemplate>
+                                        <DataTemplate>
+                                            <Border Background="Transparent"
+                                                    BorderThickness="2"
+                                                    Width="62"
+                                                    Height="62"
+                                                    Margin="0,0,18,0"
+                                                    HorizontalAlignment="Stretch">
+                                                <TextBlock Text="{Binding Key}"
+                                                           Foreground="#477FBF"
+                                                           FontSize="48"
+                                                           Padding="6"
+                                                           FontFamily="{StaticResource PhoneFontFamilyNormal}"
+                                                           HorizontalAlignment="Left"
+                                                           VerticalAlignment="Center" />
+                                            </Border>
+                                        </DataTemplate>
+                                    </GroupStyle.HeaderTemplate>
+                                </GroupStyle>
+                            </ListView.GroupStyle>
+                        </ListView>
+                    </SemanticZoom.ZoomedInView>
+                    <SemanticZoom.ZoomedOutView>
+                        <GridView ItemsSource="{Binding CollectionGroups, Source={StaticResource ItemsGrouped}}"
+                                  Background="#AA000000">
+                            <GridView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Padding="5">
+                                        <Border Background="{Binding}"
+                                                Width="82"
+                                                Height="82"
+                                                HorizontalAlignment="Left">
+                                            <TextBlock Text="{Binding Group.Key}"
+                                                       Foreground="#EFEFEF"
+                                                       FontSize="48"
+                                                       Padding="6"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center" />
+                                        </Border>
+                                    </Border>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
+                    </SemanticZoom.ZoomedOutView>
+                </SemanticZoom>
+            </Grid>
+        </Grid>
+
 
         <!--Dialogs-->
         <local:DefaultDialog x:Name="NewDialog"
-                             MinWidth="240"
-                             MinHeight="80"
-                             PrimaryButtonStyle="{StaticResource DialogButtonStyle}"
-                             PrimaryButtonText="&#xE701;">
-            <local:DefaultDialog.ContentTemplate>
-                <DataTemplate>
-                    <Grid Background="{ThemeResource AddDicContentBg}">
+                             MinWidth="360">
+            <local:DefaultDialog.Content>
+                <Border Background="{ThemeResource AddDicContentBg}"
+                        BorderThickness="2"
+                        BorderBrush="{ThemeResource AddDicContentBorderC}"
+                        Padding="12,6,6,6">
+                    <Grid MinWidth="240">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="48" />
+                            <ColumnDefinition Width="48" />
                         </Grid.ColumnDefinitions>
-                        <TextBox Style="{StaticResource WordListCaption}"
-                                 Height="24"
+                        <TextBox Height="24"
+                                 Margin="0,8,0,0"
+                                 Text="{Binding NewName,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                 HorizontalAlignment="Stretch"
+                                 BorderBrush="{ThemeResource AddDicContentBorderC}"
+                                 Style="{StaticResource DialogTextBox}"
+                                 VerticalAlignment="Center"
                                  Foreground="{ThemeResource AddDicContentTextFg}"
                                  PlaceholderForeground="{ThemeResource AddDicContentTextFg}"
-                                 IsReadOnly="False"
                                  PlaceholderText="请输入词库名称" />
+                        <local:IconBottun Style="{StaticResource DialogButton}"
+                                          Command="{Binding DialogCommand}"
+                                          ToolTip="确认创建"
+                                          HorizontalAlignment="Right"
+                                          CommandParameter="YES"
+                                          Icon="&#xE8FB;"
+                                          Grid.Column="1" />
+                        <local:IconBottun Style="{StaticResource DialogButton}"
+                                          Command="{Binding DialogCommand}"
+                                          ToolTip="返回"
+                                          HorizontalAlignment="Right"
+                                          CommandParameter="NO"
+                                          Icon="&#xE711;"
+                                          Grid.Column="2" />
                     </Grid>
-                </DataTemplate>
-            </local:DefaultDialog.ContentTemplate>
+                </Border>
+            </local:DefaultDialog.Content>
         </local:DefaultDialog>
     </Grid>
-    
+
 </Page>

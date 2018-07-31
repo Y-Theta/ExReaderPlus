@@ -34,7 +34,7 @@
                         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="GS"
                                                        Storyboard.TargetProperty="Opacity">
                             <DiscreteDoubleKeyFrame KeyTime="0"
-                                                    Value="1" />
+                                                    Value="0.16" />
                             <LinearDoubleKeyFrame KeyTime="0:0:0.8"
                                                   Value="0" />
                         </DoubleAnimationUsingKeyFrames>
@@ -79,7 +79,7 @@
                             <DiscreteDoubleKeyFrame KeyTime="0"
                                                     Value="0" />
                             <LinearDoubleKeyFrame KeyTime="0:0:0.8"
-                                                  Value="1" />
+                                                  Value="0.16" />
                         </DoubleAnimationUsingKeyFrames>
                         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="GLCompositeTransform"
                                                        Storyboard.TargetProperty="Rotation">
@@ -129,7 +129,15 @@
                         Visibility="Collapsed"
                         Width="0"
                         Height="0"
-                        Background="{ThemeResource DicItemCaptionBg}" />
+                        Background="{ThemeResource DicItemBg}" />
+            <local:IconBottun Style="{StaticResource DicIdSelectStyle}"
+                              Command="{Binding Select}"
+                              Visibility="{Binding Visibility, ElementName=NowDic,Converter={StaticResource NegativeConverter},ConverterParameter=Vis}"
+                              Foreground="{Binding Background, ElementName=ColorConvert,Mode=OneWay}"
+                              ToolTip="设为当前字典"
+                              Icon="&#xE81D;"
+                              HorizontalAlignment="Right"
+                              VerticalAlignment="Top" />
             <Rectangle x:Name="LabelID"
                        Width="12"
                        Fill="{Binding Background, ElementName=ColorConvert,Mode=OneWay}"
@@ -139,19 +147,34 @@
                        HorizontalAlignment="Stretch"
                        VerticalAlignment="Stretch"
                        Stroke="{Binding Background, ElementName=ColorConvert,Mode=OneWay}"
-                       Margin="12,1,0,1" />
-            <Grid x:Name="Caption"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Top"
-                  Margin="32,16,0,0">
+                       Margin="12,0,0,0" />
+            <Rectangle x:Name="NowDic"
+                       Width="12"
+                       Visibility="{Binding DBName,Converter={StaticResource DICExist}}"
+                       Fill="{Binding Background, ElementName=ColorConvert,Mode=OneWay}"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Stretch" />
+            <StackPanel x:Name="Caption"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Orientation="Horizontal"
+                        Margin="32,16,0,0">
                 <TextBlock x:Name="DicName"
                            FontSize="48"
                            FontWeight="Light"
                            Foreground="{Binding Background, ElementName=ColorConvert,Mode=OneWay}"
                            Style="{StaticResource DicSubItem}"
                            FontFamily="{StaticResource PhoneFontFamilySemiLight}"
-                           Text="{Binding Name,Mode=TwoWay,UpdateSourceTrigger=Explicit}" />
-            </Grid>
+                           Text="{Binding Name}" />
+                <TextBlock x:Name="NowDicIcon"
+                           FontSize="16"
+                           Text="[当前]"
+                           FontWeight="Light"
+                           Visibility="{Binding DBName,Converter={StaticResource DICExist}}"
+                           Foreground="{Binding Background, ElementName=ColorConvert,Mode=OneWay}"
+                           Style="{StaticResource DicSubItem}"
+                           FontFamily="{StaticResource PhoneFontFamilySemiLight}" />
+            </StackPanel>
             <Grid x:Name="Footer"
                   IsHitTestVisible="False"
                   HorizontalAlignment="Left"
@@ -187,6 +210,7 @@
                       Visibility="{Binding IsSys, Converter={StaticResource NULLnoVIS},ConverterParameter=true}">
                     <TextBlock x:Name="GL"
                                Style="{StaticResource DicIconHolder}"
+                               Foreground="{Binding Background, ElementName=ColorConvert,Mode=OneWay}"
                                FontSize="72"
                                Margin="0,0,24,16"
                                Text="&#xE713;"
@@ -197,6 +221,7 @@
                     </TextBlock>
                     <TextBlock x:Name="GS"
                                Style="{StaticResource DicIconHolder}"
+                               Foreground="{Binding Background, ElementName=ColorConvert,Mode=OneWay}"
                                FontSize="54"
                                Margin="0,0,92,54"
                                Text="&#xE713;" />
@@ -204,6 +229,7 @@
                 <Grid x:Name="UserIcon"
                       Visibility="{Binding IsSys, Converter={StaticResource NULLnoVIS},ConverterParameter=false}">
                     <TextBlock Style="{StaticResource DicIconHolder}"
+                               Foreground="{Binding Background, ElementName=ColorConvert,Mode=OneWay}"
                                Margin="0,0,16,16"
                                Text="&#xE716;" />
                 </Grid>

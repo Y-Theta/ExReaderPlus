@@ -12,12 +12,6 @@ namespace ExReaderPlus.ViewModels {
     public class MainPageViewModel : ViewModelBasse {
 
         #region Properties
-        private string _userIcon = @"ms-appx:///Assets/Cybran_Y_T.jpg";
-        public string UserIcon {
-            get => _userIcon;
-            set => SetValue<string>(out _userIcon, value, nameof(UserIcon));
-        }
-
         private Brush _frameBg;
         public Brush FrameBg {
             get => _frameBg;

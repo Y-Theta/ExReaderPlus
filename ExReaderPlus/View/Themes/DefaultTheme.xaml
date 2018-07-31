@@ -188,6 +188,11 @@
                      Color="#EFEFEF" />
     
     <!--FlyoutButton-->
+    <SolidColorBrush x:Key="EssayPageFlyoutFg"
+                     Color="#080808" />
+    <SolidColorBrush x:Key="EssayPageFlyoutBg"
+                     Color="#E0E0E0" />
+    
     <SolidColorBrush x:Key="FlyoutButtonBg"
                      Color="#EFEFEF" />
     <SolidColorBrush x:Key="FlyoutButtonBg_N"
@@ -205,35 +210,29 @@
     
     <!--DicItem-->
     <SolidColorBrush x:Key="DicItemBg"
-                     Color="#4675C2" />
-    <SolidColorBrush x:Key="DicItemIdBg"
                      Color="#477FBF" />
-    <SolidColorBrush x:Key="DicItemCaptionBg"
-                     Color="#2284B5" />
     <SolidColorBrush x:Key="DicItemCaptionSelectBg"
                      Color="Transparent" />
-    <SolidColorBrush x:Key="DicIconHolderFg"
-                     Color="#405395E0" />
 
-    <SolidColorBrush x:Key="DicItemButtonBg_N"
+    <SolidColorBrush x:Key="DicItemIDHolderBg_N"
                      Color="Transparent" />
-    <SolidColorBrush x:Key="DicItemButtonBg_R"
+    <SolidColorBrush x:Key="DicItemIDHolderBg_R"
                      Color="Transparent" />
-    <SolidColorBrush x:Key="DicItemButtonBg_P"
+    <SolidColorBrush x:Key="DicItemIDHolderBg_P"
                      Color="Transparent" />
-    <SolidColorBrush x:Key="DicItemButtonFg_N"
-                     Color="#2284B5" />
-    <SolidColorBrush x:Key="DicItemButtonFg_R"
+    <SolidColorBrush x:Key="DicItemIDHolderFg_N"
+                     Color="#477FBF" />
+    <SolidColorBrush x:Key="DicItemIDHolderFg_R"
                      Color="#80000000" />
-    <SolidColorBrush x:Key="DicItemButtonFg_P"
+    <SolidColorBrush x:Key="DicItemIDHolderFg_P"
                      Color="#C0000000" />
-    
+
     <!--DicPage-->
     <SolidColorBrush x:Key="DicPageBg"
                      Color="#EFEFEF" />
-    <Color x:Key="DicPageBg_N">#EFEFEF</Color>
-    <Color x:Key="DicPageBg_R">#C0C0C0</Color>
-    <Color x:Key="DicPageBg_P">#A0A0A0</Color>
+    <Color x:Key="DicPageBg_R">#808080</Color>
+    <Color x:Key="DicPageBg_P">#404040</Color>
+    
     <SolidColorBrush x:Key="AddDicButtonBg_N"
                      Color="#477FBF" />
     <SolidColorBrush x:Key="AddDicButtonBg_R"
@@ -247,10 +246,28 @@
     <SolidColorBrush x:Key="AddDicButtonFg_P"
                      Color="#FFFFFF" />
     
-    
+    <!--Dialog-->
     <SolidColorBrush x:Key="AddDicContentBg"
-                     Color="#477FBF" />
-    <SolidColorBrush x:Key="AddDicContentTextFg"
                      Color="#EFEFEF" />
+    <SolidColorBrush x:Key="AddDicContentTextFg"
+                     Color="#080808" />
+    <SolidColorBrush x:Key="AddDicContentBorderC"
+                     Color="#477FBF" />
+    
+    <SolidColorBrush x:Key="AddDicDialogButtonBg_N"
+                     Color="Transparent" />
+    <SolidColorBrush x:Key="AddDicDialogButtonBg_R"
+                     Color="Transparent" />
+    <SolidColorBrush x:Key="AddDicDialogButtonBg_P"
+                     Color="Transparent" />
+    <SolidColorBrush x:Key="AddDicDialogButtonFg_N"
+                     Color="#477FBF" />
+    <SolidColorBrush x:Key="AddDicDialogButtonFg_R"
+                     Color="#80000000" />
+    <SolidColorBrush x:Key="AddDicDialogButtonFg_P"
+                     Color="#C0000000" />
+
+    <SolidColorBrush x:Key="VocabularyItemFg"
+                     Color="#477FBF" />
 
 </ResourceDictionary>
