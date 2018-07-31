@@ -565,7 +565,7 @@
                                           PointBrush="{ThemeResource WordListItemBg_R}"
                                           PressBrush="{ThemeResource WordListItemBg_P}"
                                           MainForeground="{ThemeResource VocabularyItemFg}"
-                                          PhoneticStyle="{StaticResource WordListPhonetic}"
+                                          PhoneticStyle="{StaticResource VocabularyListPhonetic}"
                                           TranslationStyle="{StaticResource VocabularyListTranslation}"
                                           ReadOnly="True"
                                           OnPointEnter="{Binding PointEnter}"
