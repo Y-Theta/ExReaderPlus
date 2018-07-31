@@ -19,6 +19,8 @@ namespace ExReaderPlus.PassageIO
     /// </summary>
     public class PassageIO
     {
+
+
         FileManage.FileManage fileManage=new FileManage.FileManage();
         /// <summary>
         /// 存一篇文章

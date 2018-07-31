@@ -187,7 +187,7 @@ namespace ExReaderPlus.FileManage {
             var str2 = str.Substring(str.Length / 2);
             //            char[]strLast = str1.Substring(str1.Length).ToCharArray();
 
-
+           
             using (var dc = canvasRenderTarget.CreateDrawingSession())//用后则需撤销
             {
 
