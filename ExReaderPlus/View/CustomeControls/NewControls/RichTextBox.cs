@@ -208,8 +208,8 @@ namespace ExReaderPlus.View {
         private void RichTextBox_TextChanged(object sender, RoutedEventArgs e) {
             if (_contentString != null)
             {
-                Document.GetText(TextGetOptions.None, out string newstr);
-                _contentString = _contentString.Replace(Temppagecontent, newstr);
+                //Document.GetText(TextGetOptions.None, out string newstr);
+                //_contentString = _contentString.Replace(Temppagecontent, newstr);
                 if (!_switchPage)
                     OnWordChanged();
             }
@@ -294,7 +294,8 @@ namespace ExReaderPlus.View {
                 SetContentFormat(() =>
                 {
                     Document.SetText(TextSetOptions.None, _contentString);
-                    ITextRange ran = Document.GetRangeFromPoint(new Point(ActualWidth, ViewPortHeight - Margin.Bottom - Padding.Bottom - 1.2 * FontSize), PointOptions.ClientCoordinates);
+                    Document.Selection.StartPosition = 0;
+                    ITextRange ran = Document.GetRangeFromPoint(new Point(ActualWidth - FontSize, ViewPortHeight - Margin.Bottom - Padding.Bottom - 1.2 * FontSize), PointOptions.ClientCoordinates);
                     SortPages(ran.EndPosition);
                     SwitchPage();
                 });
@@ -456,7 +457,8 @@ namespace ExReaderPlus.View {
         public void GotoPage(int index) {
             if (_allowSwitch)
             {
-                TempPage = index;
+                if (index < SumPage)
+                    TempPage = index;
                 OnWordChanged();
             }
         }

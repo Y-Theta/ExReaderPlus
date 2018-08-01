@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Security.AccessControl;
 using System.Timers;
+using ExReaderPlus.FileManage;
 using ExReaderPlus.Manage;
 using ExReaderPlus.Manage.PassageManager;
 using ExReaderPlus.Models;
@@ -15,6 +16,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace ExReaderPlus.ViewModels {
     public class EssayPageViewModel : ViewModelBasse {
@@ -170,6 +172,15 @@ namespace ExReaderPlus.ViewModels {
                 _settingService.SetValue(ViewSettingConfigs.IsLearnedRender, value);
             }
         }
+
+        private BitmapImage _bitmap;
+
+        public BitmapImage bitmap {
+            get => _bitmap;
+            set => SetValue(out _bitmap, value, nameof(bitmap));
+        }
+
+
         private void LearnedColorChnage() {
             OnRenderChange.Invoke(this, "Lea", _learnedColor);
         }
@@ -193,8 +204,6 @@ namespace ExReaderPlus.ViewModels {
 
         #region Commands&Events
 
-        public CommandBase LoadPassage { get; set; }
-
         public CommandBase ControlBarCommand { get; set; }
 
         public CommandBase ShareCommand { get; set; }
@@ -217,6 +226,10 @@ namespace ExReaderPlus.ViewModels {
         #region Methods
 
         #region InterfaceMethods
+        public void LoadPassage(Passage psg) {
+            TempPassage = psg;
+            PassageLoaded?.Invoke(this, EventArgs.Empty);
+        }
 
         public void ClearKeyWordHashSet() {
             KeyWordLearn.Clear();
@@ -272,31 +285,41 @@ namespace ExReaderPlus.ViewModels {
         #endregion
 
         private void InitCommand() {
-            LoadPassage = new CommandBase(async obj =>
+            ShareCommand = new CommandBase(async obj =>
             {
-                Passage pass = null;
-                pass = await FileManage.FileManage.Instence.OpenFile();
-                if (pass is null)
-                    return;
-                else
+                string[] list = TempPassage.Content.Split(" ,.'?\r\n".ToCharArray());
+
+                int a = 0;
+
+                foreach (string word in list)
+
                 {
-                    TempPassage = pass;
-                    PassageLoaded?.Invoke(this, EventArgs.Empty);
+
+                    if (word.Length > 0)
+
+                    {
+
+                        a++;
+
+                    }
+
                 }
-            });
-            ShareCommand = new CommandBase( obj =>
-            {
+
+                string Text = Convert.ToString(a);
+                string time = Convert.ToString(a / 150);
                 if (obj.Equals("0"))
-                    ;
+                {
+
+                    bitmap = await FileManage.FileManage.Instence.Win2DTask(TempPassage.Content, time, Text, "1");
+                }
                 else
-                    ;
+                    bitmap = await FileManage.FileManage.Instence.Win2DTask(TempPassage.Content, time, Text, "2");
             });
+
             ControlBarCommand = new CommandBase(obj => { ControlCommand?.Invoke(this, new CommandArgs(obj, nameof(ControlBarCommand))); });
         }
 
-        private void InitRes() {
 
-        }
 
         private void LoadRes() {
             KeyWordLearn = new HashSet<string>();

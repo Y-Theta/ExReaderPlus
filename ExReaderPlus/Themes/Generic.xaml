@@ -517,6 +517,8 @@
                                                         IconFormat="Icon"
                                                         Icon="&#xEC26;"
                                                         Tooltip="关于"
+                                                        Command="{TemplateBinding AboutCommand}"
+                                                        CommandParameter="{TemplateBinding AboutCommandPara}"
                                                         Foreground="{TemplateBinding Foreground}"
                                                         Visibility="{TemplateBinding AboutButton}"
                                                         Width="{TemplateBinding CollapseWidth}" />
@@ -524,6 +526,8 @@
                                                         IconFormat="Icon"
                                                         Icon="&#xE713;"
                                                         Tooltip="设置"
+                                                        Command="{TemplateBinding SettingCommand}"
+                                                        CommandParameter="{TemplateBinding AboutCommandPara}"
                                                         Foreground="{TemplateBinding Foreground}"
                                                         Visibility="{TemplateBinding SettingButton}"
                                                         Width="{TemplateBinding CollapseWidth}" />
@@ -759,6 +763,11 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
+                        <Rectangle x:Name="Mask"
+                                   Fill="Transparent"
+                                   VerticalAlignment="Stretch"
+                                   HorizontalAlignment="Stretch"
+                                   IsHitTestVisible="False" />
                         <TextBlock x:Name="ContentPresenter"
                                    Tag="{Binding ToolTip, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                    FontFamily="{TemplateBinding FontFamily}"
@@ -783,11 +792,6 @@
                             </ToolTip>
                             </ToolTipService.ToolTip>
                         </TextBlock>
-                        <Rectangle x:Name="Mask"
-                                   Fill="Transparent"
-                                   VerticalAlignment="Stretch"
-                                   HorizontalAlignment="Stretch"
-                                   IsHitTestVisible="False" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

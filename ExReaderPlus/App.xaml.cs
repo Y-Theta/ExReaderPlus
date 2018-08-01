@@ -11,9 +11,12 @@ using Windows.UI.Xaml.Navigation;
 using ExReaderPlus.View.Pages;
 using ExReaderPlus.Manage;
 using ExReaderPlus.WordsManager;
+using Windows.UI.Core;
 using System.Threading.Tasks;
 using ExReaderPlus.View;
 using ExReaderPlus.Manage.PassageManager;
+using Windows.UI.Xaml.Media;
+using System.Diagnostics;
 
 namespace ExReaderPlus {
     /// <summary>
@@ -30,7 +33,6 @@ namespace ExReaderPlus {
         {
             InitializeComponent();
             Suspending += OnSuspending;
-            //   this.RequiresPointerMode = ApplicationRequiresPointerMode.WhenRequested;
         }
        
         /// <summary>
@@ -77,10 +79,18 @@ namespace ExReaderPlus {
 
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size { Width = 720, Height = 480 });
             CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
-
+          //  CoreApplication.GetCurrentView()
+            Window.Current.SizeChanged += Current_SizeChanged;
             rootFrame.ActualThemeChanged += RootFrame_ActualThemeChanged;
             //强置主题
             RootFrame_ActualThemeChanged(null, null);
+        }
+
+        private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e) {
+            if (e.Size.Width > 1080)
+            {
+                ApplicationView.GetForCurrentView().TryResizeView(new Size(1080, e.Size.Height));
+            }
         }
 
         private void RootFrame_ActualThemeChanged(FrameworkElement sender, object args) {

@@ -31,6 +31,10 @@
     <Color x:Key="TitleBarButtonFG_R">#50000000</Color>
     <Color x:Key="TitleBarButtonFG_P">#A0000000</Color>
     
+    <!--WelcomePage-->
+    <SolidColorBrush x:Key="WelcomePageFg"
+                     Color="#477FBF" />
+
     <!--NavigationView-->
     <SolidColorBrush x:Key="DefaultNavigationViewPaneBG"
                      Color="#477FBF" />
@@ -230,6 +234,8 @@
     <!--DicPage-->
     <SolidColorBrush x:Key="DicPageBg"
                      Color="#EFEFEF" />
+    <SolidColorBrush x:Key="DicPageFg"
+                     Color="#080808" />
     <Color x:Key="DicPageBg_R">#808080</Color>
     <Color x:Key="DicPageBg_P">#404040</Color>
     
@@ -268,6 +274,18 @@
                      Color="#C0000000" />
 
     <SolidColorBrush x:Key="VocabularyItemFg"
+                     Color="#477FBF" />
+    <SolidColorBrush x:Key="VocabularyHeaderFg"
+                     Color="#EFEFEF" />
+    <SolidColorBrush x:Key="VocabularyHeaderBg"
+                     Color="#477FBF" />
+    <SolidColorBrush x:Key="VocabularyMenuHeaderFg"
+                     Color="#477FBF" />
+    <SolidColorBrush x:Key="VocabularyMenuHeaderFg_R"
+                     Color="#EFEFEF" />
+    <SolidColorBrush x:Key="VocabularyMenuHeaderBg"
+                     Color="Transparent" />
+    <SolidColorBrush x:Key="VocabularyMenuHeaderBg_R"
                      Color="#477FBF" />
 
 </ResourceDictionary>

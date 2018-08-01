@@ -10,6 +10,7 @@ using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
 using System;
 using System.Diagnostics;
+using System.Windows.Input;
 
 namespace ExReaderPlus.View {
 
@@ -71,6 +72,46 @@ namespace ExReaderPlus.View {
         }
         public static readonly DependencyProperty FunctionAreaProperty =
             DependencyProperty.Register("FunctionArea", typeof(Grid),
+                typeof(CustomeNavigationView), new PropertyMetadata(null));
+        #endregion
+
+        #region AboutCommand
+        public ICommand AboutCommand {
+            get { return (ICommand)GetValue(AboutCommandProperty); }
+            set { SetValue(AboutCommandProperty, value); }
+        }
+        public static readonly DependencyProperty AboutCommandProperty =
+            DependencyProperty.Register("AboutCommand", typeof(ICommand),
+                typeof(CustomeNavigationView), new PropertyMetadata(null));
+        #endregion
+
+        #region AboutCommandPara
+        public object AboutCommandPara {
+            get { return (object)GetValue(AboutCommandParaProperty); }
+            set { SetValue(AboutCommandParaProperty, value); }
+        }
+        public static readonly DependencyProperty AboutCommandParaProperty =
+            DependencyProperty.Register("AboutCommandPara", typeof(object),
+                typeof(CustomeNavigationView), new PropertyMetadata(null));
+        #endregion
+
+        #region SettingCommand
+        public ICommand SettingCommand {
+            get { return (ICommand)GetValue(SettingCommandProperty); }
+            set { SetValue(SettingCommandProperty, value); }
+        }
+        public static readonly DependencyProperty SettingCommandProperty =
+            DependencyProperty.Register("SettingCommand", typeof(ICommand),
+                typeof(CustomeNavigationView), new PropertyMetadata(null));
+        #endregion
+
+        #region SettingCommandPara
+        public object SettingCommandPara {
+            get { return (object)GetValue(SettingCommandParaProperty); }
+            set { SetValue(SettingCommandParaProperty, value); }
+        }
+        public static readonly DependencyProperty SettingCommandParaProperty =
+            DependencyProperty.Register("SettingCommandPara", typeof(object),
                 typeof(CustomeNavigationView), new PropertyMetadata(null));
         #endregion
 

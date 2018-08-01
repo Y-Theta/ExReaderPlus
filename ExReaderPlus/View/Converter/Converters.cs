@@ -138,7 +138,42 @@ namespace ExReaderPlus.View.Converter {
         public object ConvertBack(object value, Type targetType, object parameter, string language) {
             throw new NotImplementedException();
         }
+    }
 
+    public class GetColor : IValueConverter {
+        public object Convert(object value, Type targetType, object parameter, string language) {
+            return ((SolidColorBrush)value).Color;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language) {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class HideString : IValueConverter {
+        public object Convert(object value, Type targetType, object parameter, string language) {
+            if (value.ToString().ToLower()[0] < 97 || value.ToString().ToLower()[0] > 122) {
+                if (parameter is null)
+                    return "";
+                else if (parameter.ToString() == "1")
+                    return false;
+                else
+                    return Visibility.Collapsed;
+            }
+            else
+            {
+                if (parameter is null)
+                    return value;
+                else if (parameter.ToString() == "1")
+                    return true;
+                else
+                    return Visibility.Visible;
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language) {
+            throw new NotImplementedException();
+        }
     }
 
 }

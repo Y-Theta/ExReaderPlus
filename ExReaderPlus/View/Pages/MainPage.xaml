@@ -24,12 +24,15 @@
             <Rectangle x:Name="TitleBarTouch"
                        Grid.ColumnSpan="2"
                        Fill="Transparent" />
-
         </Grid>
         <Custome:CustomeNavigationView Background="{Binding FrameBg}"
                                        Foreground="{ThemeResource DefaultNavigationViewPaneFG}"
                                        IconStroke="{ThemeResource ContrastMask_D0}"
-                                       PaneBackground="{ThemeResource DefaultNavigationViewPaneBG}">
+                                       PaneBackground="{ThemeResource DefaultNavigationViewPaneBG}"
+                                       AboutCommand="{Binding Navigate}"
+                                       AboutCommandPara="{StaticResource AboutPage}"
+                                       SettingCommand="{Binding Navigate}"
+                                       SettingCommandPara="{StaticResource SettingPage}">
             <Custome:CustomeNavigationView.FunctionArea>
                 <Grid Margin="0,8,0,0"
                       DataContext="{StaticResource MainPageViewModel}">

@@ -29,10 +29,13 @@
             <viewmodels:MainPageViewModel x:Key="MainPageViewModel" />
             <viewmodels:EssayPageViewModel x:Key="EssayPageViewModel" />
             <viewmodels:DicPageViewModel x:Key="DicPageViewModel" />
+            <viewmodels:GlossaryViewModel x:Key="GlossaryViewModel" />
 
             <!--Pages-->
             <pages:DicPage x:Key="DicPage" />
+            <pages:AboutPage x:Key="AboutPage" />
             <pages:EssayPage x:Key="EssayPage" />
+            <pages:SettingPage x:Key="SettingPage" />
             <pages:GlossaryPage x:Key="GlossaryPage" />
             
         </ResourceDictionary>

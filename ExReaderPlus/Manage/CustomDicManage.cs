@@ -1,4 +1,5 @@
-﻿using ExReaderPlus.WordsManager;
+﻿using ExReaderPlus.ViewModels;
+using ExReaderPlus.WordsManager;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,9 @@ namespace ExReaderPlus.Manage {
                     db.Dictionaries.Add(dictionary);
                     db.SaveChanges();
                     db.Database.CloseConnection();
+
+                    WordBook.Custom.Add(new EngDictionary() { Name = DictionaryName, Dicname = 10 + WordBook.CustomeDicCounts, IsSystem = false, LearneedWords = 0, Wordlist = new Dictionary<string, Vocabulary>() });
+                    (App.Current.Resources["DicPageViewModel"] as DicPageViewModel).UpdateDicinfo();
                     return true;
                 }
                 else

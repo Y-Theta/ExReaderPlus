@@ -230,8 +230,11 @@
                       Visibility="{Binding IsSys, Converter={StaticResource NULLnoVIS},ConverterParameter=false}">
                     <TextBlock Style="{StaticResource DicIconHolder}"
                                Foreground="{Binding Background, ElementName=ColorConvert,Mode=OneWay}"
-                               Margin="0,0,16,16"
-                               Text="&#xE716;" />
+                               FontSize="64"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Center"
+                               Margin="0,0,42,0"
+                               Text="&#xE77B;" />
                 </Grid>
             </Grid>
         </Grid>

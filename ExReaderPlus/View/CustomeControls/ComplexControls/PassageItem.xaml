@@ -1,15 +1,101 @@
-﻿<UserControl
-    x:Class="ExReaderPlus.View.CustomeControls.ComplexControls.PassageItem"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:ExReaderPlus.View.CustomeControls.ComplexControls"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    d:DesignHeight="300"
-    d:DesignWidth="400">
+﻿<UserControl x:Class="ExReaderPlus.View.PassageItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:ExReaderPlus.View"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+    <Border  x:Name="RootBorder">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="SelectionMode">
+                <VisualState x:Name="Normal" />
+                <VisualState x:Name="MouseOver">
+                    <Storyboard>
+                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="ColorConvert"
+                                                      Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                            <SplineColorKeyFrame KeyTime="0:0:0.25"
+                                                 KeySpline="0.5,0 1,0.6"
+                                                 Value="{ThemeResource DicPageBg_R}" />
+                        </ColorAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Pressed">
+                    <Storyboard>
+                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="ColorConvert"
+                                                      Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                            <SplineColorKeyFrame KeyTime="0:0:0.1"
+                                                 KeySpline="0.5,0 1,0.6"
+                                                 Value="{ThemeResource DicPageBg_P}" />
+                        </ColorAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid x:Name="RootGrid"
+              Margin="8,4,8,4"
+              Background="{ThemeResource DicPageBg}">
+            <StackPanel x:Name="ColorConvert"
+                        Visibility="Collapsed"
+                        Width="0"
+                        Height="0"
+                        Background="{ThemeResource DicItemBg}" />
+            <local:IconBottun Style="{StaticResource DicIdSelectStyle}"
+                              Command="{Binding Remove}"
+                              Visibility="{Binding Visibility, ElementName=NowDic,Converter={StaticResource NegativeConverter},ConverterParameter=Vis}"
+                              Foreground="{Binding Background, ElementName=ColorConvert,Mode=OneWay}"
+                              ToolTip="移除文章"
+                              Icon="&#xE74D;"
+                              Margin="0,4,16,0"
+                              HorizontalAlignment="Right"
+                              VerticalAlignment="Top" />
+            <Rectangle x:Name="LabelID"
+                       Width="12"
+                       Fill="{Binding Background, ElementName=ColorConvert,Mode=OneWay}"
+                       HorizontalAlignment="Left" />
+            <Rectangle x:Name="LabelIDS"
+                       StrokeThickness="1"
+                       HorizontalAlignment="Stretch"
+                       VerticalAlignment="Stretch"
+                       Stroke="{Binding Background, ElementName=ColorConvert,Mode=OneWay}"
+                       Margin="12,0,0,0" />
+            <Rectangle x:Name="NowPsg"
+                       Width="12"
+                       Fill="{Binding Background, ElementName=ColorConvert,Mode=OneWay}"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Stretch" />
+            <StackPanel x:Name="Caption"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Orientation="Horizontal"
+                        Margin="32,16,0,0">
+                <TextBlock x:Name="PsgName"
+                           FontSize="48"
+                           FontWeight="Light"
+                           Foreground="{Binding Background, ElementName=ColorConvert,Mode=OneWay}"
+                           Style="{StaticResource DicSubItem}"
+                           FontFamily="{StaticResource PhoneFontFamilySemiLight}"
+                           Text="{Binding Name}" />
+                <TextBlock x:Name="NowPsgIcon"
+                           FontSize="16"
+                           Text="[当前]"
+                           FontWeight="Light"
+                           Foreground="{Binding Background, ElementName=ColorConvert,Mode=OneWay}"
+                           Style="{StaticResource DicSubItem}"
+                           FontFamily="{StaticResource PhoneFontFamilySemiLight}" />
+            </StackPanel>
+            <Grid x:Name="Footer"
+                  IsHitTestVisible="False"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Bottom"
+                  Margin="32,0,0,16">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+               
+            </Grid>
+        </Grid>
 
-    <Grid>
+    </Border>
 
-    </Grid>
 </UserControl>

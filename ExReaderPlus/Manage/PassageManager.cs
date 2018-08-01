@@ -199,6 +199,15 @@ namespace ExReaderPlus.Manage.PassageManager
             }
         }
 
+        /// <summary>
+        /// 【只有这个是异步的】
+        /// </summary>
+        /// <returns></returns>
+        public static Task<ExReaderPlus.Manage.PassageManager.Passage> GetPassage(UserDictionary.Passage passageInfo) {
+            ExReaderPlus.PassageIO.PassageIO passageIO = new ExReaderPlus.PassageIO.PassageIO();
+            var passage = passageIO.ReadPassage(passageInfo);
+            return passage;
+        }
 
         public static ExReaderPlus.Manage.PassageManager.Passage GetPassage()
         {

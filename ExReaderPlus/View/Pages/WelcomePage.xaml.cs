@@ -18,9 +18,14 @@ namespace ExReaderPlus.View.Pages {
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    public sealed partial class GlossaryPage : Page {
-        public GlossaryPage() {
+    public sealed partial class WelcomePage : Page {
+        public WelcomePage() {
             this.InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e) {
+           // VisualStateManager.GoToState(this, "WelcomeAni", true);
+            UpdateLayout();
         }
     }
 }

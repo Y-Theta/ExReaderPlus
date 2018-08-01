@@ -139,7 +139,7 @@ namespace ExReaderPlus.View {
                 case "SizeTextLarge": TextView.FontSize += 0.5; break;
                 case "SizeTextLittle": TextView.FontSize -= 0.5; break;
                 case "OpenWordList": WordPanelSwitch(); break;
-                case "AddToDic": MenuPop.Hide(); break;
+                case "AddToDic": MenuPop.Hide();  break;
                 case "Share": Share.Visibility = Share.Visibility.Equals(Visibility.Visible) ? Visibility.Collapsed:Visibility.Visible; break;
                 case "ChangeMode":
                     if (TextView.ContentString != null)
@@ -294,13 +294,9 @@ namespace ExReaderPlus.View {
                 TextView.ContentString = (sender as EssayPageViewModel).TempPassage.Content;
             });
         }
-
         #endregion
 
         #region PrivateMethods
-        public void SetText(string str) {
-            TextView.ContentString = str;
-        }
 
         private void ShowText(int learned) {
             if (learned == 1)
