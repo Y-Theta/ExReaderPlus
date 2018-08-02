@@ -163,7 +163,6 @@ namespace ExReaderPlus.Manage {
                                 DictionaryId = customDictionaryName
                             };
                     db.DictionaryWords.Add(dictionaryWord);
-
                     db.SaveChanges();
                     return 1;
                 }
@@ -218,6 +217,36 @@ namespace ExReaderPlus.Manage {
             }
         }
 
+        public static int deleteAVocabularyFromCustomDictionary(string customDictionaryName, Vocabulary vocabulary)
+        {
+            using(var db=new DataContext())
+            {
+                var Selectedword = db.DictionaryWords
+                        .Where(dw => dw.WordId.Equals(vocabulary.Word))
+                        .Where(dw => dw.DictionaryId.Equals(customDictionaryName))
+                        .Count();
+                if (Selectedword != 0)//如果词典中不存在这个条目
+                {
+                    DictionaryWord dictionaryWord =
+                            new DictionaryWord
+                            {
+                                WordId = vocabulary.Word,
+                                DictionaryId = customDictionaryName
+                            };
+                    db.DictionaryWords.Remove(dictionaryWord);
+                    try
+                    {
+                        db.SaveChanges();
+                        return 1;
+                    }
+                    catch { return -1; }                   
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
         /// <summary>
         /// 将用户自定义词典读出到Dictionary<string,Vocabulary>
         /// 定义了两个词汇类，暂时妥协，读出来重新赋值

@@ -53,7 +53,6 @@ namespace UnitTest.Manage
 
             Assert.AreEqual(passage1.Content, "Hello world");
 
-
         }
     }
 }

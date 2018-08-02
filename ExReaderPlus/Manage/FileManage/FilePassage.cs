@@ -61,8 +61,7 @@ namespace ExReaderPlus.PassageIO
             {
                 p.Content = await FileIO.ReadTextAsync(file);
                 p.HeadName = passage.Name;
-                return p;
-                
+                return p;              
             }
             else
             {

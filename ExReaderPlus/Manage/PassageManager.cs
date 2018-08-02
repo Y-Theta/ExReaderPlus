@@ -184,8 +184,10 @@ namespace ExReaderPlus.Manage.PassageManager
                 db.Passages.Remove(
                     db.Passages.FirstOrDefault(p => p.Id.Equals(passageInfo.Id))
                     );
+                ExReaderPlus.PassageIO.PassageIO passageIO = new ExReaderPlus.PassageIO.PassageIO();           
                 try {
                     db.SaveChanges();
+                    passageIO.DeletePassage(passageInfo);//删除缓存文件
                     return 1;
                 }
                 catch
@@ -200,9 +202,15 @@ namespace ExReaderPlus.Manage.PassageManager
         }
 
 
-        public static ExReaderPlus.Manage.PassageManager.Passage GetPassage()
+        /// <summary>
+        /// 【只有这个是异步的】
+        /// </summary>
+        /// <returns></returns>
+        public static Task<ExReaderPlus.Manage.PassageManager.Passage> GetPassage(UserDictionary.Passage passageInfo)
         {
-            return null;
+            ExReaderPlus.PassageIO.PassageIO passageIO = new ExReaderPlus.PassageIO.PassageIO();
+            var passage= passageIO.ReadPassage(passageInfo);
+            return passage;
         }
     }
 

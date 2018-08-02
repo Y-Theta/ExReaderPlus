@@ -28,7 +28,7 @@ namespace UnitTest.Manage
                 "had read a lot about air accidents, so one day when a friend offered to take him for a ride in his own small phane, " +
                 "Mr. Johnson was very worried about accepting. Finally, however, his friend persuaded him that it was very safe, and Mr. Johnson boarded the plane.",
                 HeadName = "test0"
-                
+
             };
 
             // var passage1 = new ExReaderPlus.Manage.PassageManager.Passage
@@ -56,7 +56,7 @@ namespace UnitTest.Manage
                 HeadName = "test0"
 
             };
-            Assert.AreEqual("test0",PassageManage.ifExsist(passage0).Name);
+            Assert.AreEqual("test0", PassageManage.ifExsist(passage0).Name);
         }
 
 
@@ -74,6 +74,7 @@ namespace UnitTest.Manage
 
         /// <summary>
         /// 测试删除文章
+        ///  TODO修改成稳定通过的测试
         /// </summary>
         [TestMethod]
         public void DeleteDeletePassageInfoAndPassageTest()
@@ -88,10 +89,21 @@ namespace UnitTest.Manage
             };
             PassageManage.SavaPassageInfoAndPassage(passage0);
 
-           Assert.AreEqual(1,PassageManage.DeletePassageInfoAndPassage(new UserDictionary.Passage
+            Assert.AreEqual(1, PassageManage.DeletePassageInfoAndPassage(new UserDictionary.Passage
             {
-                Id=3
+                Id = 4
             }));
+        }
+
+        [TestMethod]
+        public async Task GetPassageTest()
+        {
+            var passageInfo = new UserDictionary.Passage
+            {
+                Id = 2
+            };
+            var p =  await PassageManage.GetPassage(passageInfo);
+            Assert.AreEqual("", p.Content);
         }
     }
 }
