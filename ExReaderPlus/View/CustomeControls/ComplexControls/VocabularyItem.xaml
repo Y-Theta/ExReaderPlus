@@ -30,7 +30,7 @@
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="40" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -110,10 +110,24 @@
                           </ToolTip>
              </ToolTipService.ToolTip>
          </TextBlock>
+        <Grid Visibility="{x:Bind ReadOnly ,Converter={StaticResource NULLnoVIS},ConverterParameter=true}"
+              VerticalAlignment="Center"
+              HorizontalAlignment="Right"
+              Margin="0,8,16,0"
+              Grid.Column="4"
+              Grid.RowSpan="2">
+            <local:IconBottun Style="{x:Bind ButtonStyle}"
+                              Icon="&#xE711;"
+                              ToolTip="移除当前单词"
+                              Visibility="{x:Bind IsSystem ,Converter={StaticResource NULLnoVIS},ConverterParameter=false}"
+                              Command="{Binding RemoveCommand}"
+                              CommandParameter="{Binding}" />
+        </Grid>
         <Grid x:Name="ControlGrid"
               Visibility="{x:Bind ReadOnly ,Converter={StaticResource NULLnoVIS},ConverterParameter=false}"
               VerticalAlignment="Center"
-              Margin="0,8,0,0"
+              HorizontalAlignment="Right"
+              Margin="0,8,8,0"
               Grid.Column="4"
               Grid.RowSpan="2">
             <local:IconBottun Style="{x:Bind ButtonStyle}"

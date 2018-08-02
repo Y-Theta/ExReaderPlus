@@ -25,6 +25,7 @@ namespace ExReaderPlus.View.Pages {
             Window.Current.SetTitleBar(TitleBarTouch);
             var viewmodel = (MainPageViewModel)DataContext;
             viewmodel.OnNavigate += Viewmodel_OnNavigate;
+            MainFrame.Navigate(typeof(WelcomePage));
             MainFrame.Navigating += MainFrame_Navigating;
             MainFrame.Navigated += MainFrame_Navigated;
           //  await _frameclip.RenderAsync(MainFrame);
@@ -36,6 +37,8 @@ namespace ExReaderPlus.View.Pages {
 
         private void Viewmodel_OnNavigate(object sender, EventArgs e) {
             MainFrame.Navigate(sender.GetType(),null,new SuppressNavigationTransitionInfo());
+            if (sender.GetType().Equals(typeof(EssayPage)))
+                Passage.IsChecked = true;
         }
 
         private void MainFrame_Navigating(object sender, NavigatingCancelEventArgs e) {

@@ -28,7 +28,7 @@
         <Setter Property="ItemContainerTransitions">
             <Setter.Value>
                 <TransitionCollection>
-
+                    <EdgeUIThemeTransition Edge="Left"/>
                     <AddDeleteThemeTransition />
                     <ContentThemeTransition />
                     <ReorderThemeTransition />
@@ -65,6 +65,226 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="GridView">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            Background="{TemplateBinding Background}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <ScrollViewer x:Name="ScrollViewer"
+                                      Padding="0,8,4,0"
+                                      Style="{StaticResource DarkScrollViewer}"
+                                      TabNavigation="{TemplateBinding TabNavigation}"
+                                      HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                                      HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                      IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
+                                      VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                                      VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                                      IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
+                                      IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+                                      IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
+                                      ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}"
+                                      IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+                                      BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
+                                      AutomationProperties.AccessibilityView="Raw">
+                            <ItemsPresenter Header="{TemplateBinding Header}"
+                                            HeaderTemplate="{TemplateBinding HeaderTemplate}"
+                                            HeaderTransitions="{TemplateBinding HeaderTransitions}"
+                                            Footer="{TemplateBinding Footer}"
+                                            FooterTemplate="{TemplateBinding FooterTemplate}"
+                                            FooterTransitions="{TemplateBinding FooterTransitions}"
+                                            Padding="{TemplateBinding Padding}" />
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--Article-->
+    <Style x:Key="ArticleGridView"
+           TargetType="GridView">
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility"
+                Value="Disabled" />
+        <Setter Property="VerticalAlignment"
+                Value="Top" />
+        <Setter Property="SelectionMode"
+                Value="None" />
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <layout:FlowLayout CellWidth="480"
+                                       MinCellWidth="360"
+                                       CellScale="5"
+                                       CellHeight="60" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerTransitions">
+            <Setter.Value>
+                <TransitionCollection>
+                    <EdgeUIThemeTransition Edge="Left" />
+                    <AddDeleteThemeTransition />
+                    <ContentThemeTransition />
+                    <ReorderThemeTransition />
+                    <EntranceThemeTransition IsStaggeringEnabled="False" />
+                </TransitionCollection>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="GridViewItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="GridViewItem">
+                                <Border>
+                                    <ContentPresenter x:Name="Content"
+                                                      VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                                      HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                                      Margin="0" />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate x:DataType="model:ActionPassage">
+                    <local:PassageItem Command="{Binding Open}"
+                                       CommandPara="{Binding}" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="GridView">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            Background="{TemplateBinding Background}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <ScrollViewer x:Name="ScrollViewer"
+                                      Padding="0,8,4,0"
+                                      Style="{StaticResource DarkScrollViewer}"
+                                      TabNavigation="{TemplateBinding TabNavigation}"
+                                      HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                                      HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                      IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
+                                      VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                                      VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                                      IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
+                                      IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+                                      IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
+                                      ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}"
+                                      IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+                                      BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
+                                      AutomationProperties.AccessibilityView="Raw">
+                            <ItemsPresenter Header="{TemplateBinding Header}"
+                                            HeaderTemplate="{TemplateBinding HeaderTemplate}"
+                                            HeaderTransitions="{TemplateBinding HeaderTransitions}"
+                                            Footer="{TemplateBinding Footer}"
+                                            FooterTemplate="{TemplateBinding FooterTemplate}"
+                                            FooterTransitions="{TemplateBinding FooterTransitions}"
+                                            Padding="{TemplateBinding Padding}" />
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--CustomeDicsStyle-->
+    <Style x:Key="CustomeDicsStyle"
+           TargetType="ListView">
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility"
+                Value="Disabled" />
+        <Setter Property="VerticalAlignment"
+                Value="Top" />
+        <Setter Property="SelectionMode"
+                Value="Single" />
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerTransitions">
+            <Setter.Value>
+                <TransitionCollection>
+                    <EdgeUIThemeTransition Edge="Left" />
+                    <AddDeleteThemeTransition />
+                    <ContentThemeTransition />
+                    <ReorderThemeTransition />
+                    <EntranceThemeTransition IsStaggeringEnabled="False" />
+                </TransitionCollection>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListViewItem">
+                                <Border>
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup x:Name="CommonStates">
+                                            <VisualState x:Name="Normal" />
+                                            <VisualState x:Name="PointerOver">
+                                                <VisualState.Setters>
+                                                    <Setter Target="SelectId.Opacity"
+                                                            Value="1" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                            <VisualState x:Name="Pressed">
+                                                <VisualState.Setters>
+                                                    <Setter Target="SelectId.Opacity"
+                                                            Value="1" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                            <VisualState x:Name="Selected">
+                                                <VisualState.Setters>
+                                                    <Setter Target="SelectId.Opacity"
+                                                            Value="1" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                    <Grid>
+                                        <Rectangle x:Name="SelectId" Stroke="{ThemeResource AddDicContentBorderC}"
+                                                   Opacity="0"
+                                                   StrokeThickness="1" />
+                                        <ContentPresenter x:Name="Content"
+                                                          VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                                          HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                                          Margin="0" />
+                                    </Grid>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate x:DataType="manage:EngDictionary">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Rectangle Fill="{ThemeResource AddDicContentBorderC}"
+                                   Margin="0,3,0,3" />
+                        <TextBlock Text="{Binding Name}"
+                                   Grid.Column="1"
+                                   FontSize="14"
+                                   Margin="4,2,16,2"
+                                   Foreground="{ThemeResource AddDicContentBorderC}"/>
+                    </Grid>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListView">
                     <Border BorderBrush="{TemplateBinding BorderBrush}"
                             Background="{TemplateBinding Background}"
                             BorderThickness="{TemplateBinding BorderThickness}">
@@ -567,6 +787,7 @@
                                           MainForeground="{ThemeResource VocabularyItemFg}"
                                           PhoneticStyle="{StaticResource VocabularyListPhonetic}"
                                           TranslationStyle="{StaticResource VocabularyListTranslation}"
+                                          IsSystem="{Binding OpenedDic.IsSys, Source={StaticResource DicPageViewModel}}"
                                           ReadOnly="True"
                                           OnPointEnter="{Binding PointEnter}"
                                           OnPointExit="{Binding PointExit}" />
@@ -592,7 +813,7 @@
                                       ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}"
                                       IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
                                       BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
-                                      Style="{StaticResource DefaultScrollViewer}"
+                                      Style="{StaticResource DarkScrollViewer}"
                                       AutomationProperties.AccessibilityView="Raw">
                             <ItemsPresenter Header="{TemplateBinding Header}"
                                             HeaderTemplate="{TemplateBinding HeaderTemplate}"
@@ -604,6 +825,67 @@
                         </ScrollViewer>
                     </Border>
                 </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="VocabulariesZoomOut"
+           TargetType="GridView">
+        <Setter Property="ScrollViewer.VerticalScrollMode"
+                Value="Enabled" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility"
+                Value="Auto" />
+        <Setter Property="SelectionMode"
+                Value="None" />
+        <Setter Property="Background"
+                Value="Transparent" />
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <ItemsWrapGrid Orientation="Horizontal"
+                                   GroupPadding="2" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerTransitions">
+            <Setter.Value>
+                <TransitionCollection>
+                    <AddDeleteThemeTransition />
+                    <ContentThemeTransition />
+                    <ReorderThemeTransition />
+                    <EntranceThemeTransition IsStaggeringEnabled="False" />
+                </TransitionCollection>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="GridViewItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="GridViewItem">
+                                <Border x:Name="ContentBorder"
+                                        Control.IsTemplateFocusTarget="True">
+                                    <ContentPresenter x:Name="Content"
+                                                      VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                                      HorizontalAlignment="{TemplateBinding HorizontalAlignment}" />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <local:VocabularyHeader Width="80"
+                                            Height="80"
+                                            FontSize="32"
+                                            Background="{ThemeResource VocabularyMenuHeaderBg}"
+                                            PointMask="{ThemeResource VocabularyMenuHeaderBg_R}"
+                                            Foreground="{ThemeResource VocabularyMenuHeaderFg}"
+                                            PointBrush="{ThemeResource VocabularyMenuHeaderFg_R}" />
+                </DataTemplate>
             </Setter.Value>
         </Setter>
     </Style>
@@ -686,7 +968,15 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
+                        <Button x:Name="ZoomOutButton"
+                                IsTabStop="False"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                UseSystemFocusVisuals="{StaticResource UseSystemFocusVisuals}"
+                                FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                Padding="0" />
                         <ScrollViewer x:Name="ScrollViewer"
+                                      Background="{x:Null}"
                                       HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
                                       HorizontalScrollBarVisibility="Hidden"
                                       VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
@@ -737,19 +1027,6 @@
                                 </ContentPresenter>
                             </Grid>
                         </ScrollViewer>
-                        <Button x:Name="ZoomOutButton"
-                                IsTabStop="False"
-                                Margin="0,0,19,19"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Bottom"
-                                UseSystemFocusVisuals="{StaticResource UseSystemFocusVisuals}"
-                                FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                FontSize="4"
-                                Content="&#xE0B8;"
-                                Width="12"
-                                Height="12"
-                                Padding="0" />
-
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

@@ -103,6 +103,8 @@ namespace ExReaderPlus.WordsManager {
     /// </summary>
     public class WordBook {
 
+        public static int CustomeDicCounts = 0;
+
         public static bool Initdicready = false;
 
         public static event EventHandler SelectedDicChanged;
@@ -153,6 +155,7 @@ namespace ExReaderPlus.WordsManager {
                 foreach (var re in Custom)
                 {
                     avl.Add(re.GetActionDictionary());
+                    CustomeDicCounts++;
                 }
                 return avl;
             }

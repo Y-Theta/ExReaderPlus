@@ -3,13 +3,8 @@ using ExReaderPlus.View.Commands;
 using ExReaderPlus.WordsManager;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using UserDictionary;
 using Windows.Globalization.Collation;
-using Windows.UI;
-using Windows.UI.Text;
-using Windows.UI.Xaml.Media;
 
 namespace ExReaderPlus.Models {
 
@@ -43,18 +38,26 @@ namespace ExReaderPlus.Models {
         #endregion
     }
 
+    /// <summary>
+    /// 具有响应的单词类
+    /// </summary>
     public class ActionVocabulary : Vocabulary {
         public HCHPointHandel PointEnter { get; set; }
 
         public HCHPointHandel PointExit { get; set; }
 
-
         public event CommandActionEventHandler RemCommandAction;
+
+        public event CommandActionEventHandler RemoveCommandAction;
 
         public CommandBase RemCommand { get; set; }
 
+        public CommandBase RemoveCommand { get; set; }
+
+
         public void InitCommands() {
             RemCommand = new CommandBase(obj => { RemCommandAction?.Invoke(this, new CommandArgs(obj, Word)); });
+            RemCommand = new CommandBase(obj => { RemoveCommandAction?.Invoke(this, new CommandArgs(obj, Word)); });
         }
 
         public ActionVocabulary() {
@@ -66,6 +69,9 @@ namespace ExReaderPlus.Models {
         }
     }
 
+    /// <summary>
+    /// 具有相应的词典类
+    /// </summary>
     public class ActionDictionary {
 
         #region Properties
@@ -109,14 +115,28 @@ namespace ExReaderPlus.Models {
         public ActionDictionary() {
             InitCommand();
         }
-
-
     }
 
+    public class ActionPassage : Passage {
+        public CommandBase Open { get; set; }
+        public CommandBase Remove { get; set; }
 
+        public event CommandActionEventHandler PassageOperation;
+
+        private void InitCommand() {
+            Open = new CommandBase(obj => { PassageOperation?.Invoke(this, new CommandArgs(obj, nameof(Open))); });
+            Remove = new CommandBase(obj => { PassageOperation?.Invoke(this, new CommandArgs(obj, nameof(Remove))); });
+        }
+
+        public static ActionPassage FromDBPassage(UserDictionary.Passage psg) {
+            return new ActionPassage() { Id = psg.Id, Name = psg.Name, Abstract = psg.Abstract, LastReadTime = psg.LastReadTime };
+        }
+
+        public ActionPassage() {
+            InitCommand();
+        }
+    }
     public class AlphaKeyGroup<T> {
-        const string GlobeGroupKey = "\uD83C\uDF10";
-
         public string Key { get; private set; }
 
         public List<T> InternalList { get; private set; }
@@ -134,13 +154,9 @@ namespace ExReaderPlus.Models {
                 if (cg.Label == "")
                     continue;
                 if (cg.Label == "...")
-                {
-                    list.Add(new AlphaKeyGroup<T>(GlobeGroupKey));
-                }
+                    continue;
                 else
-                {
                     list.Add(new AlphaKeyGroup<T>(cg.Label));
-                }
             }
 
             return list;

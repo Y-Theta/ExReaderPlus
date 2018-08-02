@@ -11,9 +11,8 @@ using Windows.UI.Xaml.Navigation;
 using ExReaderPlus.View.Pages;
 using ExReaderPlus.Manage;
 using ExReaderPlus.WordsManager;
-using System.Threading.Tasks;
+using Windows.UI.Core;
 using ExReaderPlus.View;
-using ExReaderPlus.Manage.PassageManager;
 
 namespace ExReaderPlus {
     /// <summary>
@@ -30,7 +29,6 @@ namespace ExReaderPlus {
         {
             InitializeComponent();
             Suspending += OnSuspending;
-            //   this.RequiresPointerMode = ApplicationRequiresPointerMode.WhenRequested;
         }
        
         /// <summary>
@@ -77,10 +75,18 @@ namespace ExReaderPlus {
 
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size { Width = 720, Height = 480 });
             CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
-
+          //  CoreApplication.GetCurrentView()
+            Window.Current.SizeChanged += Current_SizeChanged;
             rootFrame.ActualThemeChanged += RootFrame_ActualThemeChanged;
             //强置主题
             RootFrame_ActualThemeChanged(null, null);
+        }
+
+        private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e) {
+            if (e.Size.Width > 1080)
+            {
+                ApplicationView.GetForCurrentView().TryResizeView(new Size(1080, e.Size.Height));
+            }
         }
 
         private void RootFrame_ActualThemeChanged(FrameworkElement sender, object args) {
@@ -112,10 +118,11 @@ namespace ExReaderPlus {
         /// </summary>
         /// <param name="sender">挂起的请求的源。</param>
         /// <param name="e">有关挂起请求的详细信息。</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+        private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
+            OverSettingService osc = (App.Current.Resources["OverSettingService"] as OverSettingService);
             var deferral = e.SuspendingOperation.GetDeferral();
-            //TODO: 保存应用程序状态并停止任何后台活动
+            await osc.SetLocalSettingsAsync();
             deferral.Complete();
         }
 

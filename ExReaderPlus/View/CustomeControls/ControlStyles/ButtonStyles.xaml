@@ -33,11 +33,11 @@
     <Style x:Key="AddDicButton"
            TargetType="local:IconBottun">
         <Setter Property="FontSize"
-                Value="24" />
+                Value="22" />
         <Setter Property="Width"
-                Value="48" />
+                Value="36" />
         <Setter Property="Height"
-                Value="48" />
+                Value="36" />
         <Setter Property="FontFamily"
                 Value="{StaticResource SymbolThemeFontFamily}" />
         <Setter Property="Background"

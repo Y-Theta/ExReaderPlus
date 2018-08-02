@@ -87,15 +87,34 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
+        <Grid x:Name="TitleArea"
+              HorizontalAlignment="Left"
+              VerticalAlignment="Top"
+              Visibility="{Binding TempPassage,Converter={StaticResource NULLnoVIS},Mode=OneWay}"
+              Height="32">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Rectangle Width="2"
+                       Fill="{ThemeResource RichTextFg}"
+                       HorizontalAlignment="Left"
+                       Margin="10,4,0,4" />
+            <TextBlock Style="{StaticResource DicSecPageTitle}"
+                       Foreground="{ThemeResource RichTextFg}"
+                       Grid.Column="1"
+                       Text="{Binding TempPassage.HeadName}" />
+        </Grid>
 
         <ScrollViewer x:Name="TextScroll"
-                      Margin="8,32,0,8"
+                      Margin="12,40,0,12"
                       Style="{StaticResource DarkScrollViewer}"
                       HorizontalScrollBarVisibility="Disabled">
             <Grid x:Name="TextLayer"
-                  Margin="0,0,8,0">
+                  Margin="0,0,12,0">
                 <local:RichTextBox x:Name="TextView"
                                    SelectionHighlightColor="{ThemeResource RichTextBg}"
+                                   Foreground="{ThemeResource RichTextFg }"
                                    FontFamily="{ThemeResource Questrial}"
                                    FontSize="{Binding RichTextSize, Mode=TwoWay}"
                                    TextWrapping="Wrap" />
@@ -106,7 +125,6 @@
 
         <Grid x:Name="ControlLayer"
               Background="{ThemeResource ControlBarBg_N}"
-              CanDrag="True"
               DragStarting="ControlLayer_DragStarting"
               DropCompleted="ControlLayer_DropCompleted"
               VerticalAlignment="Bottom"
@@ -132,11 +150,6 @@
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
-            <local:IconBottun Icon="&#xE948;"
-                              Grid.Column="0"
-                              ToolTip="打开文章"
-                              Command="{Binding LoadPassage}"
-                              Style="{StaticResource IconButtonStyle}" />
             <local:IconBottun Icon="&#xA000;"
                               Grid.Column="1"
                               ToolTip="阅读模式"
@@ -144,7 +157,7 @@
                               CommandParameter="ChangeMode"
                               FontFamily="{StaticResource IconY}"
                               Style="{StaticResource IconButtonStyle}" />
-            <local:IconBottun Icon="&#xA000;"
+            <local:IconBottun Icon="&#xA005;"
                               Grid.Column="2"
                               ToolTip="打开单词表"
                               Command="{Binding ControlBarCommand}"
@@ -332,6 +345,7 @@
         </Grid>
 
         <Grid x:Name="Share"
+              Background="#f0000000"
               Visibility="Collapsed">
             <TextBox Text="预览图片"
                      IsReadOnly="True"
@@ -340,12 +354,13 @@
                      FontStyle="Italic"
                      CharacterSpacing="200"
                      Foreground="CornflowerBlue" />
-            <Image x:Name="Image" />
-            <TextBox Text="请选择模板"
-                     FontSize="24"
-                     FontFamily="Arial"
-                     Foreground="Chocolate"
-                     Margin="750,100,10,200"></TextBox>
+            <Image x:Name="Image"
+                   Source="{Binding bitmap}" />
+            <TextBlock Text="请选择模板"
+                       FontSize="24"
+                       FontFamily="Arial"
+                       Foreground="Chocolate"
+                       Margin="800,100,10,200"></TextBlock>
 
             <FlipView MaxWidth="200"
                       Height="300"
@@ -372,46 +387,52 @@
 
         </Grid>
 
-        <local:DefaultDialog x:Name="AddToDicDialog"
+        <local:DefaultDialog x:Name="MessageDialog"
                              MinWidth="360">
             <local:DefaultDialog.Content>
-                <Border Background="{ThemeResource AddDicContentBg}"
-                        BorderThickness="2"
-                        BorderBrush="{ThemeResource AddDicContentBorderC}"
-                        Padding="12,6,6,6">
-                    <Grid MinWidth="240">
+                <Border Background="{ThemeResource AddDicContentBg}">
+                    <Grid MinWidth="240"
+                          MinHeight="160">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="12" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="48" />
                             <ColumnDefinition Width="48" />
                         </Grid.ColumnDefinitions>
-                        <TextBox Height="24"
-                                 Margin="0,8,0,0"
-                                 Text="{Binding NewName,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
-                                 HorizontalAlignment="Stretch"
-                                 BorderBrush="{ThemeResource AddDicContentBorderC}"
-                                 Style="{StaticResource DialogTextBox}"
-                                 VerticalAlignment="Center"
-                                 Foreground="{ThemeResource AddDicContentTextFg}"
-                                 PlaceholderForeground="{ThemeResource AddDicContentTextFg}"
-                                 PlaceholderText="请输入词库名称" />
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="48" />
+                        </Grid.RowDefinitions>
+                        <Rectangle Fill="{ThemeResource AddDicContentBorderC}"
+                                   Grid.RowSpan="2" />
+                        <ListView Margin="8,8,0,0"
+                                  Grid.Column="1"
+                                  Grid.ColumnSpan="3"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Center"
+                                  SelectedIndex="{Binding ScustomeDic ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                  Style="{StaticResource CustomeDicsStyle}"
+                                  ItemsSource="{Binding CustomeDics}"/>
                         <local:IconBottun Style="{StaticResource DialogButton}"
                                           Command="{Binding DialogCommand}"
-                                          HorizontalAlignment="Right"
+                                          ToolTip="确认"
+                                          HorizontalAlignment="Left"
                                           CommandParameter="YES"
                                           Icon="&#xE8FB;"
-                                          Grid.Column="1" />
+                                          Grid.Row="2"
+                                          Grid.Column="2" />
                         <local:IconBottun Style="{StaticResource DialogButton}"
                                           Command="{Binding DialogCommand}"
-                                          HorizontalAlignment="Right"
+                                          Grid.Column="3"
+                                          Grid.Row="3"
+                                          ToolTip="取消"
+                                          HorizontalAlignment="Left"
                                           CommandParameter="NO"
-                                          Icon="&#xE711;"
-                                          Grid.Column="2" />
+                                          Icon="&#xE711;" />
                     </Grid>
                 </Border>
             </local:DefaultDialog.Content>
         </local:DefaultDialog>
-
 
         <FlyoutBase.AttachedFlyout>
             <Flyout x:Name="MenuPop"
@@ -433,7 +454,14 @@
                                       CommandParameter="AddToDic"
                                       Padding="4,2,4,2"
                                       FontFamily="{ThemeResource PhoneFontFamilyNormal}"
-                                      Icon="将单词添加到词库" />
+                                      Icon="将单词添加到词库">
+                        <local:IconBottun.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem />
+                                <MenuFlyoutItem />
+                            </MenuFlyout>
+                        </local:IconBottun.Flyout>
+                    </local:IconBottun>
                 </Border>
             </Flyout>
         </FlyoutBase.AttachedFlyout>

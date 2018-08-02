@@ -98,6 +98,13 @@ namespace ExReaderPlus.View {
                 typeof(VocabularyItem), new PropertyMetadata(false));
 
 
+        public bool IsSystem {
+            get { return (bool)GetValue(IsSystemProperty); }
+            set { SetValue(IsSystemProperty, value); }
+        }
+        public static readonly DependencyProperty IsSystemProperty =
+            DependencyProperty.Register("IsSystem", typeof(bool), 
+                typeof(VocabularyItem), new PropertyMetadata(true));
         #region Methods
         private void VocabularyItem_Loaded(object sender, RoutedEventArgs e) {
             

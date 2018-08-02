@@ -15,6 +15,11 @@
                         <ResourceDictionary Source="View/Themes/DefaultTheme.xaml" />
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="View/Themes/DarkTheme.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="View/CustomeControls/CustomeStaticStyles.xaml" />
@@ -29,10 +34,13 @@
             <viewmodels:MainPageViewModel x:Key="MainPageViewModel" />
             <viewmodels:EssayPageViewModel x:Key="EssayPageViewModel" />
             <viewmodels:DicPageViewModel x:Key="DicPageViewModel" />
+            <viewmodels:GlossaryViewModel x:Key="GlossaryViewModel" />
 
             <!--Pages-->
             <pages:DicPage x:Key="DicPage" />
+            <pages:AboutPage x:Key="AboutPage" />
             <pages:EssayPage x:Key="EssayPage" />
+            <pages:SettingPage x:Key="SettingPage" />
             <pages:GlossaryPage x:Key="GlossaryPage" />
             
         </ResourceDictionary>

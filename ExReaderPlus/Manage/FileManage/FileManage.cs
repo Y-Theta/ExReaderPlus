@@ -163,13 +163,8 @@ namespace ExReaderPlus.FileManage {
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public async Task Win2DTask(string str, string strTime, string strNum)
-        {
-            var pick = new FileOpenPicker();
-            pick.FileTypeFilter.Add(".jpg");
-            pick.FileTypeFilter.Add(".png");
-
-            var file = await pick.PickSingleFileAsync();
+        public async Task<BitmapImage> Win2DTask(string str, string strTime, string strNum, string str4) {
+            var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/new" + str4 + ".jpg"));
             var duvDbecdgiu =
                 await CanvasBitmap.LoadAsync(new CanvasDevice(true), await file.OpenAsync(FileAccessMode.Read));
             var canvasRenderTarget = new CanvasRenderTarget(duvDbecdgiu, duvDbecdgiu.Size);
@@ -177,8 +172,8 @@ namespace ExReaderPlus.FileManage {
             char c = str1[str1.Length - 1];
             if (c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z')
             {
-                str1+=str1+"-";
-                
+                str1 += str1 + "-";
+
             }
             else
             {
@@ -187,7 +182,7 @@ namespace ExReaderPlus.FileManage {
             var str2 = str.Substring(str.Length / 2);
             //            char[]strLast = str1.Substring(str1.Length).ToCharArray();
 
-           
+
             using (var dc = canvasRenderTarget.CreateDrawingSession())//用后则需撤销
             {
 
@@ -202,7 +197,7 @@ namespace ExReaderPlus.FileManage {
 
 
                     });
-                dc.DrawText("Time To Read :" + strTime+"min",
+                dc.DrawText("Time To Read :" + strTime + "min",
                     760, 338, 330, 60,
                     Colors.Blue, new CanvasTextFormat()
                     {
@@ -238,45 +233,47 @@ namespace ExReaderPlus.FileManage {
             //bitmap是文件生成的位图
             await bitmap.SetSourceAsync(fileStream);
             //todo 将bitmap赋给image并显示
-            
+            ShowToastNotification("图片已保存成功", "请预览");
+
+            return bitmap;
 
 
-            ShowToastNotification("图片已保存成功","请预览");
 
-           
 
-//            
+
+            //            
         }
 
-//        public async void NewPage()
-//        {
-//
-//            CoreApplicationView newView = CoreApplication.CreateNewView();
-//
-//            int newViewId = 0;
-//
-//            await newView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-//
-//            {
-//
-//                Frame frame = new Frame();
-//
-//                frame.Navigate(typeof(SharePage), null);
-//
-//                Window.Current.Content = frame;
-//
-//                // You have to activate the window in order to show it later.
-//
-//                Window.Current.Activate();
-//
-//
-//
-//                newViewId = ApplicationView.GetForCurrentView().Id;
-//
-//            });
-//
-//            bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newViewId);
-//        }
+
+        //        public async void NewPage()
+        //        {
+        //
+        //            CoreApplicationView newView = CoreApplication.CreateNewView();
+        //
+        //            int newViewId = 0;
+        //
+        //            await newView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+        //
+        //            {
+        //
+        //                Frame frame = new Frame();
+        //
+        //                frame.Navigate(typeof(SharePage), null);
+        //
+        //                Window.Current.Content = frame;
+        //
+        //                // You have to activate the window in order to show it later.
+        //
+        //                Window.Current.Activate();
+        //
+        //
+        //
+        //                newViewId = ApplicationView.GetForCurrentView().Id;
+        //
+        //            });
+        //
+        //            bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newViewId);
+        //        }
 
 
 

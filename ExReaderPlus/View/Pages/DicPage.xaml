@@ -19,12 +19,12 @@
                                                            Storyboard.TargetProperty="Visibility">
                                 <DiscreteObjectKeyFrame KeyTime="0"
                                                         Value="Visible" />
-                                <DiscreteObjectKeyFrame KeyTime="0:0:0.4"
-                                                        Value="Visible" />
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.25"
+                                                        Value="Collapsed" />
                             </ObjectAnimationUsingKeyFrames>
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="DicContentLayer"
                                                            Storyboard.TargetProperty="Opacity">
-                                <SplineDoubleKeyFrame KeyTime="0:0:0.4"
+                                <SplineDoubleKeyFrame KeyTime="0:0:0.25"
                                                       KeySpline="0,0.4 1,0.6"
                                                       Value="0" />
                             </DoubleAnimationUsingKeyFrames>
@@ -53,7 +53,7 @@
                         </ObjectAnimationUsingKeyFrames>
                         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="DicContentLayer"
                                                        Storyboard.TargetProperty="Opacity">
-                            <SplineDoubleKeyFrame KeyTime="0:0:0.4"
+                            <SplineDoubleKeyFrame KeyTime="0:0:0.25"
                                                   KeySpline="0,0.4 1,0.6"
                                                   Value="1" />
                         </DoubleAnimationUsingKeyFrames>
@@ -75,7 +75,7 @@
         </VisualStateManager.VisualStateGroups>
         <Grid x:Name="DicLayer">
             <GridView x:Name="DicLabel"
-                      Margin="0,32,0,0"
+                      Margin="0,32,0,8"
                       MinWidth="120"
                       ItemsSource="{Binding Diclist}"
                       Style="{StaticResource DicGridView}" />
@@ -88,10 +88,11 @@
                               VerticalAlignment="Bottom"
                               Margin="0,0,16,16" />
         </Grid>
+        
         <Grid x:Name="DicContentLayer"
               RenderTransformOrigin=".5 .5"
               Background="{ThemeResource DicPageBg}"
-              Visibility="0"
+              Visibility="Collapsed"
               Opacity="0">
             <Grid.RenderTransform>
                 <CompositeTransform x:Name="DicContentLayerComposite"
@@ -104,38 +105,62 @@
             </Grid.RowDefinitions>
 
             <Grid x:Name="TitleArea">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Rectangle Width="2"
+                           Fill="{ThemeResource DicItemBg}"
+                           HorizontalAlignment="Left"
+                           Margin="10,4,0,4" />
                 <TextBlock Style="{StaticResource DicSecPageTitle}"
+                           Grid.Column="1"
                            Text="{Binding OpenedDic.Name}" />
             </Grid>
 
-            <Grid Grid.Row="1">
+            <Grid x:Name="ListArea"
+                  Grid.Row="1"
+                  Margin="4,0,4,8">
                 <Grid.Resources>
                     <CollectionViewSource x:Key="ItemsGrouped"
                                           IsSourceGrouped="True"
                                           ItemsPath="InternalList"
                                           Source="{Binding Vocabularies}" />
                 </Grid.Resources>
-                <SemanticZoom Style="{StaticResource VocabulariesAZ}">
+                <SemanticZoom x:Name="VocabularySemantic"
+                              Style="{StaticResource VocabulariesAZ}">
                     <SemanticZoom.ZoomedInView>
                         <ListView ItemsSource="{Binding Source={StaticResource ItemsGrouped}}"
                                   Style="{StaticResource VocabulariesZoomIn}">
                             <ListView.GroupStyle>
                                 <GroupStyle HidesIfEmpty="True">
+                                    <GroupStyle.HeaderContainerStyle >
+                                        <Style TargetType="ListViewHeaderItem">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ListViewHeaderItem">
+                                                        <Border x:Name="ContentBorder"
+                                                                Control.IsTemplateFocusTarget="True">
+                                                            <ContentPresenter x:Name="Content"
+                                                                              VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                                                              HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                                                              Margin="0" />
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </GroupStyle.HeaderContainerStyle>
                                     <GroupStyle.HeaderTemplate>
                                         <DataTemplate>
-                                            <Border Background="Transparent"
-                                                    BorderThickness="2"
-                                                    Width="62"
-                                                    Height="62"
-                                                    Margin="0,0,18,0"
-                                                    HorizontalAlignment="Stretch">
-                                                <TextBlock Text="{Binding Key}"
-                                                           Foreground="#477FBF"
-                                                           FontSize="48"
-                                                           Padding="6"
-                                                           FontFamily="{StaticResource PhoneFontFamilyNormal}"
-                                                           HorizontalAlignment="Left"
-                                                           VerticalAlignment="Center" />
+                                            <Border BorderThickness="1"
+                                                    Margin="2"
+                                                    Background="{ThemeResource VocabularyHeaderBg}">
+                                                <TextBlock FontSize="24"
+                                                           Foreground="{ThemeResource VocabularyHeaderFg}"
+                                                           Margin="16,0,0,0"
+                                                           FontWeight="Light"
+                                                           Text="{Binding Key}" />
                                             </Border>
                                         </DataTemplate>
                                     </GroupStyle.HeaderTemplate>
@@ -144,48 +169,76 @@
                         </ListView>
                     </SemanticZoom.ZoomedInView>
                     <SemanticZoom.ZoomedOutView>
-                        <GridView ItemsSource="{Binding CollectionGroups, Source={StaticResource ItemsGrouped}}"
-                                  Background="#AA000000">
-                            <GridView.ItemTemplate>
-                                <DataTemplate>
-                                    <Border Padding="5">
-                                        <Border Background="{Binding}"
-                                                Width="82"
-                                                Height="82"
-                                                HorizontalAlignment="Left">
-                                            <TextBlock Text="{Binding Group.Key}"
-                                                       Foreground="#EFEFEF"
-                                                       FontSize="48"
-                                                       Padding="6"
-                                                       HorizontalAlignment="Left"
-                                                       VerticalAlignment="Center" />
-                                        </Border>
-                                    </Border>
-                                </DataTemplate>
-                            </GridView.ItemTemplate>
-                        </GridView>
+                        <GridView VerticalAlignment="Center"
+                                  ItemsSource="{Binding CollectionGroups, Source={StaticResource ItemsGrouped}}"
+                                  Style="{StaticResource VocabulariesZoomOut}" />
                     </SemanticZoom.ZoomedOutView>
                 </SemanticZoom>
             </Grid>
-        </Grid>
 
+            <Grid x:Name="FootArea"
+                  Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <!--Visibility="{Binding OpenedDic.IsSys,Converter={StaticResource NULLnoVIS},ConverterParameter=false}"-->
+                <local:IconBottun Style="{StaticResource AddDicButton}"
+                                  ToolTip="{Binding VocabularyShowModeTip}"
+                                  FontSize="16"
+                                  FontFamily="{ThemeResource IconY}"
+                                  Icon="{Binding VocabularyShowMode}"
+                                  Command="{Binding ModeSelectCommand}"
+                                  HorizontalAlignment="Right"
+                                  Grid.Row="1"
+                                  Margin="0,4,16,4" />
+                <local:IconBottun Style="{StaticResource AddDicButton}"
+                                  ToolTip="重命名词库"
+                                  Icon="&#xE70F;"
+                                  Visibility="{Binding OpenedDic.IsSys,Converter={StaticResource NULLnoVIS},ConverterParameter=false}"
+                                  Command="{Binding OpenedDic.ReName}"
+                                  HorizontalAlignment="Right"
+                                  Grid.Row="2"
+                                  Margin="0,4,16,4" />
+                <local:IconBottun Style="{StaticResource AddDicButton}"
+                                  ToolTip="移除词库"
+                                  Icon="&#xE74D;"
+                                  Visibility="{Binding OpenedDic.IsSys,Converter={StaticResource NULLnoVIS},ConverterParameter=false}"
+                                  Command="{Binding OpenedDic.ReMove}"
+                                  HorizontalAlignment="Right"
+                                  Grid.Row="3"
+                                  Margin="0,4,16,4" />
+                <local:IconBottun Style="{StaticResource AddDicButton}"
+                                  FontSize="16"
+                                  ToolTip="返回上一页"
+                                  Icon="&#xE76B;"
+                                  Command="{Binding GotoBrief}"
+                                  HorizontalAlignment="Right"
+                                  Grid.Row="4"
+                                  Margin="0,4,16,16" />
+            </Grid>
+        </Grid>
 
         <!--Dialogs-->
         <local:DefaultDialog x:Name="NewDialog"
                              MinWidth="360">
             <local:DefaultDialog.Content>
                 <Border Background="{ThemeResource AddDicContentBg}"
-                        BorderThickness="2"
-                        BorderBrush="{ThemeResource AddDicContentBorderC}"
-                        Padding="12,6,6,6">
+                        BorderThickness="0" Margin="0,2,0,4">
                     <Grid MinWidth="240">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="12" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="48" />
                             <ColumnDefinition Width="48" />
                         </Grid.ColumnDefinitions>
+                        <Rectangle Fill="{ThemeResource AddDicContentBorderC}" />
                         <TextBox Height="24"
-                                 Margin="0,8,0,0"
+                                 Grid.Column="1"
+                                 Margin="8,8,4,0"
                                  Text="{Binding NewName,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
                                  HorizontalAlignment="Stretch"
                                  BorderBrush="{ThemeResource AddDicContentBorderC}"
@@ -193,21 +246,69 @@
                                  VerticalAlignment="Center"
                                  Foreground="{ThemeResource AddDicContentTextFg}"
                                  PlaceholderForeground="{ThemeResource AddDicContentTextFg}"
-                                 PlaceholderText="请输入词库名称" />
+                                 PlaceholderText="{Binding Tiptext,Mode=OneWay}" />
                         <local:IconBottun Style="{StaticResource DialogButton}"
                                           Command="{Binding DialogCommand}"
                                           ToolTip="确认创建"
                                           HorizontalAlignment="Right"
                                           CommandParameter="YES"
                                           Icon="&#xE8FB;"
-                                          Grid.Column="1" />
+                                          Grid.Column="2" />
                         <local:IconBottun Style="{StaticResource DialogButton}"
                                           Command="{Binding DialogCommand}"
+                                          Margin="0,0,8,0"
                                           ToolTip="返回"
                                           HorizontalAlignment="Right"
                                           CommandParameter="NO"
                                           Icon="&#xE711;"
+                                          Grid.Column="3" />
+                    </Grid>
+                </Border>
+            </local:DefaultDialog.Content>
+        </local:DefaultDialog>
+
+        <local:DefaultDialog x:Name="MessageDialog"
+                             MinWidth="360">
+            <local:DefaultDialog.Content>
+                <Border Background="{ThemeResource AddDicContentBg}">
+                    <Grid MinWidth="240"
+                          MinHeight="100">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="12" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="48" />
+                            <ColumnDefinition Width="48" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="48" />
+                        </Grid.RowDefinitions>
+                        <Rectangle Fill="{ThemeResource AddDicContentBorderC}"
+                                   Grid.RowSpan="2" />
+                        <TextBlock Height="24"
+                                   Margin="8,8,0,0"
+                                   Grid.Column="1"
+                                   Grid.ColumnSpan="3"
+                                   HorizontalAlignment="Stretch"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding Tiptext}"
+                                   Foreground="{ThemeResource AddDicContentTextFg}" />
+                        <local:IconBottun Style="{StaticResource DialogButton}"
+                                          Command="{Binding DialogCommand}"
+                                          ToolTip="确认"
+                                          HorizontalAlignment="Right"
+                                          CommandParameter="YES"
+                                          Icon="&#xE8FB;"
+                                          Grid.Row="2"
                                           Grid.Column="2" />
+                        <local:IconBottun Style="{StaticResource DialogButton}"
+                                          Command="{Binding DialogCommand}"
+                                          Grid.Column="3"
+                                          Grid.Row="3"
+                                          ToolTip="取消"
+                                          HorizontalAlignment="Right"
+                                          CommandParameter="NO"
+                                          Icon="&#xE711;" />
                     </Grid>
                 </Border>
             </local:DefaultDialog.Content>

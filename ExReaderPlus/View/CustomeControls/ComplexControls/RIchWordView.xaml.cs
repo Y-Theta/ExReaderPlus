@@ -22,6 +22,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Text;
+using System.Security.AccessControl;
 
 namespace ExReaderPlus.View {
     public sealed partial class RichWordView : UserControl {
@@ -43,6 +44,10 @@ namespace ExReaderPlus.View {
         private Point _oripoint;
 
         private bool _controlbarmove;
+
+        private string _lastCommand;
+
+        public Vocabulary SelectedWord { get; set; }
 
 
         private Dictionary<string, List<Control>> _controlDic;
@@ -86,6 +91,7 @@ namespace ExReaderPlus.View {
             _viewModel.WordStateChanged -= _viewModel_WordStateChanged;
             _viewModel.ShownStateChanged -= _viewModel_ShownStateChanged;
             _viewModel.OnRenderChange -= _viewModel_OnRenderChange;
+            _viewModel.DialogActions -= _viewModel_DialogActions;
         }
 
         private void RichWordView_Loaded(object sender, RoutedEventArgs e) {
@@ -95,6 +101,7 @@ namespace ExReaderPlus.View {
             _viewModel.WordStateChanged += _viewModel_WordStateChanged;
             _viewModel.ShownStateChanged += _viewModel_ShownStateChanged;
             _viewModel.OnRenderChange += _viewModel_OnRenderChange;
+            _viewModel.DialogActions += _viewModel_DialogActions;
             TextView.ElementSorted += TextView_ElementSorted;
             TextView.RenderBegin += TextView_RenderBegin;
             ControlLayer.PointerEntered += GridBg_PointerEntered;
@@ -131,16 +138,25 @@ namespace ExReaderPlus.View {
         /// <summary>
         /// 按钮命令回调
         /// </summary>
-        private void _viewModel_ControlCommand(object sender, CommandArgs args) {
+        private async void _viewModel_ControlCommand(object sender, CommandArgs args) {
             switch (args.parameter)
             {
                 case "TurnPageNext": TextView.PageUp(); break;
                 case "TurnPageBack": TextView.PageDown(); break;
-                case "SizeTextLarge": TextView.FontSize += 0.5; break;
-                case "SizeTextLittle": TextView.FontSize -= 0.5; break;
-                case "OpenWordList": WordPanelSwitch(); break;
-                case "AddToDic": MenuPop.Hide(); break;
-                case "Share": Share.Visibility = Share.Visibility.Equals(Visibility.Visible) ? Visibility.Collapsed:Visibility.Visible; break;
+                case "SizeTextLarge": TextView.FontSize += 0.5;
+                    break;
+                case "SizeTextLittle": TextView.FontSize -= 0.5;
+                    break;
+                case "OpenWordList": WordPanelSwitch();
+                    break;
+                case "AddToDic":
+                    MenuPop.Hide();
+                    _lastCommand = "Insert";
+                    _viewModel.LoadCustomeDics();
+                    await MessageDialog.ShowAsync();
+                    break;
+                case "Share": Share.Visibility = Share.Visibility.Equals(Visibility.Visible) ? Visibility.Collapsed:Visibility.Visible;
+                    break;
                 case "ChangeMode":
                     if (TextView.ContentString != null)
                         if (!TextView.IsReadOnly)
@@ -156,6 +172,18 @@ namespace ExReaderPlus.View {
                         }
                     break;
             }
+        }
+
+        private void _viewModel_DialogActions(object sender, CommandArgs args) {
+            if (args.parameter.Equals("YES"))
+                switch (_lastCommand)
+                {
+                    case "Insert":
+                        CustomDicManage.InsertAVocabularyToCustomDictionary(_viewModel.CustomeDics[_viewModel.ScustomeDic].Name, SelectedWord);
+                        (App.Current.Resources["DicPageViewModel"] as DicPageViewModel).UpdateDicinfo();
+                        break;
+                }
+            MessageDialog.Hide();
         }
 
         private void RichWordView_SizeChanged(object sender, SizeChangedEventArgs e) {
@@ -277,6 +305,7 @@ namespace ExReaderPlus.View {
         private void Rect_PointerEntered(object sender, PointerRoutedEventArgs e) {
             var sb = sender as HitHolder;
             var v1 = fileDatabaseManage.instance.SearchVocabulary(sb.Name.ToLower());
+            SelectedWord = v1;
             if (v1 != null)
                 sb.Tooltip = v1.Translation.Replace(@"\n", "\n");
         }
@@ -294,13 +323,9 @@ namespace ExReaderPlus.View {
                 TextView.ContentString = (sender as EssayPageViewModel).TempPassage.Content;
             });
         }
-
         #endregion
 
         #region PrivateMethods
-        public void SetText(string str) {
-            TextView.ContentString = str;
-        }
 
         private void ShowText(int learned) {
             if (learned == 1)
@@ -358,12 +383,12 @@ namespace ExReaderPlus.View {
             if (WordPanel.Visibility.Equals(Visibility.Visible))
             {
                 VisualStateManager.GoToState(this, "WordPanelCollapsed", true);
-                _viewModel.SetStateBarButtonFg(Color.FromArgb(255, 8, 8, 8));
+                (App.Current.Resources["OverSettingService"] as OverSettingService).SetStateBarButtonFg((Color)App.Current.Resources["MainThemeFGColorDark"]);
             }
             else
             {
                 VisualStateManager.GoToState(this, "WordPanelShow", true);
-                _viewModel.SetStateBarButtonFg(Color.FromArgb(255, 225, 225, 225));
+                (App.Current.Resources["OverSettingService"] as OverSettingService).SetStateBarButtonFg((Color)App.Current.Resources["MainThemeFGColorBright"]);
             }
         }
 

@@ -174,9 +174,6 @@ namespace ExReaderPlus.View {
             rtb.LineSpace = (float)e.NewValue;
         }
 
-        public double LineTop { get; set; }
-
-        public double LineBottom { get; set; }
 
         #endregion
 
@@ -208,8 +205,8 @@ namespace ExReaderPlus.View {
         private void RichTextBox_TextChanged(object sender, RoutedEventArgs e) {
             if (_contentString != null)
             {
-                Document.GetText(TextGetOptions.None, out string newstr);
-                _contentString = _contentString.Replace(Temppagecontent, newstr);
+                //Document.GetText(TextGetOptions.None, out string newstr);
+                //_contentString = _contentString.Replace(Temppagecontent, newstr);
                 if (!_switchPage)
                     OnWordChanged();
             }
@@ -294,7 +291,8 @@ namespace ExReaderPlus.View {
                 SetContentFormat(() =>
                 {
                     Document.SetText(TextSetOptions.None, _contentString);
-                    ITextRange ran = Document.GetRangeFromPoint(new Point(ActualWidth, ViewPortHeight - Margin.Bottom - Padding.Bottom - 1.2 * FontSize), PointOptions.ClientCoordinates);
+                    Document.Selection.StartPosition = 0;
+                    ITextRange ran = Document.GetRangeFromPoint(new Point(ActualWidth - FontSize, ViewPortHeight - Margin.Bottom - Padding.Bottom - 1.2 * FontSize), PointOptions.ClientCoordinates);
                     SortPages(ran.EndPosition);
                     SwitchPage();
                 });
@@ -427,14 +425,13 @@ namespace ExReaderPlus.View {
             var _instence = App.Current.Resources["OverSettingService"] as OverSettingService;
             
             ITextCharacterFormat defaultformat = Document.GetDefaultCharacterFormat();
-            defaultformat.ForegroundColor = (Color)_instence.GetValue(ViewSettingConfigs.RichTextBoxFg);
+           // defaultformat.ForegroundColor = (Color)_instence.GetValue(ViewSettingConfigs.RichTextBoxFg);
             defaultformat.Weight = (int)_instence.GetValue(ViewSettingConfigs.RichTextBoxWeight);
-            defaultformat.Position = (float)((float)_instence.GetValue(ViewSettingConfigs.RichTextBoxLineSpace) * 1.16 - 1.09 * FontSize) / 2;
+            defaultformat.Position = (float)FontSize / 5;
 
             ITextParagraphFormat textParagraph = Document.GetDefaultParagraphFormat();
             textParagraph.SetLineSpacing(LineSpacingRule.AtLeast, (float)_instence.GetValue(ViewSettingConfigs.RichTextBoxLineSpace));
 
-            LineTop = defaultformat.Position;
 
             Document.SetDefaultCharacterFormat(defaultformat);
             Document.SetDefaultParagraphFormat(textParagraph);
@@ -456,7 +453,8 @@ namespace ExReaderPlus.View {
         public void GotoPage(int index) {
             if (_allowSwitch)
             {
-                TempPage = index;
+                if (index < SumPage)
+                    TempPage = index;
                 OnWordChanged();
             }
         }

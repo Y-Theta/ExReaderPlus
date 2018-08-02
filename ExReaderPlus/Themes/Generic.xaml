@@ -517,6 +517,8 @@
                                                         IconFormat="Icon"
                                                         Icon="&#xEC26;"
                                                         Tooltip="关于"
+                                                        Command="{TemplateBinding AboutCommand}"
+                                                        CommandParameter="{TemplateBinding AboutCommandPara}"
                                                         Foreground="{TemplateBinding Foreground}"
                                                         Visibility="{TemplateBinding AboutButton}"
                                                         Width="{TemplateBinding CollapseWidth}" />
@@ -524,6 +526,8 @@
                                                         IconFormat="Icon"
                                                         Icon="&#xE713;"
                                                         Tooltip="设置"
+                                                        Command="{TemplateBinding SettingCommand}"
+                                                        CommandParameter="{TemplateBinding AboutCommandPara}"
                                                         Foreground="{TemplateBinding Foreground}"
                                                         Visibility="{TemplateBinding SettingButton}"
                                                         Width="{TemplateBinding CollapseWidth}" />
@@ -542,41 +546,48 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:HitHolder">
-                    <Border x:Name="RootBorder"
-                            Background="{TemplateBinding Background}">
+                    <Border x:Name="RootBorder">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
-                                        <Setter Target="RootBorder.Background"
+                                        <Setter Target="HitContent.Stroke"
                                                 Value="{Binding PointBrush, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <VisualState.Setters>
-                                        <Setter Target="RootBorder.Background"
+                                        <Setter Target="HitContent.Stroke"
                                                 Value="{Binding PressBrush, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <ToolTipService.ToolTip>
-                            <ToolTip Padding="0"
-                                     Background="{ThemeResource WordSearchToolTipBg}"
-                                     BorderThickness="0"
-                                     Visibility="{Binding Tooltip, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay,Converter={StaticResource NULLnoVIS}}"
-                                     HorizontalOffset="12"
-                                     VerticalOffset="12"
-                                     Placement="Mouse">
-                                <Border MaxWidth="160"
-                                        Padding="4"
-                                        MinHeight="24">
-                                    <TextBlock Style="{StaticResource WordToolTipstyle}"
-                                               Text="{Binding Tooltip, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}" />
-                                </Border>
-                            </ToolTip>
-                        </ToolTipService.ToolTip>
+                        <Rectangle x:Name="HitContent"
+                                   Fill="{Binding Stroke, ElementName=HitContent,Converter={StaticResource ColorOpacity}}"
+                                   StrokeThickness="1"
+                                   Stroke="{TemplateBinding Background}"
+                                   RadiusX="8"
+                                   RadiusY="8">
+                            <ToolTipService.ToolTip>
+                                <ToolTip Padding="0"
+                                         Background="{ThemeResource WordSearchToolTipBg}"
+                                         BorderThickness="0"
+                                         Visibility="{Binding Tooltip, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay,Converter={StaticResource NULLnoVIS}}"
+                                         HorizontalOffset="12"
+                                         VerticalOffset="12"
+                                         Placement="Mouse">
+                                    <Border MaxWidth="160"
+                                            Padding="4"
+                                            MinHeight="24">
+                                        <TextBlock Style="{StaticResource WordToolTipstyle}"
+                                                   Text="{Binding Tooltip, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}" />
+                                    </Border>
+                                </ToolTip>
+                            </ToolTipService.ToolTip>
+                            
+                        </Rectangle>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -759,6 +770,11 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
+                        <Rectangle x:Name="Mask"
+                                   Fill="Transparent"
+                                   VerticalAlignment="Stretch"
+                                   HorizontalAlignment="Stretch"
+                                   IsHitTestVisible="False" />
                         <TextBlock x:Name="ContentPresenter"
                                    Tag="{Binding ToolTip, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                    FontFamily="{TemplateBinding FontFamily}"
@@ -783,11 +799,6 @@
                             </ToolTip>
                             </ToolTipService.ToolTip>
                         </TextBlock>
-                        <Rectangle x:Name="Mask"
-                                   Fill="Transparent"
-                                   VerticalAlignment="Stretch"
-                                   HorizontalAlignment="Stretch"
-                                   IsHitTestVisible="False" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
