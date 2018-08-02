@@ -162,10 +162,7 @@ namespace ExReaderPlus.Manage {
                 {
                     db.SaveChanges();
                 }
-                catch
-                {
-                    return -1;
-                }
+                catch { }
                 //无论原来单词是否存在，都在wordDictionary关系表中建立一个条目
                 var Selectedword = db.DictionaryWords
                         .Where(dw => dw.WordId.Equals(vocabulary.Word))
@@ -174,13 +171,19 @@ namespace ExReaderPlus.Manage {
                 if (Selectedword == 0)//如果词典中不存在这个条目
                 {
                     DictionaryWord dictionaryWord =
-                            new DictionaryWord 
+                            new DictionaryWord
                             {
+                                Id = 1,
                                 WordId = vocabulary.Word,
                                 DictionaryId = customDictionaryName
                             };
                     db.DictionaryWords.Add(dictionaryWord);
-                    db.SaveChanges();
+                    try
+                    {
+                        db.SaveChanges();
+                    }
+                    catch { }
+              
                     db.Database.CloseConnection();
 
                     foreach(var dics in WordBook.Custom)
@@ -406,5 +409,43 @@ namespace ExReaderPlus.Manage {
                 return result;
             }
         }
+
+
+        public static int DeleteAVocabularyFromCustomDictionary(string customDictionaryName, Vocabulary vocabulary) {
+            using (var db = new DataContext())
+            {
+                var Selectedword = db.DictionaryWords
+                        .Where(dw => dw.WordId.Equals(vocabulary.Word))
+                        .Where(dw => dw.DictionaryId.Equals(customDictionaryName))
+                        .Count();
+                if (Selectedword != 0)//如果词典中不存在这个条目
+                {
+                    db.Remove(db.DictionaryWords.Where(dw => dw.DictionaryId.Equals(customDictionaryName))
+                        .Where(dw => dw.WordId.Equals(vocabulary.Word)).FirstOrDefault());
+                    try
+                    {
+                        db.SaveChanges();
+                        foreach(var dics in WordBook.Custom)
+                        {
+                            if (dics.Name.Equals(customDictionaryName))
+                            {
+                                dics.Wordlist.Remove(vocabulary.Word);
+                            }
+                        }
+                        return 1;
+                    }
+                    catch { return -1; }
+                    finally
+                    {
+                        db.Database.CloseConnection();
+                    }
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+
     }
 }

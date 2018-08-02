@@ -54,6 +54,24 @@
                 Value="{ThemeResource AddDicButtonFg_P}" />
     </Style>
 
+    <!--VocaDeleteButton-->
+    <Style x:Key="VocaDeleteButton" TargetType="local:IconBottun">
+        <Setter Property="FontFamily"
+                Value="{StaticResource SymbolThemeFontFamily}" />
+        <Setter Property="Background"
+                Value="{ThemeResource AddDicDialogButtonBg_N}" />
+        <Setter Property="Foreground"
+                Value="{ThemeResource AddDicDialogButtonFg_N}" />
+        <Setter Property="PointMask"
+                Value="{ThemeResource AddDicDialogButtonBg_R}" />
+        <Setter Property="PointBrush"
+                Value="{ThemeResource AddDicDialogButtonFg_R}" />
+        <Setter Property="PressMask"
+                Value="{ThemeResource AddDicDialogButtonBg_P}" />
+        <Setter Property="PressBrush"
+                Value="{ThemeResource AddDicDialogButtonFg_P}" />
+    </Style>
+
     <!--CheckToggelButton-->
     <Style x:Key="CheckToggelButton"
            TargetType="local:IconToggelButton">

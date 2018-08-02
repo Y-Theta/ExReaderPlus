@@ -57,7 +57,9 @@ namespace ExReaderPlus.Models {
 
         public void InitCommands() {
             RemCommand = new CommandBase(obj => { RemCommandAction?.Invoke(this, new CommandArgs(obj, Word)); });
-            RemCommand = new CommandBase(obj => { RemoveCommandAction?.Invoke(this, new CommandArgs(obj, Word)); });
+            RemoveCommand = new CommandBase(obj => {
+                RemoveCommandAction?.Invoke(this, new CommandArgs(obj, Word));
+            });
         }
 
         public ActionVocabulary() {

@@ -155,6 +155,14 @@ namespace ExReaderPlus.View {
                     _viewModel.LoadCustomeDics();
                     await MessageDialog.ShowAsync();
                     break;
+                case "Pin":
+                    TileService.PinTile();
+                    break;
+                case "Night":
+                    ElementTheme mainf = (Window.Current.Content as Frame).ActualTheme;
+                    (Window.Current.Content as Frame).RequestedTheme = mainf.Equals(ElementTheme.Dark) ? ElementTheme.Light : ElementTheme.Dark;
+                    (App.Current.Resources["OverSettingService"] as OverSettingService).SetValue(ViewSettingConfigs.AppThemeMode, mainf.Equals(ElementTheme.Dark) ? true : false);
+                    break;
                 case "Share": Share.Visibility = Share.Visibility.Equals(Visibility.Visible) ? Visibility.Collapsed:Visibility.Visible;
                     break;
                 case "ChangeMode":
@@ -179,8 +187,11 @@ namespace ExReaderPlus.View {
                 switch (_lastCommand)
                 {
                     case "Insert":
-                        CustomDicManage.InsertAVocabularyToCustomDictionary(_viewModel.CustomeDics[_viewModel.ScustomeDic].Name, SelectedWord);
-                        (App.Current.Resources["DicPageViewModel"] as DicPageViewModel).UpdateDicinfo();
+                        if (SelectedWord != null)
+                        {
+                            CustomDicManage.InsertAVocabularyToCustomDictionary(_viewModel.CustomeDics[_viewModel.ScustomeDic].Name, SelectedWord);
+                            (App.Current.Resources["DicPageViewModel"] as DicPageViewModel).UpdateDicinfo();
+                        }
                         break;
                 }
             MessageDialog.Hide();
