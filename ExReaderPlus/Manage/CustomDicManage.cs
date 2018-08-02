@@ -62,14 +62,19 @@ namespace ExReaderPlus.Manage {
                 using (var db = new DataContext())
                 {
                     db.Database.Migrate();
+                    List<DictionaryWord> templeDicWords = new List<DictionaryWord>();
+                    foreach(var dw in db.DictionaryWords.Where(p => p.DictionaryId.Equals(originalName))){
+                        templeDicWords.Add(dw);
+                        db.DictionaryWords.Remove(dw);
+                    }//先删除
                     var dic = db.Dictionaries.FirstOrDefault(
                         d => d.Id.Equals(originalName)
-                        );
-                    db.Dictionaries.Remove(dic);
-                    db.SaveChanges();
-                    dic.Id = currentName;
-                    db.Dictionaries.Add(dic);
-                    db.SaveChanges();
+                        ).Id = currentName ;//改名字
+                    foreach(var dw2 in templeDicWords)
+                    {
+                        db.DictionaryWords.Add(dw2);
+                    }//再加回
+                    db.SaveChanges();//应该不会报错
                     db.Database.CloseConnection();
                 }
 
@@ -157,14 +162,8 @@ namespace ExReaderPlus.Manage {
                 db.Database.Migrate();
                 var dictionary = db.Dictionaries.Find(customDictionaryName);
                 if (dictionary == null) return 2;//如果词典不存在，就返回-1
-                db.Words.Add(VocabularyToWord(vocabulary));//添加一个单词
-                try
-                {
-                    db.SaveChanges();
-                }
-                catch
-                {
-                    return -1;
+                if (db.Words.Find(vocabulary.Word) == null) {
+                      db.Words.Add(VocabularyToWord(vocabulary));//添加一个单词                  
                 }
                 //无论原来单词是否存在，都在wordDictionary关系表中建立一个条目
                 var Selectedword = db.DictionaryWords
@@ -173,17 +172,18 @@ namespace ExReaderPlus.Manage {
                         .Count();
                 if (Selectedword == 0)//如果词典中不存在这个条目
                 {
-                    DictionaryWord dictionaryWord =
-                            new DictionaryWord 
-                            {
-                                WordId = vocabulary.Word,
-                                DictionaryId = customDictionaryName
-                            };
+                    DictionaryWord dictionaryWord = new DictionaryWord();
+                    dictionaryWord.Word = VocabularyToWord(vocabulary);
+                    dictionaryWord.Dictionary = new Dictionary
+                    {
+                        Id = customDictionaryName,
+                        TotalWordsNumber = 0
+                        
+                    };                                       
                     db.DictionaryWords.Add(dictionaryWord);
-                    db.SaveChanges();
+                    db.SaveChanges();                                    
                     db.Database.CloseConnection();
-
-                    foreach(var dics in WordBook.Custom)
+                    foreach (var dics in WordBook.Custom)
                     {
                         if (dics.Name.Equals(customDictionaryName))
                             dics.Wordlist.Add(vocabulary.Word, vocabulary);

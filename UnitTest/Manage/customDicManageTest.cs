@@ -29,14 +29,26 @@ namespace UnitTest.Manage
             Assert.AreEqual(true,
                 CustomDicManage.ChangeDictionaryName("testDic", "testDicChanged"));
         }
+
+
+        /// <summary>
+        /// 插入单词
+        /// </summary>
         [TestMethod]
         public void InsertAVocabularyToCustomDictionaryTest()
         {
-            CustomDicManage.AddACustomDictionary("InsertTestDic");
+           // CustomDicManage.AddACustomDictionary("InsertTestDic");
+            //Assert.AreEqual(0, CustomDicManage.InsertAVocabularyToCustomDictionary("InsertTestDic",
+            //  new Vocabulary
+            //  {
+            //      Word = "01Test", Translation = "单词关联词典插入测试"
+            //  }));
+
             Assert.AreEqual(1, CustomDicManage.InsertAVocabularyToCustomDictionary("InsertTestDic",
               new Vocabulary
               {
-                  Word = "01Test", Translation = "单词关联词典插入测试"
+                  Word = "test",
+                  Translation = "测试"
               }));
         }
 
