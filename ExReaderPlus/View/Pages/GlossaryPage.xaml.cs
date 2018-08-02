@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -21,6 +22,10 @@ namespace ExReaderPlus.View.Pages {
     public sealed partial class GlossaryPage : Page {
         public GlossaryPage() {
             this.InitializeComponent();
+            Loaded += GlossaryPage_Loaded;
+        }
+        private void GlossaryPage_Loaded(object sender, RoutedEventArgs e) {
+            (App.Current.Resources["OverSettingService"] as OverSettingService).SetStateBarButtonFg((Color)App.Current.Resources["MainThemeFGColorDark"]);
         }
     }
 }

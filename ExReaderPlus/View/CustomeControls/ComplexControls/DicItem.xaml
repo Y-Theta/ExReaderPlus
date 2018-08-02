@@ -6,7 +6,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              x:Name="Item"
              mc:Ignorable="d">
-    <Border  x:Name="RootBorder" >
+    <Border  x:Name="RootBorder">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="ItemShowMode">
                 <VisualState x:Name="Narrow">

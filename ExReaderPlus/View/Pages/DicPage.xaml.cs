@@ -31,8 +31,8 @@ namespace ExReaderPlus.View.Pages {
         private async void _viewModel_CommandActions(object sender, CommandArgs args) {
             _viewModel.NewName = null;
             _viewModel.Tiptext = "请输入新建词库的名称";
-            var res = await NewDialog.ShowAsync();
             _lastCommand = "NewDic";
+            var res = await NewDialog.ShowAsync();
         }
 
 
@@ -50,13 +50,14 @@ namespace ExReaderPlus.View.Pages {
                 case "ReName":
                     _viewModel.NewName = null;
                     _viewModel.Tiptext = "请输入新的词库名称";
-                    var res = await NewDialog.ShowAsync();
+                    _lastCommand = "ReName";
+                    await NewDialog.ShowAsync();
                     break;
                 case "ReMove":
-                    VisualStateManager.GoToState(this, "BrifeInfo", true);
+                    _viewModel.Tiptext = "确认删除吗？";
+                    _lastCommand = "ReMove";
+                    await MessageDialog.ShowAsync();
                     break;
-                 
-
             }
         }
 
@@ -66,10 +67,25 @@ namespace ExReaderPlus.View.Pages {
                     case "NewDic":
                         CustomDicManage.AddACustomDictionary(_viewModel.NewName);
                         break;
-                    default:break;
+                    case "ReName":
+                        CustomDicManage.ChangeDictionaryName(_viewModel.OpenedDic.Name, _viewModel.NewName);
+                        break;
+                    case "ReMove":
+                        WordBook.Custom.Remove(WordBook.Custom[_viewModel.OpenedDic.DBName - 10]);
+                        CustomDicManage.DeleteDictionary(_viewModel.OpenedDic.Name);
+                        if (WordBook.SelectedDic == _viewModel.OpenedDic.DBName)
+                        {
+                            WordBook.CustomeDicCounts--;
+                            WordBook.SelectedDic = WordBook.CustomeDicCounts > 10 ? WordBook.CustomeDicCounts : 5;
+                        }
+                        _viewModel.UpdateDicinfo();
+                        VisualStateManager.GoToState(this, "BrifeInfo", true);
+                        break;
+                    default: break;
                 }
             _lastCommand = null;
             NewDialog.Hide();
+            MessageDialog.Hide();
         }
         #endregion
 

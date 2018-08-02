@@ -21,10 +21,13 @@ using Windows.UI.Xaml.Media.Imaging;
 namespace ExReaderPlus.ViewModels {
     public class EssayPageViewModel : ViewModelBasse {
         #region Properties
-        public Passage TempPassage { get; set; }
+        private Passage _tempPassage;
+        public Passage TempPassage {
+            get => _tempPassage;
+            set => SetValue(out _tempPassage, value, nameof(TempPassage));
+        }
 
         public bool ReadOnlyState { get; set; }
-
 
         public OverSettingService _settingService;
 
@@ -150,6 +153,21 @@ namespace ExReaderPlus.ViewModels {
         }
 
         /// <summary>
+        /// 用户词典
+        /// </summary>
+        private ObservableCollection<EngDictionary> _customeDics;
+        public ObservableCollection<EngDictionary> CustomeDics {
+            get => _customeDics;
+            set => SetValue(out _customeDics, value, nameof(CustomeDics));
+        }
+
+        private int _scustomeDic;
+        public int ScustomeDic {
+            get => _scustomeDic;
+            set => SetValue(out _scustomeDic, value, nameof(ScustomeDic));
+        }
+
+        /// <summary>
         /// 单词列表显示模式
         /// </summary>
         private int _shownState;
@@ -180,7 +198,6 @@ namespace ExReaderPlus.ViewModels {
             set => SetValue(out _bitmap, value, nameof(bitmap));
         }
 
-
         private void LearnedColorChnage() {
             OnRenderChange.Invoke(this, "Lea", _learnedColor);
         }
@@ -208,6 +225,9 @@ namespace ExReaderPlus.ViewModels {
 
         public CommandBase ShareCommand { get; set; }
 
+        public CommandBase DialogCommand { get; set; }
+
+
 
         /// <summary>
         /// 着色需求变换
@@ -221,6 +241,9 @@ namespace ExReaderPlus.ViewModels {
         public event HCHPointHandel WordStateChanged;
 
         public event EventHandler PassageLoaded;
+
+        public event CommandActionEventHandler DialogActions;
+
         #endregion
 
         #region Methods
@@ -234,11 +257,6 @@ namespace ExReaderPlus.ViewModels {
         public void ClearKeyWordHashSet() {
             KeyWordLearn.Clear();
             KeyWordNotLearn.Clear();
-        }
-
-        public void SetStateBarButtonFg(Color color) {
-            var TitleBar = ApplicationView.GetForCurrentView().TitleBar;
-            TitleBar.ButtonForegroundColor = color;
         }
 
         public async void UpdateKeywordList(ActionVocabulary voc) {
@@ -272,6 +290,13 @@ namespace ExReaderPlus.ViewModels {
                 foreach (var v in KeyWordNotLearn)
                     InitKeywordAction(v, action, pointact, pointexit);
             }
+        }
+
+        public void LoadCustomeDics() {
+            CustomeDics.Clear();
+            foreach (var dic in WordBook.Custom)
+                CustomeDics.Add(dic);
+
         }
 
         private void InitKeywordAction(string str, CommandActionEventHandler action, HCHPointHandel pointact, HCHPointHandel pointexit) {
@@ -316,6 +341,8 @@ namespace ExReaderPlus.ViewModels {
                     bitmap = await FileManage.FileManage.Instence.Win2DTask(TempPassage.Content, time, Text, "2");
             });
 
+            DialogCommand = new CommandBase(obj => { DialogActions?.Invoke(this, new CommandArgs(obj)); });
+
             ControlBarCommand = new CommandBase(obj => { ControlCommand?.Invoke(this, new CommandArgs(obj, nameof(ControlBarCommand))); });
         }
 
@@ -325,6 +352,7 @@ namespace ExReaderPlus.ViewModels {
             KeyWordLearn = new HashSet<string>();
             KeyWordNotLearn = new HashSet<string>();
             KeywordList = new ObservableCollection<ActionVocabulary>();
+            CustomeDics = new ObservableCollection<EngDictionary>();
 
             _richTextSize = (float)_settingService.GetValue(ViewSettingConfigs.RichTextBoxSize);
             _controlBarThickness = (Thickness)_settingService.GetValue(ViewSettingConfigs.ReadingPageControlBar);

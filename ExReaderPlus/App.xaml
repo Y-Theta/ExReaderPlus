@@ -15,6 +15,11 @@
                         <ResourceDictionary Source="View/Themes/DefaultTheme.xaml" />
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="View/Themes/DarkTheme.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="View/CustomeControls/CustomeStaticStyles.xaml" />

@@ -17,119 +17,139 @@ namespace ExReaderPlus.View {
         /// <summary>
         /// 富文本框文字前景色
         /// </summary>
-        private Color _richTextBoxFg = Color.FromArgb(255, 8, 8, 8);
-        public Color RichTextBoxFg {
-            get => _richTextBoxFg;
-            set => _richTextBoxFg = value;
-        }
+        [field:NonSerialized]
+        public Color RichTextBoxFg = Color.FromArgb(255, 8, 8, 8);
+        private string _richTextBoxFg;
 
         /// <summary>
         /// 富文本框文字背景色
         /// </summary>
-        private Color _richTextBoxBg = Colors.Transparent;
-        public Color RichTextBoxBg {
-            get => _richTextBoxBg;
-            set => _richTextBoxBg = value;
-        }
+        [field: NonSerialized]
+        public Color RichTextBoxBg = Colors.Transparent;
+        private string _richTextBoxBg;
+
 
         /// <summary>
         /// 富文本框文字字体大小
         /// </summary>
-        private float _richTextBoxSize = 18;
-        public float RichTextBoxSize {
-            get => _richTextBoxSize;
-            set => _richTextBoxSize = value;
-        }
+        public float RichTextBoxSize = 18;
 
         /// <summary>
         /// 富文本框段间距
         /// </summary>
-        private float _richTextBoxLineSpace = 24;
-        public float RichTextBoxLineSpace {
-            get => _richTextBoxLineSpace;
-            set => _richTextBoxLineSpace = value;
-        }
+        public float RichTextBoxLineSpace = 24;
 
         /// <summary>
         /// 富文本框文字字重
         /// </summary>
-        private int _richTextBoxWeight = 400;
-        public int RichTextBoxWeight {
-            get => _richTextBoxWeight;
-            set => _richTextBoxWeight = value;
-        }
+        public int RichTextBoxWeight = 400;
 
         /// <summary>
         /// 富文本框关键字背景
         /// </summary>
-        private Color _richTextSelectBoxBg = Color.FromArgb(64, 5, 96, 240);
-        public Color RichTextSelectBoxBg {
-            get => _richTextSelectBoxBg;
-            set => _richTextSelectBoxBg = value;
-        }
+        [field: NonSerialized]
+        public Color RichTextSelectBoxBg = Color.FromArgb(160, 5, 96, 240);
+        private string _richTextSelectBoxBg;
+
 
         /// <summary>
         /// 富文本框已掌握单词背景
         /// </summary>
-        private Color _richTextLearned = Color.FromArgb(64, 49, 135, 82);
-        public Color RichTextLearned {
-            get => _richTextLearned;
-            set => _richTextLearned = value;
-        }
+        [field: NonSerialized]
+        public Color RichTextLearned = Color.FromArgb(160, 49, 135, 82);
+        private string _richTextLearned;
 
 
         /// <summary>
         /// 富文本框未学习背景色
-        /// </summary>
-        private Color _richTextnotLearn = Color.FromArgb(64, 204, 62, 75);
-        public Color RichTextNotLearn {
-            get => _richTextnotLearn;
-            set => _richTextnotLearn = value;
-        }
+        [field: NonSerialized]
+        public Color RichTextNotLearn = Color.FromArgb(160, 204, 62, 75);
+        private string _richTextNotLearn;
+
 
         /// <summary>
         /// 阅读界面控制条位置
         /// </summary>
-        private Thickness _readingPageControlBar = new Thickness(8, 0, 8, 32);
-        public Thickness ReadingPageControlBar {
-            get => _readingPageControlBar;
-            set => _readingPageControlBar = value;
-        }
+        [field:NonSerialized]
+        public Thickness ReadingPageControlBar = new Thickness(8, 0, 8, 32);
+        private string _readingPageControlBar;
+
 
         /// <summary>
         /// 是否为单词着色
         /// </summary>
-        private bool _isRenderOn = true;
-        public bool IsRenderOn {
-            get => _isRenderOn;
-            set => _isRenderOn = value;
-        }
+        public bool IsRenderOn = true;
 
         /// <summary>
         /// 是否为已掌握单词着色
         /// </summary>
-        private bool _isLearnedRender = true;
-        public bool IsLearnedRender {
-            get => _isLearnedRender;
-            set => _isLearnedRender = value;
-        }
+        public bool IsLearnedRender = true;
 
         /// <summary>
         /// 是否为未掌握单词着色
         /// </summary>
-        private bool _isNotlearnRender = true;
-        public bool IsNotlearnRender {
-            get => _isNotlearnRender;
-            set => _isNotlearnRender = value;
-        }
+        public bool IsNotlearnRender = true;
+
+        /// <summary>
+        /// 当前选中的字典
+        /// </summary>
+        public int SelectedDic = 0;
+
+        /// <summary>
+        /// 当前应用主题模式
+        /// </summary>
+        public bool AppThemeMode = true;
         #endregion
 
 
         #region Methods
+        public void StreamCode() {
+            _richTextBoxFg = FormatColor(RichTextBoxFg);
+            _richTextBoxBg = FormatColor(RichTextBoxBg);
+            _richTextSelectBoxBg = FormatColor(RichTextSelectBoxBg);
+            _richTextLearned = FormatColor(RichTextLearned);
+            _richTextNotLearn = FormatColor(RichTextNotLearn);
+            _readingPageControlBar = FormatThickness(ReadingPageControlBar);
+        }
+
+        public void StreamDeCode() {
+            RichTextBoxFg = ReFormatColor(_richTextBoxFg);
+            RichTextBoxBg = ReFormatColor(_richTextBoxBg);
+            RichTextSelectBoxBg = ReFormatColor(_richTextSelectBoxBg);
+            RichTextLearned = ReFormatColor(_richTextLearned);
+            RichTextNotLearn = ReFormatColor(_richTextNotLearn);
+            ReadingPageControlBar = ReFormatThickness(_readingPageControlBar);
+        }
+
+        private string FormatThickness(Thickness thick) {
+            return String.Format("{0},{1},{2},{3}", thick.Left, thick.Top, thick.Right, thick.Bottom);
+        }
+
+        private string FormatColor(Color color) {
+            return String.Format("{0},{1},{2},{3}", color.A, color.R, color.G, color.B);
+        }
+
+        private Color ReFormatColor (string str) {
+            string[] vectors = str.Split(',');
+            return Color.FromArgb(
+                Convert.ToByte(vectors[0]),
+                Convert.ToByte(vectors[1]),
+                Convert.ToByte(vectors[2]),
+                Convert.ToByte(vectors[3]));
+        }
+
+        private Thickness ReFormatThickness(string str) {
+            string[] vectors = str.Split(',');
+            return new Thickness(
+                Convert.ToDouble(vectors[0]),
+                Convert.ToDouble(vectors[1]),
+                Convert.ToDouble(vectors[2]),
+                Convert.ToDouble(vectors[3]));
+        }
         #endregion
 
         #region Constructors
-
+        public OverallViewSettings() { }
         #endregion
     }
 

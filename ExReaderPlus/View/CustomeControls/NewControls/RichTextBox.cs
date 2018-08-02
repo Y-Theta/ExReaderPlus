@@ -174,9 +174,6 @@ namespace ExReaderPlus.View {
             rtb.LineSpace = (float)e.NewValue;
         }
 
-        public double LineTop { get; set; }
-
-        public double LineBottom { get; set; }
 
         #endregion
 
@@ -428,14 +425,13 @@ namespace ExReaderPlus.View {
             var _instence = App.Current.Resources["OverSettingService"] as OverSettingService;
             
             ITextCharacterFormat defaultformat = Document.GetDefaultCharacterFormat();
-            defaultformat.ForegroundColor = (Color)_instence.GetValue(ViewSettingConfigs.RichTextBoxFg);
+           // defaultformat.ForegroundColor = (Color)_instence.GetValue(ViewSettingConfigs.RichTextBoxFg);
             defaultformat.Weight = (int)_instence.GetValue(ViewSettingConfigs.RichTextBoxWeight);
-            defaultformat.Position = (float)((float)_instence.GetValue(ViewSettingConfigs.RichTextBoxLineSpace) * 1.16 - 1.09 * FontSize) / 2;
+            defaultformat.Position = (float)FontSize / 5;
 
             ITextParagraphFormat textParagraph = Document.GetDefaultParagraphFormat();
             textParagraph.SetLineSpacing(LineSpacingRule.AtLeast, (float)_instence.GetValue(ViewSettingConfigs.RichTextBoxLineSpace));
 
-            LineTop = defaultformat.Position;
 
             Document.SetDefaultCharacterFormat(defaultformat);
             Document.SetDefaultParagraphFormat(textParagraph);

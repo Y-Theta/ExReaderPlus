@@ -12,11 +12,7 @@ using ExReaderPlus.View.Pages;
 using ExReaderPlus.Manage;
 using ExReaderPlus.WordsManager;
 using Windows.UI.Core;
-using System.Threading.Tasks;
 using ExReaderPlus.View;
-using ExReaderPlus.Manage.PassageManager;
-using Windows.UI.Xaml.Media;
-using System.Diagnostics;
 
 namespace ExReaderPlus {
     /// <summary>
@@ -122,10 +118,11 @@ namespace ExReaderPlus {
         /// </summary>
         /// <param name="sender">挂起的请求的源。</param>
         /// <param name="e">有关挂起请求的详细信息。</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+        private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
+            OverSettingService osc = (App.Current.Resources["OverSettingService"] as OverSettingService);
             var deferral = e.SuspendingOperation.GetDeferral();
-            //TODO: 保存应用程序状态并停止任何后台活动
+            await osc.SetLocalSettingsAsync();
             deferral.Complete();
         }
 

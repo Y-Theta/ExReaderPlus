@@ -87,15 +87,34 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
+        <Grid x:Name="TitleArea"
+              HorizontalAlignment="Left"
+              VerticalAlignment="Top"
+              Visibility="{Binding TempPassage,Converter={StaticResource NULLnoVIS},Mode=OneWay}"
+              Height="32">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Rectangle Width="2"
+                       Fill="{ThemeResource RichTextFg}"
+                       HorizontalAlignment="Left"
+                       Margin="10,4,0,4" />
+            <TextBlock Style="{StaticResource DicSecPageTitle}"
+                       Foreground="{ThemeResource RichTextFg}"
+                       Grid.Column="1"
+                       Text="{Binding TempPassage.HeadName}" />
+        </Grid>
 
         <ScrollViewer x:Name="TextScroll"
-                      Margin="8,32,0,8"
+                      Margin="12,40,0,12"
                       Style="{StaticResource DarkScrollViewer}"
                       HorizontalScrollBarVisibility="Disabled">
             <Grid x:Name="TextLayer"
-                  Margin="0,0,8,0">
+                  Margin="0,0,12,0">
                 <local:RichTextBox x:Name="TextView"
                                    SelectionHighlightColor="{ThemeResource RichTextBg}"
+                                   Foreground="{ThemeResource RichTextFg }"
                                    FontFamily="{ThemeResource Questrial}"
                                    FontSize="{Binding RichTextSize, Mode=TwoWay}"
                                    TextWrapping="Wrap" />
@@ -368,6 +387,52 @@
 
         </Grid>
 
+        <local:DefaultDialog x:Name="MessageDialog"
+                             MinWidth="360">
+            <local:DefaultDialog.Content>
+                <Border Background="{ThemeResource AddDicContentBg}">
+                    <Grid MinWidth="240"
+                          MinHeight="160">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="12" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="48" />
+                            <ColumnDefinition Width="48" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="48" />
+                        </Grid.RowDefinitions>
+                        <Rectangle Fill="{ThemeResource AddDicContentBorderC}"
+                                   Grid.RowSpan="2" />
+                        <ListView Margin="8,8,0,0"
+                                  Grid.Column="1"
+                                  Grid.ColumnSpan="3"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Center"
+                                  SelectedIndex="{Binding ScustomeDic ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                  Style="{StaticResource CustomeDicsStyle}"
+                                  ItemsSource="{Binding CustomeDics}"/>
+                        <local:IconBottun Style="{StaticResource DialogButton}"
+                                          Command="{Binding DialogCommand}"
+                                          ToolTip="确认"
+                                          HorizontalAlignment="Left"
+                                          CommandParameter="YES"
+                                          Icon="&#xE8FB;"
+                                          Grid.Row="2"
+                                          Grid.Column="2" />
+                        <local:IconBottun Style="{StaticResource DialogButton}"
+                                          Command="{Binding DialogCommand}"
+                                          Grid.Column="3"
+                                          Grid.Row="3"
+                                          ToolTip="取消"
+                                          HorizontalAlignment="Left"
+                                          CommandParameter="NO"
+                                          Icon="&#xE711;" />
+                    </Grid>
+                </Border>
+            </local:DefaultDialog.Content>
+        </local:DefaultDialog>
 
         <FlyoutBase.AttachedFlyout>
             <Flyout x:Name="MenuPop"

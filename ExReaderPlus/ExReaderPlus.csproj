@@ -109,6 +109,7 @@
     <Compile Include="ViewModels\DicPageViewModel.cs" />
     <Compile Include="ViewModels\EssayPageViewModel.cs" />
     <Compile Include="ViewModels\GlossaryViewModel.cs" />
+    <Compile Include="ViewModels\SettingPageViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBasse.cs" />
     <Compile Include="View\Commands\CommandBase.cs" />
     <Compile Include="View\Converter\Converters.cs" />

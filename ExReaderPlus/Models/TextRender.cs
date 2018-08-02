@@ -46,13 +46,18 @@ namespace ExReaderPlus.Models {
 
         public HCHPointHandel PointExit { get; set; }
 
-
         public event CommandActionEventHandler RemCommandAction;
+
+        public event CommandActionEventHandler RemoveCommandAction;
 
         public CommandBase RemCommand { get; set; }
 
+        public CommandBase RemoveCommand { get; set; }
+
+
         public void InitCommands() {
             RemCommand = new CommandBase(obj => { RemCommandAction?.Invoke(this, new CommandArgs(obj, Word)); });
+            RemCommand = new CommandBase(obj => { RemoveCommandAction?.Invoke(this, new CommandArgs(obj, Word)); });
         }
 
         public ActionVocabulary() {

@@ -75,25 +75,7 @@
                            Style="{StaticResource DicSubItem}"
                            FontFamily="{StaticResource PhoneFontFamilySemiLight}"
                            Text="{Binding Name}" />
-                <TextBlock x:Name="NowPsgIcon"
-                           FontSize="16"
-                           Text="[当前]"
-                           FontWeight="Light"
-                           Foreground="{Binding Background, ElementName=ColorConvert,Mode=OneWay}"
-                           Style="{StaticResource DicSubItem}"
-                           FontFamily="{StaticResource PhoneFontFamilySemiLight}" />
             </StackPanel>
-            <Grid x:Name="Footer"
-                  IsHitTestVisible="False"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Bottom"
-                  Margin="32,0,0,16">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                </Grid.RowDefinitions>
-               
-            </Grid>
         </Grid>
 
     </Border>

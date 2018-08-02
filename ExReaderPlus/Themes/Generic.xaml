@@ -546,41 +546,48 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:HitHolder">
-                    <Border x:Name="RootBorder"
-                            Background="{TemplateBinding Background}">
+                    <Border x:Name="RootBorder">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
-                                        <Setter Target="RootBorder.Background"
+                                        <Setter Target="HitContent.Stroke"
                                                 Value="{Binding PointBrush, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <VisualState.Setters>
-                                        <Setter Target="RootBorder.Background"
+                                        <Setter Target="HitContent.Stroke"
                                                 Value="{Binding PressBrush, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <ToolTipService.ToolTip>
-                            <ToolTip Padding="0"
-                                     Background="{ThemeResource WordSearchToolTipBg}"
-                                     BorderThickness="0"
-                                     Visibility="{Binding Tooltip, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay,Converter={StaticResource NULLnoVIS}}"
-                                     HorizontalOffset="12"
-                                     VerticalOffset="12"
-                                     Placement="Mouse">
-                                <Border MaxWidth="160"
-                                        Padding="4"
-                                        MinHeight="24">
-                                    <TextBlock Style="{StaticResource WordToolTipstyle}"
-                                               Text="{Binding Tooltip, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}" />
-                                </Border>
-                            </ToolTip>
-                        </ToolTipService.ToolTip>
+                        <Rectangle x:Name="HitContent"
+                                   Fill="{Binding Stroke, ElementName=HitContent,Converter={StaticResource ColorOpacity}}"
+                                   StrokeThickness="1"
+                                   Stroke="{TemplateBinding Background}"
+                                   RadiusX="8"
+                                   RadiusY="8">
+                            <ToolTipService.ToolTip>
+                                <ToolTip Padding="0"
+                                         Background="{ThemeResource WordSearchToolTipBg}"
+                                         BorderThickness="0"
+                                         Visibility="{Binding Tooltip, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay,Converter={StaticResource NULLnoVIS}}"
+                                         HorizontalOffset="12"
+                                         VerticalOffset="12"
+                                         Placement="Mouse">
+                                    <Border MaxWidth="160"
+                                            Padding="4"
+                                            MinHeight="24">
+                                        <TextBlock Style="{StaticResource WordToolTipstyle}"
+                                                   Text="{Binding Tooltip, RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay}" />
+                                    </Border>
+                                </ToolTip>
+                            </ToolTipService.ToolTip>
+                            
+                        </Rectangle>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

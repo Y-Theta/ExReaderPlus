@@ -35,6 +35,7 @@ namespace ExReaderPlus.Manage {
                     db.Database.CloseConnection();
 
                     WordBook.Custom.Add(new EngDictionary() { Name = DictionaryName, Dicname = 10 + WordBook.CustomeDicCounts, IsSystem = false, LearneedWords = 0, Wordlist = new Dictionary<string, Vocabulary>() });
+                    WordBook.CustomeDicCounts++;
                     (App.Current.Resources["DicPageViewModel"] as DicPageViewModel).UpdateDicinfo();
                     return true;
                 }
@@ -71,6 +72,13 @@ namespace ExReaderPlus.Manage {
                     db.SaveChanges();
                     db.Database.CloseConnection();
                 }
+
+                foreach (var dics in WordBook.Custom)
+                {
+                    if (dics.Name.Equals(originalName))
+                        dics.Name = currentName;
+                }
+                (App.Current.Resources["DicPageViewModel"] as DicPageViewModel).UpdateDicinfo();
                 return true;
             }
         }
@@ -102,11 +110,16 @@ namespace ExReaderPlus.Manage {
                     db.Dictionaries.Remove(dic);
                     db.SaveChanges();
                     db.Database.CommitTransaction();
+
+                    foreach (var dics in WordBook.Custom)
+                        dics.Dicname -= 1;
+
                     return 1;
                 }
                 catch
                 {
                     db.Database.RollbackTransaction();
+
                     return 0;
                 }
                 finally
@@ -161,14 +174,20 @@ namespace ExReaderPlus.Manage {
                 if (Selectedword == 0)//如果词典中不存在这个条目
                 {
                     DictionaryWord dictionaryWord =
-                            new DictionaryWord
+                            new DictionaryWord 
                             {
                                 WordId = vocabulary.Word,
                                 DictionaryId = customDictionaryName
                             };
                     db.DictionaryWords.Add(dictionaryWord);
-
                     db.SaveChanges();
+                    db.Database.CloseConnection();
+
+                    foreach(var dics in WordBook.Custom)
+                    {
+                        if (dics.Name.Equals(customDictionaryName))
+                            dics.Wordlist.Add(vocabulary.Word, vocabulary);
+                    }
                     return 1;
                 }
                 else

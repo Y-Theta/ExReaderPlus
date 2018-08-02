@@ -66,5 +66,13 @@ namespace ExReaderPlus.View {
         /// 是否渲染未学习单词
         /// </summary>
         IsNotlearnRender,
+        /// <summary>
+        /// 应用主题模式
+        /// </summary>
+        AppThemeMode,
+        /// <summary>
+        /// 当前字典
+        /// </summary>
+        SelectedDic
     }
 }

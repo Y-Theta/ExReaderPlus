@@ -176,4 +176,23 @@ namespace ExReaderPlus.View.Converter {
         }
     }
 
+    public class ColorOpacity : IValueConverter {
+        public object Convert(object value, Type targetType, object parameter, string language) {
+            if (value != null)
+            {
+                var newc = ((SolidColorBrush)value).Color;
+                if (newc.A == 0)
+                    return value;
+                else
+                    return new SolidColorBrush(Color.FromArgb(40, newc.R, newc.G, newc.B));
+            }
+            else
+                return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language) {
+            throw new NotImplementedException();
+        }
+    }
+
 }

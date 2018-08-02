@@ -27,6 +27,7 @@
     <Converter:DICExist x:Key="DICExist" />
     <Converter:HideString x:Key="HideString" />
     <Converter:GetColor x:Key="GetColor" />
+    <Converter:ColorOpacity x:Key="ColorOpacity" />
 
     <!--Styles-->
     <ResourceDictionary.MergedDictionaries>

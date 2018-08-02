@@ -154,12 +154,10 @@ namespace ExReaderPlus.ViewModels {
                     Vocabularies = AlphaKeyGroup<ActionVocabulary>.CreateGroups(avcl, (ActionVocabulary av) => { return av.Word; }, true);
                     break;
                 case "ReName":
+
                     DicOpAction?.Invoke(sender, new CommandArgs(args.parameter, "ReName"));
                     break;
                 case "ReMove":
-                    WordBook.Custom.Remove(WordBook.Custom[OpenedDic.DBName - 10]);
-                    CustomDicManage.DeleteDictionary(OpenedDic.Name);
-                    UpdateDicinfo();
                     DicOpAction?.Invoke(sender, new CommandArgs(args.parameter, "ReMove"));
                     break;
                 case "Switch":
@@ -191,6 +189,7 @@ namespace ExReaderPlus.ViewModels {
                 case "Select":
                     int oldindex = WordBook.SelectedDic >= 10 ? WordBook.SelectedDic - 4 : WordBook.SelectedDic;
                     WordBook.SelectedDic = (sender as ActionDictionary).DBName;
+                    (App.Current.Resources["OverSettingService"] as OverSettingService).SetValue(ViewSettingConfigs.SelectedDic, WordBook.SelectedDic);
                     int newindex = WordBook.SelectedDic >= 10 ? WordBook.SelectedDic - 4 : WordBook.SelectedDic;
                     if (oldindex != newindex)
                     {

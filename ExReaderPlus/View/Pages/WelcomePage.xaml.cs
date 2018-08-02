@@ -23,9 +23,5 @@ namespace ExReaderPlus.View.Pages {
             this.InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e) {
-           // VisualStateManager.GoToState(this, "WelcomeAni", true);
-            UpdateLayout();
-        }
     }
 }

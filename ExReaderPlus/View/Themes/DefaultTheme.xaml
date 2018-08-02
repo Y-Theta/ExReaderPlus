@@ -8,6 +8,8 @@
                      Color="#EFEFEF" />
     <SolidColorBrush x:Key="MainThemeFG"
                      Color="#080808" />
+    <Color x:Key="MainThemeFGColorDark">#080808</Color>
+    <Color x:Key="MainThemeFGColorBright">#EFEFEF</Color>
     <SolidColorBrush x:Key="ContrastMask_D0"
                      Color="#D0000000" />
     <SolidColorBrush x:Key="ContrastMask_A0"
@@ -82,6 +84,8 @@
                      Color="#477FBF" />
     <SolidColorBrush x:Key="RichTextBg"
                      Color="#C0C0C0" />
+    <SolidColorBrush x:Key="RichTextFg"
+                     Color="#080808" />
 
     <!--PaneToggleButton-->
     <SolidColorBrush x:Key="PaneToggleButtonBG_N"

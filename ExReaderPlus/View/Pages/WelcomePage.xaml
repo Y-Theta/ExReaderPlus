@@ -6,15 +6,6 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
     <Grid>
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState x:Name="WelcomeAni">
-                    <Storyboard>
-                        <!--<PointAnimationUsingKeyFrames Storyboard.TargetName=""-->
-                    </Storyboard>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
         <TextBlock Text="ExReader+"
                    FontFamily="{StaticResource Questrial}"
                    Foreground="{ThemeResource WelcomePageFg}"

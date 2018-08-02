@@ -1,6 +1,14 @@
-﻿using Windows.UI;
+﻿using System.IO;
+using System;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading.Tasks;
+using Windows.Storage;
+using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using ExReaderPlus.WordsManager;
+using System.Diagnostics;
 
 namespace ExReaderPlus.View {
     public class OverSettingService {
@@ -8,6 +16,8 @@ namespace ExReaderPlus.View {
         public static OverSettingService Instence = new OverSettingService();
 
         private OverallViewSettings _viewSettings;
+
+        private bool SaveComplete = false;
         #endregion
 
         #region Methods
@@ -38,6 +48,10 @@ namespace ExReaderPlus.View {
                     return _viewSettings.ReadingPageControlBar;
                 case ViewSettingConfigs.RichTextBoxLineSpace:
                     return _viewSettings.RichTextBoxLineSpace;
+                case ViewSettingConfigs.AppThemeMode:
+                    return _viewSettings.AppThemeMode;
+                case ViewSettingConfigs.SelectedDic:
+                    return _viewSettings.SelectedDic;
                 default:return null;
             }
         }
@@ -81,14 +95,75 @@ namespace ExReaderPlus.View {
                 case ViewSettingConfigs.RichTextBoxLineSpace:
                     _viewSettings.RichTextBoxLineSpace = (float)value;
                     break;
+                case ViewSettingConfigs.AppThemeMode:
+                    _viewSettings.AppThemeMode = (bool)value;
+                    break;
+                case ViewSettingConfigs.SelectedDic:
+                    _viewSettings.SelectedDic = (int)value;
+                    break;
                 default:
                     value = null;
                     break;
             }
         }
 
-        public void InitRes() {
-            _viewSettings = new OverallViewSettings();
+        public bool IsSettingSaved() {
+            return SaveComplete;
+        }
+
+        private async void InitRes() {
+            _viewSettings = await GetLocalSettings();
+            if (_viewSettings is null)
+                _viewSettings = new OverallViewSettings();
+            (Window.Current.Content as Frame).RequestedTheme = _viewSettings.AppThemeMode ? ElementTheme.Light : ElementTheme.Dark;
+            WordBook.SelectedDic = _viewSettings.SelectedDic;
+        }
+
+
+
+        /// <summary>
+        /// 读取设置
+        /// </summary>
+        /// <returns></returns>
+        private async Task<OverallViewSettings> GetLocalSettings() {
+            StorageFolder folder = ApplicationData.Current.LocalFolder;
+            StorageFile f = await folder.TryGetItemAsync("Setting.dat") as StorageFile;
+            if (f != null)
+            {
+                BinaryFormatter binaryFormatter = new BinaryFormatter();
+                using (FileStream stream = new FileStream(f.CreateSafeFileHandle(), FileAccess.Read))
+                {
+                    try
+                    {
+                        if (stream.CanRead && stream.Length != 0)
+                        {
+                            OverallViewSettings settings = (OverallViewSettings)binaryFormatter.Deserialize(stream);
+                            settings.StreamDeCode();
+                            return settings;
+                        }
+                        else
+                            return null;
+                    }
+                    catch { return null; }
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 保存设置
+        /// </summary>
+        /// <returns></returns>
+        public async Task SetLocalSettingsAsync() {
+            StorageFolder folder = ApplicationData.Current.LocalFolder;
+            StorageFile f = await folder.CreateFileAsync("Setting.dat", CreationCollisionOption.ReplaceExisting);
+            using (FileStream stream = new FileStream(f.CreateSafeFileHandle(), FileAccess.Write))
+            {
+                BinaryFormatter binaryFormatter = new BinaryFormatter();
+                _viewSettings.StreamCode();
+                binaryFormatter.Serialize(stream, _viewSettings);
+            }
+            SaveComplete = true;
         }
 
         public void SetStateBarButtonFg(Color color) {

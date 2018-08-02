@@ -222,23 +222,23 @@
             </Grid>
         </Grid>
 
-
         <!--Dialogs-->
         <local:DefaultDialog x:Name="NewDialog"
                              MinWidth="360">
             <local:DefaultDialog.Content>
                 <Border Background="{ThemeResource AddDicContentBg}"
-                        BorderThickness="2"
-                        BorderBrush="{ThemeResource AddDicContentBorderC}"
-                        Padding="12,6,6,6">
+                        BorderThickness="0" Margin="0,2,0,4">
                     <Grid MinWidth="240">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="12" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="48" />
                             <ColumnDefinition Width="48" />
                         </Grid.ColumnDefinitions>
+                        <Rectangle Fill="{ThemeResource AddDicContentBorderC}" />
                         <TextBox Height="24"
-                                 Margin="0,8,0,0"
+                                 Grid.Column="1"
+                                 Margin="8,8,4,0"
                                  Text="{Binding NewName,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
                                  HorizontalAlignment="Stretch"
                                  BorderBrush="{ThemeResource AddDicContentBorderC}"
@@ -253,52 +253,62 @@
                                           HorizontalAlignment="Right"
                                           CommandParameter="YES"
                                           Icon="&#xE8FB;"
-                                          Grid.Column="1" />
+                                          Grid.Column="2" />
                         <local:IconBottun Style="{StaticResource DialogButton}"
                                           Command="{Binding DialogCommand}"
+                                          Margin="0,0,8,0"
                                           ToolTip="返回"
                                           HorizontalAlignment="Right"
                                           CommandParameter="NO"
                                           Icon="&#xE711;"
-                                          Grid.Column="2" />
+                                          Grid.Column="3" />
                     </Grid>
                 </Border>
             </local:DefaultDialog.Content>
         </local:DefaultDialog>
 
-
         <local:DefaultDialog x:Name="MessageDialog"
                              MinWidth="360">
             <local:DefaultDialog.Content>
-                <Border Background="{ThemeResource AddDicContentBg}"
-                        BorderThickness="2"
-                        BorderBrush="{ThemeResource AddDicContentBorderC}"
-                        Padding="12,6,6,6">
-                    <Grid MinWidth="240">
+                <Border Background="{ThemeResource AddDicContentBg}">
+                    <Grid MinWidth="240"
+                          MinHeight="100">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="12" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="48" />
                             <ColumnDefinition Width="48" />
                         </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="48" />
+                        </Grid.RowDefinitions>
+                        <Rectangle Fill="{ThemeResource AddDicContentBorderC}"
+                                   Grid.RowSpan="2" />
                         <TextBlock Height="24"
-                                   Margin="0,8,0,0"
+                                   Margin="8,8,0,0"
+                                   Grid.Column="1"
+                                   Grid.ColumnSpan="3"
                                    HorizontalAlignment="Stretch"
                                    VerticalAlignment="Center"
+                                   Text="{Binding Tiptext}"
                                    Foreground="{ThemeResource AddDicContentTextFg}" />
                         <local:IconBottun Style="{StaticResource DialogButton}"
                                           Command="{Binding DialogCommand}"
-                                          ToolTip="确认创建"
+                                          ToolTip="确认"
                                           HorizontalAlignment="Right"
                                           CommandParameter="YES"
                                           Icon="&#xE8FB;"
-                                          Grid.Column="1" />
+                                          Grid.Row="2"
+                                          Grid.Column="2" />
                         <local:IconBottun Style="{StaticResource DialogButton}"
                                           Command="{Binding DialogCommand}"
-                                          ToolTip="返回"
+                                          Grid.Column="3"
+                                          Grid.Row="3"
+                                          ToolTip="取消"
                                           HorizontalAlignment="Right"
                                           CommandParameter="NO"
-                                          Icon="&#xE711;"
-                                          Grid.Column="2" />
+                                          Icon="&#xE711;" />
                     </Grid>
                 </Border>
             </local:DefaultDialog.Content>
