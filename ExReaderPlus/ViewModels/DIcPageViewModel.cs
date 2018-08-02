@@ -142,19 +142,22 @@ namespace ExReaderPlus.ViewModels {
             await s;
         }
 
+
         private void Avd_DictionaryOperation(object sender, CommandArgs args) {
             switch (args.command)
             {
                 case "Open":
                     OpenedDic = sender as ActionDictionary;
                     DicOpAction?.Invoke(sender, new CommandArgs(args.parameter, "Open"));
-                    avcl = new List<ActionVocabulary>();
+                    avcl.Clear();
                     foreach (var v in WordBook.GetDic(OpenedDic.DBName).Wordlist)
                         avcl.Add(ActionVocabulary.FromVocabulary(v.Value));
                     Vocabularies = AlphaKeyGroup<ActionVocabulary>.CreateGroups(avcl, (ActionVocabulary av) => { return av.Word; }, true);
+                    foreach(var vbs in Vocabularies)
+                        foreach(var avc in vbs.InternalList)
+                            avc.RemoveCommandAction += Ww_RemoveCommandAction;
                     break;
                 case "ReName":
-
                     DicOpAction?.Invoke(sender, new CommandArgs(args.parameter, "ReName"));
                     break;
                 case "ReMove":
@@ -168,21 +171,33 @@ namespace ExReaderPlus.ViewModels {
                     switch (s)
                     {
                         case 0:
+                            avcl.Clear();
                             foreach (var v in WordBook.GetDic(OpenedDic.DBName).Wordlist)
                                 avcl.Add(ActionVocabulary.FromVocabulary(v.Value));
                             Vocabularies = AlphaKeyGroup<ActionVocabulary>.CreateGroups(avcl, (ActionVocabulary av) => { return av.Word; }, true);
+                            foreach (var vbs in Vocabularies)
+                                foreach (var avc in vbs.InternalList)
+                                    avc.RemoveCommandAction += Ww_RemoveCommandAction;
                             break;
                         case 1:
+                            avcl.Clear();
                             foreach (var v in WordBook.GetDic(OpenedDic.DBName).Wordlist)
                                 if (v.Value.YesorNo == 0)
                                     avcl.Add(ActionVocabulary.FromVocabulary(v.Value));
                             Vocabularies = AlphaKeyGroup<ActionVocabulary>.CreateGroups(avcl, (ActionVocabulary av) => { return av.Word; }, true);
+                            foreach (var vbs in Vocabularies)
+                                foreach (var avc in vbs.InternalList)
+                                    avc.RemoveCommandAction += Ww_RemoveCommandAction;
                             break;
                         case 2:
+                            avcl.Clear();
                             foreach (var v in WordBook.GetDic(OpenedDic.DBName).Wordlist)
                                 if (v.Value.YesorNo == 1)
                                     avcl.Add(ActionVocabulary.FromVocabulary(v.Value));
                             Vocabularies = AlphaKeyGroup<ActionVocabulary>.CreateGroups(avcl, (ActionVocabulary av) => { return av.Word; }, true);
+                            foreach (var vbs in Vocabularies)
+                                foreach (var avc in vbs.InternalList)
+                                    avc.RemoveCommandAction += Ww_RemoveCommandAction;
                             break;
                     }
                     break;
@@ -203,6 +218,20 @@ namespace ExReaderPlus.ViewModels {
                     break;
             }
         }
+
+        private void Ww_RemoveCommandAction(object sender, CommandArgs args) {
+            CustomDicManage.DeleteAVocabularyFromCustomDictionary(OpenedDic.Name, (Vocabulary)args.parameter);
+            WordBook.GetDic(OpenedDic.DBName).Wordlist.Remove(((Vocabulary)args.parameter).Word);
+            avcl.Clear();
+            foreach (var v in WordBook.GetDic(OpenedDic.DBName).Wordlist)
+                avcl.Add(ActionVocabulary.FromVocabulary(v.Value));
+            Vocabularies = AlphaKeyGroup<ActionVocabulary>.CreateGroups(avcl, (ActionVocabulary av) => { return av.Word; }, true);
+            foreach (var vbs in Vocabularies)
+                foreach (var avc in vbs.InternalList)
+                    avc.RemoveCommandAction += Ww_RemoveCommandAction;
+            UpdateDicinfo();
+        }
+
 
         private void InitCommands() {
             AddDicCommand = new CommandBase(obj => { CommandActions?.Invoke(this, new CommandArgs(obj)); });

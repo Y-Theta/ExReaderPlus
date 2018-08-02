@@ -116,7 +116,7 @@
               Margin="0,8,16,0"
               Grid.Column="4"
               Grid.RowSpan="2">
-            <local:IconBottun Style="{x:Bind ButtonStyle}"
+            <local:IconBottun Style="{StaticResource VocaDeleteButton}"
                               Icon="&#xE711;"
                               ToolTip="移除当前单词"
                               Visibility="{x:Bind IsSystem ,Converter={StaticResource NULLnoVIS},ConverterParameter=false}"
