@@ -51,41 +51,14 @@ namespace ExReaderPlus.Manage {
         /// 修改词典名字,若先后名字相同，返回错误
         /// 由于是选中词典，所以不考虑词典不存在
         /// </summary>
+        /// TODO FIXME 这个方法在项目结束后写的，执行效率很低
+        /// 外键约束限制太大
         /// <param name="originalName"></param>
         /// <param name="currentName"></param>
         /// <returns></returns>
-        public static bool ChangeDictionaryName(string originalName, string currentName) {
-            if (originalName == currentName)
-                return false;
-            else
-            {
-                using (var db = new DataContext())
-                {
-                    db.Database.Migrate();
-                    List<DictionaryWord> templeDicWords = new List<DictionaryWord>();
-                    foreach(var dw in db.DictionaryWords.Where(p => p.DictionaryId.Equals(originalName))){
-                        templeDicWords.Add(dw);
-                        db.DictionaryWords.Remove(dw);
-                    }//先删除
-                    var dic = db.Dictionaries.FirstOrDefault(
-                        d => d.Id.Equals(originalName)
-                        ).Id = currentName ;//改名字
-                    foreach(var dw2 in templeDicWords)
-                    {
-                        db.DictionaryWords.Add(dw2);
-                    }//再加回
-                    db.SaveChanges();//应该不会报错
-                    db.Database.CloseConnection();
-                }
-
-                foreach (var dics in WordBook.Custom)
-                {
-                    if (dics.Name.Equals(originalName))
-                        dics.Name = currentName;
-                }
-                (App.Current.Resources["DicPageViewModel"] as DicPageViewModel).UpdateDicinfo();
-                return true;
-            }
+        /// 多次使用saveChange是为了删除限制
+        public static bool ChangeDictionaryName(string originalName, string currentName) {            
+            return false;//代价太大删除这个功能
         }
 
         /// <summary>
@@ -241,34 +214,20 @@ namespace ExReaderPlus.Manage {
             }
         }
 
-        public static int deleteAVocabularyFromCustomDictionary(string customDictionaryName, Vocabulary vocabulary)
+        public static int DeleteAVocabularyFromCustomDictionary(string customDictionaryName, Vocabulary vocabulary)
         {
             using(var db=new DataContext())
             {
-                var Selectedword = db.DictionaryWords
-                        .Where(dw => dw.WordId.Equals(vocabulary.Word))
-                        .Where(dw => dw.DictionaryId.Equals(customDictionaryName))
-                        .Count();
-                if (Selectedword != 0)//如果词典中不存在这个条目
+                db.DictionaryWords.Remove(db.DictionaryWords
+                             .Where(dw => dw.WordId.Equals(vocabulary.Word))
+                             .Where(dw => dw.DictionaryId.Equals(customDictionaryName))
+                             .First());
+                try
                 {
-                    DictionaryWord dictionaryWord =
-                            new DictionaryWord
-                            {
-                                WordId = vocabulary.Word,
-                                DictionaryId = customDictionaryName
-                            };
-                    db.DictionaryWords.Remove(dictionaryWord);
-                    try
-                    {
-                        db.SaveChanges();
-                        return 1;
-                    }
-                    catch { return -1; }                   
+                    db.SaveChanges();
+                    return 1;
                 }
-                else
-                {
-                    return 0;
-                }
+                catch { return -1; }
             }
         }
         /// <summary>
@@ -436,5 +395,7 @@ namespace ExReaderPlus.Manage {
                 return result;
             }
         }
+
+
     }
 }
