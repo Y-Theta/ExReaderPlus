@@ -18,26 +18,23 @@ namespace ExReaderPlus {
     /// <summary>
     /// 提供特定于应用程序的行为，以补充默认的应用程序类。
     /// </summary>
-    sealed partial class App : Application
-    {
+    sealed partial class App : Application {
         ApplicationViewTitleBar TitleBar;
         /// <summary>
         /// 初始化单一实例应用程序对象。这是执行的创作代码的第一行，
         /// 已执行，逻辑上等同于 main() 或 WinMain()。
         /// </summary>
-        public App()
-        {
+        public App() {
             InitializeComponent();
             Suspending += OnSuspending;
         }
-       
+
         /// <summary>
         /// 在应用程序由最终用户正常启动时进行调用。
         /// 将在启动应用程序以打开特定文件等情况下使用。
         /// </summary>
         /// <param name="e">有关启动请求和过程的详细信息。</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
-        {          
+        protected override void OnLaunched(LaunchActivatedEventArgs e) {
             Frame rootFrame = Window.Current.Content as Frame;
 
             // 不要在窗口已包含内容时重复应用程序初始化，
@@ -57,7 +54,7 @@ namespace ExReaderPlus {
                 // 将框架放在当前窗口中
                 Window.Current.Content = rootFrame;
             }
-           
+
             if (e.PrelaunchActivated == false)
             {
                 if (rootFrame.Content == null)
@@ -75,7 +72,7 @@ namespace ExReaderPlus {
 
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size { Width = 720, Height = 480 });
             CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
-          //  CoreApplication.GetCurrentView()
+            //  CoreApplication.GetCurrentView()
             Window.Current.SizeChanged += Current_SizeChanged;
             rootFrame.ActualThemeChanged += RootFrame_ActualThemeChanged;
             //强置主题
@@ -106,8 +103,7 @@ namespace ExReaderPlus {
         /// </summary>
         ///<param name="sender">导航失败的框架</param>
         ///<param name="e">有关导航失败的详细信息</param>
-        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
-        {
+        void OnNavigationFailed(object sender, NavigationFailedEventArgs e) {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
 
@@ -118,8 +114,7 @@ namespace ExReaderPlus {
         /// </summary>
         /// <param name="sender">挂起的请求的源。</param>
         /// <param name="e">有关挂起请求的详细信息。</param>
-        private async void OnSuspending(object sender, SuspendingEventArgs e)
-        {
+        private async void OnSuspending(object sender, SuspendingEventArgs e) {
             OverSettingService osc = (App.Current.Resources["OverSettingService"] as OverSettingService);
             var deferral = e.SuspendingOperation.GetDeferral();
             await osc.SetLocalSettingsAsync();

@@ -1,13 +1,241 @@
 ﻿<Page x:Class="ExReaderPlus.View.Pages.AboutPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:ExReaderPlus.View.Pages"
+      xmlns:local="using:ExReaderPlus.View.Pages" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      mc:Ignorable="d"
-      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-    <Grid>
-
-    </Grid>
+      mc:Ignorable="d">
+    <Page.Resources>
+        <Storyboard x:Name="EnterAnimation"
+                    x:Key="EnterAnimation">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                           Storyboard.TargetProperty="Opacity">
+                <SplineDoubleKeyFrame KeyTime="0:0:0.5"
+                                      KeySpline="0,1 0.8,1"
+                                      Value="1" />
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Page.Resources>
+    <Border x:Name="RootBorder"
+            Background="{ThemeResource AboutPageBg}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="Windowstate">
+                <VisualState x:Name="Norrow" />
+                <VisualState x:Name="Wide">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="600" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="VisHolder.Visibility"
+                                Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid x:Name="RootGrid"
+              Opacity="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackPanel x:Name="VisHolder"
+                        Width="0"
+                        Height="0"
+                        Visibility="Collapsed" />
+            <Grid x:Name="TitleArea" />
+            <Grid x:Name="ContentArea"
+                  Margin="24,0,24,0"
+                  Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <TextBlock x:Name="PageIcon"
+                           Grid.RowSpan="2"
+                           Text="&#x8000;"
+                           FontSize="384"
+                           Opacity="0.05"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontFamily="{StaticResource IconY}"
+                           Foreground="{ThemeResource AboutPageFg}" />
+                <Grid x:Name="MainContent" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="64" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock x:Name="PageTitle"
+                               FontSize="36"
+                               Style="{StaticResource AboutPageLabel}"
+                               Text="ExReader +" />
+                    <Grid x:Name="Introduction"
+                          Margin="0,8,0,8"
+                          Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock FontSize="24"
+                                   Margin="0,0,0,8"
+                                   Style="{StaticResource AboutPageLabel}"
+                                   Text="软件简介" />
+                        <Rectangle Fill="{ThemeResource AboutPageFg}"
+                                   Opacity="0.4"
+                                   Height="2"
+                                   HorizontalAlignment="Stretch"
+                                   VerticalAlignment="Bottom" />
+                        <TextBlock FontSize="14"
+                                   Grid.Row="1"
+                                   TextWrapping="Wrap"
+                                   TextAlignment="Justify"
+                                   LineHeight="24"
+                                   Margin="0,8,0,8"
+                                   VerticalAlignment="Bottom"
+                                   Style="{StaticResource AboutPageLabel}"
+                                   Text="{x:Bind CIntroduction}" />
+                    </Grid>
+                    <Grid x:Name="Members"
+                          Margin="0,8,0,8"
+                          Grid.Row="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock FontSize="24"
+                                   Margin="0,0,0,8"
+                                   Style="{StaticResource AboutPageLabel}"
+                                   Text="参与开发的人员" />
+                        <Rectangle Fill="{ThemeResource AboutPageFg}"
+                                   Opacity="0.4"
+                                   Height="2"
+                                   HorizontalAlignment="Stretch"
+                                   VerticalAlignment="Bottom" />
+                        <Grid Grid.Row="1"
+                              Margin="0,8,0,8">
+                            <Grid Margin="12,0,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock FontSize="24"
+                                           MinWidth="120"
+                                           VerticalAlignment="Center"
+                                           Style="{StaticResource AboutPageLabel}"
+                                           Text="UI" />
+                                <TextBlock FontSize="18"
+                                           Margin="24,0,0,0"
+                                           Grid.Column="1"
+                                           MinWidth="120"
+                                           VerticalAlignment="Bottom"
+                                           Style="{StaticResource AboutPageLabel}"
+                                           Text="Y_Theta" />
+                                <TextBlock Visibility="{Binding Visibility, ElementName=VisHolder}"
+                                           Grid.Column="2"
+                                           FontSize="18"
+                                           Margin="24,0,0,0"
+                                           VerticalAlignment="Bottom"
+                                           TextAlignment="Right"
+                                           Style="{StaticResource AboutPageLabel}"
+                                           Text="QQ : 2483507105" />
+                            </Grid>
+                            <Rectangle Fill="{ThemeResource AboutPageFg}"
+                                       Opacity="0.4"
+                                       Margin="0,2,0,2"
+                                       Width="4"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Stretch" />
+                        </Grid>
+                        <Grid Grid.Row="2"
+                              Margin="0,8,0,8">
+                            <Grid Margin="12,0,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock FontSize="24"
+                                           MinWidth="120"
+                                           VerticalAlignment="Center"
+                                           Style="{StaticResource AboutPageLabel}"
+                                           Text="DB" />
+                                <TextBlock FontSize="18"
+                                           Grid.Column="1"
+                                           Margin="24,0,0,0"
+                                           MinWidth="120"
+                                           VerticalAlignment="Bottom"
+                                           Style="{StaticResource AboutPageLabel}"
+                                           Text="碎月" />
+                                <TextBlock Visibility="{Binding Visibility, ElementName=VisHolder}"
+                                           Grid.Column="2"
+                                           FontSize="18"
+                                           Margin="24,0,0,0"
+                                           VerticalAlignment="Bottom"
+                                           TextAlignment="Right"
+                                           Style="{StaticResource AboutPageLabel}"
+                                           Text="QQ : 1196752479" />
+                            </Grid>
+                            <Rectangle Fill="{ThemeResource AboutPageFg}"
+                                       Opacity="0.4"
+                                       Margin="0,2,0,2"
+                                       Width="4"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Stretch" />
+                        </Grid>
+                        <Grid Grid.Row="3"
+                              Margin="0,8,0,8">
+                            <Grid Margin="12,0,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock FontSize="24"
+                                           MinWidth="120"
+                                           VerticalAlignment="Center"
+                                           Style="{StaticResource AboutPageLabel}"
+                                           Text="Other" />
+                                <TextBlock FontSize="18"
+                                           Grid.Column="1"
+                                           Margin="24,0,0,0"
+                                           MinWidth="120"
+                                           VerticalAlignment="Bottom"
+                                           Style="{StaticResource AboutPageLabel}"
+                                           Text="clouD" />
+                                <TextBlock Visibility="{Binding Visibility, ElementName=VisHolder}"
+                                           Grid.Column="2"
+                                           FontSize="18"
+                                           Margin="24,0,0,0"
+                                           VerticalAlignment="Bottom"
+                                           TextAlignment="Right"
+                                           Style="{StaticResource AboutPageLabel}"
+                                           Text="QQ : 3031765879" />
+                            </Grid>
+                            <Rectangle Fill="{ThemeResource AboutPageFg}"
+                                       Opacity="0.4"
+                                       Margin="0,2,0,2"
+                                       Width="4"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Stretch" />
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Grid x:Name="FootArea" Grid.Row="2">
+                    <TextBlock FontSize="14"
+                               Grid.Row="1"
+                               TextWrapping="NoWrap"
+                               Margin="0,8,0,8"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Bottom"
+                               Style="{StaticResource AboutPageLabel}"
+                               Text="Powered by Y_Theta &#13;                           2018.8.3" />
+                </Grid>
+            </Grid>
+        </Grid>
+    </Border>
 </Page>

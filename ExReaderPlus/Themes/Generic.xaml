@@ -527,7 +527,7 @@
                                                         Icon="&#xE713;"
                                                         Tooltip="设置"
                                                         Command="{TemplateBinding SettingCommand}"
-                                                        CommandParameter="{TemplateBinding AboutCommandPara}"
+                                                        CommandParameter="{TemplateBinding SettingCommandPara}"
                                                         Foreground="{TemplateBinding Foreground}"
                                                         Visibility="{TemplateBinding SettingButton}"
                                                         Width="{TemplateBinding CollapseWidth}" />

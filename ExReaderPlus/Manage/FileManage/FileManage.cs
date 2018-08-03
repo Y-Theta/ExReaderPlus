@@ -19,8 +19,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using ExReaderPlus.View;
-using ExReaderPlus.ViewModels;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Text;
 
@@ -33,7 +31,6 @@ namespace ExReaderPlus.FileManage {
 
     public class FileManage
     {
-        private EssayPageViewModel viewModel;
         private static FileManage _instence;
         
         public static FileManage Instence {
