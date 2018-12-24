@@ -5,9 +5,8 @@
              xmlns:pages ="using:ExReaderPlus.View.Pages"
              xmlns:view ="using:ExReaderPlus.View"
              xmlns:local="using:ExReaderPlus">
-    
+
     <Application.Resources>
-        
         <ResourceDictionary>
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
@@ -25,24 +24,19 @@
                 <ResourceDictionary Source="View/CustomeControls/CustomeStaticStyles.xaml" />
                 <ResourceDictionary Source="Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            
-            <FontFamily x:Key="LineNumber">Assets/LineNumber.ttf#LineNumber</FontFamily>
 
-            <!--ViewModels-->
             <view:OverSettingService x:Key="OverSettingService" />
-
+            <!--ViewModels-->
             <viewmodels:MainPageViewModel x:Key="MainPageViewModel" />
             <viewmodels:EssayPageViewModel x:Key="EssayPageViewModel" />
             <viewmodels:DicPageViewModel x:Key="DicPageViewModel" />
             <viewmodels:GlossaryViewModel x:Key="GlossaryViewModel" />
-
             <!--Pages-->
             <pages:DicPage x:Key="DicPage" />
             <pages:AboutPage x:Key="AboutPage" />
             <pages:EssayPage x:Key="EssayPage" />
             <pages:SettingPage x:Key="SettingPage" />
             <pages:GlossaryPage x:Key="GlossaryPage" />
-            
         </ResourceDictionary>
     </Application.Resources>
 

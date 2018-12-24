@@ -62,6 +62,7 @@ namespace ExReaderPlus.View
         }
 
         protected override void OnLostFocus(RoutedEventArgs e) {
+            
             base.OnLostFocus(e);
         }
 

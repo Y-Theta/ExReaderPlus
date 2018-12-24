@@ -186,7 +186,7 @@ namespace ExReaderPlus.ViewModels {
         public bool LearnedColor {
             get => _learnedColor;
             set {
-                SetValue(out _learnedColor, value, nameof(LearnedColor), LearnedColorChnage);
+                SetValue(out _learnedColor, value, nameof(LearnedColor), ()=>{ OnRenderChange.Invoke(this, "Lea", _learnedColor); });
                 _settingService.SetValue(ViewSettingConfigs.IsLearnedRender, value);
             }
         }
@@ -196,10 +196,6 @@ namespace ExReaderPlus.ViewModels {
         public BitmapImage bitmap {
             get => _bitmap;
             set => SetValue(out _bitmap, value, nameof(bitmap));
-        }
-
-        private void LearnedColorChnage() {
-            OnRenderChange.Invoke(this, "Lea", _learnedColor);
         }
 
         /// <summary>

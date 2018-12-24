@@ -444,8 +444,7 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-
-                            <Grid.ColumnDefinitions>
+                        <Grid.ColumnDefinitions>
                             <ColumnDefinition x:Name="Colum1"
                                               Width="{Binding CollapseWidth,RelativeSource={RelativeSource Mode=TemplatedParent},Mode=OneWay,Converter={StaticResource GRIDLtoDOUBLE},FallbackValue=0}" />
                         </Grid.ColumnDefinitions>
@@ -586,7 +585,6 @@
                                     </Border>
                                 </ToolTip>
                             </ToolTipService.ToolTip>
-                            
                         </Rectangle>
                     </Border>
                 </ControlTemplate>

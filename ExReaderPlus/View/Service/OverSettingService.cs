@@ -119,8 +119,6 @@ namespace ExReaderPlus.View {
             WordBook.SelectedDic = _viewSettings.SelectedDic;
         }
 
-
-
         /// <summary>
         /// 读取设置
         /// </summary>
