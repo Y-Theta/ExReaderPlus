@@ -308,33 +308,33 @@ namespace ExReaderPlus.ViewModels {
         private void InitCommand() {
             ShareCommand = new CommandBase(async obj =>
             {
-                string[] list = TempPassage.Content.Split(" ,.'?\r\n".ToCharArray());
+                try {
+                    string[] list = TempPassage.Content.Split(" ,.'?\r\n".ToCharArray());
 
-                int a = 0;
+                    int a = 0;
 
-                foreach (string word in list)
+                    foreach (string word in list) {
 
-                {
+                        if (word.Length > 0) {
 
-                    if (word.Length > 0)
+                            a++;
 
-                    {
-
-                        a++;
+                        }
 
                     }
 
-                }
+                    string Text = Convert.ToString(a);
+                    string time = Convert.ToString(a / 150);
+                    if (obj.Equals("0")) {
 
-                string Text = Convert.ToString(a);
-                string time = Convert.ToString(a / 150);
-                if (obj.Equals("0"))
-                {
-
-                    bitmap = await FileManage.FileManage.Instence.Win2DTask(TempPassage.Content, time, Text, "1");
+                        bitmap = await FileManage.FileManage.Instence.Win2DTask(TempPassage.Content, time, Text, "1");
+                    }
+                    else
+                        bitmap = await FileManage.FileManage.Instence.Win2DTask(TempPassage.Content, time, Text, "2");
                 }
-                else
-                    bitmap = await FileManage.FileManage.Instence.Win2DTask(TempPassage.Content, time, Text, "2");
+                catch {
+
+                }
             });
 
             DialogCommand = new CommandBase(obj => { DialogActions?.Invoke(this, new CommandArgs(obj)); });

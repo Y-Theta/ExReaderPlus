@@ -175,9 +175,8 @@
     <Content Include="DB\dic.db" />
     <Content Include="Assets\Rect.ttf" />
     <Content Include="Assets\Questrial-Regular.ttf" />
-    <None Include="ClassDiagram1.cd" />
-    <None Include="ClassDiagram2.cd" />
     <None Include="ExReaderPlus_TemporaryKey.pfx" />
+    <None Include="ReadMe.md" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Cybran_Y_T.jpg" />
